@@ -72,7 +72,7 @@ export default function Explorer() {
   return (
     <div className="page">
       <div className="page-header">
-        <PageHeading label="découvre" accent="Explorer" color={TERRA} accentSize={34} />
+        <PageHeading label="découvre" title="Explorer" accentColor={TERRA} traitColor={TERRA} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4 }}>
           Ressources pour votre vie à Majorque
         </p>

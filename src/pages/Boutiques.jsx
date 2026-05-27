@@ -15,7 +15,7 @@ export default function Boutiques() {
         }}>
           ← <span>Explorer</span>
         </button>
-        <PageHeading label="les" accent="Bons plans" color={TERRA} accentSize={34} />
+        <PageHeading label="les" title="Bons plans" accentColor={TERRA} traitColor={TERRA} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
           Nos coups de cœur pour vivre Majorque autrement
         </p>

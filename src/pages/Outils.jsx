@@ -142,7 +142,7 @@ export default function Outils() {
           background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 13 }}>Explorer</span></button>
-        <PageHeading label="tes" accent="Simulateurs" color={VERT} accentSize={34} />
+        <PageHeading label="tes" title="Simulateurs" accentColor={VERT} traitColor={VERT} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
           Simulateurs & calculateurs pour votre installation
         </p>

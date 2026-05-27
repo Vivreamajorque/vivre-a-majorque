@@ -224,7 +224,7 @@ export default function Accompagnements() {
         }}>
           ← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span>
         </button>
-        <PageHeading label="nos" accent="Accompagnements" color={VERT} accentSize={28} />
+        <PageHeading label="nos" title="Accompagnements" accentColor={VERT} traitColor={VERT} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5, marginBottom: 4 }}>
           Vous ne voulez pas avancer seul ? Je vous accompagne personnellement dans votre installation à Majorque — de l'analyse de votre situation à la prise de route.
         </p>

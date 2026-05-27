@@ -164,7 +164,7 @@ export default function Guides() {
     return (
       <div className="page">
         <div className="page-header">
-          <PageHeading label="ta boîte à outils" accent="Guides" color={VERT} accentSize={34} />
+          <PageHeading label="ta boîte à outils" title="Guides" accentColor={VERT} traitColor={VERT} />
         </div>
         {SearchBar}
         <div className="spinner">Chargement des guides…</div>

@@ -138,7 +138,7 @@ export default function Medias() {
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-        <PageHeading label="dans les" accent="Médias" color={VERT} accentSize={34} />
+        <PageHeading label="dans les" title="Médias" accentColor={VERT} traitColor={VERT} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Suivez la vie à Majorque en vrai
         </p>

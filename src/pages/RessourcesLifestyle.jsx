@@ -113,7 +113,7 @@ export default function RessourcesLifestyle() {
         >
           ← <span>Bons plans</span>
         </button>
-        <PageHeading label="à découvrir" accent="Lifestyle" color={TERRA} accentSize={34} />
+        <PageHeading label="à découvrir" title="Lifestyle" accentColor={TERRA} traitColor={TERRA} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>
           Dossiers complets pour vivre Majorque comme un initié
         </p>

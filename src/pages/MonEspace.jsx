@@ -281,7 +281,7 @@ export default function MonEspace() {
   return (
     <div className="page">
       <div className="page-header">
-        <PageHeading label="" accent="Mon espace" color={VERT} accentSize={34} />
+        <PageHeading label="" title="Mon espace" accentColor={VERT} traitColor={VERT} />
       </div>
 
       {/* Carte profil */}

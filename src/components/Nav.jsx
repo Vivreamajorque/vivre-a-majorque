@@ -1,5 +1,6 @@
 import React from 'react'
 import { NavLink, useLocation } from 'react-router-dom'
+import { TERRA, VERT } from './WaveTitle'
 
 const TABS = [
   { to: '/app',          label: 'Accueil',  icon: '🏠', exact: true },
@@ -13,40 +14,41 @@ export default function Nav() {
   return (
     <nav style={{
       position: 'fixed', bottom: 0, left: 0, right: 0,
-      background: 'rgba(250,250,248,0.95)',
+      background: 'rgba(247,242,235,0.96)',
       backdropFilter: 'blur(16px)',
       WebkitBackdropFilter: 'blur(16px)',
-      borderTop: '1px solid #EDE8DF',
+      borderTop: '1px solid #E8E2D9',
       display: 'flex', zIndex: 100,
       paddingBottom: 'env(safe-area-inset-bottom)',
     }}>
-      {TABS.map(tab => {
+      {TABS.map((tab, i) => {
         const isActive = tab.exact
           ? location.pathname === tab.to
           : location.pathname.startsWith(tab.to)
+        const color = i % 2 === 0 ? TERRA : VERT
         return (
           <NavLink key={tab.to} to={tab.to} style={{
             flex: 1, display: 'flex', flexDirection: 'column',
             alignItems: 'center', padding: '10px 0 8px',
             textDecoration: 'none', gap: 3, position: 'relative',
           }}>
-            {/* trait actif en haut */}
             {isActive && (
               <div style={{
                 position: 'absolute', top: 0, left: '50%',
                 transform: 'translateX(-50%)',
-                width: 28, height: 2.5,
-                background: 'var(--terra)',
-                borderRadius: '0 0 3px 3px',
+                width: 32, height: 2.5,
+                background: color,
+                borderRadius: '0 0 2px 2px',
               }} />
             )}
-            <span style={{ fontSize: 20 }}>{tab.icon}</span>
+            <span style={{ fontSize: 19 }}>{tab.icon}</span>
             <span style={{
-              fontFamily: isActive ? 'var(--font-accent)' : 'var(--font-corps)',
-              fontWeight: 700,
-              fontSize: isActive ? 12 : 10,
-              color: isActive ? 'var(--terra)' : 'var(--texte-sec)',
-              letterSpacing: isActive ? '0.01em' : '0.02em',
+              fontFamily: isActive ? "'Playfair Display', serif" : "'Cormorant Garamond', serif",
+              fontStyle: isActive ? 'normal' : 'italic',
+              fontWeight: isActive ? 900 : 400,
+              fontSize: isActive ? 11 : 11,
+              color: isActive ? color : 'var(--texte-sec)',
+              letterSpacing: isActive ? '-0.01em' : '0',
             }}>
               {tab.label}
             </span>

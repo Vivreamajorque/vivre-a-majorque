@@ -3,58 +3,7 @@ import { Link } from 'react-router-dom'
 import { useProfile } from '../context/ProfileContext'
 import { useNotionDB, parseCockpit, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
-
-const TERRA = '#C76E4E'
-const VERT  = '#5AADA5'
-
-/* ── Wave SVG identique carrousel ──────────────────────── */
-function Wave({ color }) {
-  return (
-    <svg viewBox="0 0 120 10" preserveAspectRatio="none"
-      style={{ display: 'block', width: '100%', height: 8, marginTop: -3 }}>
-      <path d="M0,5 C20,0 40,10 60,5 C80,0 100,10 120,5"
-        fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
-  )
-}
-
-/* ── Mot Caveat + vague — le bloc de base ──────────────── */
-function AccentWord({ children, color, size = 28 }) {
-  return (
-    <span style={{ display: 'inline-block' }}>
-      <span style={{
-        fontFamily: 'var(--font-accent)',
-        fontWeight: 700,
-        fontSize: size,
-        color,
-        lineHeight: 1,
-        display: 'block',
-      }}>
-        {children}
-      </span>
-      <Wave color={color} />
-    </span>
-  )
-}
-
-/* ── Titre 2 lignes : label Cormorant + mot Caveat+wave ─── */
-function SectionTitle({ label, accent, color, size }) {
-  return (
-    <div style={{ marginBottom: 16 }}>
-      {label && (
-        <span style={{
-          display: 'block',
-          fontFamily: 'var(--font-titre)',
-          fontStyle: 'italic', fontWeight: 300,
-          fontSize: 14, color: 'var(--texte-sec)',
-        }}>
-          {label}
-        </span>
-      )}
-      <AccentWord color={color} size={size}>{accent}</AccentWord>
-    </div>
-  )
-}
+import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait, SectionAccent } from '../components/WaveTitle'
 
 /* ── Jauge Cockpit ─────────────────────────────────────── */
 function CockpitMini({ profileNotion, profileId }) {
@@ -81,28 +30,22 @@ function CockpitMini({ profileNotion, profileId }) {
   if (loading) return null
 
   return (
-    <Link to="/app/moi" style={{ textDecoration: 'none', display: 'block', marginBottom: 22 }}>
+    <Link to="/app/moi" style={{ textDecoration: 'none', display: 'block', marginBottom: 20 }}>
       <div style={{
-        background: '#fff',
-        border: `1.5px solid ${VERT}40`,
-        borderRadius: 16, padding: '16px 18px',
-        boxShadow: `0 2px 14px ${VERT}18`,
+        background: '#fff', borderRadius: 16,
+        border: `1px solid ${VERT}30`,
+        padding: '16px 18px',
+        boxShadow: `0 2px 12px ${VERT}10`,
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
           <div>
-            <span style={{
-              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontWeight: 300, fontSize: 13, color: 'var(--texte-sec)',
-              display: 'block',
-            }}>
-              mon
-            </span>
-            {/* 2e mot = VERT (alternance 2) */}
-            <AccentWord color={VERT} size={24}>installation</AccentWord>
+            <ContextLabel color={VERT} size={13}>mon</ContextLabel>
+            <DisplayTitle size={22}>installation</DisplayTitle>
+            <Trait color={VERT} width={28} />
           </div>
           <span style={{
-            fontFamily: 'var(--font-accent)', fontWeight: 700,
-            fontSize: 28, color: VERT, marginTop: 2,
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 28, color: VERT,
           }}>
             {pct}%
           </span>
@@ -110,9 +53,9 @@ function CockpitMini({ profileNotion, profileId }) {
         <div className="progress-bar" style={{ marginBottom: 8 }}>
           <div className="progress-fill" style={{ width: `${pct}%` }} />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--texte-sec)' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-titre)', fontStyle: 'italic' }}>
           <span>{done}/{total} étapes validées</span>
-          {next && <span style={{ color: VERT, fontWeight: 600 }}>→ {next.etape}</span>}
+          {next && <span style={{ color: VERT }}>→ {next.etape}</span>}
         </div>
       </div>
     </Link>
@@ -124,44 +67,46 @@ function ActuCard({ actu, index }) {
   const color = index % 2 === 0 ? TERRA : VERT
   return (
     <div style={{
-      minWidth: 220, maxWidth: 220,
+      minWidth: 224, maxWidth: 224,
       background: '#fff',
-      border: `1.5px solid ${color}30`,
+      border: `1px solid ${color}28`,
       borderRadius: 16,
       flexShrink: 0,
       display: 'flex', flexDirection: 'column',
       overflow: 'hidden',
-      boxShadow: `0 2px 12px ${color}12`,
+      boxShadow: `0 2px 10px rgba(28,20,16,0.06)`,
     }}>
-      {/* Barre couleur top */}
-      <div style={{ height: 4, background: `linear-gradient(90deg, ${color}, ${color}80)` }} />
+      {/* Barre top */}
+      <div style={{ height: 3, background: color }} />
 
-      <div style={{ padding: '14px 14px 12px', flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {/* Badge + date */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+      <div style={{ padding: '14px 16px 14px', flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {/* Catégorie + date */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
           {actu.categorie ? (
-            <span style={{
-              fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 13,
-              color, lineHeight: 1,
-            }}>
-              {actu.categorie}
-            </span>
+            <div>
+              <span style={{
+                fontFamily: 'var(--font-accent)', fontStyle: 'italic',
+                fontWeight: 700, fontSize: 15, color,
+              }}>
+                {actu.categorie}
+              </span>
+              <div style={{ width: 24, height: 2.5, background: color, borderRadius: 2, marginTop: 2 }} />
+            </div>
           ) : <span />}
           {actu.date && (
-            <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>
+            <span style={{
+              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+              fontSize: 11, color: 'var(--texte-sec)',
+            }}>
               {new Date(actu.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
             </span>
           )}
         </div>
 
-        {/* Vague sous la catégorie */}
-        {actu.categorie && <Wave color={color} />}
-
         {/* Titre */}
         <p style={{
-          fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-          fontWeight: 600, fontSize: 14,
-          color: 'var(--texte)', lineHeight: 1.45,
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: 15, color: 'var(--texte)', lineHeight: 1.35,
           display: '-webkit-box', WebkitLineClamp: 3,
           WebkitBoxOrient: 'vertical', overflow: 'hidden',
           margin: 0,
@@ -172,7 +117,8 @@ function ActuCard({ actu, index }) {
         {/* Résumé */}
         {actu.resume && (
           <p style={{
-            fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4,
+            fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+            fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.45,
             display: '-webkit-box', WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical', overflow: 'hidden',
             margin: 0,
@@ -181,16 +127,13 @@ function ActuCard({ actu, index }) {
           </p>
         )}
 
-        {/* Source — pas de lien sortant */}
+        {/* Source */}
         {actu.sourceDomain && (
-          <div style={{
-            marginTop: 'auto', paddingTop: 8,
-            display: 'flex', alignItems: 'center', gap: 5,
-          }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: color, flexShrink: 0 }} />
+          <div style={{ marginTop: 'auto', paddingTop: 8, display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: color }} />
             <span style={{
-              fontFamily: 'var(--font-accent)', fontWeight: 700,
-              fontSize: 12, color: 'var(--texte-sec)',
+              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+              fontSize: 11, color: 'var(--texte-sec)',
             }}>
               {actu.sourceDomain}
             </span>
@@ -205,14 +148,16 @@ function ActuCarousel({ actus, loading }) {
   if (loading) return <div className="spinner">Chargement…</div>
   if (!actus.length) return null
   return (
-    <div style={{ marginBottom: 26 }}>
-      {/* Titre section avec wave */}
+    <div style={{ marginBottom: 28 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 14 }}>
-        <AccentWord color={VERT} size={24}>Actus de la semaine</AccentWord>
+        <div>
+          <ContextLabel color={TERRA} size={12}>cette semaine</ContextLabel>
+          <DisplayTitle size={22}>Actus</DisplayTitle>
+          <Trait color={VERT} width={28} />
+        </div>
         <Link to="/app/actus" style={{
-          fontFamily: 'var(--font-accent)', fontWeight: 700,
-          fontSize: 14, color: TERRA, textDecoration: 'none',
-          paddingBottom: 6,
+          fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+          fontSize: 13, color: TERRA, paddingBottom: 4,
         }}>
           Toutes →
         </Link>
@@ -229,36 +174,12 @@ function ActuCarousel({ actus, loading }) {
   )
 }
 
-/* ── Grille — alternance terra/vert/terra/vert ──────────── */
+/* ── Grille navigation ──────────────────────────────────── */
 const NAV_CARDS = [
-  {
-    to: '/app/guides',
-    icon: '📚', label: 'Admin, logement, santé…',
-    accent: 'Guides',
-    color: TERRA,  /* 3 = terra */
-    bg: `${TERRA}10`, border: `${TERRA}30`,
-  },
-  {
-    to: '/app/explorer',
-    icon: '🌴', label: 'Lifestyle & sorties',
-    accent: 'Explorer',
-    color: VERT,   /* 4 = vert */
-    bg: `${VERT}10`, border: `${VERT}30`,
-  },
-  {
-    to: '/app/moi',
-    icon: '✅', label: 'Mes étapes',
-    accent: 'Cockpit',
-    color: TERRA,  /* 5 = terra */
-    bg: `${TERRA}10`, border: `${TERRA}30`,
-  },
-  {
-    to: '/app/explorer/outils',
-    icon: '🧮', label: 'Budget, autónoma…',
-    accent: 'Simulateurs',
-    color: VERT,   /* 6 = vert */
-    bg: `${VERT}10`, border: `${VERT}30`,
-  },
+  { to: '/app/guides',         icon: '📚', context: 'admin, logement, santé', title: 'Guides',      color: TERRA },
+  { to: '/app/explorer',       icon: '🌴', context: 'lifestyle & sorties',    title: 'Explorer',    color: VERT  },
+  { to: '/app/moi',            icon: '✅', context: 'mes étapes',             title: 'Cockpit',     color: TERRA },
+  { to: '/app/explorer/outils',icon: '🧮', context: 'budget, autónoma…',      title: 'Simulateurs', color: VERT  },
 ]
 
 /* ── Page Home ──────────────────────────────────────────── */
@@ -272,59 +193,57 @@ export default function Home() {
 
       {/* ── Header ─────────────────────────────────────── */}
       <div className="page-header">
-        {profile && (
-          <span style={{
-            fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-            fontSize: 14, color: 'var(--texte-sec)', display: 'block', marginBottom: 4,
-          }}>
-            {profile.emoji} {profile.label}
-          </span>
-        )}
-        {/* Ligne 1 Cormorant + Ligne 2 Caveat TERRA (alternance 1) */}
         {profile ? (
-          <AccentWord color={TERRA} size={40}>
-            Bonjour {prenom || ''} 🌴
-          </AccentWord>
+          <div>
+            <ContextLabel color={VERT} size={14}>bienvenue,</ContextLabel>
+            <DisplayTitle size={38}>{prenom || 'Bonjour'}</DisplayTitle>
+            <AccentWord color={TERRA} size={22} style={{ fontStyle: 'italic' }}>
+              {profile.emoji} {profile.label}
+            </AccentWord>
+            <Trait color={TERRA} width={40} />
+          </div>
         ) : (
-          <>
-            <span style={{
-              display: 'block',
-              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontWeight: 300, fontSize: 22, color: 'var(--texte)', lineHeight: 1.2,
-            }}>
-              Tout ce qu'il faut pour
-            </span>
-            <AccentWord color={TERRA} size={40}>vraiment partir</AccentWord>
-          </>
+          <div>
+            <ContextLabel color={VERT} size={14}>tout ce qu'il faut pour</ContextLabel>
+            <DisplayTitle size={36}>vraiment</DisplayTitle>
+            <AccentWord color={TERRA} size={30}>partir.</AccentWord>
+            <Trait color={TERRA} width={40} />
+          </div>
         )}
       </div>
 
       {/* ── Actus ──────────────────────────────────────── */}
       <ActuCarousel actus={actus} loading={actusLoading} />
 
-      {/* ── Cockpit mini (VERT — alternance 2) ─────────── */}
+      {/* ── Cockpit mini ───────────────────────────────── */}
       {profile && <CockpitMini profileNotion={profile.notion} profileId={profile.id} />}
 
-      {/* ── Grille 2×2 (terra/vert/terra/vert) ─────────── */}
-      <p className="section-title" style={{ marginBottom: 10 }}>Accès rapide</p>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 22 }}>
+      {/* ── Grille 2×2 ─────────────────────────────────── */}
+      <div style={{ marginBottom: 10 }}>
+        <ContextLabel color={TERRA} size={12}>accès rapide</ContextLabel>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
         {NAV_CARDS.map(card => (
           <Link key={card.to} to={card.to} style={{ textDecoration: 'none' }}>
             <div style={{
-              background: card.bg, border: `1.5px solid ${card.border}`,
+              background: '#fff',
+              border: `1px solid ${card.color}28`,
               borderRadius: 16, padding: '16px 14px',
               transition: 'transform 0.15s',
+              boxShadow: '0 1px 6px rgba(28,20,16,0.05)',
             }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
             >
               <div style={{ fontSize: 24, marginBottom: 10 }}>{card.icon}</div>
-              <AccentWord color={card.color} size={21}>{card.accent}</AccentWord>
+              <DisplayTitle size={18}>{card.title}</DisplayTitle>
+              <Trait color={card.color} width={24} />
               <span style={{
+                display: 'block', marginTop: 6,
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 12, color: 'var(--texte-sec)', display: 'block', marginTop: 4,
+                fontSize: 12, color: 'var(--texte-sec)',
               }}>
-                {card.label}
+                {card.context}
               </span>
             </div>
           </Link>

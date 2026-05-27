@@ -1,54 +1,97 @@
-// Composant partagé — style carrousel sur toute l'appli
+// Style "slide Instagram" — Playfair 900 + Caveat italic + trait court
 export const TERRA = '#C76E4E'
 export const VERT  = '#5AADA5'
 
-export function Wave({ color }) {
+// Trait horizontal court à la place de la vague
+export function Trait({ color, width = 36 }) {
   return (
-    <svg viewBox="0 0 120 10" preserveAspectRatio="none"
-      style={{ display: 'block', width: '100%', height: 8, marginTop: -3 }}>
-      <path d="M0,5 C20,0 40,10 60,5 C80,0 100,10 120,5"
-        fill="none" stroke={color} strokeWidth="2.5" strokeLinecap="round" />
-    </svg>
+    <div style={{
+      width, height: 3,
+      background: color,
+      borderRadius: 2,
+      marginTop: 6,
+    }} />
   )
 }
 
-// Mot Caveat Bold + vague SVG
-export function AccentWord({ children, color, size = 26 }) {
+// Mot Caveat italic (l'accent "manuscrit")
+export function AccentWord({ children, color = TERRA, size = 26 }) {
   return (
-    <span style={{ display: 'inline-block' }}>
-      <span style={{
-        fontFamily: "'Caveat', cursive",
-        fontWeight: 700, fontSize: size,
-        color, lineHeight: 1, display: 'block',
-      }}>
-        {children}
-      </span>
-      <Wave color={color} />
+    <span style={{
+      display: 'inline-block',
+      fontFamily: "'Caveat', cursive",
+      fontStyle: 'italic',
+      fontWeight: 700,
+      fontSize: size,
+      color,
+      lineHeight: 1.15,
+    }}>
+      {children}
     </span>
   )
 }
 
-// Titre de page complet : label Cormorant italic + mot Caveat+wave
-export function PageHeading({ label, accent, color = TERRA, labelSize = 15, accentSize = 34 }) {
+// Titre Playfair 900 — grand et fort
+export function DisplayTitle({ children, size = 32 }) {
+  return (
+    <span style={{
+      display: 'block',
+      fontFamily: "'Playfair Display', Georgia, serif",
+      fontWeight: 900,
+      fontSize: size,
+      color: '#1C1410',
+      lineHeight: 1.1,
+      letterSpacing: '-0.01em',
+    }}>
+      {children}
+    </span>
+  )
+}
+
+// Label Cormorant italic teal — contexte au-dessus
+export function ContextLabel({ children, color = VERT, size = 14 }) {
+  return (
+    <span style={{
+      display: 'block',
+      fontFamily: "'Cormorant Garamond', Georgia, serif",
+      fontStyle: 'italic',
+      fontWeight: 400,
+      fontSize: size,
+      color,
+      letterSpacing: '0.01em',
+      marginBottom: 4,
+    }}>
+      {children}
+    </span>
+  )
+}
+
+// Bloc titre de page complet : label teal + Playfair 900 + AccentWord + trait
+export function PageHeading({ label, title, accent, accentColor = TERRA, traitColor, size = 32 }) {
+  const tc = traitColor || accentColor
   return (
     <div>
-      {label && (
-        <span style={{
-          display: 'block',
-          fontFamily: "'Cormorant Garamond', Georgia, serif",
-          fontStyle: 'italic', fontWeight: 300,
-          fontSize: labelSize, color: 'var(--texte-sec)',
-          lineHeight: 1.3, marginBottom: 2,
-        }}>
-          {label}
-        </span>
+      {label && <ContextLabel>{label}</ContextLabel>}
+      {title && <DisplayTitle size={size}>{title}</DisplayTitle>}
+      {accent && (
+        <AccentWord color={accentColor} size={size * 0.85}>{accent}</AccentWord>
       )}
-      <AccentWord color={color} size={accentSize}>{accent}</AccentWord>
+      <Trait color={tc} />
     </div>
   )
 }
 
-// Section title inline (labels de section plus petits)
-export function SectionAccent({ children, color, size = 20 }) {
-  return <AccentWord color={color} size={size}>{children}</AccentWord>
+// Section accent (plus petit, dans les cards)
+export function SectionAccent({ children, color = TERRA, size = 20 }) {
+  return (
+    <div>
+      <AccentWord color={color} size={size}>{children}</AccentWord>
+      <Trait color={color} width={28} />
+    </div>
+  )
+}
+
+// Wave gardée pour compatibilité (remplacée par Trait)
+export function Wave({ color }) {
+  return <Trait color={color} width={32} />
 }
