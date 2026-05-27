@@ -4,7 +4,7 @@ import { useProfile } from '../context/ProfileContext'
 import { useNotionDB, parseCockpit, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 
-function CockpitMini({ profileNotion }) {
+function CockpitMini({ profileNotion, profileId }) {
   const { data, loading } = useNotionDB(NOTION_DB.cockpit)
   const steps = useMemo(() => {
     return data
@@ -12,10 +12,24 @@ function CockpitMini({ profileNotion }) {
       .filter(s => !profileNotion || s.profilCible === profileNotion)
       .sort((a, b) => a.ordre - b.ordre)
   }, [data, profileNotion])
+
+  // Lire les coches depuis localStorage — même clé que MonEspace
+  const [checked, setChecked] = React.useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(`vmaq_done_${profileId}`) || '[]')) }
+    catch { return new Set() }
+  })
+  // Resynchroniser à chaque fois que Home revient au premier plan
+  React.useEffect(() => {
+    try {
+      const fresh = new Set(JSON.parse(localStorage.getItem(`vmaq_done_${profileId}`) || '[]'))
+      setChecked(fresh)
+    } catch {}
+  }, [profileId])
+
   const total = steps.length
-  const done = steps.filter(s => s.statut === '✅ Validé').length
+  const done = steps.filter(s => checked.has(s.id)).length
   const pct = total ? Math.round((done / total) * 100) : 0
-  const next = steps.find(s => s.statut === '⬜ À faire' || s.statut === '🔄 En cours')
+  const next = steps.find(s => !checked.has(s.id))
   if (loading) return null
   return (
     <Link to="/app/moi" style={{ textDecoration: 'none' }}>
@@ -162,7 +176,7 @@ export default function Home() {
       <ActuCarousel actus={actus} loading={actusLoading} />
 
       {/* Cockpit mini */}
-      {profile && <CockpitMini profileNotion={profile.notion} />}
+      {profile && <CockpitMini profileNotion={profile.notion} profileId={profile.id} />}
 
       {/* Grille 2x2 navigation */}
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
