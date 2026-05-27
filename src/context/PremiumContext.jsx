@@ -1,52 +1,82 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
-import { OWNER_EMAIL } from '../config'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
 const PremiumContext = createContext(null)
 
+const TOKEN_KEY = 'vmaq_premium_token'
+const EMAIL_KEY = 'vmaq_premium_email'
+
+function parseToken(token) {
+  try {
+    const [encoded] = token.split('.')
+    const fixed = encoded.replace(/-/g, '+').replace(/_/g, '/')
+    const payload = JSON.parse(atob(fixed))
+    if (payload.exp && Date.now() > payload.exp) return null
+    return payload
+  } catch {
+    return null
+  }
+}
+
 export function PremiumProvider({ children }) {
-  const [email, setEmail] = useState('')
   const [isPremium, setIsPremium] = useState(false)
-  const [isOwner, setIsOwner] = useState(false)
+  const [role, setRole] = useState(null)
+  const [email, setEmail] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    const saved = localStorage.getItem('mq_email')
-    if (saved) {
-      setEmail(saved)
-      checkPremium(saved)
+    const token = localStorage.getItem(TOKEN_KEY)
+    const savedEmail = localStorage.getItem(EMAIL_KEY)
+    if (token && savedEmail) {
+      const payload = parseToken(token)
+      if (payload) {
+        setIsPremium(true)
+        setRole(payload.role)
+        setEmail(payload.email)
+      } else {
+        localStorage.removeItem(TOKEN_KEY)
+        localStorage.removeItem(EMAIL_KEY)
+      }
     }
-    const premiumFlag = localStorage.getItem('mq_premium')
-    if (premiumFlag === 'true') setIsPremium(true)
+    setLoading(false)
   }, [])
 
-  function checkPremium(e) {
-    const normalized = (e || '').trim().toLowerCase()
-    if (normalized === OWNER_EMAIL.toLowerCase()) {
-      setIsOwner(true)
-      setIsPremium(true)
-      localStorage.setItem('mq_premium', 'true')
-      return true
+  const activatePremium = useCallback(async (emailInput) => {
+    try {
+      const res = await fetch('/api/check-premium', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailInput }),
+      })
+      const data = await res.json()
+      if (data.premium && data.token) {
+        localStorage.setItem(TOKEN_KEY, data.token)
+        localStorage.setItem(EMAIL_KEY, emailInput.toLowerCase().trim())
+        setIsPremium(true)
+        setRole(data.role)
+        setEmail(emailInput.toLowerCase().trim())
+        return { success: true, role: data.role }
+      }
+      return { success: false }
+    } catch (err) {
+      return { success: false, error: err.message }
     }
-    return isPremium
-  }
+  }, [])
 
-  function saveEmail(e) {
-    setEmail(e)
-    localStorage.setItem('mq_email', e)
-    return checkPremium(e)
-  }
+  const logout = useCallback(() => {
+    localStorage.removeItem(TOKEN_KEY)
+    localStorage.removeItem(EMAIL_KEY)
+    setIsPremium(false)
+    setRole(null)
+    setEmail(null)
+  }, [])
 
-  function activatePremium() {
-    setIsPremium(true)
-    localStorage.setItem('mq_premium', 'true')
-  }
-
-  function canAccess(accessLevel) {
+  const canAccess = useCallback((accessLevel) => {
     if (!accessLevel || accessLevel === '🟢 Public') return true
     return isPremium
-  }
+  }, [isPremium])
 
   return (
-    <PremiumContext.Provider value={{ email, isPremium, isOwner, canAccess, saveEmail, activatePremium }}>
+    <PremiumContext.Provider value={{ isPremium, role, email, loading, activatePremium, logout, canAccess }}>
       {children}
     </PremiumContext.Provider>
   )

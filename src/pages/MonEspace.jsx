@@ -2,9 +2,11 @@ import React, { useMemo, useState } from 'react'
 import { useProfile } from '../context/ProfileContext'
 import { usePremium } from '../context/PremiumContext'
 import { useNotionDB, parseCockpit } from '../hooks/useNotion'
-import { NOTION_DB, PROFILS, PREMIUM_PRICE, PREMIUM_STRIPE_LINK } from '../config'
+import { NOTION_DB, PROFILS } from '../config'
 import { useNavigate } from 'react-router-dom'
+import { PaywallModal } from '../components/PaywallModal'
 
+// ─── Cockpit complet (affiché si profil sélectionné) ───────────────────────
 function CockpitFull({ profileNotion }) {
   const { data, loading } = useNotionDB(NOTION_DB.cockpit)
   const navigate = useNavigate()
@@ -37,7 +39,7 @@ function CockpitFull({ profileNotion }) {
       <div className="card" style={{ marginBottom: 16 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
           <span style={{ fontFamily: 'var(--font-titre)', fontSize: 16 }}>Progression globale</span>
-          <span style={{ fontWeight: 700, color: 'var(--vert-dark)', fontSize: 18 }}>{pct}%</span>
+          <span style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 18 }}>{pct}%</span>
         </div>
         <div className="progress-bar" style={{ marginBottom: 6 }}>
           <div className="progress-fill" style={{ width: `${pct}%` }} />
@@ -52,14 +54,9 @@ function CockpitFull({ profileNotion }) {
             <div
               key={step.id}
               style={{
-                background: '#fff',
-                border: '1px solid var(--gris)',
-                borderRadius: 'var(--radius-sm)',
-                padding: '12px 14px',
-                marginBottom: 6,
-                display: 'flex',
-                gap: 10,
-                alignItems: 'flex-start',
+                background: '#fff', border: '1px solid var(--gris)',
+                borderRadius: 10, padding: '12px 14px', marginBottom: 6,
+                display: 'flex', gap: 10, alignItems: 'flex-start',
               }}
             >
               <span style={{ fontSize: 16, marginTop: 1, flexShrink: 0 }}>
@@ -70,8 +67,7 @@ function CockpitFull({ profileNotion }) {
               </span>
               <div style={{ flex: 1 }}>
                 <p style={{
-                  fontSize: 14,
-                  fontWeight: 500,
+                  fontSize: 14, fontWeight: 500,
                   color: step.statut === '✅ Validé' ? 'var(--texte-sec)' : 'var(--foret)',
                   textDecoration: step.statut === '✅ Validé' ? 'line-through' : undefined,
                   marginBottom: 2,
@@ -87,7 +83,7 @@ function CockpitFull({ profileNotion }) {
               {step.guideId && (
                 <button
                   onClick={() => navigate(`/app/guide/${step.guideId}`)}
-                  style={{ color: 'var(--ocre)', fontSize: 12, fontWeight: 500, flexShrink: 0, marginTop: 2 }}
+                  style={{ color: 'var(--foret)', fontSize: 12, fontWeight: 500, flexShrink: 0, marginTop: 2 }}
                 >
                   Guide →
                 </button>
@@ -100,18 +96,12 @@ function CockpitFull({ profileNotion }) {
   )
 }
 
+// ─── MonEspace ──────────────────────────────────────────────────────────────
 export default function MonEspace() {
-  const { profile, chooseProfile, resetProfile } = useProfile()
-  const { isPremium, isOwner, email, saveEmail } = usePremium()
+  const { profile, chooseProfile } = useProfile()
+  const { isPremium, role, email, logout } = usePremium()
   const [showProfilPicker, setShowProfilPicker] = useState(false)
-  const [emailInput, setEmailInput] = useState('')
-  const [emailMsg, setEmailMsg] = useState('')
-
-  function handleEmailSubmit(e) {
-    e.preventDefault()
-    const isOwnerNow = saveEmail(emailInput)
-    setEmailMsg(emailInput.toLowerCase() === 'amely.attias@gmail.com' ? '✅ Accès propriétaire activé' : '✅ Email enregistré')
-  }
+  const [showPaywall, setShowPaywall] = useState(false)
 
   return (
     <div className="page">
@@ -121,10 +111,14 @@ export default function MonEspace() {
         </h1>
       </div>
 
-      <div className="card" style={{ marginBottom: 16 }}>
+      {/* ── Carte profil ── */}
+      <div className="card" style={{ marginBottom: 12 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
           <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>Mon profil</p>
-          <button onClick={() => setShowProfilPicker(!showProfilPicker)} style={{ fontSize: 12, color: 'var(--vert-dark)', fontWeight: 500 }}>
+          <button
+            onClick={() => setShowProfilPicker(!showProfilPicker)}
+            style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer' }}
+          >
             Modifier
           </button>
         </div>
@@ -139,7 +133,6 @@ export default function MonEspace() {
         ) : (
           <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>Aucun profil sélectionné</p>
         )}
-
         {showProfilPicker && (
           <div style={{ marginTop: 12, borderTop: '1px solid var(--gris)', paddingTop: 12 }}>
             {PROFILS.map(p => (
@@ -147,15 +140,10 @@ export default function MonEspace() {
                 key={p.id}
                 onClick={() => { chooseProfile(p.id); setShowProfilPicker(false) }}
                 style={{
-                  display: 'flex',
-                  gap: 10,
-                  alignItems: 'center',
-                  width: '100%',
-                  padding: '8px 0',
+                  display: 'flex', gap: 10, alignItems: 'center',
+                  width: '100%', padding: '8px 0',
                   borderBottom: '1px solid var(--gris)',
-                  background: 'none',
-                  cursor: 'pointer',
-                  textAlign: 'left',
+                  background: 'none', cursor: 'pointer', textAlign: 'left',
                 }}
               >
                 <span style={{ fontSize: 20 }}>{p.emoji}</span>
@@ -166,66 +154,99 @@ export default function MonEspace() {
         )}
       </div>
 
-      <div className="card" style={{ marginBottom: 20 }}>
-        <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 8 }}>
-          Accès {isPremium ? '💎 Premium' : '🟢 Gratuit'}
-        </p>
-        {isPremium ? (
+      {/* ── Carte accès premium ── */}
+      <div style={{
+        background: isPremium ? 'var(--vert-light)' : 'var(--gris)',
+        border: isPremium ? '1px solid rgba(90,122,64,0.2)' : '1px solid rgba(0,0,0,0.06)',
+        borderRadius: 14, padding: '16px 18px', marginBottom: 20,
+      }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
-            <p style={{ fontSize: 13, color: 'var(--vert-dark)', fontWeight: 500, marginBottom: 4 }}>
-              {isOwner ? '✅ Accès propriétaire' : '✅ Premium actif'}
+            <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 4 }}>
+              {isPremium ? '💎 Premium actif' : '🟢 Accès gratuit'}
             </p>
-            <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>
-              Accès à tous les guides et contenus.
-            </p>
+            {isPremium ? (
+              <>
+                {role === 'admin' && (
+                  <span style={{
+                    fontSize: 10, background: 'var(--foret)', color: 'white',
+                    padding: '2px 8px', borderRadius: 20, fontWeight: 700, letterSpacing: 0.5,
+                    display: 'inline-block', marginBottom: 6,
+                  }}>ADMIN</span>
+                )}
+                <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+                  {email && <span style={{ fontWeight: 500, color: 'var(--foret)' }}>{email}</span>}
+                </p>
+                <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 4 }}>
+                  Accès illimité à tous les guides, simulateurs et ressources.
+                </p>
+              </>
+            ) : (
+              <>
+                <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 10 }}>
+                  Débloquez 100% des guides et tous les outils.
+                </p>
+                <button
+                  onClick={() => setShowPaywall(true)}
+                  style={{
+                    background: 'var(--foret)', color: 'white',
+                    padding: '10px 18px', borderRadius: 10,
+                    fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer',
+                  }}
+                >
+                  Découvrir Premium →
+                </button>
+              </>
+            )}
           </div>
-        ) : (
-          <div>
-            <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 10 }}>
-              Débloquez 35+ guides détaillés pour {PREMIUM_PRICE}
-            </p>
-            <a
-              href={PREMIUM_STRIPE_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
+          {isPremium && (
+            <button
+              onClick={logout}
               style={{
-                display: 'inline-block',
-                background: 'var(--ocre)',
-                color: '#fff',
-                padding: '10px 18px',
-                borderRadius: 8,
-                fontSize: 13,
-                fontWeight: 500,
-                textDecoration: 'none',
-                marginBottom: 12,
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: 11, color: 'var(--texte-sec)', textDecoration: 'underline',
+                marginTop: 2, flexShrink: 0,
               }}
             >
-              Devenir Premium →
-            </a>
-            <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginBottom: 6 }}>Déjà Premium ? Entrez votre email :</p>
-            <form onSubmit={handleEmailSubmit} style={{ display: 'flex', gap: 8 }}>
-              <input
-                type="email"
-                value={emailInput}
-                onChange={e => setEmailInput(e.target.value)}
-                placeholder="votre@email.com"
-                style={{ flex: 1, padding: '8px 12px', borderRadius: 8, border: '1px solid var(--gris)', fontSize: 13 }}
-              />
-              <button type="submit" style={{ background: 'var(--vert)', color: '#fff', padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 500 }}>
-                OK
-              </button>
-            </form>
-            {emailMsg && <p style={{ fontSize: 12, color: 'var(--vert-dark)', marginTop: 6 }}>{emailMsg}</p>}
-          </div>
-        )}
+              Déconnecter
+            </button>
+          )}
+        </div>
       </div>
 
+      {/* ── Cockpit d'installation ── */}
       {profile && (
         <div>
           <p className="section-title">Mon cockpit d'installation</p>
           <CockpitFull profileNotion={profile.notion} />
         </div>
       )}
+      {!profile && (
+        <div style={{
+          background: 'var(--ocre-light)', borderRadius: 14, padding: '20px',
+          textAlign: 'center', border: '1px solid rgba(196,122,90,0.15)',
+        }}>
+          <div style={{ fontSize: 28, marginBottom: 8 }}>🧭</div>
+          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 15, color: 'var(--foret)', marginBottom: 6 }}>
+            Choisissez votre profil
+          </p>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 14 }}>
+            Pour voir votre cockpit personnalisé, sélectionnez votre situation.
+          </p>
+          <button
+            onClick={() => setShowProfilPicker(true)}
+            style={{
+              background: 'var(--foret)', color: 'white',
+              padding: '10px 20px', borderRadius: 10,
+              fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer',
+            }}
+          >
+            Choisir mon profil →
+          </button>
+        </div>
+      )}
+
+      <PaywallModal isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
     </div>
   )
 }
