@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { useProfile } from '../context/ProfileContext'
 import { useNotionDB, parseCockpit, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
@@ -42,7 +42,69 @@ function CockpitMini({ profileNotion }) {
   )
 }
 
+function ActuCard({ actu, navigate }) {
+  const handleClick = () => {
+    if (actu.lien) {
+      window.open(actu.lien, '_blank', 'noopener,noreferrer')
+    } else {
+      navigate('/app/actus')
+    }
+  }
+
+  return (
+    <div
+      onClick={handleClick}
+      style={{
+        minWidth: 220,
+        maxWidth: 220,
+        background: '#fff',
+        borderRadius: 'var(--radius)',
+        border: '1px solid var(--gris)',
+        padding: '14px 14px',
+        flexShrink: 0,
+        boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
+        cursor: 'pointer',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
+      <div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+          {actu.categorie ? (
+            <span className="badge badge-vert" style={{ fontSize: 10 }}>{actu.categorie}</span>
+          ) : <span />}
+          {actu.date && (
+            <span style={{ fontSize: 11, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>
+              {new Date(actu.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
+            </span>
+          )}
+        </div>
+        <p style={{
+          fontWeight: 600, fontSize: 13, color: 'var(--foret)', lineHeight: 1.4,
+          marginBottom: actu.accroche ? 6 : 0,
+          display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+        }}>
+          {actu.title}
+        </p>
+        {actu.accroche && (
+          <p style={{
+            fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4,
+            display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
+          }}>
+            {actu.accroche}
+          </p>
+        )}
+      </div>
+      <p style={{ fontSize: 11, fontWeight: 600, color: 'var(--vert-dark)', marginTop: 10 }}>
+        Lire l'info →
+      </p>
+    </div>
+  )
+}
+
 function ActuCarousel({ actus, loading }) {
+  const navigate = useNavigate()
   if (loading) return (
     <div style={{ paddingBottom: 20 }}>
       <div className="spinner">Chargement…</div>
@@ -51,7 +113,14 @@ function ActuCarousel({ actus, loading }) {
   if (!actus.length) return null
   return (
     <div style={{ marginBottom: 20 }}>
-      <p className="section-title" style={{ marginBottom: 10 }}>Actus de la semaine</p>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
+        <p className="section-title" style={{ margin: 0 }}>Actus de la semaine</p>
+        <Link to="/app/actus" style={{
+          fontSize: 12, color: 'var(--vert-dark)', fontWeight: 600, textDecoration: 'none',
+        }}>
+          Toutes les actus →
+        </Link>
+      </div>
       <div style={{
         display: 'flex',
         gap: 10,
@@ -61,52 +130,9 @@ function ActuCarousel({ actus, loading }) {
         msOverflowStyle: 'none',
         WebkitOverflowScrolling: 'touch',
       }}>
-        {actus.map(actu => {
-          const card = (
-            <div style={{
-              minWidth: 220,
-              maxWidth: 220,
-              background: '#fff',
-              borderRadius: 'var(--radius)',
-              border: '1px solid var(--gris)',
-              padding: '14px 14px',
-              flexShrink: 0,
-              boxShadow: '0 1px 4px rgba(0,0,0,0.06)',
-            }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
-                {actu.categorie ? (
-                  <span className="badge badge-vert" style={{ fontSize: 10 }}>{actu.categorie}</span>
-                ) : <span />}
-                {actu.date && (
-                  <span style={{ fontSize: 11, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>
-                    {new Date(actu.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
-                  </span>
-                )}
-              </div>
-              <p style={{ fontWeight: 600, fontSize: 13, color: 'var(--foret)', lineHeight: 1.4, marginBottom: actu.accroche ? 6 : 0,
-                display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                {actu.title}
-              </p>
-              {actu.accroche && (
-                <p style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4,
-                  display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                  {actu.accroche}
-                </p>
-              )}
-              {actu.lien && (
-                <p style={{ fontSize: 11, color: 'var(--vert-dark)', marginTop: 8 }}>Lire →</p>
-              )}
-            </div>
-          )
-          if (actu.lien) {
-            return (
-              <a key={actu.id} href={actu.lien} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none' }}>
-                {card}
-              </a>
-            )
-          }
-          return <div key={actu.id}>{card}</div>
-        })}
+        {actus.map(actu => (
+          <ActuCard key={actu.id} actu={actu} navigate={navigate} />
+        ))}
       </div>
     </div>
   )
@@ -132,7 +158,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Actus carousel en haut */}
+      {/* Actus carousel */}
       <ActuCarousel actus={actus} loading={actusLoading} />
 
       {/* Cockpit mini */}
