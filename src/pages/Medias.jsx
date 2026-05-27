@@ -1,8 +1,6 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
-// ← Mettre à jour l'ID de la dernière vidéo après chaque publication YouTube
-const YOUTUBE_LAST_VIDEO_ID = 'PLfN_IbCc8wqU1234' // placeholder — remplacer par l'ID de la dernière vidéo
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@majorquelileenvrai'
 const INSTAGRAM_URL = 'https://www.instagram.com/amely_mallorca_raw'
 const TIKTOK_URL = 'https://www.tiktok.com/@amelymallorcaraw'
@@ -34,6 +32,101 @@ function SocialCard({ emoji, platform, handle, desc, url, bg, border }) {
   )
 }
 
+function YoutubeEmbed() {
+  const [videoId, setVideoId] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+
+  useEffect(() => {
+    fetch('/api/youtube-latest')
+      .then(r => r.json())
+      .then(data => {
+        if (data.videoId) setVideoId(data.videoId)
+        else setError(true)
+      })
+      .catch(() => setError(true))
+      .finally(() => setLoading(false))
+  }, [])
+
+  if (loading) {
+    return (
+      <div style={{
+        width: '100%',
+        paddingBottom: '56.25%',
+        borderRadius: 'var(--radius)',
+        background: 'var(--gris)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'relative',
+      }}>
+        <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+          <p style={{ color: 'var(--texte-sec)', fontSize: 13 }}>Chargement…</p>
+        </div>
+      </div>
+    )
+  }
+
+  if (error || !videoId) {
+    return (
+      <div style={{
+        width: '100%',
+        padding: '32px 16px',
+        borderRadius: 'var(--radius)',
+        background: 'var(--gris)',
+        textAlign: 'center',
+      }}>
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
+          Vidéo temporairement indisponible
+        </p>
+        <a
+          href={YOUTUBE_CHANNEL_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'inline-block',
+            background: '#FF0000',
+            color: '#fff',
+            borderRadius: 8,
+            padding: '10px 20px',
+            fontWeight: 700,
+            fontSize: 14,
+            textDecoration: 'none',
+          }}
+        >
+          ▶ Voir la chaîne YouTube
+        </a>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{
+      position: 'relative',
+      width: '100%',
+      paddingBottom: '56.25%',
+      borderRadius: 'var(--radius)',
+      overflow: 'hidden',
+      background: '#000',
+      boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
+    }}>
+      <iframe
+        src={`https://www.youtube.com/embed/${videoId}?autoplay=0&rel=0`}
+        title="Majorque l'île en vrai — dernière vidéo"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        style={{
+          position: 'absolute',
+          top: 0, left: 0,
+          width: '100%', height: '100%',
+          borderRadius: 'var(--radius)',
+        }}
+      />
+    </div>
+  )
+}
+
 export default function Medias() {
   const navigate = useNavigate()
 
@@ -57,29 +150,7 @@ export default function Medias() {
         <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 10, fontWeight: 600 }}>
           🎬 Dernière vidéo
         </p>
-        <div style={{
-          position: 'relative',
-          width: '100%',
-          paddingBottom: '56.25%', // 16:9
-          borderRadius: 'var(--radius)',
-          overflow: 'hidden',
-          background: '#000',
-          boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
-        }}>
-          <iframe
-            src={`https://www.youtube.com/embed?listType=user_uploads&list=majorquelileenvrai&autoplay=0`}
-            title="L'île en vrai — dernière vidéo"
-            frameBorder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowFullScreen
-            style={{
-              position: 'absolute',
-              top: 0, left: 0,
-              width: '100%', height: '100%',
-              borderRadius: 'var(--radius)',
-            }}
-          />
-        </div>
+        <YoutubeEmbed />
         <a
           href={YOUTUBE_CHANNEL_URL}
           target="_blank"
