@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 
 // ← Mettre à jour l'ID de la dernière vidéo après chaque publication YouTube
 const YOUTUBE_LAST_VIDEO_ID = 'PLfN_IbCc8wqU1234' // placeholder — remplacer par l'ID de la dernière vidéo
-const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@lileenvrai'
+const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@majorquelileenvrai'
 const INSTAGRAM_URL = 'https://www.instagram.com/amely_mallorca_raw'
-const TIKTOK_URL = 'https://www.tiktok.com/@lileenvrai'
+const TIKTOK_URL = 'https://www.tiktok.com/@amelymallorcaraw'
 
 function SocialCard({ emoji, platform, handle, desc, url, bg, border }) {
   return (
@@ -67,7 +67,7 @@ export default function Medias() {
           boxShadow: '0 2px 8px rgba(0,0,0,0.12)',
         }}>
           <iframe
-            src={`https://www.youtube.com/embed?listType=user_uploads&list=lileenvrai&autoplay=0`}
+            src={`https://www.youtube.com/embed?listType=user_uploads&list=majorquelileenvrai&autoplay=0`}
             title="L'île en vrai — dernière vidéo"
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
@@ -119,7 +119,7 @@ export default function Medias() {
       <SocialCard
         emoji="🎵"
         platform="TikTok"
-        handle="@lileenvrai"
+        handle="@amelymallorcaraw"
         desc="Coulisses, découvertes et instants de vie à Majorque"
         url={TIKTOK_URL}
         bg="var(--vert-light)"
@@ -128,7 +128,7 @@ export default function Medias() {
       <SocialCard
         emoji="▶️"
         platform="YouTube"
-        handle="L'île en vrai"
+        handle="@majorquelileenvrai"
         desc="Majorque — la vraie vie, les vrais endroits, les vraies histoires"
         url={YOUTUBE_CHANNEL_URL}
         bg="var(--ocre-light)"
