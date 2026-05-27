@@ -3,9 +3,10 @@ import { useNavigate } from 'react-router-dom'
 
 /* ─────────────────────────────────────────────────────────────────
    DONNÉES DE RÉFÉRENCE
-   Source : INE Encuesta de Presupuestos Familiares 2023 (Illes Balears)
+   Source principale : INE Encuesta de Presupuestos Familiares 2023 (Illes Balears)
    https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176806&menu=resultados&secc=1254736195147&idp=1254735976608
-   Tarifs transports officiels : EMT Palma (emtpalma.cat) · TIB Baléares (tib.org)
+   Transports : EMT Palma (emtpalma.cat) · TIB Baléares (tib.org)
+   ScolariTé LFP : Lycée Français de Palma (lfp.edu.es) · barème AEFE Espagne
    ───────────────────────────────────────────────────────────────── */
 
 const INE_SOURCE = 'https://www.ine.es/dyngs/INEbase/es/operacion.htm?c=Estadistica_C&cid=1254736176806&menu=resultados&secc=1254736195147&idp=1254735976608'
@@ -31,248 +32,277 @@ const ADULTE = {
   cft: { alimentation: 500, restaurants: 340, transport: 310, sante: 140, loisirs: 220, beaute: 170, abonnements: 100, divers: 145 },
 }
 
-// Enfant : coût marginal mensuel par tranche d'âge et mode de vie
+// Coût marginal mensuel enfant hors scolarité (nourriture, vêtements, activités extra)
 const ENFANT = {
-  '0-2': { eco: 450, std: 680, cft: 950 },   // crèche/garde + couches + lait
-  '3-5': { eco: 120, std: 210, cft: 380 },   // maternelle publique + cantine + activités
-  '6-11': { eco: 130, std: 230, cft: 400 },  // primaire + cantine + activités
-  '12-17': { eco: 150, std: 270, cft: 450 }, // collège/lycée + transport + sorties
+  '0-2': { eco: 450, std: 680, cft: 950 },
+  '3-5': { eco: 90,  std: 150, cft: 280 },
+  '6-11': { eco: 95, std: 165, cft: 290 },
+  '12-17': { eco: 110, std: 195, cft: 320 },
 }
 
 const TRANCHES = ['0-2', '3-5', '6-11', '12-17']
 const TRANCHE_LABELS = { '0-2': 'Bébé (0–2 ans)', '3-5': 'Maternelle (3–5 ans)', '6-11': 'Primaire (6–11 ans)', '12-17': 'Ado (12–17 ans)' }
 
-const CATS = [
-  { id: 'loyer', label: 'Loyer', emoji: '🏠', color: '#7EC8C0', group: 'Logement' },
-  { id: 'charges', label: 'Charges (eau, élec, internet)', emoji: '💡', color: '#9dd5ce', group: 'Logement' },
-  { id: 'alimentation', label: 'Courses alimentaires', emoji: '🛒', color: '#C76E4E', group: 'Alimentation' },
-  { id: 'restaurants', label: 'Restaurants & sorties repas', emoji: '🍽️', color: '#d4886a', group: 'Alimentation' },
-  { id: 'transport', label: 'Transport (voiture ou bus)', emoji: '🚗', color: '#b07d2a', group: 'Transport' },
-  { id: 'sante', label: 'Santé & mutuelle privée', emoji: '❤️', color: '#e57373', group: 'Santé' },
-  { id: 'enfants', label: 'Enfants (garde, activités…)', emoji: '👶', color: '#81b29a', group: 'Famille' },
-  { id: 'loisirs', label: 'Loisirs & sport', emoji: '🏄', color: '#2D5016', group: 'Loisirs' },
-  { id: 'beaute', label: 'Vêtements & beauté', emoji: '✂️', color: '#9c7c5c', group: 'Perso' },
-  { id: 'abonnements', label: 'Téléphone & abonnements', emoji: '📱', color: '#6a8caf', group: 'Perso' },
-  { id: 'divers', label: 'Divers & imprévus', emoji: '🎁', color: '#aaa', group: 'Perso' },
+// Frais de scolarité mensuels par type d'école et tranche d'âge
+// Sources :
+//   Public/concertée : Govern Balear — dades estadístiques ensenyament 2024
+//   Lycée Français de Palma : lfp.edu.es — barème AEFE Espagne 2024-2025
+//   International : moyenne établissements Baléares (Agora International, Bellver Int'l)
+const SCOLARITE = {
+  public:        { '3-5': 65,   '6-11': 65,   '12-17': 70   }, // cantina + matériel uniquement
+  concertee:     { '3-5': 130,  '6-11': 140,  '12-17': 160  }, // frais association + cantina
+  lfp:           { '3-5': 320,  '6-11': 360,  '12-17': 415  }, // Lycée Français de Palma (barème AEFE)
+  international: { '3-5': 620,  '6-11': 720,  '12-17': 870  }, // écoles internationales Majorque
+}
+
+const ECOLE_OPTIONS = [
+  { id: 'public',        label: '🏛️ École publique espagnole', sub: 'Gratuit · cantina ~65–70€/mois' },
+  { id: 'concertee',     label: '✝️ École concertée / privée', sub: '~130–160€/mois (frais association + cantina)' },
+  { id: 'lfp',           label: '🇫🇷 Lycée Français de Palma',  sub: '~320–415€/mois · barème AEFE 2024-2025' },
+  { id: 'international', label: '🌍 École internationale',     sub: '~620–870€/mois (Agora, Bellver…)' },
 ]
 
-const fmt = (n) => new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR', maximumFractionDigits: 0 }).format(n)
+const CATS = [
+  { id: 'loyer',        label: 'Loyer',                          emoji: '🏡', color: '#e07a5f', group: 'Logement' },
+  { id: 'charges',      label: 'Charges (eau, élec, internet)',  emoji: '💡', color: '#f2cc8f', group: 'Logement' },
+  { id: 'alimentation', label: 'Alimentation (courses)',         emoji: '🛒', color: '#81b29a', group: 'Alimentation' },
+  { id: 'restaurants',  label: 'Restaurants & cafés',            emoji: '🍽️', color: '#a8dadc', group: 'Alimentation' },
+  { id: 'transport',    label: 'Transport',                      emoji: '🚌', color: '#457b9d', group: 'Transport' },
+  { id: 'sante',        label: 'Santé & pharmacie',              emoji: '💊', color: '#e63946', group: 'Santé' },
+  { id: 'enfants',      label: 'Enfants (vie courante)',         emoji: '👶', color: '#81b29a', group: 'Famille' },
+  { id: 'scolarite',    label: 'Scolarité',                      emoji: '📚', color: '#2d6a4f', group: 'Famille' },
+  { id: 'loisirs',      label: 'Loisirs & sorties',              emoji: '🏖️', color: '#48cae4', group: 'Loisirs' },
+  { id: 'beaute',       label: 'Beauté & coiffure',              emoji: '💇', color: '#cdb4db', group: 'Perso' },
+  { id: 'abonnements',  label: 'Abonnements (streaming…)',       emoji: '📱', color: '#9b5de5', group: 'Perso' },
+  { id: 'divers',       label: 'Divers & imprévus',              emoji: '🎲', color: '#f77f00', group: 'Perso' },
+]
 
-function calcDefaults(adultes, enfants, mode) {
-  const base = ADULTE[mode]
-  const adultTotal = (k) => base[k] * adultes
-  const enfantCost = enfants.reduce((sum, t) => sum + (ENFANT[t]?.[mode] ?? 0), 0)
-  const nbPersonnes = adultes + enfants.length
-  const loyer = LOYER_BASE[Math.min(nbPersonnes, 4)][mode]
+function calcDefaults(adultes, enfants, mode, ecoleType) {
+  const loyer = LOYER_BASE[Math.min(adultes + Math.ceil(enfants.length / 2), 4)]?.[mode] ?? LOYER_BASE[4][mode]
   const charges = CHARGES_BASE[mode]
+  const adulteCosts = ADULTE[mode]
+  const nbAdultes = adultes
+
+  const baseEnfants = enfants.reduce((sum, t) => sum + (ENFANT[t]?.[mode] ?? 0), 0)
+
+  // Scolarité : uniquement pour les enfants d'âge scolaire (3-17 ans)
+  const scolTranches = enfants.filter(t => t !== '0-2')
+  const scolarite = scolTranches.reduce((sum, t) => sum + (SCOLARITE[ecoleType]?.[t] ?? 0), 0)
+
   return {
     loyer,
     charges,
-    alimentation: adultTotal('alimentation'),
-    restaurants: adultTotal('restaurants'),
-    transport: adultTotal('transport'),
-    sante: adultTotal('sante'),
-    enfants: enfantCost,
-    loisirs: adultTotal('loisirs'),
-    beaute: adultTotal('beaute'),
-    abonnements: adultTotal('abonnements'),
-    divers: adultTotal('divers'),
+    alimentation: Math.round(adulteCosts.alimentation * nbAdultes),
+    restaurants:  Math.round(adulteCosts.restaurants  * nbAdultes),
+    transport:    Math.round(adulteCosts.transport    * nbAdultes),
+    sante:        Math.round((adulteCosts.sante + 15 * enfants.length) * nbAdultes),
+    enfants:      baseEnfants,
+    scolarite,
+    loisirs:      Math.round(adulteCosts.loisirrs  * nbAdultes),
+    beaute:       Math.round(adulteCosts.beaute   * nbAdultes),
+    abonnements:  Math.round(adulteCosts.abonnements * nbAdultes),
+    divers:       Math.round(adulteCosts.divers   * nbAdultes),
   }
 }
 
+const fmt = n => `${Math.round(n).toLocaleString('fr-FR')} €`
+
 export default function BudgetSimulator() {
   const navigate = useNavigate()
-
-  // ── Étape
-  const [step, setStep] = useState(1)
-
-  // ── Composition
+  const [step, setStep]       = useState(1)
   const [adultes, setAdultes] = useState(2)
-  const [enfants, setEnfants] = useState([]) // tableau de tranches ex: ['3-5', '6-11']
-
-  // ── Mode de vie
-  const [mode, setMode] = useState('std')
-
-  // ── Budget ajustable (null = utilise le default calculé)
+  const [enfants, setEnfants] = useState([])
+  const [ecoleType, setEcoleType] = useState('public')
+  const [mode, setMode]       = useState(null)
   const [overrides, setOverrides] = useState({})
 
-  const defaults = useMemo(() => calcDefaults(adultes, enfants, mode), [adultes, enfants, mode])
+  const hasScolaires = enfants.some(t => t !== '0-2')
+
+  const defaults = useMemo(
+    () => calcDefaults(adultes, enfants, mode || 'std', ecoleType),
+    [adultes, enfants, mode, ecoleType]
+  )
 
   const budget = useMemo(() => {
-    const result = {}
-    CATS.forEach(c => { result[c.id] = overrides[c.id] ?? defaults[c.id] })
-    return result
+    const base = defaults
+    const merged = {}
+    for (const k of Object.keys(base)) {
+      merged[k] = overrides[k] !== undefined ? overrides[k] : base[k]
+    }
+    return merged
   }, [defaults, overrides])
 
   const total = useMemo(() => Object.values(budget).reduce((a, b) => a + b, 0), [budget])
+  const maxVal = useMemo(() => Math.max(...Object.values(budget)), [budget])
 
+  function setVal(id, v) { setOverrides(o => ({ ...o, [id]: Math.max(0, v) })) }
   function resetOverrides() { setOverrides({}) }
-
-  function setVal(id, val) {
-    setOverrides(prev => ({ ...prev, [id]: Math.max(0, val) }))
-  }
 
   function addEnfant(tranche) {
     setEnfants(prev => [...prev, tranche])
-    setOverrides({})
+  }
+  function removeEnfant(i) {
+    setEnfants(prev => prev.filter((_, idx) => idx !== i))
   }
 
-  function removeEnfant(idx) {
-    setEnfants(prev => prev.filter((_, i) => i !== idx))
-    setOverrides({})
-  }
+  const visibleCats = CATS.filter(c => {
+    if (c.id === 'enfants' && enfants.length === 0) return false
+    if (c.id === 'scolarite' && !hasScolaires) return false
+    return true
+  })
 
-  function goStep2() { resetOverrides(); setStep(2) }
-  function goStep3() { resetOverrides(); setStep(3) }
-
-  // ── Barre de progression
-  const maxVal = Math.max(...Object.values(budget), 1)
-
+  /* ── RENDER ── */
   return (
-    <div style={{ background: 'var(--bg)', minHeight: '100vh', paddingBottom: 100 }}>
-
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', paddingBottom: step === 3 ? 120 : 80 }}>
       {/* Header */}
-      <div style={{ background: 'var(--foret)', padding: '20px 16px 14px', position: 'sticky', top: 0, zIndex: 50 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-          <button onClick={() => step > 1 ? setStep(s => s - 1) : navigate(-1)} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8, color: '#fff', padding: '6px 10px', cursor: 'pointer', fontSize: 16 }}>←</button>
-          <div style={{ flex: 1 }}>
-            <h1 style={{ margin: 0, fontSize: 18, fontFamily: 'var(--font-titre)', color: '#fff', fontWeight: 600 }}>Budget mensuel</h1>
-            <p style={{ margin: 0, fontSize: 11, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>
-              {step === 1 ? 'Étape 1 / 3 — Composition familiale' : step === 2 ? 'Étape 2 / 3 — Mode de vie' : 'Étape 3 / 3 — Mon budget détaillé'}
-            </p>
-          </div>
-          {step === 3 && (
-            <div style={{ textAlign: 'right' }}>
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>Total / mois</div>
-              <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--gold)', fontFamily: 'Inter, sans-serif' }}>{fmt(total)}</div>
-            </div>
-          )}
-        </div>
-        {/* Progress dots */}
-        <div style={{ display: 'flex', gap: 6, marginTop: 10, justifyContent: 'center' }}>
-          {[1,2,3].map(s => (
-            <div key={s} style={{ width: s === step ? 24 : 8, height: 6, borderRadius: 3, background: s <= step ? 'var(--vert)' : 'rgba(255,255,255,0.25)', transition: 'all 0.3s' }} />
-          ))}
-        </div>
+      <div style={{ background: 'var(--foret)', padding: '14px 16px', display: 'flex', alignItems: 'center', gap: 12, position: 'sticky', top: 0, zIndex: 10 }}>
+        <button onClick={() => step > 1 ? setStep(s => s - 1) : navigate(-1)}
+          style={{ background: 'none', border: 'none', color: '#fff', fontSize: 20, cursor: 'pointer', padding: 0 }}>←</button>
+        <h1 style={{ margin: 0, fontSize: 18, fontFamily: 'var(--font-titre)', color: '#fff', fontWeight: 600 }}>Budget mensuel</h1>
+        {step === 3 && (
+          <span style={{ marginLeft: 'auto', fontSize: 15, fontWeight: 700, color: 'var(--gold)', fontFamily: 'Inter, sans-serif' }}>{fmt(total)}</span>
+        )}
       </div>
 
-      <div style={{ padding: '16px' }}>
+      <div style={{ padding: '16px', maxWidth: 540, margin: '0 auto' }}>
 
-        {/* ═══════════════════════════════════
-            ÉTAPE 1 — COMPOSITION FAMILIALE
-            ═══════════════════════════════════ */}
+        {/* ── STEP 1 : Composition ── */}
         {step === 1 && (
           <div>
-            <div style={{ background: '#fff', borderRadius: 14, padding: '18px 16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
-              <h2 style={{ margin: '0 0 14px', fontFamily: 'var(--font-titre)', fontSize: 17, color: 'var(--foret)' }}>Combien d'adultes ?</h2>
-              <div style={{ display: 'flex', gap: 10 }}>
-                {[1, 2].map(n => (
-                  <button key={n} onClick={() => setAdultes(n)} style={{
-                    flex: 1, padding: '14px 0', borderRadius: 10, cursor: 'pointer',
-                    fontFamily: 'Inter, sans-serif', fontSize: 14, fontWeight: adultes === n ? 700 : 400,
-                    background: adultes === n ? 'var(--vert)' : 'var(--gris)',
-                    color: adultes === n ? '#fff' : 'var(--noir)',
-                    border: adultes === n ? '2px solid var(--vert)' : '2px solid transparent',
-                  }}>
-                    {n === 1 ? '🧑 Seul(e)' : '👫 En couple'}
-                  </button>
+            <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
+              <h2 style={{ margin: '0 0 14px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>Étape 1 / 3 — Composition familiale</h2>
+
+              {/* Adultes */}
+              <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>Combien d'adultes ?</p>
+              <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
+                {[{ n: 1, label: '🧑 Seul(e)' }, { n: 2, label: '👫 En couple' }].map(o => (
+                  <button key={o.n} onClick={() => setAdultes(o.n)} style={{
+                    flex: 1, padding: '10px', borderRadius: 10, border: `2px solid ${adultes === o.n ? 'var(--vert)' : '#ddd'}`,
+                    background: adultes === o.n ? 'var(--vert)' : '#fff', color: adultes === o.n ? '#fff' : 'var(--noir)',
+                    fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer', fontWeight: adultes === o.n ? 700 : 400,
+                  }}>{o.label}</button>
                 ))}
               </div>
-            </div>
 
-            <div style={{ background: '#fff', borderRadius: 14, padding: '18px 16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
-              <h2 style={{ margin: '0 0 4px', fontFamily: 'var(--font-titre)', fontSize: 17, color: 'var(--foret)' }}>Enfants à charge</h2>
-              <p style={{ margin: '0 0 14px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>Cliquez sur une tranche d'âge pour ajouter un enfant</p>
-
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 14 }}>
+              {/* Enfants */}
+              <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>Enfants à charge</p>
+              <p style={{ margin: '0 0 10px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>Cliquez sur une tranche d'âge pour ajouter un enfant</p>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
                 {TRANCHES.map(t => (
                   <button key={t} onClick={() => addEnfant(t)} style={{
-                    padding: '10px 8px', borderRadius: 10, cursor: 'pointer', border: '2px dashed #ccc',
-                    background: 'var(--lin)', fontFamily: 'Inter, sans-serif', fontSize: 12, color: 'var(--foret)',
-                    display: 'flex', alignItems: 'center', gap: 6, justifyContent: 'center',
+                    display: 'flex', alignItems: 'center', gap: 8, padding: '9px 12px',
+                    borderRadius: 10, border: '1.5px solid var(--gris)', background: 'var(--lin)',
+                    cursor: 'pointer', fontFamily: 'Inter, sans-serif',
                   }}>
                     <span style={{ fontSize: 16 }}>+</span>
-                    <span style={{ lineHeight: 1.2, textAlign: 'left' }}>{TRANCHE_LABELS[t]}</span>
+                    <span style={{ lineHeight: 1.2, textAlign: 'left', fontSize: 12, color: 'var(--noir)' }}>{TRANCHE_LABELS[t]}</span>
                   </button>
                 ))}
               </div>
-
-              {enfants.length > 0 && (
-                <div>
-                  <p style={{ margin: '0 0 8px', fontSize: 12, fontWeight: 600, color: 'var(--foret)', fontFamily: 'Inter, sans-serif' }}>Enfants ajoutés :</p>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                    {enfants.map((t, i) => (
-                      <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 6, background: 'var(--vert)', borderRadius: 20, padding: '5px 10px' }}>
-                        <span style={{ fontSize: 12, color: '#fff', fontFamily: 'Inter, sans-serif' }}>{TRANCHE_LABELS[t]}</span>
-                        <button onClick={() => removeEnfant(i)} style={{ background: 'none', border: 'none', color: 'rgba(255,255,255,0.8)', cursor: 'pointer', fontSize: 14, padding: '0 2px', lineHeight: 1 }}>×</button>
-                      </div>
-                    ))}
-                  </div>
+              {enfants.length > 0 ? (
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 8 }}>
+                  {enfants.map((t, i) => (
+                    <button key={i} onClick={() => removeEnfant(i)} style={{
+                      display: 'flex', alignItems: 'center', gap: 5, padding: '5px 10px',
+                      borderRadius: 20, background: 'var(--foret)', border: 'none', cursor: 'pointer',
+                    }}>
+                      <span style={{ fontSize: 12, color: '#fff', fontFamily: 'Inter, sans-serif' }}>{TRANCHE_LABELS[t]}</span>
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>✕</span>
+                    </button>
+                  ))}
                 </div>
-              )}
-
-              {enfants.length === 0 && (
-                <p style={{ margin: 0, fontSize: 12, color: 'var(--texte-sec)', fontStyle: 'italic', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '6px 0' }}>Aucun enfant — modifiez si besoin</p>
+              ) : (
+                <p style={{ margin: 0, fontSize: 12, color: 'var(--texte-sec)', fontStyle: 'italic', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '6px 0' }}>
+                  Aucun enfant — modifiez si besoin
+                </p>
               )}
             </div>
 
-            <button onClick={goStep2} style={{
-              width: '100%', padding: '15px', borderRadius: 12, border: 'none', cursor: 'pointer',
-              background: 'var(--foret)', color: '#fff', fontSize: 15, fontWeight: 600, fontFamily: 'Inter, sans-serif',
+            {/* Choix d'école — visible seulement si enfants d'âge scolaire */}
+            {hasScolaires && (
+              <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
+                <h2 style={{ margin: '0 0 6px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>🏫 Type d'école</h2>
+                <p style={{ margin: '0 0 12px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+                  Pour {enfants.filter(t => t !== '0-2').length} enfant{enfants.filter(t => t !== '0-2').length > 1 ? 's' : ''} d'âge scolaire
+                </p>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+                  {ECOLEEOPTIONS.map(opt => (
+                    <button key={opt.id} onClick={() => setEcoleType(opt.id)} style={{
+                      display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
+                      padding: '11px 14px', borderRadius: 11,
+                      border: `2px solid ${ecoleType === opt.id ? 'var(--vert)' : '#ddd'}`,
+                      background: ecoleType === opt.id ? '#f0faf9' : '#fff',
+                      cursor: 'pointer', textAlign: 'left',
+                    }}>
+                      <span style={{ fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>{opt.label}</span>
+                      <span style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', marginTop: 2 }}>{opt.sub}</span>
+                    </button>
+                  ))}
+                </div>
+                <p style={{ margin: '10px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.5 }}>
+                  📋 Sources : <a href="https://www.lfp.edu.es" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>Lycée Français de Palma</a> (barème AEFE 2024-2025) · Govern Balear Educació
+                </p>
+              </div>
+            )}
+
+            <button onClick={() => setStep(2)} style={{
+              width: '100%', padding: '14px', borderRadius: 12, border: 'none',
+              background: 'var(--foret)', color: '#fff', fontSize: 15, fontWeight: 700,
+              fontFamily: 'Inter, sans-serif', cursor: 'pointer',
             }}>
-              Continuer → Mode de vie
+              Choisir mon mode de vie →
             </button>
           </div>
         )}
 
-        {/* 2 */}
+        {/* ── STEP 2 : Mode de vie ── */}
         {step === 2 && (
           <div>
-            <p style={{ margin: '0 0 16px', fontSize: 13, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.5, textAlign: 'center' }}>
-              Choisissez le niveau qui correspond à votre style de vie souhaité à Majorque.
-              <br />Les montants sont ajustables à l'étape suivante.
-            </p>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 20 }}>
-             {MODES.map(m => {
-                const preview = calcDefaults(adultes, enfants, m.id)
-                const previewTotal = Object.values(preview).reduce((a, b) => a + b, 0)
-                return (
-                  <button key={m.id} onClick={() => setMode(m.id)} style={{
-                    background: mode === m.id ? 'var(--foret)' : '#fff',
-                    border: mode === m.id ? '2px solid var(--foret)' : '2px solid var(--gris)',
-                    borderRadius: 14, padding: '16px', cursor: 'pointer', textAlign: 'left',
-                    boxShadow: mode === m.id ? '0 2px 8px rgba(45,80,22,0.15)' : '0 1px 4px rgba(0,0,0,0.06)',
-                    transition: 'all 0.2s',
-                  }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-                      <span style={{ fontSize: 16, fontFamily: 'var(--font-titre)', fontWeight: 600, color: mode === m.id ? '#fff' : 'var(--foret)' }}>
-                        {m.emoji} {m.label}
-                      </span>
-                      <span style={{ fontSize: 16, fontWeight: 700, color: mode === m.id ? 'var(--gold)' : 'var(--foret)', fontFamily: 'Inter, sans-serif', whiteSpace: 'nowrap' }}>
-                        ~{fmt(previewTotal)}
-                      </span>
-                    </div>
-                    <p style={{ margin: 0, fontSize: 12, color: mode === m.id ? 'rgba(255,255,255,0.75)' : 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>{m.desc}</p>
-                  </button>
-                )
-              })}
+            <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
+              <h2 style={{ margin: '0 0 6px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>Étape 2 / 3 — Mode de vie</h2>
+              <p style={{ margin: '0 0 14px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+                {adultes === 1 ? '🧑 Seul(e)' : '👫 En couple'}
+                {enfants.length > 0 && ` + ${enfants.length} enfant${enfants.length > 1 ? 's' : ''}`}
+                {hasScolaires && ` · ${ECOLEEOPTIONS.find(o => o.id === ecoleType)?.label}`}
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {MODES.map(m => {
+                  const preview = calcDefaults(adultes, enfants, m.id, ecoleType)
+                  const previewTotal = Object.values(preview).reduce((a, b) => a + b, 0)
+                  return (
+                    <button key={m.id} onClick={() => setMode(m.id)} style={{
+                      display: 'flex', alignItems: 'center', gap: 14, padding: '14px',
+                      borderRadius: 12, border: `2px solid ${mode === m.id ? 'var(--vert)' : '#ddd'}`,
+                      background: mode === m.id ? '#f0faf9' : '#fff', cursor: 'pointer', textAlign: 'left',
+                    }}>
+                      <span style={{ fontSize: 28 }}>{m.emoji}</span>
+                      <div style={{ flex: 1 }}>
+                        <div style={{ fontWeight: 700, fontFamily: 'Inter, sans-serif', color: 'var(--noir)', fontSize: 14 }}>{m.label}</div>
+                        <div style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', marginTop: 2 }}>{m.desc}</div>
+                      </div>
+                      <div style={{ textAlign: 'right' }}>
+                        <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--foret)', fontFamily: 'Inter, sans-serif' }}>{fmt(previewTotal)}</div>
+                        <div style={{ fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>/mois</div>
+                      </div>
+                    </button>
+                  )
+                })}
+              </div>
             </div>
-
-            <p style={{ margin: '0 0 16px', fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', textAlign: 'center' }}>
-              Estimations basées sur · <a href={INE_SOURCE} target="_blank" rel="noreferrer" style={{ color: 'var(--vert)', textDecoration: 'none' }}>INE Encuesta de Presupuestos Familiares 2023</a> · Illes Balears
-            </p>
-
-            <button onClick={goStep3} style={{
-              width: '100%', padding: '15px', borderRadius: 12, border: 'none', cursor: 'pointer',
-              background: 'var(--foret)', color: '#fff', fontSize: 15, fontWeight: 600, fontFamily: 'Inter, sans-serif',
-            }}>
-              Voir mon budget détaillé →
+            <button
+              onClick={() => { if (!mode) setMode('std'); setStep(3) }}
+              disabled={false}
+              style={{
+                width: '100%', padding: '14px', borderRadius: 12, border: 'none',
+                background: 'var(--foret)', color: '#fff', fontSize: 15, fontWeight: 700,
+                fontFamily: 'Inter, sans-serif', cursor: 'pointer',
+              }}>
+              Voir le détail et ajuster →
             </button>
           </div>
         )}
 
-        {/* 3 */}
+        {/* ── STEP 3 : Ajustement ── */}
         {step === 3 && (
           <div>
             {/* Récap */}
@@ -284,6 +314,11 @@ export default function BudgetSimulator() {
               <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
                 {MODES.find(m => m.id === mode)?.emoji} {MODES.find(m => m.id === mode)?.label}
               </span>
+              {hasScolaires && (
+                <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+                  {ECOLE_OPTIONS.find(o => o.id === ecoleType)?.label.split(' ').slice(0, 3).join(' ')}
+                </span>
+              )}
               <button onClick={() => setStep(1)} style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--vert)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>Modifier</button>
             </div>
 
@@ -291,7 +326,7 @@ export default function BudgetSimulator() {
             <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
               <h2 style={{ margin: '0 0 14px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>📊 Répartition mensuelle</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {CATS.filter(c => budget[c.id] > 0).sort((a, b) => budget[b.id] - budget[a.id]).map(c => (
+                {visibleCats.filter(c => budget[c.id] > 0).sort((a, b) => budget[b.id] - budget[a.id]).map(c => (
                   <div key={c.id}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
                       <span style={{ fontSize: 12, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>{c.emoji} {c.label}</span>
@@ -315,7 +350,7 @@ export default function BudgetSimulator() {
                 <button onClick={resetOverrides} style={{ fontSize: 11, color: 'var(--vert)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>Réinitialiser</button>
               </div>
 
-              {CATS.map(cat => (
+              {visibleCats.map(cat => (
                 <div key={cat.id} style={{ marginBottom: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
                     <label style={{ fontSize: 13, fontFamily: 'Inter, sans-serif', color: 'var(--noir)', fontWeight: 500 }}>{cat.emoji} {cat.label}</label>
@@ -356,29 +391,31 @@ export default function BudgetSimulator() {
                   )}
                   {cat.id === 'transport' && (
                     <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
-                      🚌 Abonnement mensuel EMT Palma ~30 ₢ · <a href="https://www.emtpalma.cat/fr/tarifs" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)', textDecoration: 'none' }}>emtpalma.cat/tarifs</a>
+                      🚌 Abonnement mensuel EMT Palma ~30 € · <a href="https://www.emtpalma.cat/fr/tarifs" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)', textDecoration: 'none' }}>emtpalma.cat/tarifs</a>
                     </p>
                   )}
-                  {cat.id === 'enfants' && enfants.length === 0 && (
-                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', fontStyle: 'italic' }}>Aucun enfant déclaré — ajustez si besoin</p>
+                  {cat.id === 'scolarite' && (
+                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
+                      🏫 {ECOLE_OPTIONS.find(o => o.id === ecoleType)?.label} — {ECOLE_OPTIONS.find(o => o.id === ecoleType)?.sub}
+                    </p>
                   )}
                 </div>
               ))}
             </div>
 
-            {/* Total recap */}
+            {/* Total récapitulatif */}
             <div style={{ background: 'var(--foret)', borderRadius: 16, padding: '20px 16px', marginBottom: 20 }}>
               <h2 style={{ margin: '0 0 16px', fontFamily: 'var(--font-titre)', fontSize: 19, color: '#fff' }}>💶 Mon budget estimé</h2>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
                 {['Logement', 'Alimentation', 'Transport', 'Santé', 'Famille', 'Loisirs', 'Perso'].map(group => {
-                  const cats = CATS.filter(c => c.group === group)
-                  const groupTotal = cats.reduce((s, c) => s + budget[c.id], 0)
+                  const cats = visibleCats.filter(c => c.group === group)
+                  const groupTotal = cats.reduce((s, c) => s + (budget[c.id] || 0), 0)
                   if (groupTotal === 0) return null
                   return (
                     <div key={group} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                       <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontFamily: 'Inter, sans-serif' }}>
-                        {cats[0].emoji} {group}
+                        {cats[0]?.emoji} {group}
                       </span>
                       <span style={{ fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'Inter, sans-serif' }}>{fmt(groupTotal)}</span>
                     </div>
@@ -387,29 +424,29 @@ export default function BudgetSimulator() {
               </div>
 
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.25)', paddingTop: 14 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-                  <span style={{ fontSize: 15, color: '#fff', fontFamily: 'Inter, sans-serif', fontWeight: 500 }}>Total mensuel</span>
-                  <span style={{ fontSize: 22, fontWeight: 700, color: 'var(--gold)', fontFamily: 'Inter, sans-serif' }}>{fmt(total)}</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+                  <span style={{ fontSize: 16, color: '#fff', fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>Total mensuel</span>
+                  <span style={{ fontSize: 28, fontWeight: 800, color: 'var(--gold)', fontFamily: 'Inter, sans-serif' }}>{fmt(total)}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>Projection annuelle</span>
-                  <span style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.85)', fontFamily: 'Inter, sans-serif' }}>{fmt(total * 12)}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>Soit par an</span>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: 'rgba(255,255,255,0.9)', fontFamily: 'Inter, sans-serif' }}>{fmt(total * 12)}</span>
                 </div>
               </div>
 
               <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px', marginTop: 14 }}>
                 <p style={{ margin: '0 0 6px', fontSize: 12, color: 'rgba(255,255,255,0.8)', fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>💡 Revenu net nécessaire</p>
                 <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.7)', fontFamily: 'Inter, sans-serif', lineHeight: 1.5 }}>
-                  Pour couvrir ce budget + 15 % d'épargne recommandée, viser ≥ <strong style={{ color: '#fff' }}>{fmt(Math.round(total * 1.15))}/mois net</strong>.
-                  {' '}En autónomo (régime RETA), prévoyez 41 % supplémentaires pour les charges (IVA, IRPF, cotización).
+                  Budget + 15 % d'épargne → viser ≥ <strong style={{ color: '#fff' }}>{fmt(Math.round(total * 1.15))}/mois net</strong>.
+                  {' '}En autónomo (RETA), prévoir 41 % supplémentaires (IVA + IRPF + cotización).
                 </p>
               </div>
             </div>
 
-            {/* Avertissement */}
+            {/* Sources */}
             <div style={{ background: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 20, border: '1px solid var(--gris)' }}>
               <p style={{ margin: 0, fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
-                📋 <strong>Sources :</strong> Estimations fondées sur l'<a href={INE_SOURCE} target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>INE Encuesta de Presupuestos Familiares 2023 (Illes Balears)</a>, tarifs officiels <a href="https://www.emtpalma.cat/fr/tarifs" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>EMT Palma</a> et <a href="https://www.tib.org/ca/el-tib/tarifes" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>TIB Baléares</a>. Ce simulateur est indicatif — les dépenses réelles varient selon la zone géographique, la saison et les choix personnels.
+                📋 <strong>Sources :</strong> <a href={INE_SOURCE} target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>INE EPF 2023 — Illes Balears</a> · <a href="https://www.emtpalma.cat/fr/tarifs" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>EMT Palma</a> · <a href="https://www.tib.org/ca/el-tib/tarifes" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>TIB Baléares</a> · <a href="https://www.lfp.edu.es" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>LFP — barème AEFE 2024-2025</a>. Ce simulateur est indicatif.
               </p>
             </div>
 
@@ -417,6 +454,25 @@ export default function BudgetSimulator() {
         )}
 
       </div>
+
+      {/* ── BARRE STICKY TOTAL (step 3 uniquement) ── */}
+      {step === 3 && (
+        <div style={{
+          position: 'fixed', bottom: 60, left: 0, right: 0, zIndex: 20,
+          background: 'var(--foret)', boxShadow: '0 -2px 12px rgba(0,0,0,0.2)',
+          padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        }}>
+          <div>
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif', textTransform: 'uppercase', letterSpacing: 0.5 }}>Total mensuel</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--gold)', fontFamily: 'Inter, sans-serif', lineHeight: 1.1 }}>{fmt(total)}</div>
+          </div>
+          <div style={{ textAlign: 'right' }}>
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>Par an</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.9)', fontFamily: 'Inter, sans-serif' }}>{fmt(total * 12)}</div>
+          </div>
+        </div>
+      )}
+
     </div>
   )
 }
