@@ -226,7 +226,7 @@ export default function BudgetSimulator() {
                   Pour {enfants.filter(t => t !== '0-2').length} enfant{enfants.filter(t => t !== '0-2').length > 1 ? 's' : ''} d'âge scolaire
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                  {ECOLEEOPTIONS.map(opt => (
+                  {ECOLE_OPTIONS.map(opt => (
                     <button key={opt.id} onClick={() => setEcoleType(opt.id)} style={{
                       display: 'flex', flexDirection: 'column', alignItems: 'flex-start',
                       padding: '11px 14px', borderRadius: 11,
@@ -263,7 +263,7 @@ export default function BudgetSimulator() {
               <p style={{ margin: '0 0 14px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
                 {adultes === 1 ? '🧑 Seul(e)' : '👫 En couple'}
                 {enfants.length > 0 && ` + ${enfants.length} enfant${enfants.length > 1 ? 's' : ''}`}
-                {hasScolaires && ` · ${ECOLEEOPTIONS.find(o => o.id === ecoleType)?.label}`}
+                {hasScolaires && ` · ${ECOLE_OPTIONS.find(o => o.id === ecoleType)?.label}`}
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
                 {MODES.map(m => {

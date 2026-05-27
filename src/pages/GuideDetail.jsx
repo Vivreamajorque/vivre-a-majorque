@@ -40,28 +40,7 @@ export default function GuideDetail() {
                 Source : {guide.source}
               </p>
             )}
-            {guide.lien && (
-              <a
-                href={guide.lien}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{
-                  display: 'inline-flex',
-                  alignItems: 'center',
-                  gap: 6,
-                  fontSize: 13,
-                  color: '#fff',
-                  background: 'var(--vert)',
-                  padding: '8px 14px',
-                  borderRadius: 8,
-                  textDecoration: 'none',
-                  marginTop: 8,
-                  fontWeight: 500,
-                }}
-              >
-                📋 Formulaire officiel →
-              </a>
-            )}
+
           </div>
         )}
 
