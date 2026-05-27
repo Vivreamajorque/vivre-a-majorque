@@ -286,26 +286,6 @@ export default function Home() {
         ))}
       </div>
 
-      {/* ── Annuaire (TERRA — alternance 7) ────────────── */}
-      <Link to="/app/annuaire" style={{ textDecoration: 'none', display: 'block', marginBottom: 10 }}>
-        <div style={{
-          background: `${TERRA}09`, border: `1.5px solid ${TERRA}35`,
-          borderRadius: 14, padding: '14px 18px',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'center',
-        }}>
-          <div>
-            <AccentWord color={TERRA} size={20}>Annuaire</AccentWord>
-            <span style={{
-              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontSize: 13, color: 'var(--texte-sec)', display: 'block', marginTop: 2,
-            }}>
-              Pros francophones à Majorque
-            </span>
-          </div>
-          <span style={{ fontSize: 24 }}>📍</span>
-        </div>
-      </Link>
-
     </div>
   )
 }
