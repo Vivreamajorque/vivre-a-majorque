@@ -33,8 +33,8 @@ export default function Onboarding() {
         {step === 1 && (
           <>
             <div style={{ marginBottom: 36 }}>
-              <ContextLabel color={VERT} size={16}>comment tu</ContextLabel>
-              <DisplayTitle size={42}>t'appelles ?</DisplayTitle>
+              <ContextLabel color={VERT} size={16}>entrez</ContextLabel>
+              <DisplayTitle size={42}>votre prénom</DisplayTitle>
               <Trait color={TERRA} width={44} />
               <p style={{
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
