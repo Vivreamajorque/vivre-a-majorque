@@ -141,12 +141,15 @@ export function PaywallModal({ isOpen, onClose }) {
               onClick={() => setView('login')}
               style={{
                 display: 'block', width: '100%', textAlign: 'center',
-                background: 'transparent', border: 'none',
-                color: 'var(--texte-sec)', fontSize: 13,
-                cursor: 'pointer', padding: '8px 0', textDecoration: 'underline',
+                background: 'white',
+                border: '1.5px solid var(--foret)',
+                borderRadius: 10,
+                color: 'var(--foret)', fontSize: 14,
+                fontWeight: 600,
+                cursor: 'pointer', padding: '12px 0',
               }}
             >
-              J'ai déjà un abonnement
+              J'ai déjà un abonnement →
             </button>
           </>
         )}
