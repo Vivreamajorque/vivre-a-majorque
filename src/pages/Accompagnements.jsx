@@ -22,6 +22,7 @@ const OFFRES = [
     ],
     pour: 'Pour les indécis qui veulent tester avant de s\'engager',
     sujet: 'Demande Visio Conseil — 99€',
+    stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J',
   },
   {
     id: 'cap',
@@ -42,6 +43,7 @@ const OFFRES = [
     ],
     pour: 'Familles, salariés en remote, retraités — ceux qui ne veulent pas avancer seuls',
     sujet: 'Demande Cap Majorque — 249€',
+    stripeUrl: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K',
   },
   {
     id: 'eclaireur',
@@ -61,6 +63,7 @@ const OFFRES = [
     ],
     pour: 'Entrepreneurs, indépendants, créateurs d\'activité à Majorque',
     sujet: 'Demande Audit Éclaireur — 290€',
+    stripeUrl: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L',
   },
   {
     id: 'integrale',
@@ -82,6 +85,7 @@ const OFFRES = [
     ],
     pour: 'Entrepreneurs qui déménagent leur vie ET leur activité à Majorque',
     sujet: 'Demande Installation Intégrale — 449€',
+    stripeUrl: 'https://buy.stripe.com/eVq00i95q9G16tq6jz6AM0M',
   },
 ]
 
@@ -89,13 +93,17 @@ function OffreCard({ offre }) {
   const [ouvert, setOuvert] = useState(false)
 
   const handleReserver = () => {
-    const body = encodeURIComponent(
-      `Bonjour Amely,\n\nJe souhaite réserver "${offre.titre}" à ${offre.prix}.\n\nMon projet : \n\nMa situation actuelle : \n\nMa timeline envisagée : \n\nMerci !`
-    )
-    window.open(
-      `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(offre.sujet)}&body=${body}`,
-      '_blank'
-    )
+    if (offre.stripeUrl) {
+      window.open(offre.stripeUrl, '_blank', 'noopener,noreferrer')
+    } else {
+      const body = encodeURIComponent(
+        `Bonjour Amely,\n\nJe souhaite réserver "${offre.titre}" à ${offre.prix}.\n\nMon projet : \n\nMa situation actuelle : \n\nMa timeline envisagée : \n\nMerci !`
+      )
+      window.open(
+        `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(offre.sujet)}&body=${body}`,
+        '_blank'
+      )
+    }
   }
 
   return (
