@@ -4,34 +4,35 @@ import { useNotionDB, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 
 const CAT_COLORS = {
-  'Admin':       { bg: '#EBF3E4', border: 'rgba(90,122,64,0.25)',  text: '#2D5016' },
-  'Visa':        { bg: '#E8F4F0', border: 'rgba(90,180,140,0.25)', text: '#1a5940' },
-  'Logement':    { bg: '#F5E8E0', border: 'rgba(196,122,90,0.25)', text: '#7a3e22' },
-  'Emploi':      { bg: '#EAE4F5', border: 'rgba(110,80,180,0.25)', text: '#3d2070' },
-  'Lifestyle':   { bg: '#FEF9E7', border: 'rgba(176,125,42,0.25)', text: '#7a6010' },
-  'Nouveauté':   { bg: '#E4F0F5', border: 'rgba(42,130,176,0.25)', text: '#104a6a' },
-  'Application': { bg: '#EBF3E4', border: 'rgba(45,80,22,0.25)',   text: '#2D5016' },
-  'Alerte':      { bg: '#FEE8E4', border: 'rgba(196,80,70,0.25)',  text: '#8a2010' },
+  'Admin':       { bg: '#EBF3E4', border: 'rgba(90,122,64,0.25)',   text: '#2D5016' },
+  'Fiscal':      { bg: '#FEF3E7', border: 'rgba(176,100,42,0.25)',  text: '#7a4510' },
+  'Logement':    { bg: '#F5E8E0', border: 'rgba(196,122,90,0.25)',  text: '#7a3e22' },
+  'Santé':       { bg: '#E8F4F0', border: 'rgba(60,160,120,0.25)',  text: '#1a5940' },
+  'Voiture':     { bg: '#F0F0F0', border: 'rgba(100,100,100,0.2)',  text: '#444'    },
+  'Famille':     { bg: '#F9E8F0', border: 'rgba(180,80,130,0.2)',   text: '#6a1840' },
+  'Travail':     { bg: '#EAE4F5', border: 'rgba(110,80,180,0.25)',  text: '#3d2070' },
+  'Événement':   { bg: '#FEE8E4', border: 'rgba(196,80,70,0.25)',   text: '#8a2010' },
+  'Vie pratique':{ bg: '#E4F0F5', border: 'rgba(42,130,176,0.25)',  text: '#104a6a' },
+}
+
+const CAT_EMOJIS = {
+  'Admin': '📋', 'Fiscal': '💶', 'Logement': '🏠', 'Santé': '🏥',
+  'Voiture': '🚗', 'Famille': '👨‍👩‍👧', 'Travail': '💼',
+  'Événement': '🎉', 'Vie pratique': '🌿',
 }
 
 function catStyle(cat) {
   return CAT_COLORS[cat] || { bg: 'var(--gris)', border: 'rgba(0,0,0,0.1)', text: 'var(--texte-sec)' }
 }
 
-function formatDate(dateStr) {
-  if (!dateStr) return ''
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })
-}
-
 function formatDateShort(dateStr) {
   if (!dateStr) return ''
-  const d = new Date(dateStr)
-  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
+  return new Date(dateStr).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
 }
 
 function ActuCard({ actu }) {
   const cs = catStyle(actu.categorie)
+  const emoji = CAT_EMOJIS[actu.categorie] || '📰'
 
   const inner = (
     <div style={{
@@ -40,24 +41,19 @@ function ActuCard({ actu }) {
       borderRadius: 14,
       padding: '18px 16px',
       marginBottom: 10,
-      transition: 'box-shadow 0.15s',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: 0,
     }}>
-      {/* Top row: badge + date */}
+
+      {/* Top row: badge catégorie + date */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {actu.categorie && (
-            <span style={{
-              fontSize: 11, fontWeight: 700, padding: '3px 9px', borderRadius: 20,
-              background: cs.bg, border: `1px solid ${cs.border}`, color: cs.text,
-              letterSpacing: 0.2,
-            }}>
-              {actu.categorie}
-            </span>
-          )}
-        </div>
+        {actu.categorie ? (
+          <span style={{
+            fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
+            background: cs.bg, border: `1px solid ${cs.border}`, color: cs.text,
+            letterSpacing: 0.2,
+          }}>
+            {emoji} {actu.categorie}
+          </span>
+        ) : <span />}
         {actu.date && (
           <span style={{ fontSize: 11, color: 'var(--texte-sec)', flexShrink: 0 }}>
             {formatDateShort(actu.date)}
@@ -72,36 +68,60 @@ function ActuCard({ actu }) {
         fontWeight: 700,
         color: 'var(--foret)',
         lineHeight: 1.35,
-        marginBottom: actu.accroche ? 8 : 0,
+        marginBottom: actu.resume ? 10 : 0,
       }}>
         {actu.title}
       </p>
 
-      {/* Accroche */}
-      {actu.accroche && (
+      {/* Résumé complet */}
+      {actu.resume && (
         <p style={{
           fontSize: 13,
-          color: 'var(--texte-sec)',
-          lineHeight: 1.6,
-          marginBottom: actu.lien ? 12 : 0,
+          color: '#444',
+          lineHeight: 1.65,
+          marginBottom: (actu.tags?.length || actu.lien) ? 12 : 0,
         }}>
-          {actu.accroche}
+          {actu.resume}
         </p>
       )}
 
-      {/* CTA */}
+      {/* Tags */}
+      {actu.tags?.length > 0 && (
+        <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: actu.lien ? 12 : 0 }}>
+          {actu.tags.map(tag => (
+            <span key={tag} style={{
+              fontSize: 10, padding: '2px 8px', borderRadius: 20,
+              background: 'var(--gris)', color: 'var(--texte-sec)',
+              fontWeight: 500,
+            }}>
+              {tag}
+            </span>
+          ))}
+        </div>
+      )}
+
+      {/* Source */}
       {actu.lien && (
-        <div style={{ marginTop: 4 }}>
+        <div style={{
+          display: 'flex', alignItems: 'center', gap: 8,
+          paddingTop: 12,
+          borderTop: '1px solid rgba(0,0,0,0.06)',
+        }}>
+          <span style={{ fontSize: 11, color: 'var(--texte-sec)', flexShrink: 0 }}>🔗 Source :</span>
           <span style={{
-            fontSize: 13,
+            fontSize: 12,
             fontWeight: 600,
-            color: 'var(--vert, #7EC8C0)',
+            color: 'var(--vert-dark, #2D5016)',
             textDecoration: 'underline',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+            whiteSpace: 'nowrap',
           }}>
-            En savoir plus →
+            {actu.sourceDomain || 'Lire l\'article →'}
           </span>
         </div>
       )}
+
     </div>
   )
 
@@ -124,6 +144,7 @@ export default function Actualites() {
   const actus = useMemo(() => {
     return data
       .map(parseActu)
+      .filter(a => a.actif !== false)
       .sort((a, b) => {
         if (!a.date && !b.date) return 0
         if (!a.date) return 1
@@ -132,7 +153,6 @@ export default function Actualites() {
       })
   }, [data])
 
-  // Catégories disponibles dans les données
   const categories = useMemo(() => {
     const seen = new Set()
     actus.forEach(a => { if (a.categorie) seen.add(a.categorie) })
@@ -144,7 +164,7 @@ export default function Actualites() {
     return actus.filter(a => a.categorie === activeCat)
   }, [actus, activeCat])
 
-  // Regrouper par mois
+  // Grouper par mois
   const grouped = useMemo(() => {
     const map = {}
     filtered.forEach(a => {
@@ -161,6 +181,7 @@ export default function Actualites() {
 
   return (
     <div className="page">
+
       {/* Header */}
       <div className="page-header">
         <button
@@ -174,7 +195,6 @@ export default function Actualites() {
         >
           ← <span>Explorer</span>
         </button>
-
         <h1 style={{
           fontFamily: 'var(--font-titre)', fontSize: 24,
           color: 'var(--foret)', marginBottom: 4,
@@ -207,7 +227,7 @@ export default function Actualites() {
                   fontWeight: active ? 700 : 500,
                   border: active
                     ? `1.5px solid ${cat === 'Toutes' ? 'var(--foret)' : cs.border}`
-                    : '1.5px solid var(--gris)',
+                    : '1.5px solid rgba(0,0,0,0.1)',
                   background: active
                     ? (cat === 'Toutes' ? 'var(--foret)' : cs.bg)
                     : 'white',
@@ -218,7 +238,7 @@ export default function Actualites() {
                   transition: 'all 0.15s',
                 }}
               >
-                {cat}
+                {CAT_EMOJIS[cat] ? `${CAT_EMOJIS[cat]} ` : ''}{cat}
               </button>
             )
           })}
@@ -232,18 +252,15 @@ export default function Actualites() {
 
       {/* Vide */}
       {!loading && filtered.length === 0 && (
-        <div style={{ textAlign: 'center', color: 'var(--texte-sec)', fontSize: 13, marginTop: 40 }}>
+        <p style={{ textAlign: 'center', color: 'var(--texte-sec)', fontSize: 13, marginTop: 40 }}>
           Aucune actualité pour le moment.
-        </div>
+        </p>
       )}
 
       {/* Actus groupées par mois */}
       {!loading && groupKeys.map(monthKey => (
         <div key={monthKey} style={{ marginBottom: 24 }}>
-          {/* Label mois */}
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12,
-          }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <span style={{
               fontSize: 12, fontWeight: 700, color: 'var(--foret)',
               textTransform: 'capitalize', letterSpacing: 0.3,
@@ -258,12 +275,12 @@ export default function Actualites() {
               {grouped[monthKey].length}
             </span>
           </div>
-
           {grouped[monthKey].map(actu => (
             <ActuCard key={actu.id} actu={actu} />
           ))}
         </div>
       ))}
+
     </div>
   )
 }

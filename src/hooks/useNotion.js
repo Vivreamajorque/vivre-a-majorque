@@ -91,13 +91,21 @@ export function parseCockpit(page) {
 
 export function parseActu(page) {
   const p = page.properties || {}
+  const lienUrl = p['Lien_externe']?.url || p.Lien?.url || ''
+  let sourceDomain = ''
+  if (lienUrl) {
+    try { sourceDomain = new URL(lienUrl).hostname.replace('www.', '') } catch {}
+  }
   return {
     id: page.id,
     title: p.Titre?.title?.[0]?.plain_text || p.Name?.title?.[0]?.plain_text || '',
-    date: p.Date?.date?.start || p.Semaine?.date?.start || '',
+    date: p.Date?.date?.start || p['date:Date:start'] || '',
     categorie: p['Catégorie']?.select?.name || '',
-    accroche: p.Accroche?.rich_text?.[0]?.plain_text || '',
-    lien: p.Lien?.url || '',
+    resume: p['Résumé']?.rich_text?.map(r => r.plain_text).join('') || p.Accroche?.rich_text?.[0]?.plain_text || '',
+    lien: lienUrl,
+    sourceDomain,
+    tags: p.Tags?.multi_select?.map(t => t.name) || [],
+    actif: p.Actif?.checkbox !== false,
   }
 }
 

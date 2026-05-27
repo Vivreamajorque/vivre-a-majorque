@@ -82,17 +82,17 @@ function ActuCard({ actu, navigate }) {
         </div>
         <p style={{
           fontWeight: 600, fontSize: 13, color: 'var(--foret)', lineHeight: 1.4,
-          marginBottom: actu.accroche ? 6 : 0,
+          marginBottom: actu.resume ? 6 : 0,
           display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden',
         }}>
           {actu.title}
         </p>
-        {actu.accroche && (
+        {actu.resume && (
           <p style={{
             fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4,
             display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden',
           }}>
-            {actu.accroche}
+            {actu.resume}
           </p>
         )}
       </div>
