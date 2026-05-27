@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
+import AccompagnementBanner from '../components/AccompagnementBanner'
 
 const OUTILS = [
   {
@@ -174,6 +175,11 @@ export default function Outils() {
         ))}
       </div>
 
+      <AccompagnementBanner
+        texte="Ces simulateurs vous donnent des chiffres — mais votre situation personnelle mérite un regard humain."
+        cta="Parlez-en avec moi →"
+        style={{ marginTop: 20 }}
+      />
       <PaywallModal isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
     </div>
   )

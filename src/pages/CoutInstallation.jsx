@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import AccompagnementBanner from '../components/AccompagnementBanner'
 
 /* ──────────────────────────────────────────────
    DONNÉES OFFICIELLES — Sources primaires uniquement
@@ -660,6 +661,10 @@ export default function CoutInstallation() {
           </p>
         </div>
 
+      <AccompagnementBanner
+          texte="Ce budget d'installation vous semble impressionnant ? Je peux vous aider à le planifier étape par étape, selon votre situation."
+          cta="Voir les accompagnements →"
+        />
       </div>
     </div>
   )

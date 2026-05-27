@@ -5,6 +5,7 @@ import { useProfile } from '../context/ProfileContext'
 import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import { NOTION_DB, GUIDE_CATEGORIES } from '../config'
+import AccompagnementBanner from '../components/AccompagnementBanner'
 
 const CAT_EMOJIS = {
   'Administratif': '📋', 'Logement': '🏠', 'Travail': '💼',
@@ -269,6 +270,10 @@ export default function Guides() {
             ))}
           </div>
       }
+      <AccompagnementBanner
+        texte="Vous préférez être guidé·e plutôt que lire les guides seul·e ? Visio, dossier complet ou accompagnement intégral — à vous de choisir."
+        cta="Voir les accompagnements →"
+      />
       <PaywallModal isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
     </div>
   )

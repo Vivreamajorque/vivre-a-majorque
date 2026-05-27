@@ -5,6 +5,7 @@ import { useNotionDB, parseCockpit } from '../hooks/useNotion'
 import { NOTION_DB, PROFILS } from '../config'
 import { useNavigate } from 'react-router-dom'
 import { PaywallModal } from '../components/PaywallModal'
+import AccompagnementBanner from '../components/AccompagnementBanner'
 
 const PROFIL_NEXT = {
   reve: 'installe',
@@ -401,6 +402,11 @@ export default function MonEspace() {
         </div>
       )}
 
+      <AccompagnementBanner
+        texte="Vous préférez ne pas avancer seul·e dans ces étapes ? Je peux analyser votre situation et vous guider de A à Z."
+        cta="Découvrir les accompagnements →"
+        style={{ marginTop: 28 }}
+      />
       <PaywallModal isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
     </div>
   )

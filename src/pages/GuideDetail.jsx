@@ -3,6 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom'
 import { useNotionBlocks, useNotionDB, parseGuide } from '../hooks/useNotion'
 import { usePremium } from '../context/PremiumContext'
 import NotionBlocks from '../components/NotionBlocks'
+import AccompagnementBanner from '../components/AccompagnementBanner'
 import PremiumGate from '../components/PremiumGate'
 import { NOTION_DB } from '../config'
 
@@ -53,7 +54,13 @@ export default function GuideDetail() {
             <div style={{ height: 200 }} />
           </PremiumGate>
         ) : (
-          <NotionBlocks blocks={blocks} />
+          <>
+            <NotionBlocks blocks={blocks} />
+            <AccompagnementBanner
+              texte="Cette démarche vous semble complexe à appliquer à votre situation personnelle ?"
+              cta="Je vous accompagne pas à pas →"
+            />
+          </>
         )}
       </div>
     </div>

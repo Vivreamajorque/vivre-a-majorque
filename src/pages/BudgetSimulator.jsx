@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from 'react'
+import AccompagnementBanner from '../components/AccompagnementBanner'
 import { useNavigate } from 'react-router-dom'
 
 /* ─────────────────────────────────────────────────────────────────
@@ -473,6 +474,11 @@ export default function BudgetSimulator() {
         </div>
       )}
 
+      <AccompagnementBanner
+        texte="Ces chiffres soulèvent des questions sur votre projet ? Je peux vous aider à valider votre budget et votre situation avant de vous lancer."
+        cta="Réserver une visio conseil →"
+        style={{ marginBottom: 80 }}
+      />
     </div>
   )
 }
