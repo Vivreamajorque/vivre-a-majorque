@@ -105,15 +105,18 @@ export function parseAnnuaire(page) {
   const p = page.properties || {}
   return {
     id: page.id,
-    nom: p.Nom?.title?.[0]?.plain_text || '',
-    metier: p['Métier']?.select?.name || p.Catégorie?.select?.name || '',
-    ville: p.Ville?.select?.name || p.Zone?.select?.name || '',
-    langue: p.Langue?.multi_select?.map(l => l.name) || [],
-    tel: p.Téléphone?.phone_number || p.Tel?.phone_number || '',
+    nom: p['Nom_professionnel']?.title?.[0]?.plain_text || p.Nom?.title?.[0]?.plain_text || '',
+    metier: p['Profession']?.select?.name || p['Métier']?.select?.name || p['Catégorie']?.select?.name || '',
+    ville: p['Zone_géographique']?.multi_select?.[0]?.name || p.Ville?.select?.name || '',
+    langue: p['Langues']?.multi_select?.map(l => l.name) || p.Langue?.multi_select?.map(l => l.name) || [],
+    tel: p['Téléphone']?.phone_number || p.Tel?.phone_number || '',
     email: p.Email?.email || '',
-    site: p.Site?.url || '',
+    site: p['Site_web']?.url || p.Site?.url || '',
     instagram: p.Instagram?.url || '',
-    description: p.Description?.rich_text?.[0]?.plain_text || '',
+    description: p['Description_FR']?.rich_text?.[0]?.plain_text || p.Description?.rich_text?.[0]?.plain_text || '',
+    maps: p['Google_Maps']?.url || '',
+    acces: p['Access_Level']?.select?.name || '🟢 Public',
+    statut: p['Statut']?.select?.name || '',
   }
 }
 

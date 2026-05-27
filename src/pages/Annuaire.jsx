@@ -1,42 +1,13 @@
 import React, { useState, useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseAnnuaire } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
-
-const CAT_ICONS = {
-  'Avocat': '⚖️',
-  'Notaire': '📜',
-  'Comptable': '📊',
-  'Gestionnaire': '📋',
-  'Gestionnaire / Asesoría': '📋',
-  'Asesoría': '📋',
-  'Médecin': '🏥',
-  'Docteur': '🏥',
-  'Dentiste': '🦷',
-  'Kinésithérapeute': '💆',
-  'Psychologue': '🧠',
-  'Architecte': '🏗️',
-  'Agent immobilier': '🏠',
-  'Immobilier': '🏠',
-  'Traducteur': '🌐',
-  'Coach': '💪',
-  'Banque': '🏦',
-  'Assurance': '🛡️',
-  'Déménagement': '📦',
-  'Photographe': '📷',
-  'Designer': '🎨',
-  'Coiffeur': '✂️',
-  'Restaurant': '🍽️',
-  'Guide touristique': '🗺️',
-  'Plombier': '🔧',
-  'Électricien': '⚡',
-}
 
 function ProCard({ pro }) {
   return (
     <div className="card" style={{ marginBottom: 8 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-        <p style={{ fontWeight: 600, fontSize: 15, color: 'var(--foret)', flex: 1, paddingRight: 8 }}>{pro.nom}</p>
+        <p style={{ fontWeight: 600, fontSize: 15, color: 'var(--foret)', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>{pro.nom}</p>
         {pro.ville && <span style={{ fontSize: 12, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>📍 {pro.ville}</span>}
       </div>
       {pro.description && (
@@ -55,6 +26,9 @@ function ProCard({ pro }) {
         {pro.instagram && (
           <a href={pro.instagram} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--terra)', fontWeight: 500 }}>📷 Instagram</a>
         )}
+        {pro.maps && (
+          <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#1a73e8', fontWeight: 500 }}>🗺️ Maps</a>
+        )}
       </div>
     </div>
   )
@@ -65,7 +39,12 @@ export default function Annuaire() {
   const { data, loading } = useNotionDB(NOTION_DB.annuaire)
   const [selectedCat, setSelectedCat] = useState(null)
 
-  const pros = useMemo(() => data.map(parseAnnuaire).filter(p => p.nom), [data])
+  // Only show active entries with a name
+  const pros = useMemo(() => data
+    .map(parseAnnuaire)
+    .filter(p => p.nom && p.statut !== 'Archivé'),
+    [data]
+  )
 
   const categories = useMemo(() => {
     const catMap = {}
@@ -104,14 +83,14 @@ export default function Annuaire() {
             padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
           }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Catégories</span></button>
           <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 22, color: 'var(--foret)', marginBottom: 4 }}>
-            {CAT_ICONS[selectedCat] || '👤'} {selectedCat}
+            {selectedCat}
           </h1>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
-            {filtered.length} professionnel{filtered.length > 1 ? 's' : ''}
+            {filtered.length} entrée{filtered.length > 1 ? 's' : ''}
           </p>
         </div>
         {filtered.length === 0 ? (
-          <div className="empty">Aucun professionnel dans cette catégorie.</div>
+          <div className="empty">Aucun résultat dans cette catégorie.</div>
         ) : (
           filtered.map(pro => <ProCard key={pro.id} pro={pro} />)
         )}
@@ -135,7 +114,7 @@ export default function Annuaire() {
       </div>
 
       {categories.length === 0 ? (
-        <div className="empty">Aucun professionnel pour le moment.</div>
+        <div className="empty">Aucun résultat pour le moment.</div>
       ) : (
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           {categories.map(([cat, count]) => (
@@ -151,13 +130,12 @@ export default function Annuaire() {
               gap: 6,
               boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
             }}>
-              <span style={{ fontSize: 26 }}>{CAT_ICONS[cat] || '👤'}</span>
               <span style={{
                 fontFamily: 'var(--font-titre)', fontSize: 14, color: 'var(--foret)',
                 fontWeight: 600, lineHeight: 1.3,
               }}>{cat}</span>
               <span style={{ fontSize: 12, color: 'var(--texte-sec)' }}>
-                {count} pro{count > 1 ? 's' : ''}
+                {count} entrée{count > 1 ? 's' : ''}
               </span>
             </button>
           ))}
