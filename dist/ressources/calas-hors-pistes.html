@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guide Premium : 20 Calas Secrètes de Majorque</title>
+    <!-- Chargement de Tailwind CSS et des polices premium -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #A85A32;
+            --vert-eau: #7FB3A5;
+            --vert-eau-dark: #659388;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #2D3748; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-vert-eau { background-color: var(--vert-eau); }
+        .hover\:bg-vert-eau-dark:hover { background-color: var(--vert-eau-dark); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+        
+        /* Personnalisation de l'ombre pour un effet premium */
+        .premium-shadow {
+            box-shadow: 0 10px 30px -10px rgba(168, 90, 50, 0.15);
+        }
+        .spot-card {
+            border-left: 5px solid var(--vert-eau);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .spot-card:hover {
+            transform: translateY(-4px);
+            border-left-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-12 lg:px-24">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-xs uppercase tracking-widest font-bold text-slate-400 block mb-3">Édition Résident Privée</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+                Les 20 Calas <br><span class="italic text-terracotta font-normal">"Hors-Piste"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Le manuel logistique ultime pour vivre l'île comme un initié. Accédez aux criques sauvages, évitez les amendes de stationnement et anticipez le vent.
+            </p>
+        </header>
+
+        <section class="mb-16">
+            <div class="bg-white rounded-3xl p-6 md:p-8 premium-shadow border border-slate-100">
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <div>
+                        <h2 class="text-3xl font-bold text-slate-900">📍 Votre Carte Tactique</h2>
+                    </div>
+                    <a href="https://www.google.com/maps/d/viewer?mid=1D_Qh7Q3BUNFgtkg-C6uWddGlqxGQazI" target="_blank" class="bg-terracotta text-white px-6 py-3 rounded-full text-sm font-semibold tracking-wide hover:opacity-90 transition">
+                        Ouvrir sur mobile ➔
+                    </a>
+                </div>
+                
+                <!-- Zone d'intégration de l'iframe Google Maps -->
+                <div class="w-full h-96 rounded-2xl overflow-hidden border border-slate-200 shadow-inner">
+                    <iframe 
+                        src="https://www.google.com/maps/d/embed?mid=1D_Qh7Q3BUNFgtkg-C6uWddGlqxGQazI" 
+                        class="w-full h-full border-none" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100 mb-12">
+            <h3 class="text-xl font-bold text-slate-900 mb-4">Filtrer les spots en temps réel</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Recherche textuelle -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recherche</label>
+                    <input type="text" id="search-input" placeholder="Ex: Murta, sauvage..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                </div>
+                
+                <!-- Zone de l'île -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Secteur Géo</label>
+                    <select id="filter-zone" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Tous les secteurs</option>
+                        <option value="Nord">Nord / Tramuntana</option>
+                        <option value="Est">Est / Llevant</option>
+                        <option value="Sud">Sud / Sud-Est</option>
+                        <option value="Ouest">Ouest / Côte Ouest</option>
+                    </select>
+                </div>
+
+                <!-- Adapté enfants -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Adapté Enfants</label>
+                    <select id="filter-kids" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Peu importe</option>
+                        <option value="Oui">Adapté (Marche facile)</option>
+                        <option value="Non">Non recommandé</option>
+                    </select>
+                </div>
+
+                <!-- Commodités -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Commodités</label>
+                    <select id="filter-services" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Tous types</option>
+                        <option value="sauvage">Sauvage & Préservé</option>
+                        <option value="services">Avec Services (Resto/Bar)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center text-xs text-slate-400">
+                <span id="results-count">20 spots affichés</span>
+                <button id="reset-filters" class="text-terracotta hover:underline font-semibold">Réinitialiser les filtres</button>
+            </div>
+        </section>
+
+        <main id="spots-grid" class="space-y-8">
+            <!-- Rendu dynamique par JavaScript pour un filtrage instantané -->
+        </main>
+
+        <footer class="mt-24 bg-terracotta text-white p-8 md:p-16 rounded-[2.5rem] text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(253,251,247,0.15),transparent_50%)]"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-bold text-amber-200 block mb-4">Élargissez vos horizons</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Prêt à vivre Majorque à 100% ?</h2>
+                <p class="text-amber-100 mb-8 leading-relaxed">
+                    Ne vous limitez pas aux plages. Accédez à la <strong>Table des Locaux</strong> et au <strong>Guide Complet de la Tramuntana</strong> en choisissant notre Pack de lancement.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-terracotta px-8 py-4 rounded-full font-bold text-md hover:scale-105 active:scale-95 transition premium-shadow">
+                        Obtenir le Pack Trio (12,90 €)
+                    </button>
+                    <button class="border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-full font-bold text-md transition">
+                        S'abonner au Club Privé
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Base de données complète et ultra-détaillée des 20 spots
+        const spotsData = [
+            {
+                id: 1,
+                name: "Cala Murta",
+                zone: "Nord",
+                walk: "15 min",
+                kids: "Oui",
+                kidsDetails: "Chemin forestier plat et asphalté sur la majeure partie. Attention aux chèvres sauvages très gourmandes avec les sacs à dos.",
+                services: "sauvage",
+                servicesDetails: "Aucune installation. Zone naturelle 100% préservée.",
+                park: "Limité sur le bas-côté de la route avant le portail du domaine privé.",
+                time: "Avant 09:30 pour éviter le soleil de plomb sur le sentier du retour.",
+                wind: "Vent de Sud / Sud-Est (la baie de Pollença protège le plan d'eau).",
+                desc: "Un joyau niché dans une pinède sauvage de la péninsule de Formentor. L'eau y est d'une fraîcheur revigorante et d'une pureté inégalable, parfaite pour observer les herbiers de Posidonie.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.9318,3.1256"
+            },
+            {
+                id: 2,
+                name: "Cala Figuera (Formentor)",
+                zone: "Nord",
+                walk: "30 min",
+                kids: "Non",
+                kidsDetails: "Descente poussiéreuse et très glissante à flanc de ravin. Dangereux pour les jeunes enfants.",
+                services: "sauvage",
+                servicesDetails: "Aucune commodité. Pas de réseau cellulaire stable au fond.",
+                park: "Petit parking de terre battue sur la route du phare de Formentor.",
+                time: "En milieu de journée pour que la lumière du soleil pénètre verticalement dans le goulet rocheux.",
+                wind: "Vent du Sud uniquement. Éviter par fort vent du Nord (Tramuntana).",
+                desc: "Une crique d'un vert émeraude spectaculaire coincée entre de hautes falaises rocheuses. Un sentiment de bout du monde garanti, mais la remontée exige de bonnes chaussures de marche.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.9502,3.1706"
+            },
+            {
+                id: 3,
+                name: "Cala Tuent",
+                zone: "Nord",
+                walk: "0 min",
+                kids: "Oui",
+                kidsDetails: "Accès direct en voiture jusqu'au bord. Plage de galets, prévoir des chaussures d'eau pour les petits.",
+                services: "services",
+                servicesDetails: "Restaurant emblématique 'Es Vergeret' situé sur les hauteurs, offrant une vue plongeante divine.",
+                park: "Parking public ombragé en contrebas (gratuit).",
+                time: "Idéal pour observer le coucher de soleil embraser les parois rocheuses de la Tramuntana.",
+                wind: "Vent d'Est ou de Nord-Est.",
+                desc: "Plongée dans un paysage de carte postale où la montagne rejoint la mer. Dominé par le Puig Major, ce croissant sauvage est beaucoup moins fréquenté que sa voisine Sa Calobra.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.8403,2.7767"
+            },
+            {
+                id: 4,
+                name: "Cala Varques",
+                zone: "Est",
+                walk: "20 min",
+                kids: "Oui",
+                kidsDetails: "Chemin de terre plat mais sans ombre. Praticable avec de bonnes chaussures.",
+                services: "sauvage",
+                servicesDetails: "Parfois quelques vendeurs nomades de boissons en haute saison, mais aucun service officiel.",
+                park: "Stationnement obligatoire sur les pistes indiquées. La police municipale verbalise lourdement sur les zones interdites.",
+                time: "Avant 09:00 ou après 17:00 pour éviter la foule d'initiés.",
+                wind: "Vent d'Ouest ou de Nord-Ouest.",
+                desc: "Réputée pour son sable blanc étincelant et ses incroyables grottes marines environnantes. C'est l'un des plus magnifiques spots sauvages de la côte de Llevant.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.4996,3.2989"
+            },
+            {
+                id: 5,
+                name: "Cala Bota",
+                zone: "Est",
+                walk: "15 min",
+                kids: "Oui",
+                kidsDetails: "Sentier court et accessible sans dénivelé prononcé.",
+                services: "sauvage",
+                servicesDetails: "Sauvage et dénuée de tout équipement.",
+                park: "Stationnement facile dans le lotissement de Cales de Mallorca.",
+                time: "Matinée pour bénéficier de la meilleure exposition lumineuse.",
+                wind: "Idéal par vent d'Ouest.",
+                desc: "Une crique de galets intime et oubliée des touristes. Idéale pour se ressourcer dans un calme royal à l'abri des pins, loin des grands hôtels environnants.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.4674,3.2842"
+            },
+            {
+                id: 6,
+                name: "Cala Magraner",
+                zone: "Est",
+                walk: "25 min",
+                kids: "Oui",
+                kidsDetails: "Marche de longueur moyenne mais plate à travers un magnifique vallon sec.",
+                services: "sauvage",
+                servicesDetails: "Aucun service. Spot d'escalade vierge très réputé.",
+                park: "Petit espace en bord de route principale près du sentier balisé.",
+                time: "Idéal par grand soleil pour apprécier le contraste de la roche ocre avec l'eau azur.",
+                wind: "Excellent par vent d'Ouest ou de Nord.",
+                desc: "Un amphithéâtre naturel bordé de falaises verticales parfaites pour l'escalade (psicobloc). La plage propose un mélange de sable et de galets baignés par une eau translucide.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.4697,3.2872"
+            },
+            {
+                id: 7,
+                name: "Cala Virgili",
+                zone: "Est",
+                walk: "25 min",
+                kids: "Oui",
+                kidsDetails: "Chemin identique à Cala Magraner, déviation sur la droite bien signalée.",
+                services: "sauvage",
+                servicesDetails: "Sauvage absolu. Prévoyez vos réserves d'eau.",
+                park: "Bordure de la route principale (Reguero de Cala Magraner).",
+                time: "Toute la journée. Très peu fréquentée même au cœur du mois d'août.",
+                wind: "Vent de terre (Ouest) recommandé.",
+                desc: "Une entaille rocheuse discrète et étroite. Le spot idéal pour s'isoler avec un livre et profiter d'un bain paisible au milieu des poissons côtiers.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.4721,3.2891"
+            },
+            {
+                id: 8,
+                name: "Cala Murada (Les dalles)",
+                zone: "Est",
+                walk: "0 min",
+                kids: "Oui",
+                kidsDetails: "Accès immédiat. La partie sableuse est idéale, tandis que les dalles rocheuses conviennent mieux aux ados sachant nager.",
+                services: "services",
+                servicesDetails: "Restaurants et bars de plage installés sur le sable à quelques mètres.",
+                park: "Parking public de Cala Murada.",
+                time: "Idéal l'après-midi.",
+                wind: "Vent d'Ouest.",
+                desc: "L'astuce de cette crique réside sur son flanc gauche : de superbes dalles rocheuses plates permettent de s'installer à l'écart du flux touristique de la plage principale.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.4526,3.2758"
+            },
+            {
+                id: 9,
+                name: "Es Caragol",
+                zone: "Sud",
+                walk: "25 min",
+                kids: "Oui",
+                kidsDetails: "Sentier côtier tout plat mais exposé à 100% au soleil sans aucune ombre. Prévoyez un parasol solide et beaucoup d'eau.",
+                services: "sauvage",
+                servicesDetails: "Vierge de tout service. Nature sauvage.",
+                park: "Garez-vous près du Phare de Ses Salines. Arrivez tôt pour éviter d'être garé à plus d'un kilomètre.",
+                time: "Arrivée avant 09:00 ou en fin d'après-midi à partir de 17:30.",
+                wind: "Parfait par vent du Nord (Tramuntana). Éviter absolument par vent de Sud.",
+                desc: "Une bande spectaculaire de sable blanc poudreux et d'eau turquoise digne des îles du Pacifique. L'une des plus belles plages sauvages préservées d'Europe.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.2778,3.0456"
+            },
+            {
+                id: 10,
+                name: "Caló des Moro",
+                zone: "Sud",
+                walk: "15 min",
+                kids: "Non",
+                kidsDetails: "Sentier escarpé dans les rochers et descente abrupte d'escaliers artisanaux.",
+                services: "sauvage",
+                servicesDetails: "Aucune commodité. Zone très étroite et rocheuse.",
+                park: "Grand parking gratuit officiel à l'entrée du lotissement de Cala Llombards, puis 15 min de marche.",
+                time: "7h30 du matin impératif. À partir de 9h00, l'attente pour descendre peut dépasser une heure.",
+                wind: "Vent du Nord / Nord-Ouest pour une eau miroir.",
+                desc: "La crique la plus photographiée de Majorque. Un véritable aquarium naturel d'eau émeraude enserré de falaises couvertes de pins, magnifique mais victime de sa beauté.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.3134,3.1215"
+            },
+            {
+                id: 11,
+                name: "Cala des Marmols",
+                zone: "Sud",
+                walk: "1h15",
+                kids: "Non",
+                kidsDetails: "Marche côtière longue de 5 km, technique, escarpée et sans la moindre zone d'ombre.",
+                services: "sauvage",
+                servicesDetails: "Isolement total. Eau et nourriture indispensables en grande quantité.",
+                park: "Parking du Phare de Ses Salines.",
+                time: "Départ matinal (08:00 maximum) pour marcher à la fraîche.",
+                wind: "Vent du Nord (mer calme et d'une clarté absolue).",
+                desc: "Une crique de marbre blanc immaculé totalement sauvage et spectaculaire. Un sanctuaire secret pour les résidents qui apprécient l'effort sportif et l'isolement suprême.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.2906,3.0789"
+            },
+            {
+                id: 12,
+                name: "Platja des Caragoler",
+                zone: "Sud",
+                walk: "30 min",
+                kids: "Non",
+                kidsDetails: "Accès rocheux et accidenté sur le bord côtier.",
+                services: "sauvage",
+                servicesDetails: "Aucun service.",
+                park: "Phare de Ses Salines.",
+                time: "Matinée pour apprécier la clarté du fond marin.",
+                wind: "Vent du Nord.",
+                desc: "Petite sœur rocheuse et intime d'Es Caragol. Entièrement vierge, elle est délaissée par les foules au profit du sable fin, ce qui en fait un paradis pour le snorkeling tranquille.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.2801,3.0512"
+            },
+            {
+                id: 13,
+                name: "Cala Deià",
+                zone: "Ouest",
+                walk: "15 min",
+                kids: "Oui",
+                kidsDetails: "Chemin carrossable agréable depuis le village de Deià. Attention aux galets glissants au bord de l'eau.",
+                services: "services",
+                servicesDetails: "Deux adresses mythiques pour déjeuner du poisson frais les pieds dans l'eau : Ca's Patró March et Can Lluc.",
+                park: "Parking payant à proximité immédiate (très vite complet). Préférer la marche gratuite depuis le haut du village.",
+                time: "Arriver vers 10h00 pour garantir une table au restaurant et une place sur les rochers.",
+                wind: "Vent de Sud ou d'Est.",
+                desc: "Un haut lieu artistique et bohème de la côte ouest. Une crique de gros galets entourée de garages à bateaux traditionnels et d'une eau d'une clarté de cristal.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.7589,2.6391"
+            },
+            {
+                id: 14,
+                name: "Cala Banyalbufar",
+                zone: "Ouest",
+                walk: "5 min",
+                kids: "Oui",
+                kidsDetails: "Descente par des escaliers aménagés mais raides. Plage de galets demandant des sandales de bain.",
+                services: "sauvage",
+                servicesDetails: "Douche d'eau douce naturelle qui coule directement de la source de montagne de la falaise.",
+                park: "Très peu de places disponibles sur les hauteurs de la crique. Mieux vaut se garer au village et descendre à pied.",
+                time: "Matinée et début d'après-midi (la falaise cache le soleil à partir de 16h30-17h00).",
+                wind: "Idéal par vent d'Est.",
+                desc: "Une plage de galets adossée à d'impressionnantes terrasses de pierre sèche d'origine maure. Une cascade d'eau douce naturelle vous y attend pour une douche inoubliable.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.6917,2.5117"
+            },
+            {
+                id: 15,
+                name: "Port des Canonge",
+                zone: "Ouest",
+                walk: "0 min",
+                kids: "Oui",
+                kidsDetails: "Accès routier direct jusqu'à la plage de galets rouges.",
+                services: "services",
+                servicesDetails: "Quelques restaurants locaux chaleureux et authentiques dans le village de pêcheurs.",
+                park: "Parking public à l'entrée du village côtoyant les maisons de pêcheurs.",
+                time: "Fin de journée pour apprécier le coucher de soleil sur les falaises de terre rouge.",
+                wind: "Vent de terre (Est ou Sud).",
+                desc: "Un village côtier majorquin authentique, préservé du tourisme de masse grâce à une incroyable route sinueuse à flanc de montagne.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.7042,2.5458"
+            },
+            {
+                id: 16,
+                name: "Sa Galera",
+                zone: "Ouest",
+                walk: "15 min",
+                kids: "Non",
+                kidsDetails: "Dalles rocheuses pentues et glissantes avec des accès profonds. Réservé aux nageurs aguerris.",
+                services: "sauvage",
+                servicesDetails: "Aucune installation, immersion sauvage totale.",
+                park: "En bord de piste à proximité du sentier littoral.",
+                time: "Après-midi pour une lumière chaude illuminant la roche dorée.",
+                wind: "Vent de l'Est.",
+                desc: "Un paradis de dalles de roches ocre d'une beauté minérale stupéfiante. L'eau y est transparente comme du verre, parfaite pour plonger à l'écart du monde.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.3951,3.2424"
+            },
+            {
+                id: 17,
+                name: "Cala Son Bunyola",
+                zone: "Ouest",
+                walk: "20 min",
+                kids: "Oui",
+                kidsDetails: "Balade bucolique facile sous les oliviers sauvages.",
+                services: "sauvage",
+                servicesDetails: "Bordé par le luxueux domaine privé Son Bunyola, aucun service public.",
+                park: "Petit espace forestier balisé.",
+                time: "Fin de matinée.",
+                wind: "Vent d'Est ou de Sud.",
+                desc: "Une plage de galets gris et de terre ocre s'ouvrant sur l'immensité de la côte ouest. Un cadre spectaculaire et une atmosphère sereine unique sous la Tramuntana.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.7112,2.5594"
+            },
+            {
+                id: 18,
+                name: "Cala Castell",
+                zone: "Nord",
+                walk: "2h00",
+                kids: "Non",
+                kidsDetails: "Randonnée sportive longue de 10 km aller-retour. Autorisation requise auprès de la mairie de Pollença.",
+                services: "sauvage",
+                servicesDetails: "Isolement géographique total.",
+                park: "Parking d'accès au sentier du domaine de Ternelles.",
+                time: "Départ matinal très recommandé.",
+                wind: "Éviter par vent du Nord, privilégier par vent du Sud.",
+                desc: "Dominée par les ruines du Castell del Rei, cette crique d'une beauté sauvage saisissante est l'une des zones les plus protégées et exclusives de l'île.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.9578,3.0378"
+            },
+            {
+                id: 19,
+                name: "Cala Estremer",
+                zone: "Nord",
+                walk: "1h30",
+                kids: "Non",
+                kidsDetails: "Descente abrupte de torrent nécessitant de l'escalade légère sur parois glissantes. Accès maritime fortement recommandé.",
+                services: "sauvage",
+                servicesDetails: "Nature brute sans aménagement.",
+                park: "Garez-vous à Cala Sant Vicenç, départ du kayak ou du sentier.",
+                time: "Matinée.",
+                wind: "Parfait par vent de Sud.",
+                desc: "Un canyon escarpé s'enfonçant dans la mer entre deux falaises gigantesques de la péninsule de Ternelles. Un paysage dramatique pour les aventuriers chevronnés.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.9302,3.0386"
+            },
+            {
+                id: 20,
+                name: "Cala sa Calobra (L'alternative)",
+                zone: "Ouest",
+                walk: "10 min",
+                kids: "Oui",
+                kidsDetails: "Accès spectaculaire via des tunnels piétons éclairés creusés dans la falaise. Très divertissant pour les enfants.",
+                services: "services",
+                servicesDetails: "Nombreux restaurants, boutiques de souvenirs et buvettes dans le port de Sa Calobra adjacent.",
+                park: "Grand parking payant à Sa Calobra (obligatoire).",
+                time: "Arrivez à partir de 17h30, lorsque le flot de touristes s'en va et que la lumière dorée se faufile dans le canyon.",
+                wind: "Idéal par vent du Sud-Est.",
+                desc: "Le débouché somptueux du célèbre Torrent de Pareis. Une étroite bande de galets encadrée par deux parois calcaires monumentales de 200 mètres de hauteur.",
+                gps: "https://www.google.com/maps/search/?api=1&query=39.8517,2.8189"
+            }
+        ];
+
+        // Éléments du DOM
+        const grid = document.getElementById('spots-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterZone = document.getElementById('filter-zone');
+        const filterKids = document.getElementById('filter-kids');
+        const filterServices = document.getElementById('filter-services');
+        const resultsCount = document.getElementById('results-count');
+        const resetBtn = document.getElementById('reset-filters');
+
+        function renderSpots(spots) {
+            grid.innerHTML = '';
+            
+            if (spots.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-3xl premium-shadow border border-slate-100">
+                        <p class="text-lg text-slate-500">Aucun spot ne correspond à vos critères de recherche.</p>
+                        <button onclick="resetAllFilters()" class="text-terracotta font-semibold mt-4 hover:underline">Afficher tous les spots</button>
+                    </div>
+                `;
+                resultsCount.textContent = '0 spot affiché';
+                return;
+            }
+
+            spots.forEach((spot) => {
+                const badgeKidsClass = spot.kids === "Oui" ? "bg-emerald-50 text-emerald-800" : "bg-rose-50 text-rose-800";
+                const badgeServicesClass = spot.services === "services" ? "bg-amber-50 text-amber-800" : "bg-sky-50 text-sky-800";
+                
+                const card = document.createElement('div');
+                card.className = "spot-card bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100";
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
+                        <div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-vert-eau">${spot.zone}</span>
+                            <h3 class="text-3xl font-bold text-slate-900 mt-1">${spot.id}. ${spot.name}</h3>
+                        </div>
+                        <a href="${spot.gps}" target="_blank" class="w-full md:w-auto bg-vert-eau text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide text-center hover:bg-vert-eau-dark transition">
+                            Itinéraire GPS ➔
+                        </a>
+                    </div>
+
+                    <!-- Grille technique -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">⏱️ Temps de Marche</span>
+                            <span class="font-semibold text-slate-800">${spot.walk}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🌬️ Vent Optimal</span>
+                            <span class="font-semibold text-slate-800">${spot.wind}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeKidsClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🧒 Adapté aux Enfants</span>
+                            <span class="font-bold">${spot.kids}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeServicesClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">☕ Commodités</span>
+                            <span class="font-bold">${spot.services === "services" ? "Équipée / Resto" : "Sauvage (Aucune)"}</span>
+                        </div>
+                    </div>
+
+                    <!-- Descriptions détaillées -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <p><strong class="text-slate-800 font-semibold">Le Secret :</strong> ${spot.desc}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-4 border-t border-slate-100 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🚗 Stratégie Parking :</span>
+                                ${spot.park}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">⏰ Fenêtre Horaire Idéale :</span>
+                                ${spot.time}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-2 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧒 Détails Famille :</span>
+                                ${spot.kidsDetails}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">☕ Détails Services :</span>
+                                ${spot.servicesDetails}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            resultsCount.textContent = `${spots.length} spot${spots.length > 1 ? 's' : ''} affiché${spots.length > 1 ? 's' : ''}`;
+        }
+
+        function filterSpots() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedZone = filterZone.value;
+            const selectedKids = filterKids.value;
+            const selectedServices = filterServices.value;
+
+            const filtered = spotsData.filter((spot) => {
+                const matchesSearch = spot.name.toLowerCase().includes(searchText) || spot.desc.toLowerCase().includes(searchText);
+                const matchesZone = selectedZone === 'all' || spot.zone === selectedZone;
+                const matchesKids = selectedKids === 'all' || spot.kids === selectedKids;
+                const matchesServices = selectedServices === 'all' || spot.services === selectedServices;
+
+                return matchesSearch && matchesZone && matchesKids && matchesServices;
+            });
+
+            renderSpots(filtered);
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            filterZone.value = 'all';
+            filterKids.value = 'all';
+            filterServices.value = 'all';
+            renderSpots(spotsData);
+        }
+
+        // Événements
+        searchInput.addEventListener('input', filterSpots);
+        filterZone.addEventListener('change', filterSpots);
+        filterKids.addEventListener('change', filterSpots);
+        filterServices.addEventListener('change', filterSpots);
+        resetBtn.addEventListener('click', resetAllFilters);
+
+        // Lancement initial
+        renderSpots(spotsData);
+    </script>
+</body>
+</html>

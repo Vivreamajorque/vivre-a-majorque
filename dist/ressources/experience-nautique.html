@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expériences Nautiques : Le Guide des Initiés de Majorque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #A85A32;
+            --vert-eau: #7FB3A5;
+            --vert-eau-dark: #659388;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #2D3748; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-vert-eau { background-color: var(--vert-eau); }
+        .hover\:bg-vert-eau-dark:hover { background-color: var(--vert-eau-dark); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+        
+        .premium-shadow {
+            box-shadow: 0 10px 30px -10px rgba(168, 90, 50, 0.15);
+        }
+        .nautique-card {
+            border-left: 5px solid var(--vert-eau);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .nautique-card:hover {
+            transform: translateY(-4px);
+            border-left-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-12 lg:px-24">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-xs uppercase tracking-widest font-bold text-slate-400 block mb-3">Édition Résident Privée</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+                Expériences <br><span class="italic text-terracotta font-normal">"Nautiques"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Naviguez, plongez et explorez l'île par la mer. 20 secrets maritimes d'exception avec les meilleurs prestataires locaux pour fuir la foule terrestre, des piscines naturelles sauvages aux locations de llaüts sans permis.
+            </p>
+        </header>
+
+        <section class="bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100 mb-12">
+            <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif">Filtrer vos aventures maritimes</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Recherche textuelle -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recherche</label>
+                    <input type="text" id="search-input" placeholder="Ex: Grotte, Sóller, Skualo..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                </div>
+                
+                <!-- Type d'activité -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Type d'expérience</label>
+                    <select id="filter-type" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les activités</option>
+                        <option value="snorkeling">Snorkeling d'exception</option>
+                        <option value="kayak">Kayak & Stand-Up Paddle</option>
+                        <option value="bateau">Bateau & Navigation</option>
+                        <option value="grotte">Grottes & Piscines de roche</option>
+                    </select>
+                </div>
+
+                <!-- Difficulté -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Niveau requis</label>
+                    <select id="filter-difficulty" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Tous les niveaux</option>
+                        <option value="Facile">Facile (Aucun prérequis)</option>
+                        <option value="Moyen">Moyen (Savoir bien nager)</option>
+                        <option value="Sportif">Sportif (Bonne condition physique)</option>
+                    </select>
+                </div>
+
+                <!-- Adapté Enfants -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Adapté Enfants</label>
+                    <select id="filter-kids" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Peu importe</option>
+                        <option value="Oui">Adapté (Calme & Sécurisé)</option>
+                        <option value="Sous conditions">Sous conditions (Surveillance accrue)</option>
+                        <option value="Non">Non recommandé</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center text-xs text-slate-400">
+                <span id="results-count">20 expériences affichées</span>
+                <button id="reset-filters" class="text-terracotta hover:underline font-semibold">Réinitialiser les filtres</button>
+            </div>
+        </section>
+
+        <main id="nautique-grid" class="space-y-8">
+            <!-- Injecté dynamiquement en JS pour un chargement instantané -->
+        </main>
+
+        <footer class="mt-24 bg-terracotta text-white p-8 md:p-16 rounded-[2.5rem] text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(253,251,247,0.15),transparent_50%)]"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-bold text-amber-200 block mb-4">La Trilogie du Résident</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Vivez l'île par l'eau et par la terre</h2>
+                <p class="text-amber-100 mb-8 leading-relaxed">
+                    Maximisez votre art de vivre insulaire. Économisez en accédant aux <strong>20 Calas Secrètes</strong>, à la <strong>Table des Locaux</strong> et au <strong>Guide de la Tramuntana</strong> en choisissant notre Pack de lancement.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-terracotta px-8 py-4 rounded-full font-bold text-md hover:scale-105 active:scale-95 transition premium-shadow">
+                        Débloquer le Pack Trio (12,90 €)
+                    </button>
+                    <button class="border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-full font-bold text-md transition">
+                        Rejoindre le Club Privé
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const nautiqueData = [
+            {
+                id: 1,
+                name: "Cala Na Clara (L'Aquarium Sauvage)",
+                location: "Betlem (Nord-Est)",
+                region: "Est",
+                type: "snorkeling",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Bassin sablonneux peu profond au bord. L'eau y est extraordinairement calme par vent de Sud. Idéal pour débuter le masque-tuba.",
+                services: "sauvage",
+                servicesDetails: "Aucune installation sur place. Nature sauvage totale. Prévoyez vos bouteilles d'eau.",
+                organizer: "Sauvage (En autonomie)",
+                price: "Gratuit",
+                duration: "2h à une demi-journée",
+                desc: "Un véritable miroir d'azur. Nichée près de Betlem, cette crique secrète de sable fin et de dalles rocheuses offre une clarté d'eau exceptionnelle. On y nage au milieu de bancs de dorades et de saupes, presque sans vagues.",
+                strategy: "Le parking est sauvage en haut de la colline. La descente à pied dure 10 minutes sur un sentier terreux. Privilégiez le matin avant 11h00 pour une clarté de l'eau digne des Caraïbes.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Na+Clara+Mallorca"
+            },
+            {
+                id: 2,
+                name: "Cova de Coloms (La Cathédrale Sous-Terre)",
+                location: "Cala Varques / Porto Cristo (Est)",
+                region: "Est",
+                type: "grotte",
+                difficulty: "Sportif",
+                kids: "Non",
+                kidsDetails: "Non recommandé aux enfants de moins de 12 ans. Nécessite une nage prolongée en mer ouverte et de l'aisance dans les espaces obscurs.",
+                services: "services",
+                servicesDetails: "Matériel technique (combinaison néoprène, casque, torche) fourni par le guide. Réservation préalable obligatoire.",
+                organizer: "Experience Mallorca / Skualo",
+                price: "65 € / personne",
+                duration: "3h (Expédition complète)",
+                desc: "L'unique grotte de spéléologie marine d'Europe accessible à la nage sans bouteille de plongée. Après une courte nage depuis la falaise, vous pénétrez dans des galeries de calcaire abritant des lacs souterrains d'eau de mer immaculée et des stalactites géantes.",
+                strategy: "Ne tentez jamais l'accès seul sans guide certifié ou par forte houle d'Est. Les guides locaux de Porto Cristo fournissent tout le matériel de sécurité nécessaire.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Varques+Mallorca"
+            },
+            {
+                id: 3,
+                name: "Raid en Kayak vers Sa Dragonera",
+                location: "Sant Elm (Ouest)",
+                region: "Tramuntana",
+                type: "kayak",
+                difficulty: "Sportif",
+                kids: "Sous conditions",
+                kidsDetails: "Uniquement pour ados sportifs sachant très bien nager en mer ouverte. Les courants dans le canal de la Dragonera peuvent être intenses.",
+                services: "services",
+                servicesDetails: "Location de kayak de mer technique haut de gamme au port de Sant Elm. Briefing sécurité fourni.",
+                organizer: "Keida Kayak / Dragonera Kayak",
+                price: "45 € (Location kayak double / Journée)",
+                duration: "3h à 4h (Aller-retour)",
+                desc: "La traversée mythique à la force des bras. Vous quittez la plage de Sant Elm pour franchir le bras de mer d'un kilomètre et accoster dans le petit port naturel de Cala Lladó sur l'île mystique des lézards.",
+                strategy: "Démarrez obligatoirement avant 09:00, lorsque la mer est un miroir d'huile ('mar plana'). Le vent thermique de l'après-midi rend la traversée retour épuisante.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Sant+Elm+Mallorca"
+            },
+            {
+                id: 4,
+                name: "Location de Llaüt traditionnel sans permis",
+                location: "Port de Sóller",
+                region: "Tramuntana",
+                type: "bateau",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Parfait en famille. Les bateaux électriques ou à petits moteurs sont très stables, équipés d'un grand taud de soleil protecteur pour protéger les petits.",
+                services: "services",
+                servicesDetails: "Briefing complet de navigation côtière, gilets de sauvetage adaptés fournis, assurance et traceur GPS à bord inclus.",
+                organizer: "Soller Charter / Nautic Soller",
+                price: "190 € (Demi-journée, essence incluse)",
+                duration: "Demi-journée ou journée",
+                desc: "Le rêve d'une journée de liberté totale le long des falaises de la Tramuntana. Naviguez à votre rythme à bord d'un llaüt en bois reconstitué pour jeter l'ancre dans les eaux turquoise de Cala Secreta ou Ses Cambres.",
+                strategy: "Réservez au moins deux semaines à l'avance en été. Prenez la formule matin (9h-13h) : l'eau est plus calme et le vent de terre est inexistant, facilitant les manœuvres de mouillage.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Port+de+Soller"
+            },
+            {
+                id: 5,
+                name: "Plongée dans la réserve marine d'El Toro",
+                location: "Port Adriano (Sud-Ouest)",
+                region: "Palma",
+                type: "snorkeling",
+                difficulty: "Moyen",
+                kids: "Oui",
+                kidsDetails: "Des baptêmes de plongée encadrés et sécurisés en mer calme dès 8 ans en petit comité.",
+                services: "services",
+                servicesDetails: "Installations haut de gamme de la marina (douches, vestiaires individuels, casiers sécurisés) et bateau de plongée confortable.",
+                organizer: "Mar Balear Dive Center",
+                price: "95 € / baptême (55 € plongée exploration)",
+                duration: "3h",
+                desc: "La zone maritime la plus poissonneuse de Majorque. Cette réserve marine protégée abrite des mérous géants de plus de 20 kg, des barracudas en bancs compacts, des pieuvres et des murènes totalement habitués à la présence des plongeurs.",
+                strategy: "Même en simple snorkeling de surface (depuis un bateau du centre), la visibilité de plus de 30 mètres garantit un spectacle grandiose. Réservez l'activité le matin pour la meilleure lumière.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Port+Adriano"
+            },
+            {
+                id: 6,
+                name: "Snorkeling dans les grottes de Cala Varques",
+                location: "Manacor (Est)",
+                region: "Est",
+                type: "snorkeling",
+                difficulty: "Moyen",
+                kids: "Sous conditions",
+                kidsDetails: "La marche d'accès de 20 minutes sous le soleil exige une bonne forme physique. Surveillance obligatoire au bord des dalles de roche glissantes.",
+                services: "sauvage",
+                servicesDetails: "Crique sauvage. Aucun service, aucun maître-nageur. Prévoyez une bouée de signalisation de sécurité.",
+                organizer: "Sauvage (En autonomie)",
+                price: "Gratuit",
+                duration: "Demi-journée",
+                desc: "Le flanc gauche de Cala Varques abrite d'incroyables ponts de roche naturels et des grottes semi-immergées. Équipé d'un bon masque, vous explorez des failles rocheuses où la lumière crée des faisceaux bleus électriques fluorescents.",
+                strategy: "N'entrez pas profondément dans les cavités sans lampe étanche et sans une météo marine parfaite. Le spot s'apprécie au maximum lorsque le soleil est au zénith (12:00 - 14:00).",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Varques+Mallorca"
+            },
+            {
+                id: 7,
+                name: "Exploration des Îles Malgrats",
+                location: "Santa Ponça (Sud-Ouest)",
+                region: "Palma",
+                type: "kayak",
+                difficulty: "Moyen",
+                kids: "Oui",
+                kidsDetails: "Idéal en kayak double avec un enfant au centre. La traversée depuis la plage de cala de Santa Ponça est courte (15-20 min).",
+                services: "services",
+                servicesDetails: "Location de kayak et Stand-up Paddle directement sur la plage de Santa Ponça, gilets et sacs étanches fournis.",
+                organizer: "Mar Balear (Santa Ponça)",
+                price: "15 € / heure (Paddle ou Kayak)",
+                duration: "2h à 3h",
+                desc: "Une réserve marine constituée de deux îlots rocheux spectaculaires qui émergent face à la côte. C'est le paradis du kayak côtier, parsemé de petites criques d'accostage de gravier et d'eaux poissonneuses magiques pour le snorkeling.",
+                strategy: "Faites le tour complet du grand îlot par l'intérieur de la passe pour observer la colonie d'oiseaux marins nicheurs et jetez l'ancre au-dessus des prairies de Posidonie.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Islas+Malgrats+Mallorca"
+            },
+            {
+                id: 8,
+                name: "Kayak de mer sous les falaises de Formentor",
+                location: "Cala Sant Vicenç (Nord)",
+                region: "Tramuntana",
+                type: "kayak",
+                difficulty: "Sportif",
+                kids: "Non",
+                kidsDetails: "La côte Nord est sauvage et exposée. Les vagues peuvent se lever brusquement, inadapté aux jeunes enfants en dehors de la baie immédiate.",
+                services: "services",
+                servicesDetails: "Excursion guidée avec un professionnel de la montagne et de la mer, kayak de mer fermé stable et matériel de sécurité.",
+                organizer: "Món d'Aventura",
+                price: "45 € (Excursion guidée de 3h)",
+                duration: "3h",
+                desc: "Naviguez sous des parois de calcaire gris hautes de 150 mètres qui tombent à pic dans une mer bleu cobalt profonde. L'itinéraire permet de découvrir des grottes marines aériennes inaccessibles par la terre.",
+                strategy: "Consultez attentivement la météo : fuyez absolument par vent de Nord (Tramuntana). Privilégiez les journées de vent de Sud calme.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Sant+Vicenc+Mallorca"
+            },
+            {
+                id: 9,
+                name: "Stand-Up Paddle matinal à Portitxol",
+                location: "Palma / Portitxol",
+                region: "Palma",
+                type: "kayak",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Eau calme et protégée par la baie de Palma. Très facile d'asseoir un jeune enfant à l'avant du Stand-Up Paddle.",
+                services: "services",
+                servicesDetails: "Location de planches d'initiation larges et stables, leash de sécurité et gilets fournis.",
+                organizer: "El Niño Surf Center / Palma Surf",
+                price: "15 € / heure (Location libre)",
+                duration: "1h30",
+                desc: "L'art de vivre résident par excellence. Glissez sur l'eau face aux façades du vieux port de pêcheurs de Portitxol alors que le soleil se lève derrière la cathédrale de Palma, sur une mer d'huile absolue.",
+                strategy: "Louez votre planche dès 08h00. C'est l'heure magique où le vent thermique n'est pas encore levé et où la mer ressemble à un lac.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Portitxol+Palma"
+            },
+            {
+                id: 10,
+                name: "Expédition maritime à l'Archipel de Cabrera",
+                location: "Départ de Colònia de Sant Jordi (Sud)",
+                region: "Sud",
+                type: "bateau",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Une aventure d'une journée passionnante pour les enfants avec observation fréquente de dauphins pendant la traversée en bateau rapide.",
+                services: "services",
+                servicesDetails: "Traversée maritime réglementée en bateau rapide, droits d'accès au Parc National inclus.",
+                organizer: "Excursions Cabrera / Mar Cabrera",
+                price: "46 € / adulte (Trajet A/R classique)",
+                duration: "Journée complète",
+                desc: "Le seul parc national maritime d'Espagne. Cabrera est une île préservée restée intacte depuis des siècles. Les eaux y sont d'une pureté préhistorique, abritant des fonds marins spectaculaires et la célèbre 'Grotte Bleue' (Sa Cova Blava).",
+                strategy: "Choisissez l'excursion qui inclut l'arrêt baignade dans la Grotte Bleue : au retour de l'île, le bateau s'enfonce dans une caverne sombre où l'eau brille d'un bleu électrique irréel.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Colonia+de+Sant+Jordi"
+            },
+            {
+                id: 11,
+                name: "Piscines de roche de Cala Delta / Maioris",
+                location: "Llucmajor (Sud-Est)",
+                region: "Sud",
+                type: "grotte",
+                difficulty: "Moyen",
+                kids: "Sous conditions",
+                kidsDetails: "Le terrain est escarpé, rocheux et pointu. Les enfants doivent impérativement porter des chaussures d'eau et être surveillés de près pour la mise à l'eau.",
+                services: "sauvage",
+                servicesDetails: "Ancienne carrière de grès sauvage. Aucun service, grand calme résidentiel préservé.",
+                organizer: "Sauvage (En autonomie)",
+                price: "Gratuit",
+                duration: "2h à 3h",
+                desc: "Un paysage lunaire sculpté par l'homme et la mer. D'anciennes carrières de pierre côtières ont créé des bassins géométriques d'eau de mer translucide et plate, parfaits pour sauter et snorkeler à l'écart des plages de sable bondées.",
+                strategy: "Garez-vous dans le lotissement de Maioris Decima et descendez le sentier bétonné raide à pied (10 min). Parfait en fin d'après-midi pour un bain face au coucher de soleil sur la baie de Palma.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Delta+Llucmajor"
+            },
+            {
+                id: 12,
+                name: "Plongeoir naturel de Cala Morlanda",
+                location: "S'Illot (Est)",
+                region: "Est",
+                type: "grotte",
+                difficulty: "Moyen",
+                kids: "Sous conditions",
+                kidsDetails: "Idéal pour les ados audacieux qui adorent sauter des falaises de hauteur modérée (2 à 5 mètres) dans une eau profonde et sécurisée.",
+                services: "sauvage",
+                servicesDetails: "Quartier résidentiel calme, stationnement facile dans les ruelles attenantes.",
+                organizer: "Sauvage (En autonomie)",
+                price: "Gratuit",
+                duration: "2h",
+                desc: "Une entaille rocheuse étroite de la côte Est à l'eau vert émeraude. Sa configuration en falaise basse et plate en fait le spot de saut et de plongée rocheuse privilégié des jeunes résidents de l'Est.",
+                strategy: "Vérifiez impérativement la présence d'autres sauteurs locaux avant de vous lancer pour repérer les zones d'eau profonde sans rochers affleurants.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Morlanda"
+            },
+            {
+                id: 13,
+                name: "Accès en kayak à Caló des Moro",
+                location: "Départ de Cala Llombards (Sud)",
+                region: "Sud",
+                type: "kayak",
+                difficulty: "Moyen",
+                kids: "Sous conditions",
+                kidsDetails: "Le trajet en kayak côtier dure environ 30 minutes. Accessible aux enfants habitués aux sorties sur l'eau.",
+                services: "services",
+                servicesDetails: "Location de kayak de mer double robuste au départ de Cala Llombards, gilets fournis.",
+                organizer: "Kayak Cala Llombards",
+                price: "30 € (Location double / 2 heures)",
+                duration: "Demi-journée",
+                desc: "Le moyen ultime de contourner l'enfer terrestre de la célèbre crique. Louez votre kayak à Cala Llombards et glissez le long des falaises jusqu'à Caló des Moro. Vous accostez directement par l'eau turquoise sans faire la queue.",
+                strategy: "Faites l'activité en matinée pour profiter du calme du vent et sécurisez vos affaires de valeur dans un sac étanche bien arrimé au kayak.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Llombards"
+            },
+            {
+                id: 14,
+                name: "Snorkeling calme à Cala Fornells",
+                location: "Peguera (Ouest)",
+                region: "Palma",
+                type: "snorkeling",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Zone d'eau très calme et abritée, idéale pour initier les petits à l'observation des herbiers de Posidonie et des petits poissons de roche.",
+                services: "sauvage",
+                servicesDetails: "Hôtels et restaurants de charme en lisière de crique, chaises longues disponibles à la location saisonnière.",
+                organizer: "Sauvage (En autonomie)",
+                price: "Gratuit",
+                duration: "2h à une demi-journée",
+                desc: "Un golfe d'eau calme abrité par de jolies résidences de style méditerranéen. Les dalles de roche plates et les fonds d'algues et de sable abritent une vie marine côtière d'une grande richesse, facile d'accès.",
+                strategy: "Garez-vous le long de la route résidentielle menant à l'hôtel Cala Fornells. Le spot est parfait l'après-midi grâce à son exposition Ouest abritée.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Fornells+Mallorca"
+            },
+            {
+                id: 15,
+                name: "Arrivée par la mer à Sa Calobra / Torrent de Pareis",
+                location: "Départ du Port de Sóller",
+                region: "Tramuntana",
+                type: "bateau",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "La traversée en grand ferry ou en bateau rapide de ligne est une attraction spectaculaire en soi pour les familles.",
+                services: "services",
+                servicesDetails: "Billet aller-retour officiel pour le ferry de ligne vers la gorge de Sa Calobra.",
+                organizer: "Barcos Azules (Sóller)",
+                price: "30 € / adulte l'aller-retour",
+                duration: "Demi-journée",
+                desc: "Évitez la terrifiante route des 800 virages en lacets de Sa Calobra. Prenez le bateau de ligne depuis Sóller pour aborder le canyon monumental par son unique ouverture maritime. Une perspective grandiose inoubliable.",
+                strategy: "Réservez le trajet retour de fin d'après-midi : la lumière rasante sur les falaises de la Tramuntana qui plongent dans la mer est d'un romantisme fou.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Port+de+Soller"
+            },
+            {
+                id: 16,
+                name: "Stand-Up Paddle à Es Pontàs (L'Arche Géante)",
+                location: "Cala Santanyí (Sud)",
+                region: "Sud",
+                type: "kayak",
+                difficulty: "Moyen",
+                kids: "Sous conditions",
+                kidsDetails: "Le passage sous l'arche géante est impressionnant. Recommandé aux enfants calmes équipés de gilets de sauvetage.",
+                services: "services",
+                servicesDetails: "Location de planches d'initiation larges sur la plage, gilets de flottaison inclus.",
+                organizer: "Cala Santanyi Surf",
+                price: "15 € / heure (Location libre)",
+                duration: "2h",
+                desc: "Glissez sous le monument géant de Majorque. Es Pontàs est une arche naturelle monumentale de calcaire sculptée par les vagues. L'approcher à fleur d'eau en stand-up paddle procure des sensations de gigantisme uniques.",
+                strategy: "Le matin à l'aube est le moment magique : le soleil se lève exactement à travers l'axe de l'arche de roche, créant un spectacle de lumière féerique.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Santanyi"
+            },
+            {
+                id: 17,
+                name: "Voile légère dans la baie de Pollença",
+                location: "Port de Pollença (Nord)",
+                region: "Est",
+                type: "bateau",
+                difficulty: "Moyen",
+                kids: "Oui",
+                kidsDetails: "Écoles de voile réputées proposant des cours collectifs de catamaran ou de dériveur d'initiation très sécurisés pour enfants.",
+                services: "services",
+                servicesDetails: "Moniteur diplômé, dériveur moderne ou catamaran de sport, équipement de sécurité individuel inclus.",
+                organizer: "Sail & Surf Pollensa / Club Nàutic Pollença",
+                price: "50 € / heure (Cours particulier)",
+                duration: "2h",
+                desc: "La baie de Pollença est mondialement connue des marins pour sa configuration de lac marin abrité des grosses vagues, tout en bénéficiant d'un vent thermique régulier (l'Embat) idéal pour la pratique de la voile.",
+                strategy: "Louez un petit catamaran (Hobie Cat) l'après-midi à partir de 14h00, lorsque le vent s'établit de manière régulière pour une glisse sans danger.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Port+de+Pollensa"
+            },
+            {
+                id: 18,
+                name: "Kitesurf à Platja de Muro (Baie d'Alcúdia)",
+                location: "Platja de Muro (Nord-Est)",
+                region: "Est",
+                type: "kayak",
+                difficulty: "Sportif",
+                kids: "Non",
+                kidsDetails: "Activité sportive technique exigeant un apprentissage rigoureux en école pour les adolescents à partir de 14 ans.",
+                services: "services",
+                servicesDetails: "Équipement complet de dernière génération (voile, planche, harnais, casque radio pour liaison directe avec le moniteur).",
+                organizer: "Watersports Mallorca / Mallorca Kiteboarding",
+                price: "95 € / heure (Session privée de coaching)",
+                duration: "3h",
+                desc: "Le spot de glisse aérodynamique par excellence de Majorque. La baie d'Alcúdia offre une immense plage de sable fin et des vents de terre réguliers parfaits pour s'initier ou s'envoler en kitesurf ou en Wing Foil.",
+                strategy: "Privilégiez le printemps (avril à juin) ou l'automne (septembre à octobre) : les vents sont plus vigoureux et la plage est débarrassée des baigneurs estivaux.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Platja+de+Muro+Mallorca"
+            },
+            {
+                id: 19,
+                name: "Snorkeling de l'épave de Cala en Basset",
+                location: "Andratx / Sant Elm (Ouest)",
+                region: "Tramuntana",
+                type: "snorkeling",
+                difficulty: "Sportif",
+                kids: "Non",
+                kidsDetails: "Accès difficile par la terre et profondeur de nage de surface importante. Réservé aux nageurs expérimentés.",
+                services: "sauvage",
+                servicesDetails: "Crique rocheuse sauvage et isolée de tout service. Aucun réseau téléphonique stable.",
+                organizer: "Sauvage (En autonomie)",
+                price: "Gratuit",
+                duration: "Demi-journée",
+                desc: "Une exploration d'un autre monde. Au fond de cette crique de falaises sauvages repose l'épave peu profonde d'un ancien navire de charge côtière habité par une faune marine très dense de sars, poulpes et rascasses.",
+                strategy: "Combinez la sortie avec la visite de la tour de guet médiévale de Cala en Basset en haut de la colline de pins. Prenez une bouée de sécurité de signalisation.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+en+Basset+Mallorca"
+            },
+            {
+                id: 20,
+                name: "Balade en Llaüt traditionnel en famille",
+                location: "Port d'Andratx (Sud-Ouest)",
+                region: "Palma",
+                type: "bateau",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "L'activité familiale tranquille par excellence. Les enfants adorent participer aux manœuvres de mouillage simples sous l'œil des parents.",
+                services: "services",
+                servicesDetails: "Location de llaüt vintage haut de gamme avec skipper professionnel, carburant inclus, soft drinks et Pa amb Oli à bord.",
+                organizer: "Classic Intense Andratx / Andratx Charter",
+                price: "590 € (Journée complète avec skipper pro)",
+                duration: "Demi-journée ou journée",
+                desc: "Naviguez à la manière des anciens pêcheurs majorquins à bord de ces navires ventrus en bois poli, symboles de l'art de vivre insulaire. Vous explorez les criques de Cala Llamp et Cala Egos dans un confort vintage absolu.",
+                strategy: "Optez pour la location avec skipper local si vous souhaitez qu'il vous emmène dans les grottes de navigation intimes et vous prépare un Pa amb Oli traditionnel à bord.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Port dAndratx"
+            }
+        ];
+
+        const grid = document.getElementById('nautique-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterType = document.getElementById('filter-type');
+        const filterDifficulty = document.getElementById('filter-difficulty');
+        const filterKids = document.getElementById('filter-kids');
+        const resultsCount = document.getElementById('results-count');
+        const resetBtn = document.getElementById('reset-filters');
+
+        function renderNautique(experiences) {
+            grid.innerHTML = '';
+            
+            if (experiences.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-3xl premium-shadow border border-slate-100">
+                        <p class="text-lg text-slate-500">Aucune expérience marine ne correspond à vos critères d'exploration.</p>
+                        <button onclick="resetAllFilters()" class="text-terracotta font-semibold mt-4 hover:underline">Afficher toutes les activités</button>
+                    </div>
+                `;
+                resultsCount.textContent = '0 expérience affichée';
+                return;
+            }
+
+            experiences.forEach((exp) => {
+                const badgeKidsClass = exp.kids === "Oui" ? "bg-emerald-50 text-emerald-800" : exp.kids === "Sous conditions" ? "bg-amber-50 text-amber-800" : "bg-rose-50 text-rose-800";
+                const badgeDifficultyClass = exp.difficulty === "Facile" ? "bg-blue-50 text-blue-800" : exp.difficulty === "Moyen" ? "bg-amber-50 text-amber-800" : "bg-purple-50 text-purple-800";
+                
+                const card = document.createElement('div');
+                card.className = "nautique-card bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100";
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
+                        <div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-vert-eau">${exp.location} • ${exp.duration}</span>
+                            <h3 class="text-3xl font-bold text-slate-900 mt-1">${exp.id}. ${exp.name}</h3>
+                        </div>
+                        <a href="${exp.gps}" target="_blank" class="w-full md:w-auto bg-vert-eau text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide text-center hover:bg-vert-eau-dark transition">
+                            Itinéraire GPS ➔
+                        </a>
+                    </div>
+
+                    <!-- Grille technique enrichie à 5 colonnes -->
+                    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 gap-4 mb-6 text-xs">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">⏱️ Durée</span>
+                            <span class="font-semibold text-slate-800">${exp.duration}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeDifficultyClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🌊 Niveau / Accès</span>
+                            <span class="font-bold">${exp.difficulty}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeKidsClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🧒 Enfants</span>
+                            <span class="font-bold">${exp.kids}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">⚓ Commodités</span>
+                            <span class="font-bold text-terracotta capitalize">${exp.services === "services" ? "Équipée / Services" : "Sauvage (Vierge)"}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${exp.price === "Gratuit" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-900"} border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold opacity-75 tracking-wider mb-1">💰 Prix & Organisateur</span>
+                            <span class="font-bold block">${exp.price}</span>
+                            <span class="text-[10px] opacity-75 block mt-0.5 font-medium">${exp.organizer}</span>
+                        </div>
+                    </div>
+
+                    <!-- Descriptions et détails tactiques -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <p><strong class="text-slate-800 font-semibold">Le Secret :</strong> ${exp.desc}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-4 border-t border-slate-100 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">⛵ Stratégie & Fenêtre horaire :</span>
+                                ${exp.strategy}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧒 Détails Famille :</span>
+                                ${exp.kidsDetails}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-2 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">⚓ Logistique, Loueurs & Équipement :</span>
+                                ${exp.servicesDetails}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧭 Activité Principale :</span>
+                                <span class="capitalize">${exp.type === 'snorkeling' ? 'Snorkeling d\'exception' : exp.type === 'kayak' ? 'Kayak & Stand-Up Paddle' : exp.type === 'bateau' ? 'Bateau & Navigation' : 'Grottes & Piscines de roche'}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            resultsCount.textContent = `${experiences.length} expérience${experiences.length > 1 ? 's' : ''} affichée${experiences.length > 1 ? 's' : ''}`;
+        }
+
+        function filterNautique() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedType = filterType.value;
+            const selectedDifficulty = filterDifficulty.value;
+            const selectedKids = filterKids.value;
+
+            const filtered = nautiqueData.filter((exp) => {
+                const matchesSearch = exp.name.toLowerCase().includes(searchText) || exp.desc.toLowerCase().includes(searchText) || exp.location.toLowerCase().includes(searchText) || exp.organizer.toLowerCase().includes(searchText);
+                const matchesType = selectedType === 'all' || exp.type === selectedType;
+                const matchesDifficulty = selectedDifficulty === 'all' || exp.difficulty === selectedDifficulty;
+                const matchesKids = selectedKids === 'all' || exp.kids === selectedKids;
+
+                return matchesSearch && matchesType && matchesDifficulty && matchesKids;
+            });
+
+            renderNautique(filtered);
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            filterType.value = 'all';
+            filterDifficulty.value = 'all';
+            filterKids.value = 'all';
+            renderNautique(nautiqueData);
+        }
+
+        searchInput.addEventListener('input', filterNautique);
+        filterType.addEventListener('change', filterNautique);
+        filterDifficulty.addEventListener('change', filterNautique);
+        filterKids.addEventListener('change', filterNautique);
+        resetBtn.addEventListener('click', resetAllFilters);
+
+        renderNautique(nautiqueData);
+    </script>
+</body>
+</html>

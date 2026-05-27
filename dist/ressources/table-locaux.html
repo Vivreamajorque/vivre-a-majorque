@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Table des Locaux : Guide Gastronomique de Majorque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #A85A32;
+            --vert-eau: #7FB3A5;
+            --vert-eau-dark: #659388;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #2D3748; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-vert-eau { background-color: var(--vert-eau); }
+        .hover\:bg-vert-eau-dark:hover { background-color: var(--vert-eau-dark); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+        
+        .premium-shadow {
+            box-shadow: 0 10px 30px -10px rgba(168, 90, 50, 0.15);
+        }
+        .resto-card {
+            border-left: 5px solid var(--vert-eau);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .resto-card:hover {
+            transform: translateY(-4px);
+            border-left-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-12 lg:px-24">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-xs uppercase tracking-widest font-bold text-slate-400 block mb-3">Édition Résident Privée</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+                La Table des <br><span class="italic text-terracotta font-normal">"Locaux"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Le carnet de voyage gastronomique des initiés. 20 institutions authentiques à l'abri des masses, des rôtisseries de campagne aux cantines de pêcheurs exclusives.
+            </p>
+        </header>
+
+        <section class="bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100 mb-12">
+            <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif">Filtrer l'excellence locale</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Recherche textuelle -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recherche</label>
+                    <input type="text" id="search-input" placeholder="Ex: Agneau, Palma, Celler..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                </div>
+                
+                <!-- Zone de l'île -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Région</label>
+                    <select id="filter-region" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les régions</option>
+                        <option value="Palma">Palma & Alentours</option>
+                        <option value="Centre">Pla / Centre de l'île</option>
+                        <option value="Tramuntana">Tramuntana / Ouest</option>
+                        <option value="Est">Llevant / Est</option>
+                        <option value="Sud">Migjorn / Sud</option>
+                    </select>
+                </div>
+
+                <!-- Budget -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Budget</label>
+                    <select id="filter-budget" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Tous les prix</option>
+                        <option value="€">€ (Économique)</option>
+                        <option value="€€">€€ (Modéré)</option>
+                        <option value="€€€">€€€ (Premium)</option>
+                    </select>
+                </div>
+
+                <!-- Type de Cuisine -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Spécialité</label>
+                    <select id="filter-type" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les cuisines</option>
+                        <option value="traditionnel">Cuisine Majorquine</option>
+                        <option value="viande">Viandes & Rôtisserie</option>
+                        <option value="poisson">Poissons & Fruits de mer</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center text-xs text-slate-400">
+                <span id="results-count">20 adresses affichées</span>
+                <button id="reset-filters" class="text-terracotta hover:underline font-semibold">Réinitialiser les filtres</button>
+            </div>
+        </section>
+
+        <main id="resto-grid" class="space-y-8">
+            <!-- Injecté dynamiquement en JS pour un chargement instantané -->
+        </main>
+
+        <footer class="mt-24 bg-terracotta text-white p-8 md:p-16 rounded-[2.5rem] text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(253,251,247,0.15),transparent_50%)]"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-bold text-amber-200 block mb-4">La Trilogie du Résident</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Une expérience 100% majorquine</h2>
+                <p class="text-amber-100 mb-8 leading-relaxed">
+                    Maximisez votre art de vivre insulaire. Économisez en accédant aux <strong>20 Calas Secrètes</strong> et au <strong>Guide de la Tramuntana</strong> en choisissant notre Pack de lancement.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-terracotta px-8 py-4 rounded-full font-bold text-md hover:scale-105 active:scale-95 transition premium-shadow">
+                        Débloquer le Pack Trio (12,90 €)
+                    </button>
+                    <button class="border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-full font-bold text-md transition">
+                        Rejoindre le Club Privé
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const restoData = [
+            {
+                id: 1,
+                name: "Es Verger",
+                location: "Alaró (Tramuntana)",
+                region: "Tramuntana",
+                type: "viande",
+                budget: "€€",
+                specialty: "Agneau rôti au four à bois (Paletilla de Cordero)",
+                hours: "Fermé le lundi. Service de 12:00 à 20:00 (Cuisine continue)",
+                booking: "Pas de réservation téléphonique. Premier arrivé, premier servi. Arrivez impérativement avant 12h15 ou après 15h45.",
+                kids: "Oui",
+                kidsDetails: "Grand espace extérieur sauvage. Le restaurant est situé sur les hauteurs du château d'Alaró, parfait pour courir en plein air.",
+                services: "Authentique bergerie rustique. Pas de climatisation, tables de bois communes.",
+                desc: "Surnommé 'la cathédrale de l'agneau'. Cet ancien hangar agricole sert la meilleure épaule d'agneau de l'île, arrosée de bière locale et de romarin, cuite lentement pendant plus de 18 heures dans un vieux four en briques.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Es+Verger+Alaro"
+            },
+            {
+                id: 2,
+                name: "Celler Sa Premsa",
+                location: "Palma Centro",
+                region: "Palma",
+                type: "traditionnel",
+                budget: "€€",
+                specialty: "Arroz Brut & Frito Mallorquín",
+                hours: "De 12:00 à 16:00 et de 19:30 à 23:30. Ouvert tous les jours.",
+                booking: "Conseillée le week-end au +34 971 72 35 29. Possible d'avoir de la place sans réserver en semaine à l'ouverture.",
+                kids: "Oui",
+                kidsDetails: "Espace immense avec de grandes tables rondes. Menu enfant classique disponible, mais les nôtres adorent partager les tapas locaux.",
+                services: "Salle climatisée historique, serveurs en costume traditionnel, décoration de fûts de chêne géants.",
+                desc: "Fondé en 1958, c'est l'un des derniers authentiques 'cellers' (caves à vin converties en tavernes) de Palma. Le décor n'a pas bougé d'un iota. La cuisine y est brute, familiale et incroyablement généreuse.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Celler+Sa+Premsa+Palma"
+            },
+            {
+                id: 3,
+                name: "Restaurant El Cruce",
+                location: "Villafranca de Bonany",
+                region: "Centre",
+                type: "viande",
+                budget: "€",
+                specialty: "Escaldums de Poulet & Caragols (Escargots majorquins)",
+                hours: "De 12:30 à 23:30 non-stop. Fermé le mardi.",
+                booking: "Impossible de réserver. À l'arrivée, prenez un ticket numéroté à l'entrée. Le roulement est extrêmement rapide malgré les centaines de clients.",
+                kids: "Oui",
+                kidsDetails: "Parfait pour les grandes tribus. Ambiance bruyante et festive où les éclats de rire des enfants se fondent dans le brouhaha local.",
+                services: "Immense parking gratuit, service ultra-rapide, terrasse géante couverte.",
+                desc: "Le temple absolu du localisme. Ici, aucun touriste à l'horizon, mais des familles entières de Majorquins qui s'y pressent chaque dimanche. Les portions sont gigantesques et les prix défient toute concurrence. Un spectacle culturel en soi.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Restaurante+El+Cruce+Villafranca"
+            },
+            {
+                id: 4,
+                name: "Ca's Patró March",
+                location: "Cala Deià",
+                region: "Tramuntana",
+                type: "poisson",
+                budget: "€€€",
+                specialty: "Poisson frais du jour grillé (Llobarro, Daurada) & Calamars à la plancha",
+                hours: "De 12:30 à 22:00. Uniquement en saison d'avril à octobre.",
+                booking: "Réservation obligatoire en ligne des semaines à l'avance. Astuce résident : Venez à 11h30 pour prendre un verre et négocier une table 'no-show' de 12h00.",
+                kids: "Sous conditions",
+                kidsDetails: "Le restaurant surplombe la crique rocheuse, attention aux marches raides et à la proximité immédiate de l'eau.",
+                services: "Chiringuito haut de gamme en bord de falaise, ombragé par des canisses.",
+                desc: "Rendu mondialement célèbre par la série 'The Night Manager', ce restaurant en bois accroché aux rochers de Cala Deià offre un cadre d'un romantisme fou. Le poisson est pêché le matin même par les bateaux de la crique.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cas+Patro+March+Deia"
+            },
+            {
+                id: 5,
+                name: "Es Guix",
+                location: "Escorca (Près de Lluc)",
+                region: "Tramuntana",
+                type: "traditionnel",
+                budget: "€€€",
+                specialty: "Cochon de lait rôti (Lechona) & Ragoût de chevreau sauvage",
+                hours: "De 13:00 à 16:00. Fermé le mercredi. Fermeture hivernale en décembre/janvier.",
+                booking: "Obligatoire au +34 971 51 70 92. Demandez absolument une table sur la terrasse surplombant le bassin naturel.",
+                kids: "Oui",
+                kidsDetails: "Un environnement unique au cœur de la forêt avec une source naturelle d'eau fraîche où les enfants (et adultes) peuvent se baigner en été.",
+                services: "Piscine d'eau de source naturelle réservée aux clients, parking privé ombragé.",
+                desc: "Un lieu mystique caché dans une forêt de chênes verts de la Tramuntana. Le restaurant est construit autour d'une ancienne carrière de gypse transformée en lac naturel de baignade. La nourriture y est très traditionnelle et d'une finesse rare.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Es+Guix+Escorca"
+            },
+            {
+                id: 6,
+                name: "Celler de Petra",
+                location: "Petra (Centre)",
+                region: "Centre",
+                type: "traditionnel",
+                budget: "€€",
+                specialty: "Gató de Almendra (Gâteau traditionnel aux amandes majorquines)",
+                hours: "De 13:00 à 16:00 et de 20:00 à 23:00. Fermé le mardi.",
+                booking: "Conseillée le dimanche au +34 971 56 10 56. Idéal après le marché hebdomadaire.",
+                kids: "Oui",
+                kidsDetails: "Salle très spacieuse, aucun problème de poussette. Les plats locaux sont faciles à faire découvrir aux petits.",
+                services: "Ancien cellier historique, fraîcheur naturelle sous les voûtes de pierre.",
+                desc: "Situé au cœur du village historique de Petra, ce celler traditionnel est l'adresse de ralliement des cyclistes et des familles locales. Les recettes n'ont pas changé depuis un siècle, la porcella y est d'une tendreté absolue avec sa peau ultra-croustillante.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Celler+de+Petra"
+            },
+            {
+                id: 7,
+                name: "Sa Foradada",
+                location: "Deià (Accès à pied uniquement)",
+                region: "Tramuntana",
+                type: "poisson",
+                budget: "€€€",
+                specialty: "Paella au feu de bois (cuite au bois d'olivier)",
+                hours: "De 12:30 à 18:00 (Fermeture après le déjeuner). Uniquement de mars à novembre.",
+                booking: "Indispensable sur leur site web. Les réservations ouvrent 1 mois à l'avance. Sans réservation, l'accès à pied vous sera refusé à la barrière du domaine.",
+                kids: "Non recommandé",
+                kidsDetails: "Nécessite 45 minutes de randonnée à flanc de falaise pour descendre (et autant pour remonter). Dangereux avec de jeunes enfants sous le soleil.",
+                services: "Vue panoramique spectaculaire sur l'arche de roche de Sa Foradada, cuisine en plein air sur braises.",
+                desc: "Certainement la paella la plus spectaculaire de Méditerranée. Accroché à la roche face au large, ce restaurant n'est accessible que par bateau ou après une marche splendide à travers les oliveraies de l'ancien archiduc Louis-Salvador.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Restaurant+Sa+Foradada"
+            },
+            {
+                id: 8,
+                name: "Can Tronca",
+                location: "Sant Joan (Centre)",
+                region: "Centre",
+                type: "traditionnel",
+                budget: "€€",
+                specialty: "Sopes Mallorquines & Frito de Matances",
+                hours: "De 13:00 à 16:00. Fermé le jeudi.",
+                booking: "Recommandée le week-end au +34 971 56 31 11.",
+                kids: "Oui",
+                kidsDetails: "Ambiance de village calme et très chaleureuse. Les propriétaires adorent les familles.",
+                services: "Service familial, terrasse arrière ombragée très calme.",
+                desc: "Un joyau caché du centre de l'île. Tenu par la même famille depuis trois générations, Can Tronca est le repaire secret des connaisseurs pour déguster les véritables Sopes Mallorquines (un ragoût de légumes de saison dense posé sur des tranches de pain fin de campagne).",
+                gps: "https://www.google.com/maps/search/?api=1&query=Can+Tronca+Sant+Joan"
+            },
+            {
+                id: 9,
+                name: "Bar Casa Miss",
+                location: "Sa Pobla (Nord-Centre)",
+                region: "Centre",
+                type: "traditionnel",
+                budget: "€",
+                specialty: "Variat Mallorquí (Le tapas ultime combiné)",
+                hours: "De 07:00 à 23:30. Ouvert tous les jours.",
+                booking: "Pas de réservation nécessaire. Installez-vous simplement en terrasse sur la place du village.",
+                kids: "Oui",
+                kidsDetails: "Le bar donne directement sur la grande place piétonne de Sa Pobla. Les enfants peuvent jouer en toute sécurité devant vous.",
+                services: "Grande terrasse ensoleillée, ambiance de place de village dynamique.",
+                desc: "Sa Pobla est connue pour être le cœur agricole de l'île. Casa Miss est l'endroit parfait pour tester le 'Variat', un plat typique de Majorque où l'on mélange dans la même assiette salade russe, seiche en sauce, frito, croquettes et pica-pica de poulpe.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Bar+Casa+Miss+Sa+Pobla"
+            },
+            {
+                id: 10,
+                name: "Ca'n Boqueta",
+                location: "Sóller",
+                region: "Tramuntana",
+                type: "traditionnel",
+                budget: "€€€",
+                specialty: "Menu dégustation Majorquin moderne",
+                hours: "De 13:00 à 15:30 et de 19:30 à 22:30. Fermé le dimanche soir et le lundi.",
+                booking: "Fortement recommandée sur leur site officiel plusieurs jours à l'avance.",
+                kids: "Oui",
+                kidsDetails: "Patio intérieur calme, parfait pour un dîner détendu en fin de journée.",
+                services: "Maison de maître majorquine restaurée avec goût, très joli patio intérieur fleuri.",
+                desc: "Si vous cherchez à goûter la cuisine majorquine revisitée de manière moderne et gastronomique, c'est l'adresse idéale. Le chef Kiko Martorell sublime les produits locaux du marché de Sóller dans un cadre d'un calme absolu.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Can+Boqueta+Soller"
+            },
+            {
+                id: 11,
+                name: "S'Hostal d'Algaida",
+                location: "Algaida (Centre)",
+                region: "Centre",
+                type: "viande",
+                budget: "€€",
+                specialty: "Porcella Rostida (cochon de lait) & Arròs Brut de campagne",
+                hours: "De 12:30 à 16:00 et de 19:30 à 23:00. Fermé le mardi.",
+                booking: "Recommandée au +34 971 66 50 17, en particulier pour le déjeuner dominical.",
+                kids: "Oui",
+                kidsDetails: "Grand parking clos pour jouer, salle extrêmement spacieuse et personnel habitué aux grandes familles de locaux.",
+                services: "Terrasse sous treille de vignes, parking privé, salle historique climatisée.",
+                desc: "Une auberge traditionnelle d'une régularité sans faille. On y vient de toute l'île pour déguster sa porcella à la peau croustillante comme du verre et son riz brut ultra parfumé aux épices locales.",
+                gps: "https://www.google.com/maps/search/?api=1&query=SHostal+dAlgaida"
+            },
+            {
+                id: 12,
+                name: "Celler Can Amer",
+                location: "Inca (Centre)",
+                region: "Centre",
+                type: "traditionnel",
+                budget: "€€",
+                specialty: "Frito de sang (traditionnel) & Langue de bœuf aux câpres",
+                hours: "De 13:00 à 16:00 et de 20:00 à 23:00. Fermé le dimanche.",
+                booking: "Conseillée au +34 971 50 12 61.",
+                kids: "Oui",
+                kidsDetails: "Plats traditionnels déclinables en demi-portions, cadre impressionnant qui capte l'attention des petits.",
+                services: "Cave historique du XVIIe siècle, immense hauteur sous voûte, fraîcheur naturelle idéale en été.",
+                desc: "Inca est la capitale historique des cellers. Can Amer s'impose comme une référence absolue pour découvrir la cuisine bourgeoise majorquine, exécutée avec une précision remarquable et une passion de la transmission.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Celler+Can+Amer+Inca"
+            },
+            {
+                id: 13,
+                name: "Sa Roqueta",
+                location: "Portitxol (Palma)",
+                region: "Palma",
+                type: "poisson",
+                budget: "€€€",
+                specialty: "Calamars de potera à la plancha & Ragoût de homard de Majorque",
+                hours: "De 13:00 à 16:00 et de 20:00 à 23:00. Fermé le dimanche soir.",
+                booking: "Essentielle au +34 971 24 94 10. Demandez absolument la terrasse extérieure côtière.",
+                kids: "Sous conditions",
+                kidsDetails: "Salle très exiguë à l'intérieur, idéalement préférez la terrasse extérieure sur le vieux port piéton.",
+                services: "Bord de mer piétonnier direct, sélection de vins blancs locaux pointue.",
+                desc: "Une minuscule cabane de pêcheur historique, préservée au cœur de l'ancien quartier maritime de Portitxol. Le poisson sauvage de roche y est traité avec le plus grand respect, juste sublimé par un filet d'huile d'olive de Sóller.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Sa+Roqueta+Portitxol"
+            },
+            {
+                id: 14,
+                name: "Es Recó de Randa",
+                location: "Randa (Centre / Sud)",
+                region: "Centre",
+                type: "viande",
+                budget: "€€€",
+                specialty: "Cabri de montagne rôti (Cabrito) & Soupe de potiron majorquine",
+                hours: "De 13:00 à 15:30 et de 19:30 à 22:30. Ouvert tous les jours.",
+                booking: "Indispensable au +34 971 12 01 00, surtout pour obtenir les tables au bord de la piscine.",
+                kids: "Oui",
+                kidsDetails: "Splendide jardin arboré et calme absolu dans le village sacré de Randa, idéal pour la déconnexion familiale.",
+                services: "Terrasse panoramique de montagne, piscine décorative, parking facile d'accès.",
+                desc: "Une oasis de sérénité suspendue au flanc de la montagne sacrée de Cura. Ce restaurant propose une cuisine de montagne raffinée qui revisite les classiques du terroir avec une élégance absolue.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Es+Reco+de+Randa"
+            },
+            {
+                id: 15,
+                name: "Can Costa",
+                location: "Valldemossa",
+                region: "Tramuntana",
+                type: "traditionnel",
+                budget: "€€",
+                specialty: "Sopes Mallorquines de saison & Lapin aux oignons (Conejo con cebolla)",
+                hours: "De 12:30 à 16:00 et de 19:30 à 23:00. Fermé le mercredi.",
+                booking: "Recommandée au +34 971 61 22 03, demandez la table près du pressoir historique.",
+                kids: "Oui",
+                kidsDetails: "Cour intérieure très calme et sécurisée, loin de l'effervescence touristique du centre de Valldemossa.",
+                services: "Ancien moulin à huile d'époque conservé au centre de la salle, parking privé ombragé.",
+                desc: "Ce restaurant familial est installé dans un moulin à huile du XVIIIe siècle magnifiquement conservé. Une halte incontournable après une balade dans la Tramuntana pour savourer une cuisine robuste et sincère.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Can+Costa+Valldemossa"
+            },
+            {
+                id: 16,
+                name: "S'Arenalet",
+                location: "Colònia de Sant Pere (Est)",
+                region: "Est",
+                type: "poisson",
+                budget: "€€",
+                specialty: "Arroz Marinera (Riz au jus de mer) & Poulpe grillé à l'aïoli de safran",
+                hours: "De 12:30 à 23:30 non-stop en saison d'été. Fermé le mardi hors saison.",
+                booking: "Fortement conseillée le week-end au +34 971 58 90 23.",
+                kids: "Oui",
+                kidsDetails: "Terrasse donnant directement sur une promenade piétonne côtière sans aucune voiture. Parfait pour laisser jouer les enfants en fin de repas.",
+                services: "Vue mer exceptionnelle sur toute la baie de Pollença, terrasse face au coucher de soleil.",
+                desc: "Situé dans l'un des rares villages de pêcheurs de l'Est préservé des grands complexes. S'Arenalet sert une cuisine de mer franche, généreuse, les yeux rivés sur un horizon d'une pureté rare.",
+                gps: "https://www.google.com/maps/search/?api=1&query=SArenalet+Colonia+de+Sant+Pere"
+            },
+            {
+                id: 17,
+                name: "Celler Sa Sini",
+                location: "Santa Maria del Camí",
+                region: "Centre",
+                type: "traditionnel",
+                budget: "€€",
+                specialty: "Cocas majorquines artisanales & Frito de porc noir de Majorque",
+                hours: "De 08:00 à 23:30. Ouvert tous les jours.",
+                booking: "Recommandée le dimanche midi après le marché de Santa Maria au +34 971 62 02 52.",
+                kids: "Oui",
+                kidsDetails: "Cour intérieure dotée d'une petite aire de jeux fermée pour les enfants.",
+                services: "Pâtisserie traditionnelle attenante à la salle, magnifique patio verdoyant.",
+                desc: "Plus qu'un celler, Sa Sini est une institution de Santa Maria. C'est l'étape obligatoire des dimanches pour acheter sa coca traditionnelle avant d'aller s'attabler sous les arbres du patio pour déguster un frito d'une fraîcheur exemplaire.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Celler+Sa+Sini+Santa+Maria"
+            },
+            {
+                id: 18,
+                name: "Casa Manolo",
+                location: "Ses Salines (Sud)",
+                region: "Sud",
+                type: "poisson",
+                budget: "€€€",
+                specialty: "Calamars farcis à la majorquine (Calamars farcits) & Riz noir sauvage",
+                hours: "De 13:00 à 16:00 et de 20:00 à 23:00. Fermé le jeudi.",
+                booking: "Indispensable plusieurs jours à l'avance au +34 971 64 91 17.",
+                kids: "Oui",
+                kidsDetails: "Belle terrasse arrière ombragée et paisible, très agréable pour les déjeuners longs.",
+                services: "Terrasse sous treille historique, service professionnel traditionnel élégant.",
+                desc: "Manolo est une véritable légende culinaire du Sud de l'île. On y vient pour la qualité exceptionnelle de son calamar farci et l'accueil inégalable du propriétaire historique qui veille sur son monde depuis des décennies.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Casa+Manolo+Ses+Salines"
+            },
+            {
+                id: 19,
+                name: "Celler de Can Carrossa",
+                location: "Lloseta (Centre)",
+                region: "Centre",
+                type: "traditionnel",
+                budget: "€€€",
+                specialty: "Menu dégustation de cuisine majorquine évolutive (selon marché)",
+                hours: "De 13:30 à 16:00 et de 20:30 à 23:00. Fermé le lundi.",
+                booking: "Obligatoire au +34 971 51 40 50 (Uniquement sur menu dégustation fixe).",
+                kids: "Sous conditions",
+                kidsDetails: "Expérience gastronomique lente et feutrée, pas de menu enfant disponible sur le concept.",
+                services: "Maison historique en pierre de taille, cour de caractère intimiste.",
+                desc: "Le chef Joan Torrens y propose une expérience unique à Majorque : un menu dégustation à l'aveugle revisitant la mémoire gustative de l'île de façon moderne, à l'aide de produits locaux bio d'exception.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Can+Carrossa+Lloseta"
+            },
+            {
+                id: 20,
+                name: "Es Canyís",
+                location: "Port de Sóller",
+                region: "Tramuntana",
+                type: "poisson",
+                budget: "€€€",
+                specialty: "Poisson fin en croûte de sel & Glace artisanale aux oranges locales de Sóller",
+                hours: "De 13:00 à 15:30 et de 19:30 à 22:30. Fermé le mardi.",
+                booking: "Conseillée au +34 971 63 14 06. Demandez les tables de la baie vitrée face à la mer.",
+                kids: "Oui",
+                kidsDetails: "Situé sur la promenade côtière entièrement piétonne, aucun risque de voiture, idéal pour regarder le vieux tramway passer.",
+                services: "Terrasse de bord de mer de grand style, grande baie vitrée climatisée.",
+                desc: "Tenu avec rigueur par la famille Perrotte depuis des décennies, Es Canyís est l'adresse de poisson la plus constante et respectée du Port de Sóller. Une cuisine nette, délicate et sans artifice, portée par des produits d'une fraîcheur millimétrée.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Es+Canyis+Port+de+Soller"
+            }
+        ];
+
+        const grid = document.getElementById('resto-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterRegion = document.getElementById('filter-region');
+        const filterBudget = document.getElementById('filter-budget');
+        const filterType = document.getElementById('filter-type');
+        const resultsCount = document.getElementById('results-count');
+        const resetBtn = document.getElementById('reset-filters');
+
+        function renderRestaurants(restaurants) {
+            grid.innerHTML = '';
+            
+            if (restaurants.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-3xl premium-shadow border border-slate-100">
+                        <p class="text-lg text-slate-500">Aucun restaurant ne correspond à vos critères de recherche.</p>
+                        <button onclick="resetAllFilters()" class="text-terracotta font-semibold mt-4 hover:underline">Afficher toutes les adresses</button>
+                    </div>
+                `;
+                resultsCount.textContent = '0 adresse affichée';
+                return;
+            }
+
+            restaurants.forEach((resto) => {
+                const badgeKidsClass = resto.kids === "Oui" ? "bg-emerald-50 text-emerald-800" : resto.kids === "Sous conditions" ? "bg-amber-50 text-amber-800" : "bg-rose-50 text-rose-800";
+                
+                const card = document.createElement('div');
+                card.className = "resto-card bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100";
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
+                        <div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-vert-eau">${resto.location}</span>
+                            <h3 class="text-3xl font-bold text-slate-900 mt-1">${resto.name}</h3>
+                        </div>
+                        <a href="${resto.gps}" target="_blank" class="w-full md:w-auto bg-vert-eau text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide text-center hover:bg-vert-eau-dark transition">
+                            Itinéraire GPS ➔
+                        </a>
+                    </div>
+
+                    <!-- Fiche Technique -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🔥 Spécialité Phare</span>
+                            <span class="font-semibold text-slate-800">${resto.specialty}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">💰 Budget Estimé</span>
+                            <span class="font-bold text-terracotta">${resto.budget}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeKidsClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🧒 Adapté aux Enfants</span>
+                            <span class="font-bold">${resto.kids}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">📅 Réservation</span>
+                            <span class="font-semibold text-slate-800 text-xs">${resto.booking.substring(0, 45)}...</span>
+                        </div>
+                    </div>
+
+                    <!-- Description & Conseils -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <p><strong class="text-slate-800 font-semibold">Le Secret :</strong> ${resto.desc}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-4 border-t border-slate-100 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">📞 Stratégie de Réservation :</span>
+                                ${resto.booking}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">⏰ Horaires & Fermetures :</span>
+                                ${resto.hours}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-2 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧒 Détails Famille :</span>
+                                ${resto.kidsDetails}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🏡 Confort & Cadre :</span>
+                                ${resto.services}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            resultsCount.textContent = `${restaurants.length} adresse${restaurants.length > 1 ? 's' : ''} affichée${restaurants.length > 1 ? 's' : ''}`;
+        }
+
+        function filterRestos() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedRegion = filterRegion.value;
+            const selectedBudget = filterBudget.value;
+            const selectedType = filterType.value;
+
+            const filtered = restoData.filter((resto) => {
+                const matchesSearch = resto.name.toLowerCase().includes(searchText) || resto.desc.toLowerCase().includes(searchText) || resto.specialty.toLowerCase().includes(searchText);
+                const matchesRegion = selectedRegion === 'all' || resto.region === selectedRegion;
+                const matchesBudget = selectedBudget === 'all' || resto.budget === selectedBudget;
+                const matchesType = selectedType === 'all' || resto.type === selectedType;
+
+                return matchesSearch && matchesRegion && matchesBudget && matchesType;
+            });
+
+            renderRestaurants(filtered);
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            filterRegion.value = 'all';
+            filterBudget.value = 'all';
+            filterType.value = 'all';
+            renderRestaurants(restoData);
+        }
+
+        // Événements de liaison de l'interface
+        searchInput.addEventListener('input', filterRestos);
+        filterRegion.addEventListener('change', filterRestos);
+        filterBudget.addEventListener('change', filterRestos);
+        filterType.addEventListener('change', filterRestos);
+        resetBtn.addEventListener('click', resetAllFilters);
+
+        // Lancement initial au chargement
+        renderRestaurants(restoData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Guide du Circuit Court : Manger Local à Majorque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #A85A32;
+            --vert-eau: #7FB3A5;
+            --vert-eau-dark: #659388;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #2D3748; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-vert-eau { background-color: var(--vert-eau); }
+        .hover\:bg-vert-eau-dark:hover { background-color: var(--vert-eau-dark); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+        
+        .premium-shadow {
+            box-shadow: 0 10px 30px -10px rgba(168, 90, 50, 0.15);
+        }
+        .producer-card {
+            border-left: 5px solid var(--vert-eau);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .producer-card:hover {
+            transform: translateY(-4px);
+            border-left-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-12 lg:px-24">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-xs uppercase tracking-widest font-bold text-slate-400 block mb-3">Édition Résident Privée</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+                Le Guide du <br><span class="italic text-terracotta font-normal">"Circuit Court"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Consommez sain, frais et 100% majorquin. 20 adresses de coopératives agricoles, fermes bio et producteurs d'exception pour manger local directement à la source.
+            </p>
+        </header>
+
+        <section class="bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100 mb-12">
+            <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif">S'approvisionner auprès des locaux</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Recherche textuelle -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recherche</label>
+                    <input type="text" id="search-input" placeholder="Ex: Fromage, Sóller, Bio..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                </div>
+                
+                <!-- Zone de l'île -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Région</label>
+                    <select id="filter-region" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les régions</option>
+                        <option value="Palma">Palma & Alentours</option>
+                        <option value="Centre">Pla / Centre de l'île</option>
+                        <option value="Tramuntana">Tramuntana / Ouest</option>
+                        <option value="Est">Llevant / Est</option>
+                        <option value="Sud">Migjorn / Sud</option>
+                    </select>
+                </div>
+
+                <!-- Type d'approvisionnement -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Type d'artisan</label>
+                    <select id="filter-type" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les spécialités</option>
+                        <option value="ferme">Ferme bio / Maraîcher</option>
+                        <option value="marche">Marché paysan</option>
+                        <option value="cooperative">Coopérative locale</option>
+                        <option value="terroir">Huile, Vin & Terroir</option>
+                    </select>
+                </div>
+
+                <!-- Adapté Enfants (Activités de la ferme) -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Adapté Enfants</label>
+                    <select id="filter-kids" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Peu importe</option>
+                        <option value="Oui">Adapté (Animaux / Ateliers)</option>
+                        <option value="Sous conditions">Sous conditions (Visite simple)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center text-xs text-slate-400">
+                <span id="results-count">20 adresses affichées</span>
+                <button id="reset-filters" class="text-terracotta hover:underline font-semibold">Réinitialiser les filtres</button>
+            </div>
+        </section>
+
+        <main id="producers-grid" class="space-y-8">
+            <!-- Injecté dynamiquement en JS pour un chargement instantané -->
+        </main>
+
+        <footer class="mt-24 bg-terracotta text-white p-8 md:p-16 rounded-[2.5rem] text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(253,251,247,0.15),transparent_50%)]"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-bold text-amber-200 block mb-4">La Trilogie du Résident</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">L'art de vivre d'un résident initié</h2>
+                <p class="text-amber-100 mb-8 leading-relaxed">
+                    Maximisez votre art de vivre insulaire. Économisez en accédant aux <strong>20 Calas Secrètes</strong>, à la <strong>Table des Locaux</strong> et au <strong>Guide de la Tramuntana</strong> en choisissant notre Pack de lancement.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-terracotta px-8 py-4 rounded-full font-bold text-md hover:scale-105 active:scale-95 transition premium-shadow">
+                        Débloquer le Pack Trio (12,90 €)
+                    </button>
+                    <button class="border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-full font-bold text-md transition">
+                        Rejoindre le Club Privé
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const producersData = [
+            {
+                id: 1,
+                name: "Cooperativa de Sóller",
+                location: "Sóller (Tramuntana)",
+                region: "Tramuntana",
+                type: "cooperative",
+                products: "Oranges, citrons, huile d'olive de Sóller & confitures artisanales",
+                hours: "Du lundi au vendredi : 09:00 - 18:00. Samedi : 09:00 - 13:00.",
+                kids: "Oui",
+                kidsDetails: "Boutique colorée très accessible avec démonstration de vieux pressoirs d'époque et explications ludiques sur les agrumes.",
+                services: "services",
+                servicesDetails: "Grand parking gratuit, dégustation d'huile d'olive fraîche sur pain, boutique d'artisanat local intégrée.",
+                desc: "Fondée en 1899, cette coopérative est le cœur battant de la vallée des agrumes. Ici, les résidents achètent directement leur huile d'olive vierge extra de la Tramuntana en bidon de 5L et des caisses de oranges fraîchement cueillies à des prix imbattables.",
+                strategy: "Achetez leur huile d'olive artisanale 'Oli de Sóller' sous signe de qualité certifié. Les récoltes d'agrumes de saison (décembre à mai) y sont vendues à des prix dérisoires par rapport aux supermarchés.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cooperativa+Agricola+de+Soller"
+            },
+            {
+                id: 2,
+                name: "Finca Eco-Vegetariana Son Barrina",
+                location: "Llubí (Centre)",
+                region: "Centre",
+                type: "ferme",
+                products: "Légumes et fruits de saison certifiés bio, œufs frais du jour",
+                hours: "Mercredi et Samedi : 09:00 - 14:00 (Vente directe au hangar)",
+                kids: "Oui",
+                kidsDetails: "Ferme familiale en pleine nature. Les enfants adorent voir les champs de culture, courir sous les oliviers et croiser les poules en liberté.",
+                services: "sauvage",
+                servicesDetails: "Vente directe à la ferme. Paiement par carte accepté, grand parking de terre à l'ombre des amandiers.",
+                desc: "Un projet d'agriculture biodynamique absolument remarquable. Les récoltes de légumes anciens et herbes aromatiques se font à la main sous vos yeux. Les saveurs des tomates d'été et courges d'automne y sont extraordinaires.",
+                strategy: "Commandez votre panier de saison ('cesta') en ligne sur leur site la veille pour qu'il soit préparé et prêt pour votre arrivée le samedi matin.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Finca+Son+Barrina+Llubi"
+            },
+            {
+                id: 3,
+                name: "Marché Bio de Palma (Plaça des Patins)",
+                location: "Palma Centro",
+                region: "Palma",
+                type: "marche",
+                products: "Légumes bio, fromages artisanaux, pain de Xeixa & cosmétiques naturels",
+                hours: "Mardi et Samedi matin : 08:00 - 14:00",
+                kids: "Oui",
+                kidsDetails: "Place piétonne sécurisée et calme, idéale pour que les petits grignotent des pâtisseries locales bio achetées sur le pouce.",
+                services: "services",
+                servicesDetails: "Parkings souterrains payants à proximité directe (Avinguda d'Alemanya), nombreux cafés de quartier.",
+                desc: "Le premier marché 100% écologique d'Espagne. Ce marché à ciel ouvert réunit chaque semaine les plus petits maraîchers certifiés écologiques de l'île. C'est l'adresse privilégiée des chefs de restaurants et résidents de Palma pour remplir leur panier.",
+                strategy: "Venez dès 08h30 pour avoir le choix sur les produits rares comme la laitue de mer locale ou les œufs bio de race majorquine qui s'arrachent très vite.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Placa+del+Bisbe+Berenguer+de+Palma"
+            },
+            {
+                id: 4,
+                name: "Sa Teulera (Ferme & Fromagerie)",
+                location: "Manacor / Petra (Est)",
+                region: "Est",
+                type: "ferme",
+                products: "Fromages de vache bio, yaourts fermiers, farines artisanales et légumes",
+                hours: "Boutique ouverte du lundi au samedi : 09:00 - 13:30 et 16:30 - 20:00",
+                kids: "Oui",
+                kidsDetails: "Véritable ferme laitière éducative. Possibilité de voir la traite traditionnelle et d'observer les vaches rousses de race locale.",
+                services: "services",
+                servicesDetails: "Parking privé, boutique complète de produits fermiers frais, possibilité de commander des paniers complets.",
+                desc: "Sa Teulera est une institution pionnière de l'agriculture biologique à Majorque. Ils transforment le lait bio de leurs propres troupeaux en yaourts et fromages artisanaux à croûte lavée exceptionnels, élaborés dans le pur respect des méthodes traditionnelles.",
+                strategy: "Leur yaourt fermier au lait de vache majorquine est le meilleur de l'île. Ne manquez pas d'acheter leur pain de 'Xeixa' (blé ancien majorquin) cuit au four à bois de la ferme.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Sa+Teulera+Manacor"
+            },
+            {
+                id: 5,
+                name: "Aubocassa (L'Or Vert)",
+                location: "Manacor (Est)",
+                region: "Est",
+                type: "terroir",
+                products: "Huile d'olive extra-vierge ultra-premium (D.O.P. Oli de Mallorca)",
+                hours: "Du lundi au vendredi : 10:00 - 17:00. Samedi sur réservation.",
+                kids: "Sous conditions",
+                kidsDetails: "Visite culturelle calme. Très enrichissant pour les ados curieux de gastronomie et de processus de fabrication.",
+                services: "services",
+                servicesDetails: "Moulin moderne d'extraction à froid, salle de dégustation design, sanitaires et parking privatif ombragé.",
+                desc: "Situé au cœur d'un domaine du XIIe siècle entouré de milliers d'oliviers, Aubocassa produit l'une des huiles d'olive les plus raffinées d'Espagne. Le nez révèle des notes d'herbe coupée, de tomate verte et d'amande fraîche d'une pureté extraordinaire.",
+                strategy: "Réservez leur visite guidée avec dégustation technique (environ 15€). C'est le meilleur moyen de comprendre les nuances de l'olive Arbequina locale.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Aubocassa+Manacor"
+            },
+            {
+                id: 6,
+                name: "Bodegas Ribas (Depuis 1711)",
+                location: "Consell (Centre)",
+                region: "Centre",
+                type: "terroir",
+                products: "Vins de cépages majorquins (Mantonegro, Gargollassa, Prensal Blanc)",
+                hours: "Boutique directe : Lundi au vendredi 10:00 - 18:00. Samedi sur rdv.",
+                kids: "Sous conditions",
+                kidsDetails: "Visite de domaine viticole calme. Les jardins intérieurs sont fermés et agréables pour attendre pendant la dégustation des parents.",
+                services: "services",
+                servicesDetails: "Dégustation haut de gamme, cours historique préservée, parking facile, expédition internationale possible.",
+                desc: "La plus ancienne cave de Majorque et la troisième plus ancienne d'Espagne toujours en activité. La famille Ribas produit des nectars de classe mondiale en réhabilitant des cépages autochtones oubliés qui expriment fidèlement le terroir calcaire de la plaine.",
+                strategy: "Leur blanc 'Sió' (Prensal Blanc majorquin vieilli sur lies) et leur rouge issu du cépage rare Gargollassa sont des merveilles absolues à ramener dans votre cave résidentielle.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Bodegas+Ribas+Consell"
+            },
+            {
+                id: 7,
+                name: "Finca Son Mut Nou (Le paradis des figues)",
+                location: "Llucmajor (Sud)",
+                region: "Sud",
+                type: "ferme",
+                products: "Figues fraîches (en saison), figues séchées, confitures de figues uniques",
+                hours: "Ouvert pendant la saison des figues (Août à Octobre). Visites guidées sur rendez-vous.",
+                kids: "Oui",
+                kidsDetails: "Une aventure de cueillette magique. Les enfants découvrent l'incroyable diversité des formes et couleurs des figues sauvages.",
+                services: "sauvage",
+                servicesDetails: "Ferme expérimentale, dégustations guidées et vente directe des produits transformés de la finca.",
+                desc: "C'est la plus grande réserve de figuiers au monde ! Cette ferme d'expérimentation agronomique unique préserve plus de 3 000 arbres de 800 variétés de figues différentes. Un travail de conservation patrimoniale d'une valeur inestimable.",
+                strategy: "Planifiez une visite guidée en septembre : vous pourrez cueillir et déguster directement sur l'arbre des figues aux arômes de miel, de framboise ou de noix de coco.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Finca+Son+Mut+Nou+Llucmajor"
+            },
+            {
+                id: 8,
+                name: "Marché paysan de Sineu",
+                location: "Sineu (Centre)",
+                region: "Centre",
+                type: "marche",
+                products: "Légumes paysans, bétail local, fromages de brebis Coinga, miels et outils",
+                hours: "Chaque Mercredi matin : 08:00 - 13:30",
+                kids: "Oui",
+                kidsDetails: "Le seul marché de l'île qui conserve sa foire aux animaux traditionnels (moutons, ânes de race majorquine, chèvres). Succès garanti avec les petits.",
+                services: "services",
+                servicesDetails: "Nombreux restaurants traditionnels (cellers) servant le frito majorquin au centre du village, gares ferroviaires à 5 min à pied.",
+                desc: "Datant du Moyen Âge (fondé en 1252), c'est le marché le plus historique, brut et vibrant de Majorque. Évitez les étals de souvenirs touristiques et concentrez-vous sur la place de l'église et les ruelles adjacentes où les paysans locaux vendent leurs récoltes à la criée.",
+                strategy: "Arrivez avant 08h30 pour vous garer facilement en périphérie et observez les négociations traditionnelles de bétail entre éleveurs locaux autour d'un café.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Placa+es+Fossar+Sineu"
+            },
+            {
+                id: 9,
+                name: "Agromart (Le réseau coopératif)",
+                location: "Toute l'île (Palma, Llucmajor, Marratxí, etc.)",
+                region: "Centre",
+                type: "cooperative",
+                products: "Fruits, légumes, charcuteries Sobrassada de Porc Negre, bières locales",
+                hours: "Ouvert en continu du lundi au samedi : 09:00 - 20:30. Dimanche : 09:00 - 14:00.",
+                kids: "Oui",
+                kidsDetails: "Magasins propres, spacieux, très faciles d'accès en famille pour faire les courses quotidiennes de produits sains.",
+                services: "services",
+                servicesDetails: "Grands parkings gratuits devant la plupart des magasins, paiement sans contact, épicerie complète de produits frais.",
+                desc: "Agromart est né de l'association de 4 familles de maraîchers de Porreres. Ils ont créé un réseau exceptionnel de magasins qui court-circuitent les supermarchés traditionnels en vendant leurs propres récoltes et celles de dizaines d'agriculteurs locaux associés.",
+                strategy: "C'est l'adresse idéale pour vos courses du quotidien de résident. Les fruits et légumes locaux de saison y sont toujours d'une fraîcheur irréprochable et 30% moins chers qu'en grande surface.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Agromart+Mallorca"
+            },
+            {
+                id: 10,
+                name: "Formatges Burguera (Fromagerie Cotière)",
+                location: "Campos (Sud)",
+                region: "Sud",
+                type: "ferme",
+                products: "Fromage frais traditionnel majorquin, fromage affiné au romarin, lait frais",
+                hours: "Du lundi au vendredi : 09:00 - 14:00 et 16:00 - 19:30. Samedi : 09:00 - 14:00.",
+                kids: "Oui",
+                kidsDetails: "La ferme laitière moderne est visible depuis la boutique de vente directe. Très intéressant pour comprendre le circuit court.",
+                services: "services",
+                servicesDetails: "Boutique directe à la ferme, parking privé facile d'accès sur la route de Colonia de Sant Jordi.",
+                desc: "Cette exploitation familiale gère l'intégralité de la chaîne : de la culture du fourrage des vaches laitières à l'élaboration de leurs célèbres fromages artisanaux. Leurs fromages frais sont légers, parfumés et constituent une spécialité unique de la plaine de Campos.",
+                strategy: "Demandez leur fromage affiné au romarin ('Queso al Romero') ou frotté à l'huile d'olive de Majorque. Un délice pour vos apéritifs d'été sur la terrasse.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Formatges+Burguera+Campos"
+            },
+            {
+                id: 11,
+                name: "Forn de la Glòria (Depuis 1717)",
+                location: "Palma Centro (Vieux Palma)",
+                region: "Palma",
+                type: "terroir",
+                products: "Ensaimada traditionnelle de Xeixa, Pain de Xeixa bio, empanadas de viande",
+                hours: "Lundi au vendredi : 07:00 - 14:00 et 17:00 - 20:00. Samedi : 07:00 - 14:00.",
+                kids: "Oui",
+                kidsDetails: "La plus ancienne boulangerie historique active de Palma fascinera les petits par son architecture d'époque et l'odeur du pain frais.",
+                services: "services",
+                servicesDetails: "En plein cœur historique de Palma (accessible uniquement à pied, parking recommandé à la Plaza Mayor).",
+                desc: "Géré avec passion par la même famille de maîtres artisans boulangers depuis des siècles. C'est l'un des rares établissements d'Espagne à conserver son immense four à bois historique en briques pour la cuisson des véritables ensaimadas faites à la main.",
+                strategy: "Leur ensaimada classique individuelle ou leur 'Pan de Xeixa' (pain de blé rustique indigène à faible taux de gluten) sont des références patrimoniales à tester absolument.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Forn+de+la+Gloria+Palma"
+            },
+            {
+                id: 12,
+                name: "Marché paysan de Santa Maria",
+                location: "Santa Maria del Camí (Centre)",
+                region: "Centre",
+                type: "marche",
+                products: "Légumes des maraîchers de la plaine, plants de potager, charcuteries et pépinière",
+                hours: "Chaque Dimanche matin : 08:00 - 14:00",
+                kids: "Oui",
+                kidsDetails: "Le grand marché dominical par excellence. Ambiance de village chaleureuse et familiale, idéale pour choisir ensemble les futurs plants de légumes de votre potager.",
+                services: "services",
+                servicesDetails: "Immense parking de terre aménagé gratuit en périphérie de Santa Maria, train direct de Palma en 15 min.",
+                desc: "Pour tout résident qui s'installe, c'est le rendez-vous incontournable du dimanche matin. Le marché de Santa Maria est particulièrement réputé pour sa section écologique ('Plaça Nova') et son immense pépinière où l'on achète oliviers, agrumes et plantes de jardin à prix direct producteur.",
+                strategy: "Après avoir fait vos emplettes, réservez une table au restaurant 'Celler Sa Sini' adjacent pour déguster une coca de légumes locale au milieu des familles de résidents.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Placa+Nova+Santa+Maria+del+Cami"
+            },
+            {
+                id: 13,
+                name: "Formatges Grimalt",
+                location: "Ses Salines / Llombards (Sud)",
+                region: "Sud",
+                type: "ferme",
+                products: "Fromages artisanaux affinés de brebis majorquine, sobrassada artisanale",
+                hours: "Du lundi au vendredi : 09:30 - 13:30 et 16:30 - 19:30. Samedi : 09:30 - 13:30.",
+                kids: "Oui",
+                kidsDetails: "Petite boutique chaleureuse en bord de route, parfaite pour une halte rapide sur le chemin du retour des plages du Sud.",
+                services: "sauvage",
+                servicesDetails: "Vente directe sans intermédiaire, stationnement facile devant la boutique.",
+                desc: "Une exploitation historique du Sud de l'île qui transforme de manière artisanale le lait de ses propres brebis de race locale en fromages affinés de haute tenue. Le goût typique, robuste et beurré de leur fromage de brebis est un délice.",
+                strategy: "Demandez leur fromage 'Semicurado' frotté au piment rouge majorquin (Tap de Cortí). C'est l'accord parfait pour vos plateaux de charcuterie de terroir.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Formatges+Grimalt+Ses+Salines"
+            },
+            {
+                id: 14,
+                name: "Apicultura Es Mel (L'Apiculteur de Llubí)",
+                location: "Llubí (Centre)",
+                region: "Centre",
+                type: "terroir",
+                products: "Miel d'oranger, miel de caroubier, miel de romarin et gelée royale bio",
+                hours: "Sur rendez-vous et vente directe les jours de marché de Llubí (mardi matin).",
+                kids: "Oui",
+                kidsDetails: "Ateliers éducatifs de découverte des ruches et fabrication de bougies en cire naturelle organisés en saison pour les enfants.",
+                services: "sauvage",
+                servicesDetails: "Exploitation artisanale de campagne, contact direct avec l'apiculteur de renom de l'île.",
+                desc: "Es Mel produit les miels les plus récompensés des Baléares. Leurs ruches d'abeilles indigènes sont installées de manière stratégique dans les espaces forestiers préservés de la Tramuntana et de la plaine, capturant des arômes floraux d'une finesse incomparable.",
+                strategy: "Leur miel de caroubier (Carob / Algarrobo) est une rareté absolue : de couleur sombre et au goût cacaoté unique, c'est un produit signature à ramener absolument.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Llubi+Mallorca"
+            },
+            {
+                id: 15,
+                name: "Son Prim (Le Domaine Secret de Sencelles)",
+                location: "Sencelles (Centre)",
+                region: "Centre",
+                type: "terroir",
+                products: "Vins de cépages Merlot, Cabernet Sauvignon et cépages autochtones majorquins",
+                hours: "Du lundi au vendredi : 10:00 - 17:00. Samedi matin sur réservation.",
+                kids: "Sous conditions",
+                kidsDetails: "Visite de domaine haut de gamme, calme et soignée. Idéale pour les couples de résidents en recherche de belles bouteilles.",
+                services: "services",
+                servicesDetails: "Boutique moderne, terrasse de dégustation dans les vignes, parking privé facile d'accès.",
+                desc: "Un domaine viticole familial d'une élégance rare et à taille humaine. Les vignes de Son Prim s'épanouissent sur un terroir d'argile rouge ferrugineuse unique (Call Vermell), produisant des vins d'une rondeur et d'une intensité aromatique spectaculaires.",
+                strategy: "Leur monocépage de Merlot 'Son Prim' est salué par tous les critiques espagnols. Une bouteille indispensable pour accompagner vos barbecues de cochon de lait.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Son+Prim+Sencelles"
+            },
+            {
+                id: 16,
+                name: "Hort de Sa Vinyola",
+                location: "Campos (Sud)",
+                region: "Sud",
+                type: "ferme",
+                products: "Légumes bio d'été, pastèques de Campos sucrées, tomates de ramellet",
+                hours: "Mardi, Jeudi et Samedi matin : 09:00 - 13:30 (Vente directe au champ)",
+                kids: "Oui",
+                kidsDetails: "Ferme horticole historique de la plaine maraîchère. Les enfants peuvent voir d'où viennent les courgettes et pastèques géantes.",
+                services: "sauvage",
+                servicesDetails: "Vente directe au hangar agricole de la finca, paiement en espèces ou par Bizum recommandé.",
+                desc: "La plaine de Campos est connue pour sa richesse maraîchère grâce à la qualité de ses eaux souterraines. Hort de Sa Vinyola propose des légumes cueillis à maturité parfaite, gorgés de soleil, à des prix de vente directe ultra-compétitifs.",
+                strategy: "Achetez-y des grappes entières de 'Tomàtiga de Ramellet' : ces tomates locales d'hiver se conservent suspendues dans votre cuisine pendant des mois et servent à frotter sur le traditionnel Pa amb Oli.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Campos+Mallorca"
+            },
+            {
+                id: 17,
+                name: "Forn de Baix (Sóller)",
+                location: "Sóller (Tramuntana)",
+                region: "Tramuntana",
+                type: "terroir",
+                products: "Cocas de Sóller (citron), gâteaux traditionnels, empanadas majorquines",
+                hours: "Tous les jours de 07:00 à 21:00 non-stop",
+                kids: "Oui",
+                kidsDetails: "Boulangerie-pâtisserie historique au parfum envoûtant de pâte à gâteau fraîche. Très ludique pour un goûter d'enfants.",
+                services: "services",
+                servicesDetails: "Idéalement située au centre piétonnier de Sóller, à deux pas de la gare du tramway historique.",
+                desc: "Cette boulangerie artisanale de village est la gardienne des recettes douces de la vallée de Sóller. On s'y presse pour leurs spécialités élaborées à base d'agrumes locaux d'une fraîcheur incroyable.",
+                strategy: "Leur 'Coca de Sóller' (gâteau moelleux et parfumé au jus et zestes de citrons frais de la vallée) est une pure merveille à emporter pour vos pique-niques de randonnée.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Forn+de+Baix+Soller"
+            },
+            {
+                id: 18,
+                name: "S'Horta de Sa Pobla",
+                location: "Sa Pobla (Nord / Centre)",
+                region: "Centre",
+                type: "cooperative",
+                products: "Pommes de terre primeurs de renommée, ail frais, piments de tap de cortí",
+                hours: "Du lundi au vendredi : 08:30 - 13:00 et 15:30 - 19:00. Samedi : 08:30 - 13:00.",
+                kids: "Sous conditions",
+                kidsDetails: "Coopérative agricole de grande ampleur, trafic de tracteurs à l'entrée. Restez vigilants et attentifs avec de jeunes enfants.",
+                services: "services",
+                servicesDetails: "Hangar agricole immense, chargement facile dans votre coffre de voiture, pesée précise sur balance industrielle.",
+                desc: "Sa Pobla est le grenier agricole historique des Baléares. Sa coopérative rassemble des dizaines de petits maraîchers spécialisés dans la culture de la pomme de terre de primeur (exportée dans toute l'Europe) et du piment doux servant à élaborer la sobrassada traditionnelle.",
+                strategy: "Achetez-y des sacs de pommes de terre primeurs de 10kg d'une qualité gustative exceptionnelle, ou des bocaux de piment en poudre de Tap de Cortí pour vos propres plats locaux.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Sa+Pobla+Mallorca"
+            },
+            {
+                id: 19,
+                name: "Formatgeria Es Cremat",
+                location: "Inca / Sencelles (Centre)",
+                region: "Centre",
+                type: "ferme",
+                products: "Fromages de brebis bio à croûte naturelle, yaourt crémeux de brebis",
+                hours: "Vente sur rendez-vous à la ferme et sur les marchés de producteurs bio du samedi matin.",
+                kids: "Oui",
+                kidsDetails: "Exploitation de taille familiale très accueillante. L'artisan prend le temps d'expliquer son travail aux familles de passage.",
+                services: "sauvage",
+                servicesDetails: "Cadre agricole bucolique préservé du centre de l'île, paiement Bizum accepté.",
+                desc: "Es Cremat produit des fromages d'auteur d'une qualité artistique hors norme. Élaborés à base de lait cru de brebis locales, leurs fromages d'affinement lent développent des croûtes naturelles fleuries au parfum de sous-bois typique du centre de l'île.",
+                strategy: "Leur yaourt de brebis fermier en bocal de verre est d'un crémeux et d'une douceur exceptionnels. Un régal absolu à associer avec le miel d'Es Mel.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Inca+Mallorca"
+            },
+            {
+                id: 20,
+                name: "Marché paysan d'Alaró",
+                location: "Alaró (Tramuntana)",
+                region: "Tramuntana",
+                type: "marche",
+                products: "Légumes bio, fruits des vergers locaux d'Alaró, pains rustiques",
+                hours: "Chaque Samedi matin : 08:00 - 13:30",
+                kids: "Oui",
+                kidsDetails: "Marché convivial sur la place piétonne d'Alaró, parfait pour laisser jouer les enfants autour de la fontaine centrale pendant vos achats.",
+                services: "services",
+                servicesDetails: "Nombreuses terrasses de cafés et rôtisseries entourant la place piétonne, parkings de village à proximité.",
+                desc: "Un marché de village d'une douceur de vivre incomparable. Niché au pied des falaises jumelles d'Alaró, ce marché de taille humaine réunit les maraîchers bio de la vallée pour proposer des produits d'une fraîcheur exemplaire dans une ambiance résolument résidentielle et détendue.",
+                strategy: "Combinez vos achats du samedi avec un passage à la boulangerie locale pour acheter une coca de légumes à emporter pour votre pique-nique du week-end.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Placa+de+la+Constitucio+Alaro"
+            }
+        ];
+
+        const grid = document.getElementById('producers-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterRegion = document.getElementById('filter-region');
+        const filterType = document.getElementById('filter-type');
+        const filterKids = document.getElementById('filter-kids');
+        const resultsCount = document.getElementById('results-count');
+        const resetBtn = document.getElementById('reset-filters');
+
+        function renderProducers(producers) {
+            grid.innerHTML = '';
+            
+            if (producers.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-3xl premium-shadow border border-slate-100">
+                        <p class="text-lg text-slate-500">Aucun producteur ne correspond à vos critères d'approvisionnement.</p>
+                        <button onclick="resetAllFilters()" class="text-terracotta font-semibold mt-4 hover:underline">Afficher toutes les adresses</button>
+                    </div>
+                `;
+                resultsCount.textContent = '0 adresse affichée';
+                return;
+            }
+
+            producers.forEach((producer) => {
+                const badgeKidsClass = producer.kids === "Oui" ? "bg-emerald-50 text-emerald-800" : "bg-amber-50 text-amber-800";
+                const badgeTypeClass = producer.type === "ferme" ? "bg-blue-50 text-blue-800" : producer.type === "marche" ? "bg-purple-50 text-purple-800" : producer.type === "cooperative" ? "bg-sky-50 text-sky-800" : "bg-amber-50 text-amber-800";
+                
+                const card = document.createElement('div');
+                card.className = "producer-card bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100";
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
+                        <div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-vert-eau">${producer.location}</span>
+                            <h3 class="text-3xl font-bold text-slate-900 mt-1">${producer.name}</h3>
+                        </div>
+                        <a href="${producer.gps}" target="_blank" class="w-full md:w-auto bg-vert-eau text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide text-center hover:bg-vert-eau-dark transition">
+                            Itinéraire GPS ➔
+                        </a>
+                    </div>
+
+                    <!-- Fiche Technique -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🧺 Spécialités directes</span>
+                            <span class="font-semibold text-slate-800 text-xs">${producer.products}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeTypeClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🌾 Type d'artisan</span>
+                            <span class="font-bold capitalize">${producer.type === 'ferme' ? 'Ferme bio / Maraîcher' : producer.type === 'marche' ? 'Marché paysan' : producer.type === 'cooperative' ? 'Coopérative locale' : 'Terroir & Terres'}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeKidsClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🧒 Adapté aux Enfants</span>
+                            <span class="font-bold">${producer.kids}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🧺 Type de cadre</span>
+                            <span class="font-bold text-terracotta">${producer.services === "services" ? "Équipé / Services" : "Sauvage (Ferme / Direct)"}</span>
+                        </div>
+                    </div>
+
+                    <!-- Description & Conseils -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <p><strong class="text-slate-800 font-semibold">Le Secret :</strong> ${producer.desc}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-4 border-t border-slate-100 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🚗 Stratégie d'Approvisionnement :</span>
+                                ${producer.strategy}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">⏰ Horaires & Jours Clés :</span>
+                                ${producer.hours}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-2 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧒 Détails Famille :</span>
+                                ${producer.kidsDetails}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🏡 Commodités sur place :</span>
+                                ${producer.servicesDetails}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            resultsCount.textContent = `${producers.length} adresse${producers.length > 1 ? 's' : ''} affichée${producers.length > 1 ? 's' : ''}`;
+        }
+
+        function filterProducers() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedRegion = filterRegion.value;
+            const selectedType = filterType.value;
+            const selectedKids = filterKids.value;
+
+            const filtered = producersData.filter((producer) => {
+                const matchesSearch = producer.name.toLowerCase().includes(searchText) || producer.desc.toLowerCase().includes(searchText) || producer.products.toLowerCase().includes(searchText);
+                const matchesRegion = selectedRegion === 'all' || producer.region === selectedRegion;
+                const matchesType = selectedType === 'all' || producer.type === selectedType;
+                const matchesKids = selectedKids === 'all' || producer.kids === selectedKids;
+
+                return matchesSearch && matchesRegion && matchesType && matchesKids;
+            });
+
+            renderProducers(filtered);
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            filterRegion.value = 'all';
+            filterType.value = 'all';
+            filterKids.value = 'all';
+            renderProducers(producersData);
+        }
+
+        // Événements d'interaction
+        searchInput.addEventListener('input', filterProducers);
+        filterRegion.addEventListener('change', filterProducers);
+        filterType.addEventListener('change', filterProducers);
+        filterKids.addEventListener('change', filterProducers);
+        resetBtn.addEventListener('click', resetAllFilters);
+
+        // Lancement initial au chargement
+        renderProducers(producersData);
+    </script>
+</body>
+</html>

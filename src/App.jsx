@@ -9,6 +9,7 @@ import GuideDetail from './pages/GuideDetail'
 import Explorer from './pages/Explorer'
 import Annuaire from './pages/Annuaire'
 import Boutiques from './pages/Boutiques'
+import RessourcesLifestyle from './pages/RessourcesLifestyle'
 import Outils from './pages/Outils'
 import MonEspace from './pages/MonEspace'
 import CoutInstallation from './pages/CoutInstallation'
@@ -28,6 +29,7 @@ function AppShell() {
         <Route path="app/explorer" element={<Explorer />} />
         <Route path="app/explorer/annuaire" element={<Annuaire />} />
         <Route path="app/explorer/boutiques" element={<Boutiques />} />
+        <Route path="app/explorer/lifestyle" element={<RessourcesLifestyle />} />
         <Route path="app/explorer/outils" element={<Outils />} />
         <Route path="app/explorer/contact" element={<Contact />} />
         <Route path="app/explorer/medias" element={<Medias />} />

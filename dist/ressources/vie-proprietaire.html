@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vie de Propriétaire : Entretenir sa Maison à Majorque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #A85A32;
+            --vert-eau: #7FB3A5;
+            --vert-eau-dark: #659388;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #2D3748; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-vert-eau { background-color: var(--vert-eau); }
+        .hover\:bg-vert-eau-dark:hover { background-color: var(--vert-eau-dark); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+        
+        .premium-shadow {
+            box-shadow: 0 10px 30px -10px rgba(168, 90, 50, 0.15);
+        }
+        .house-card {
+            border-left: 5px solid var(--vert-eau);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .house-card:hover {
+            transform: translateY(-4px);
+            border-left-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-12 lg:px-24">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-xs uppercase tracking-widest font-bold text-slate-400 block mb-3">Édition Résident Privée</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+                Vie de <br><span class="italic text-terracotta font-normal">"Propriétaire"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Le manuel de maintenance logistique et technique pour votre maison ou appartement à Majorque. 20 fiches stratégiques rédigées par des résidents pour protéger votre investissement contre le climat insulaire, maîtriser les coûts et éviter les pièges administratifs.
+            </p>
+        </header>
+
+        <section class="bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100 mb-12">
+            <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif">Planifier l'entretien de votre propriété</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <!-- Recherche textuelle -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recherche</label>
+                    <input type="text" id="search-input" placeholder="Ex: Humidité, Solaire, Piscine, Endesa..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                </div>
+                
+                <!-- Catégorie technique -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Thématique</label>
+                    <select id="filter-category" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les thématiques</option>
+                        <option value="structure">Structure & Humidité</option>
+                        <option value="jardin">Jardin, Piscine & Extérieurs</option>
+                        <option value="energie">Énergie & Confort</option>
+                        <option value="admin">Réglementation & Sécurité</option>
+                    </select>
+                </div>
+
+                <!-- Urgence / Fréquence -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Périodicité</label>
+                    <select id="filter-urgency" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les fréquences</option>
+                        <option value="Saisonnier">Saisonnier (Automne/Printemps)</option>
+                        <option value="Annuel">Annuel (Prévention/Contrôle)</option>
+                        <option value="Permanent">Permanent / Au besoin</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center text-xs text-slate-400">
+                <span id="results-count">20 fiches affichées</span>
+                <button id="reset-filters" class="text-terracotta hover:underline font-semibold">Réinitialiser les filtres</button>
+            </div>
+        </section>
+
+        <main id="house-grid" class="space-y-8">
+            <!-- Injecté dynamiquement en JS pour un chargement instantané -->
+        </main>
+
+        <footer class="mt-24 bg-terracotta text-white p-8 md:p-16 rounded-[2.5rem] text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(253,251,247,0.15),transparent_50%)]"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-bold text-amber-200 block mb-4">La Trilogie du Résident</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Vivez à Majorque en toute sérénité</h2>
+                <p class="text-amber-100 mb-8 leading-relaxed">
+                    Devenez un initié sur tous les plans. Économisez en accédant aux <strong>20 Calas Secrètes</strong>, à la <strong>Table des Locaux</strong> et au <strong>Guide de la Tramuntana</strong> en choisissant notre Pack de lancement.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-terracotta px-8 py-4 rounded-full font-bold text-md hover:scale-105 active:scale-95 transition premium-shadow">
+                        Débloquer le Pack Trio (12,90 €)
+                    </button>
+                    <button class="border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-full font-bold text-md transition">
+                        Rejoindre le Club Privé
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const houseData = [
+            {
+                id: 1,
+                name: "Combattre l'Humidité Hivernale (Capillarité & Ventilation)",
+                category: "structure",
+                urgency: "Saisonnier",
+                cost: "500 € à 3 000 € (selon diagnostic)",
+                provider: "Spécialistes humidité locaux (ex: Humitec, Murprotec Baleares)",
+                actions: "Installer une VMC double flux, injecter des résines hydrofuges en bas de mur",
+                recommendation: "Ne laissez jamais votre maison entièrement fermée de novembre à mars. Installez des déshumidificateurs électriques programmables (style Rubson ou électriques connectés) réglés sur 55% d'humidité relative.",
+                desc: "L'humidité est l'ennemi numéro un de la pierre de Majorque (Mares). Pendant l'hiver, le taux d'humidité grimpe à plus de 80% en raison de la proximité de la mer. Les murs absorbent l'eau par capillarité, provoquant cloques de peinture, moisissures et décollement d'enduits.",
+                strategy: "Faites réaliser un diagnostic par caméra thermique avant d'acheter ou de rénover. Si vous vous absentez l'hiver, confiez vos clés à un voisin ou un property manager pour aérer la maison 2h par semaine.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Humitec+Mallorca"
+            },
+            {
+                id: 2,
+                name: "Gérer la Calima (Sable du Sahara sur vos terrasses)",
+                category: "jardin",
+                urgency: "Permanent",
+                cost: "Gratuit (huile de coude) ou 150 € par passage (nettoyage pro)",
+                provider: "Jardiniers ou entreprises de nettoyage de piscine locales",
+                actions: "Éteindre la filtration piscine, rincer les terrasses sans pression, nettoyer les filtres",
+                recommendation: "Ne frottez jamais à sec le sable sur le carrelage ou les baies vitrées pour éviter les micro-rayures irréversibles. Utilisez toujours un jet d'eau abondant basse pression avant de passer la raclette.",
+                desc: "La Calima est une pluie de boue de sable rouge en provenance directe du Sahara, qui frappe Majorque 3 à 5 fois par an (souvent au printemps et en été). En quelques minutes, vos terrasses, façades, baies vitrées et votre piscine se couvrent d'une fine couche argileuse abrasive.",
+                strategy: "Dès l'annonce d'une alerte Calima par l'AEMET (météo espagnole), couvrez votre mobilier extérieur. Si la piscine est touchée, mettez la filtration en mode 'Waste' (égout) et passez l'aspirateur manuel directement vers l'égout sans passer par le filtre à sable pour éviter de le colmater.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Piscinas+Mallorca"
+            },
+            {
+                id: 3,
+                name: "Protéger du Sel Marin (Corrosion & Huisseries)",
+                category: "structure",
+                urgency: "Annuel",
+                cost: "100 € à 800 € (entretien / protection métaux)",
+                provider: "Menuisiers aluminium/PVC ou peintres locaux",
+                actions: "Rincer les huisseries à l'eau douce, appliquer une cire de protection marine",
+                recommendation: "Si vous êtes à moins de 2 km de la mer, proscrivez totalement l'acier standard et le fer forgé sans galvanisation à chaud. Optez exclusivement pour de l'inox 316L (qualité marine), de l'aluminium anodisé ou du PVC haute résistance.",
+                desc: "L'air marin majorquin est chargé d'aérosols salins extrêmement corrosifs. Ils rongent silencieusement les gonds de portes, les vis de pergolas, les moteurs de portails électriques et ternissent les profilés en aluminium de vos baies vitrées en quelques mois seulement.",
+                strategy: "Nettoyez vos huisseries à l'eau douce tiède additionnée d'un savon neutre au moins une fois par mois. Appliquez un spray lubrifiant marin hydrofuge (de type WD-40 Specialist Marine) sur tous les mécanismes métalliques mobiles deux fois par an.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Ferreteria+Mallorca"
+            },
+            {
+                id: 4,
+                name: "Régulation & Traitement de la Piscine en Été",
+                category: "jardin",
+                urgency: "Saisonnier",
+                cost: "50 € à 150 € par mois d'entretien chimique",
+                provider: "Techniciens de piscine ou magasins de produits chimiques (ex: Piscinas Son Servera, AstralPool)",
+                actions: "Analyser le pH (idéal 7.2-7.4), faire des lavages de filtre, surveiller les phosphates",
+                recommendation: "Privilégiez une conversion de votre piscine au sel (électrolyseur). L'eau y est beaucoup plus douce pour la peau, l'entretien est plus stable face aux fortes chaleurs de juillet/août et vous évitez le stockage de chlore toxique.",
+                desc: "Avec des températures d'eau qui dépassent les 28°C en été et un ensoleillement de plus de 10h par jour, l'équilibre de l'eau de votre piscine à Majorque est extrêmement fragile. Les algues vertes peuvent proliférer et rendre l'eau opaque en moins de 24 heures.",
+                strategy: "Faites tourner votre filtration aux heures les plus chaudes de la journée (de 11:00 à 18:00) et non la nuit, car c'est sous l'effet du soleil que les bactéries se développent et consomment le désinfectant. Testez l'eau deux fois par semaine.",
+                gps: "https://www.google.com/maps/search/?api=1&query=AstralPool+Mallorca"
+            },
+            {
+                id: 5,
+                name: "Traitement contre le Charançon Rouge du Palmier",
+                category: "jardin",
+                urgency: "Annuel",
+                cost: "150 € à 400 € / an par palmier (prévention)",
+                provider: "Élagueurs certifiés et applicateurs de traitements phytosanitaires agréés ROPO",
+                actions: "Injections dans le tronc (endothérapie), douches de couronne biologiques au Beauveria bassiana",
+                recommendation: "Ne taillez jamais vos palmiers phoenix entre avril et octobre. Les coupes fraîches libèrent des phéromones qui attirent les charançons à des kilomètres à la ronde lors de leur période de vol.",
+                desc: "Le charançon rouge (*Picudo Rojo*) décime les palmiers de l'île depuis des années. Ses larves dévorent le cœur du palmier de l'intérieur, invisible de l'extérieur. Lorsque les palmes centrales commencent à s'affaisser en forme de parapluie, il est souvent trop tard.",
+                strategy: "Appliquez un traitement préventif par injection dans le tronc (endothérapie) une fois par an en automne. C'est la méthode la plus respectueuse de l'environnement et la plus efficace pour sauver vos arbres patrimoniaux.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Jardineria+Mallorca"
+            },
+            {
+                id: 6,
+                name: "Installation de Panneaux Solaire (Autoconsommation)",
+                category: "energie",
+                urgency: "Permanent",
+                cost: "5 000 € à 12 000 € (amorti en 4 à 6 ans)",
+                provider: "Installateurs photovoltaïques locaux (ex: Helios, Solgironès, Sapiens Energía)",
+                actions: "Faire une étude d'ensoleillement, demander les subventions gouvernementales (NextGen)",
+                recommendation: "Demandez une installation avec batterie physique si vous consommez beaucoup le soir (climatisation nocturne), ou optez pour une batterie virtuelle (compensation d'excédent) proposée par de nombreux fournisseurs d'énergie espagnols.",
+                desc: "Majorque bénéficie de plus de 300 jours d'ensoleillement par an. Produire sa propre électricité photovoltaïque est l'un des investissements les plus rentables pour un résident, réduisant vos factures d'électricité de 60% à 80% tout en alimentant votre climatisation en été.",
+                strategy: "Assurez-vous que l'installateur s'occupe de l'intégralité du processus administratif (inscription au registre d'industrie des Baléares, demande de réduction d'impôt foncier - IBI - auprès de votre mairie).",
+                gps: "https://www.google.com/maps/search/?api=1&query=Paneles+Solares+Mallorca"
+            },
+            {
+                id: 7,
+                name: "Installation d'un Adoucisseur d'Eau (Traitement Calcaire)",
+                category: "energie",
+                urgency: "Permanent",
+                cost: "800 € à 1 800 € (pose comprise)",
+                provider: "Plombiers professionnels locaux ou entreprises de traitement de l'eau",
+                actions: "Installer un adoucisseur à sel à l'arrivée d'eau principale, installer un système d'osmose inverse sous l'évier",
+                recommendation: "L'eau de Majorque est très dure (fort taux de calcaire). Sans adoucisseur, la durée de vie de votre chauffe-eau, de votre machine à laver et de vos robinetteries est divisée par trois.",
+                desc: "L'eau courante à Majorque provient majoritairement de nappes phréatiques calcaires très denses ou d'usines de dessalement. Le tartre bouche rapidement vos tuyauteries, irrite la peau et crée des dépôts blanchâtres tenaces sur vos parois de douche.",
+                strategy: "Vérifiez mensuellement le niveau de sel dans le bac de votre adoucisseur. Installez un filtre d'osmose inverse dans la cuisine pour disposer d'une eau de boisson pure sans avoir à porter des packs de bouteilles en plastique.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Tratamiento+Agua+Mallorca"
+            },
+            {
+                id: 8,
+                name: "Choix du Système de Chauffage en Hiver",
+                category: "energie",
+                urgency: "Saisonnier",
+                cost: "Variable (poêle à granulés : 2 000 €, pompe à chaleur : 4 000 €+)",
+                provider: "Chauffagistes professionnels certifiés RITE",
+                actions: "Faire installer un poêle à granulés (pellets) ou un plancher chauffant hydraulique",
+                recommendation: "N'utilisez pas la climatisation réversible comme chauffage principal en hiver si vous êtes sensible à l'air sec ou au bruit. Un poêle à granulés de bois de bonne qualité ou un poêle à bois classique offre une chaleur saine et chaleureuse idéale pour la saison froide.",
+                desc: "Beaucoup de nouveaux arrivants s'imaginent qu'il ne fait jamais froid à Majorque. Pourtant, l'humidité relative élevée rend les intérieurs glacials de décembre à février dans les maisons en pierre non isolées. Chauffer devient indispensable pour le confort et pour assécher l'air.",
+                strategy: "Le plancher chauffant par pompe à chaleur air-eau est le système le plus confortable et le plus économe, particulièrement si vous le couplez à vos panneaux solaires.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Calefaccion+Mallorca"
+            },
+            {
+                id: 9,
+                name: "Toiture, Gouttières & Infiltrations (Préparer la Gota Fría)",
+                category: "structure",
+                urgency: "Saisonnier",
+                cost: "150 € (nettoyage simple) à 5 000 € (réfection étanchéité)",
+                provider: "Maçons locaux ou couvreurs spécialisés",
+                actions: "Nettoyer les descentes de gouttières, inspecter les tuiles canales en terre cuite, appliquer une membrane étanche élastomère",
+                recommendation: "Faites inspecter et nettoyer vos toitures et terrasses de toit (azoteas) impérativement à la fin du mois d'août. Les orages de septembre peuvent déverser plus de 100 mm d'eau en une heure, inondant les intérieurs si les évacuations sont bouchées.",
+                desc: "La 'Gota Fría' (goutte froide d'automne) provoque des pluies torrentielles d'une intensité rare sur l'île. Les toits plats typiques des maisons majorquines ou les terrasses non étanches accumulent l'eau, entraînant des infiltrations immédiates au plafond.",
+                strategy: "Appliquez une peinture d'étanchéité extérieure haut de gamme avec armature en fibre de verre (silicone ou polyuréthane liquide) sur vos balcons et acrotères tous les 5 ans pour prévenir les infiltrations.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Materiales+Construccion+Mallorca"
+            },
+            {
+                id: 10,
+                name: "Licences d'Urbanisme & Travaux (Obra Menor vs Obra Mayor)",
+                category: "admin",
+                urgency: "Permanent",
+                cost: "Taxes communales : 2% à 4% du budget des travaux déclaré",
+                provider: "Architectes locaux certifiés COAIB ou Gestorías spécialisées en urbanisme",
+                actions: "Déposer une demande d'Obra Menor en mairie (Ajuntament) avant tout ravalement, rénovation de salle de bain ou terrasse",
+                recommendation: "Ne démarrez jamais de travaux visibles de l'extérieur (façade, clôture, piscine) sans avoir obtenu au moins le récépissé de dépôt de licence de votre mairie. Les drones de surveillance et les dénonciations entre voisins sont fréquents.",
+                desc: "L'administration majorquine est extrêmement stricte en matière d'urbanisme, particulièrement dans les zones rurales protégées (ARIP) ou dans la Tramuntana. Les amendes pour travaux sans licence peuvent atteindre 100% de la valeur des travaux et s'accompagner d'une obligation de démolition.",
+                strategy: "Pour les petits travaux d'intérieur (peinture, sol), une simple déclaration préalable (Declaración Responsable) suffit souvent et permet de démarrer immédiatement sans attendre des mois l'avis technique.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Ajuntament+Palma"
+            },
+            {
+                id: 11,
+                name: "Sécurité & Télésurveillance (Contre l'Occupation)",
+                category: "admin",
+                urgency: "Annuel",
+                cost: "Abonnement : 40 € à 60 € par mois. Matériel : 300 €+",
+                provider: "Compagnies de sécurité agréées en Espagne (ex: Securitas Direct, Prosegur)",
+                actions: "Installer un système d'alarme connecté avec détection extérieure et transmission radio antibrouillage",
+                recommendation: "Si votre logement est une résidence secondaire vide plusieurs mois par an, installez obligatoirement un système d'alarme relié à une centrale (CRA). En Espagne, la police peut intervenir et expulser immédiatement des squatters ('Okupas') si l'intrusion est signalée dans les 48 heures grâce à une alerte d'alarme officielle.",
+                desc: "La problématique des résidences secondaires squattées est un sujet d'attention régulier en Espagne. Une fois le délai légal de flagrant délit dépassé (souvent 48 heures), la procédure judiciaire d'expulsion d'un logement vide peut prendre de longs mois.",
+                strategy: "Installez des serrures de sécurité multipoints et des simulateurs de présence lumineux connectés en Wi-Fi. Confiez une télécommande d'accès et une clé à un voisin de confiance sur place.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Seguridad+Mallorca"
+            },
+            {
+                id: 12,
+                name: "Assurance Habitation & Clauses Spécifiques Espagnoles",
+                category: "admin",
+                urgency: "Annuel",
+                cost: "150 € à 600 € par an (selon valeur du bien)",
+                provider: "Courtiers en assurance francophones locaux (ex: Liberty Seguros, Allianz)",
+                actions: "Vérifier la couverture du 'Consorcio de Compensación de Seguros' (catastrophes naturelles)",
+                recommendation: "Assurez-vous que votre contrat d'assurance habitation couvre bien le vol des biens situés à l'extérieur (mobilier de jardin, pompe de piscine, barbecue) qui sont les cibles privilégiées des cambriolages opportunistes.",
+                desc: "Les contrats d'assurance habitation espagnols possèdent des subtilités différentes des contrats francophones. La notion de 'Continent' (structure de la maison) et de 'Contenu' (meubles, objets) doit être évaluée avec une grande précision sous peine de règle proportionnelle en cas de sinistre.",
+                strategy: "Déclarez impérativement à votre assureur si votre maison dispose d'un système d'alarme connecté, de barreaux aux fenêtres ou d'une porte blindée : cela peut faire baisser votre prime annuelle de 15% à 25%.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Seguros+Mallorca"
+            },
+            {
+                id: 13,
+                name: "Entretien des Fosses Septiques (Fincas Rusticas)",
+                category: "jardin",
+                urgency: "Annuel",
+                cost: "150 € à 300 € par vidange",
+                provider: "Entreprises d'assainissement locales (ex: Desatascos Mallorca, Limpiezas Mallorca)",
+                actions: "Faire vidanger et nettoyer la fosse septique (Pozo Negro), ajouter des activateurs biologiques bactériens",
+                recommendation: "N'utilisez jamais de produits de nettoyage chlorés ou d'eau de javel en grande quantité si votre maison dispose d'une fosse septique. Cela détruit les bactéries responsables de la décomposition des matières, provoquant des odeurs et des engorgements.",
+                desc: "La majorité des maisons de campagne (Fincas) à Majorque ne sont pas raccordées au tout-à-l'égout municipal. Elles utilisent des fosses septiques traditionnelles ou des stations d'épuration biologiques modernes à micro-bulles qui exigent un entretien régulier.",
+                strategy: "Faites vidanger votre fosse septique au moins tous les deux ans pour les résidences principales (et tous les 4 ans pour les résidences secondaires). Installez un regard d'accès facile dans votre jardin pour faciliter le passage des tuyaux du camion pompe.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Desatascos+Mallorca"
+            },
+            {
+                id: 14,
+                name: "Entretien des Bois Extérieurs (Pergolas & Teck)",
+                category: "structure",
+                urgency: "Annuel",
+                cost: "100 € à 500 € (produits d'entretien)",
+                provider: "Peintres extérieurs ou application en autonomie",
+                actions: "Poncer légèrement, appliquer une huile saturateur pour teck ou une lasure hydrofuge protectrice anti-UV",
+                recommendation: "Proscrivez les vernis brillants extérieurs sur vos bois exposés au soleil direct. Sous l'effet des UVs extrêmes de Majorque, le vernis craquelle en quelques mois, obligeant à un ponçage intégral fastidieux. Utilisez uniquement des saturateurs mats qui pénètrent le bois.",
+                desc: "Le soleil brûlant d'été et l'humidité saline d'hiver mettent les bois extérieurs à rude épreuve. Les terrasses en teck, les pergolas en pin et les poutres apparentes perdent leur éclat, deviennent grises et finissent par se fendre sous l'effet du dessèchement.",
+                strategy: "Appliquez votre saturateur à la fin de l'automne, lorsque le bois a séché de la chaleur de l'été mais n'a pas encore subi les grandes pluies de l'hiver. Deux couches fines au pinceau garantissent une protection parfaite.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Pinturas+Mallorca"
+            },
+            {
+                id: 15,
+                name: "Les Chenilles Processionnaires (Danger Jardins & Animaux)",
+                category: "jardin",
+                urgency: "Saisonnier",
+                cost: "50 € à 200 € (pièges ou traitement)",
+                provider: "Jardiniers paysagistes ou services de désinsectisation",
+                actions: "Installer des colliers de piégeage sur les troncs des pins, couper et brûler les nids de soie blanche en hiver",
+                recommendation: "Si vous possédez un chien, soyez d'une vigilance absolue de janvier à avril dans votre jardin si vous avez des pins. Le simple contact de la langue d'un chien avec les poils urticants d'une chenille processionnaire peut provoquer une nécrose de la langue mortelle en quelques heures.",
+                desc: "Les chenilles processionnaires du pin (*Procesionaria du Pino*) sont un véritable fléau à Majorque. Elles nichent dans les pins sous forme de cocons de soie blanche en hiver, puis descendent au sol en file indienne au printemps pour s'enterrer.",
+                strategy: "Faites traiter vos pins de manière biologique avec du Bacillus thuringiensis en automne (octobre/novembre). En hiver, installez des pièges de tronc physiques (colliers écologiques) qui capturent les chenilles lors de leur descente.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Jardines+Mallorca"
+            },
+            {
+                id: 16,
+                name: "Arrosage Automatique & Restrictions d'Eau",
+                category: "jardin",
+                urgency: "Saisonnier",
+                cost: "150 € (réglage/réparation) à 2 000 € (installation complète connectée)",
+                provider: "Installateurs de systèmes d'irrigation ou jardiniers locaux",
+                actions: "Programmer l'arrosage automatique la nuit, vérifier l'absence de fuites sur le circuit de goutte-à-goutte",
+                recommendation: "Remplacez progressivement vos zones de pelouse gourmandes en eau par des plantes de climat méditerranéen (oliviers, lavandes, romarins, bougainvilliers) et un paillage de gravier ou d'écorces de pin pour limiter l'évaporation.",
+                desc: "L'eau est une ressource rare et précieuse à Majorque. En été, de nombreuses communes de l'île (surtout dans le Nord et l'Est) imposent des restrictions strictes de consommation d'eau, interdisant le remplissage des piscines et l'arrosage des jardins en journée.",
+                strategy: "Installez un programmateur d'arrosage connecté en Wi-Fi qui ajuste automatiquement les cycles d'arrosage en fonction des prévisions météo locales réelles pour éviter de gaspiller l'eau par temps de pluie.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Riego+Mallorca"
+            },
+            {
+                id: 17,
+                name: "Trouver un Artisan de Confiance (Le Rôle du Chef de Chantier)",
+                category: "admin",
+                urgency: "Permanent",
+                cost: "Honoraires de suivi : 8% à 12% du montant des travaux",
+                provider: "Architectes d'intérieur certifiés ou coordinateurs de travaux bilingues",
+                actions: "Engager un gestionnaire de travaux bilingue pour superviser les chantiers en votre absence",
+                recommendation: "Ne payez jamais la totalité d'un devis d'artisan avant le démarrage des travaux. La règle d'usage à Majorque est de verser un acompte de 30% à 40% pour l'achat des matériaux, puis des versements intermédiaires (certifications de travaux) selon l'avancement.",
+                desc: "Faire réaliser des travaux de rénovation ou de réparation à Majorque peut s'avérer complexe si vous ne maîtrisez pas l'espagnol ou le jargon technique du bâtiment local. Les délais de livraison des chantiers sont souvent extensibles en haute saison estivale.",
+                strategy: "Demandez toujours des devis détaillés et écrits (Presupuesto) comportant les numéros de TVA officiels (NIF) des artisans pour pouvoir introduire un recours légal en cas de malfaçon.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Construccion+Mallorca"
+            },
+            {
+                id: 18,
+                name: "Isolation Thermique d'Été (Volets Mallorquines & Stores)",
+                category: "structure",
+                urgency: "Annuel",
+                cost: "500 € à 3 000 € (selon dimensions des volets)",
+                provider: "Menuisiers extérieurs bois ou aluminium locaux",
+                actions: "Installer des persiennes en bois ou en aluminium à lames orientables (Persianas Mallorquinas)",
+                recommendation: "Utilisez vos volets extérieurs de la même manière que les locaux : fermez-les totalement dès le lever du soleil sur les façades exposées à l'Est et au Sud, tout en laissant les fenêtres fermées pour conserver la fraîcheur nocturne à l'intérieur.",
+                desc: "La chaleur de l'été (dépassant souvent les 35°C en juillet/août) pénètre rapidement dans les maisons par les vitrages non protégés. Compter uniquement sur la climatisation électrique entraîne des factures d'énergie exorbitantes et une fatigue du réseau électrique.",
+                strategy: "Les authentiques volets majorquins en aluminium à lames orientables sont le meilleur investissement d'isolation : ils bloquent 90% de la chaleur solaire à l'extérieur tout en permettant une ventilation naturelle douce de la pièce.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Carpinteria+Aluminio+Mallorca"
+            },
+            {
+                id: 19,
+                name: "Décalcification Préventive des Canalisations",
+                category: "structure",
+                urgency: "Annuel",
+                cost: "150 € à 400 € (intervention technique)",
+                provider: "Plombiers professionnels ou techniciens spécialisés en tuyauteries",
+                actions: "Faire circuler une solution de décalcification acide douce biodégradable dans vos conduites d'eau chaude",
+                recommendation: "Faites nettoyer la résistance électrique de votre chauffe-eau tous les deux ans. L'accumulation de sédiments calcaires autour de la résistance multiplie par deux la consommation électrique nécessaire pour chauffer votre eau sanitaire.",
+                desc: "Le calcaire présent dans l'eau de Majorque s'accumule de manière préférentielle dans les circuits d'eau chaude (chauffe-eau, chaudières, robinets thermostatiques). Le débit d'eau diminue progressivement et la température devient irrégulière.",
+                strategy: "Installez des mousseurs aérateurs amovibles de rechange sur tous vos robinets et plongez-les régulièrement dans un bain de vinaigre blanc chaud pendant une nuit pour éliminer le tartre accumulé.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Fontaneria+Mallorca"
+            },
+            {
+                id: 20,
+                name: "Puissance Électrique Endesa (Potencia Contratada)",
+                category: "energie",
+                urgency: "Permanent",
+                cost: "Modification contractuelle : environ 10 € à 50 € de frais administratifs",
+                provider: "Distributeur électrique officiel (Endesa Distribución / Gesternova / Som Energia)",
+                actions: "Vérifier votre puissance souscrite en kW sur votre dernière facture d'électricité, demander un ajustement",
+                recommendation: "Si votre compteur électrique saute fréquemment lorsque vous allumez la climatisation et le four simultanément, votre puissance contractée (*Potencia Contratada*) est trop basse. En Espagne, la facturation comporte une part fixe liée à cette puissance.",
+                desc: "La gestion de l'électricité en Espagne repose sur un compteur intelligent connecté (ICP) qui coupe l'alimentation instantanément si vous dépassez la puissance maximale souscrite en kW, même pendant quelques secondes. Ajuster ce contrat est indispensable.",
+                strategy: "Consultez l'historique de vos pics de consommation sur le portail en ligne de votre distributeur d'énergie pour souscrire la puissance exacte requise (ex: 5.75 kW pour une maison standard avec climatisation), sans payer un abonnement fixe superflu.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Endesa+Palma"
+            }
+        ];
+
+        const grid = document.getElementById('house-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterCategory = document.getElementById('filter-category');
+        const filterUrgency = document.getElementById('filter-urgency');
+        const resultsCount = document.getElementById('results-count');
+        const resetBtn = document.getElementById('reset-filters');
+
+        function renderHouse(data) {
+            grid.innerHTML = '';
+            
+            if (data.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-3xl premium-shadow border border-slate-100">
+                        <p class="text-lg text-slate-500">Aucune fiche de maintenance ne correspond à vos critères de recherche.</p>
+                        <button onclick="resetAllFilters()" class="text-terracotta font-semibold mt-4 hover:underline">Afficher toutes les fiches</button>
+                    </div>
+                `;
+                resultsCount.textContent = '0 fiche affichée';
+                return;
+            }
+
+            data.forEach((item) => {
+                const badgeUrgencyClass = item.urgency === "Saisonnier" ? "bg-amber-50 text-amber-800" : item.urgency === "Annuel" ? "bg-blue-50 text-blue-800" : "bg-emerald-50 text-emerald-800";
+                const badgeCategoryClass = item.category === "structure" ? "bg-red-50 text-red-800" : item.category === "jardin" ? "bg-emerald-50 text-emerald-800" : item.category === "energie" ? "bg-cyan-50 text-cyan-800" : "bg-purple-50 text-purple-800";
+                
+                const card = document.createElement('div');
+                card.className = "house-card bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100";
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
+                        <div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-vert-eau">${item.urgency} • Budget : ${item.cost}</span>
+                            <h3 class="text-3xl font-bold text-slate-900 mt-1">${item.id}. ${item.name}</h3>
+                        </div>
+                        <a href="${item.gps}" target="_blank" class="w-full md:w-auto bg-vert-eau text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide text-center hover:bg-vert-eau-dark transition">
+                            Trouver un Spécialiste ➔
+                        </a>
+                    </div>
+
+                    <!-- Fiche Technique -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🛠️ Actions directes</span>
+                            <span class="font-semibold text-slate-800 text-xs">${item.actions}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeCategoryClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🏠 Thématique</span>
+                            <span class="font-bold capitalize">${item.category === 'structure' ? 'Structure & Humidité' : item.category === 'jardin' ? 'Jardin & Piscine' : item.category === 'energie' ? 'Énergie & Confort' : 'Réglementation & Sécurité'}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeUrgencyClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">⏰ Périodicité</span>
+                            <span class="font-bold">${item.urgency}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🧱 Prestataires Types</span>
+                            <span class="font-bold text-terracotta text-xs">${item.provider}</span>
+                        </div>
+                    </div>
+
+                    <!-- Description & Conseils de l'Initié -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <p><strong class="text-slate-800 font-semibold">Le Point de Vigilance :</strong> ${item.desc}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-4 border-t border-slate-100 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🛠️ Solution & Recommandation Tactique :</span>
+                                ${item.recommendation}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">📋 Plan d'Action & Stratégie :</span>
+                                ${item.strategy}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            resultsCount.textContent = `${data.length} fiche${data.length > 1 ? 's' : ''} affichée${data.length > 1 ? 's' : ''}`;
+        }
+
+        function filterHouse() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedCategory = filterCategory.value;
+            const selectedUrgency = filterUrgency.value;
+
+            const filtered = houseData.filter((item) => {
+                const matchesSearch = item.name.toLowerCase().includes(searchText) || item.desc.toLowerCase().includes(searchText) || item.actions.toLowerCase().includes(searchText);
+                const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
+                const matchesUrgency = selectedUrgency === 'all' || item.urgency === selectedUrgency;
+
+                return matchesSearch && matchesCategory && matchesUrgency;
+            });
+
+            renderHouse(filtered);
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            filterCategory.value = 'all';
+            filterUrgency.value = 'all';
+            renderHouse(houseData);
+        }
+
+        // Événements d'interaction
+        searchInput.addEventListener('input', filterHouse);
+        filterCategory.addEventListener('change', filterHouse);
+        filterUrgency.addEventListener('change', filterHouse);
+        resetBtn.addEventListener('click', resetAllFilters);
+
+        // Lancement initial au chargement
+        renderHouse(houseData);
+    </script>
+</body>
+</html>

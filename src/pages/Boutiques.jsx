@@ -60,6 +60,45 @@ export default function Boutiques() {
           <span style={{ fontSize: 18, color: 'var(--foret)', flexShrink: 0 }}>→</span>
         </div>
       </a>
+
+      {/* Séparateur */}
+      <div style={{ height: 12 }} />
+
+      {/* Carte Ressources Lifestyle */}
+      <div
+        onClick={() => navigate('/app/explorer/lifestyle')}
+        style={{
+          background: 'white',
+          border: '1.5px solid rgba(90,122,64,0.2)',
+          borderRadius: 16,
+          padding: '20px 18px',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 16,
+          cursor: 'pointer',
+        }}
+      >
+        <div style={{
+          width: 56, height: 56, borderRadius: 14, flexShrink: 0,
+          background: 'var(--vert-light)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 28,
+        }}>
+          🌿
+        </div>
+        <div style={{ flex: 1 }}>
+          <p style={{
+            fontFamily: 'var(--font-titre)', fontSize: 17,
+            fontWeight: 700, color: 'var(--foret)', marginBottom: 5,
+          }}>
+            Ressources Lifestyle
+          </p>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.55 }}>
+            8 dossiers complets pour vivre Majorque comme un initié — plages secrètes, gastronomie, nature, bien-être.
+          </p>
+        </div>
+        <span style={{ fontSize: 18, color: 'var(--foret)', flexShrink: 0 }}>→</span>
+      </div>
     </div>
   )
 }

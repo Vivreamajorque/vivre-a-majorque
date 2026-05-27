@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>L'Agenda des Fiestas Populaires : Le Guide des Traditions de Majorque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #A85A32;
+            --vert-eau: #7FB3A5;
+            --vert-eau-dark: #659388;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #2D3748; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-vert-eau { background-color: var(--vert-eau); }
+        .hover\:bg-vert-eau-dark:hover { background-color: var(--vert-eau-dark); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+        
+        .premium-shadow {
+            box-shadow: 0 10px 30px -10px rgba(168, 90, 50, 0.15);
+        }
+        .fiesta-card {
+            border-left: 5px solid var(--vert-eau);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .fiesta-card:hover {
+            transform: translateY(-4px);
+            border-left-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-12 lg:px-24">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-xs uppercase tracking-widest font-bold text-slate-400 block mb-3">Édition Résident Privée</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+                L'Agenda des <br><span class="italic text-terracotta font-normal">"Fiestas Populaires"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                Vivez au rythme des traditions ancestrales majorquines. 20 célébrations locales authentiques pour s'intégrer, des défilés de démons cracheurs de feu aux guerres de raisin d'automne.
+            </p>
+        </header>
+
+        <section class="bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100 mb-12">
+            <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif">Planifier vos expériences culturelles</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Recherche textuelle -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recherche</label>
+                    <input type="text" id="search-input" placeholder="Ex: Feu, Sóller, Raisin..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                </div>
+                
+                <!-- Saison -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Saison</label>
+                    <select id="filter-season" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les saisons</option>
+                        <option value="Hiver">Hiver</option>
+                        <option value="Printemps">Printemps</option>
+                        <option value="Eté">Été</option>
+                        <option value="Automne">Automne</option>
+                    </select>
+                </div>
+
+                <!-- Type d'événement -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Type de fête</label>
+                    <select id="filter-type" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les catégories</option>
+                        <option value="feu">Feu & Démons (Correfocs)</option>
+                        <option value="tradition">Traditions & Batailles</option>
+                        <option value="foire">Foires & Marchés d'envergure</option>
+                        <option value="gastronomie">Fêtes Gastronomiques</option>
+                    </select>
+                </div>
+
+                <!-- Adapté Enfants -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Adapté Enfants</label>
+                    <select id="filter-kids" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Peu importe</option>
+                        <option value="Oui">Adapté (Familial & Sûr)</option>
+                        <option value="Sous conditions">Sous conditions (Bruit/Foule)</option>
+                        <option value="Non">Non recommandé</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center text-xs text-slate-400">
+                <span id="results-count">20 fêtes affichées</span>
+                <button id="reset-filters" class="text-terracotta hover:underline font-semibold">Réinitialiser les filtres</button>
+            </div>
+        </section>
+
+        <main id="fiestas-grid" class="space-y-8">
+            <!-- Injecté dynamiquement en JS pour un chargement instantané -->
+        </main>
+
+        <footer class="mt-24 bg-terracotta text-white p-8 md:p-16 rounded-[2.5rem] text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(253,251,247,0.15),transparent_50%)]"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-bold text-amber-200 block mb-4">La Trilogie du Résident</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Une intégration 100% majorquine</h2>
+                <p class="text-amber-100 mb-8 leading-relaxed">
+                    Maximisez votre art de vivre insulaire. Économisez en accédant aux <strong>20 Calas Secrètes</strong>, à la <strong>Table des Locaux</strong> et au <strong>Guide de la Tramuntana</strong> en choisissant notre Pack de lancement.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-terracotta px-8 py-4 rounded-full font-bold text-md hover:scale-105 active:scale-95 transition premium-shadow">
+                        Débloquer le Pack Trio (12,90 €)
+                    </button>
+                    <button class="border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-full font-bold text-md transition">
+                        Rejoindre le Club Privé
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const fiestasData = [
+            {
+                id: 1,
+                name: "Sant Antoni (Nuit des Feux)",
+                location: "Sa Pobla & Manacor",
+                season: "Hiver",
+                type: "feu",
+                kids: "Sous conditions",
+                kidsDetails: "L'ambiance est incroyable mais très bruyante. Les étincelles des feux de joie et la fumée peuvent indisposer les très jeunes enfants. Restez en retrait de la foule.",
+                date: "16 et 17 Janvier",
+                strategy: "Arrivez à Sa Pobla dès 17h00 le 16 janvier pour voir l'installation des 'Foguerons' (grands feux). Le stationnement devient impossible après 18h30.",
+                safety: "Portez de vieux vêtements en coton (les matières synthétiques fondent avec les étincelles). Protégez vos cheveux avec un chapeau.",
+                desc: "La fête la plus mystique et brute de Majorque. Des démons dansent autour d'immenses feux de joie allumés au milieu des rues médiévales, accompagnés par les chants traditionnels rythmés par la 'ximbomba'. Une expérience inoubliable.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Sa+Pobla+Placa+Major"
+            },
+            {
+                id: 2,
+                name: "Sant Sebastià (Le Grand Correfoc)",
+                location: "Palma Centro",
+                season: "Hiver",
+                type: "feu",
+                kids: "Sous conditions",
+                kidsDetails: "Le bruit des pétards est assourdissant. Casque anti-bruit obligatoire pour les enfants de moins de 10 ans, restez bien derrière les barrières de sécurité.",
+                date: "Autour du 19 et 20 Janvier",
+                strategy: "Le concert des feux de joie (Revenda) a lieu le 19. Le grand Correfoc (défilé de feu) a lieu quelques jours plus tard. Utilisez les parkings souterrains de la périphérie (S'Arenal ou Santa Catalina) et marchez.",
+                safety: "Lunettes de protection transparentes et casquette indispensables si vous souhaitez vous approcher des démons cracheurs de feu.",
+                desc: "Le saint patron de Palma est célébré par des feux de joie géants dans toutes les places de la ville le 19 au soir (où l'on grille sa propre viande sur des grils publics), culminant avec le Correfoc : une horde de démons et de dragons crachant des étincelles au milieu de la nuit.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Palma+Plaza+Espana"
+            },
+            {
+                id: 3,
+                name: "Sa Rua & Sa Rueta (Carnaval)",
+                location: "Palma & Villages",
+                season: "Hiver",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "Entièrement sécurisé et extrêmement ludique. La veille ('Sa Rueta') est un carnaval géant entièrement conçu pour et par les enfants dans les rues de Palma.",
+                date: "Février (Semaine avant le Carême)",
+                strategy: "Pour Sa Rueta (enfants), venez dès le dimanche matin vers 10h30. Pour Sa Rua (adultes), le grand défilé commence vers 17h00. Garez-vous au parking de l'Avinguda d'Alemanya.",
+                safety: "Aucun danger. Prévoyez juste de la monnaie pour les stands de confiseries et de déguisements.",
+                desc: "Le carnaval traditionnel majorquin. 'Sa Rueta' anime le centre-ville avec des ateliers, des spectacles de rue et des stands de maquillage pour les enfants. 'Sa Rua' prend le relais le soir avec un défilé géant de chars satiriques.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Passeig+des+Born+Palma"
+            },
+            {
+                id: 4,
+                name: "La Fira del Ram (Foire de Pâques)",
+                location: "Son Fusteret (Palma)",
+                season: "Printemps",
+                type: "foire",
+                kids: "Oui",
+                kidsDetails: "Le paradis des enfants. Des centaines de manèges adaptés à tous les âges. Prévoyez un budget spécifique car les attractions peuvent vite chiffrer.",
+                date: "De fin Février à mi-Avril",
+                strategy: "Évitez le samedi soir très encombré. Privilégiez les après-midi en semaine ou le dimanche matin pour une visite détendue en famille.",
+                safety: "Le site est immense et très fréquenté. Notez votre numéro de téléphone sur le bras de vos enfants au feutre.",
+                desc: "La plus grande fête foraine des Baléares. Installée sur l'immense esplanade de Son Fusteret, elle rassemble plus de 150 attractions, des stands de churros traditionnels et des jeux d'adresse dans une ambiance festive.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Son+Fusteret+Palma"
+            },
+            {
+                id: 5,
+                name: "Festa de l'Àngel",
+                location: "Château de Bellver (Palma)",
+                season: "Printemps",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "Idéal pour une journée en plein air. Les enfants adorent grimper au château forestier et assister aux spectacles de marionnettes et de 'gegants' (géants).",
+                date: "Premier dimanche après Pâques",
+                strategy: "La montée au château est fermée aux voitures privées ce jour-là. Des navettes bus gratuites sont mises en place depuis la Plaza de España. La marche de montée à pied sous les pins (25 min) est très agréable.",
+                safety: "Prenez de l'eau et de la crème solaire pour la montée.",
+                desc: "Une tradition médiévale unique. Les habitants de Palma grimpent en procession jusqu'au château gothique de Bellver pour partager des 'panades' (empanadas de Pâques) et assister aux danses des Géants et défilés traditionnels.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Castell+de+Bellver"
+            },
+            {
+                id: 6,
+                name: "Es Firó (La Bataille Spectaculaire)",
+                location: "Port de Sóller",
+                season: "Printemps",
+                type: "tradition",
+                kids: "Non",
+                kidsDetails: "Absolument déconseillé aux jeunes enfants. La plage devient un champ de bataille avec des détonations continues d'espingoles (fusils anciens à poudre noire). Le bruit est extrême et l'air est saturé de fumée souffrée.",
+                date: "Lundi suivant le 2ème dimanche de Mai",
+                strategy: "L'accès au Port de Sóller est totalement fermé aux voitures. Prenez impérativement le tramway historique depuis Sóller tôt le matin (achetez vos tickets à l'avance) ou marchez depuis le village (45 min).",
+                safety: "Bouchons d'oreilles obligatoires pour tout le monde. Portez de vieux vêtements car les 'Maures' badigeonnent le visage des spectateurs de suie noire en signe de victoire.",
+                desc: "La reconstitution historique la plus célèbre et intense de l'île. Elle commémore l'attaque pirate turque et algérienne de 1561. Les habitants du village (les chrétiens en blanc et les maures aux visages peints) s'affrontent sur la plage à grand renfort de tirs de fusils à poudre.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Platja+den+Repic+Soller"
+            },
+            {
+                id: 7,
+                name: "Festa de la Patrona",
+                location: "Pollença",
+                season: "Eté",
+                type: "tradition",
+                kids: "Sous conditions",
+                kidsDetails: "La bataille finale dans les rues étroites est très dense et physique. Restez sur les balcons ou dans les rues adjacentes en retrait avec des enfants.",
+                date: "2 Août (Point culminant)",
+                strategy: "La ville est totalement piétonne pour l'événement. Garez-vous le long de la route principale Ma-2200 bien avant l'entrée du village et préparez-vous à marcher.",
+                safety: "Portez des chaussures fermées pour éviter de vous faire piétiner dans les mouvements de foule de la bataille.",
+                desc: "Similaire à Sóller mais sans la poudre noire. Les habitants vêtus de chemises de nuit blanches traditionnelles (les chrétiens) affrontent à l'aide de bâtons de bois les pirates menés par Dragut (en habits colorés). Une ferveur locale incroyable qui dure jusqu'au petit matin.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Pollensa+Placa+Major"
+            },
+            {
+                id: 8,
+                name: "Festes de Sant Joan",
+                location: "Deià & Muro",
+                season: "Eté",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "Ambiance estivale de village très chaleureuse et sécurisée. Parfait pour une sortie en famille sous les étoiles.",
+                date: "23 et 24 Juin",
+                strategy: "À Deià, le stationnement est un défi permanent. Venez en milieu d'après-midi, profitez-en pour aller à la crique et remontez au village pour la fête en début de soirée.",
+                safety: "Les ruelles de Deià sont très escarpées, prévoyez de bonnes chaussures de marche de soirée.",
+                desc: "La célébration du solstice d'été. Dans le village de Deià, la fête prend une allure bohème unique avec des concerts en plein air, des danses traditionnelles sous l'église paroissiale et des feux de joie magiques face à la mer.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Deia+Church"
+            },
+            {
+                id: 9,
+                name: "La Beata (Santa Margalida)",
+                location: "Santa Margalida",
+                season: "Automne",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "La procession est très théâtrale et fascine les enfants. Le cassage de cruches en terre cuite par les démons est un spectacle très amusant.",
+                date: "Premier dimanche de Septembre",
+                strategy: "Le village de Santa Margalida est facile d'accès. Garez-vous dans les rues résidentielles en périphérie du centre historique.",
+                safety: "Restez sur les trottoirs pour bien voir passer les démons qui courent de manière frénétique.",
+                desc: "Déclarée d'intérêt touristique national, cette fête célèbre la sainte locale Catalina Thomàs. Des dizaines de démons arpentent la ville en volant des cruches d'eau en terre cuite aux paysans pour les briser avec fracas aux pieds de la jeune fille incarnant la Sainte.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Santa+Margalida+Mallorca"
+            },
+            {
+                id: 10,
+                name: "Festa de sa Vermada (Fête des Vendanges)",
+                location: "Binissalem",
+                season: "Automne",
+                type: "gastronomie",
+                kids: "Oui",
+                kidsDetails: "La bataille de raisins du samedi matin est un moment de folie pure que les ados et enfants adorent. Prévoyez un change complet de vêtements !",
+                date: "Fin Septembre (Semaine complète)",
+                strategy: "Prenez le train depuis Palma jusqu'à la gare de Binissalem (15 min de trajet). Cela vous évitera les galères de parking et vous permettra de déguster les vins locaux en toute sécurité.",
+                safety: "Les sols de la place centrale deviennent extrêmement glissants à cause du jus de raisin écrasé durant les festivités.",
+                desc: "La plus grande célébration du vin des Baléares. Tout Binissalem célèbre la fin des vendanges : bataille de raisins mémorables dans les champs, concours de foulage de raisins pieds nus, et dégustation géante de 'Fideus de Vermada' (pâtes traditionnelles à la viande de mouton arrosées de vin rouge local).",
+                gps: "https://www.google.com/maps/search/?api=1&query=Binissalem+Placa+Esglesia"
+            },
+            {
+                id: 11,
+                name: "Fira de la Mel (Foire du Miel)",
+                location: "Llubí",
+                season: "Automne",
+                type: "gastronomie",
+                kids: "Oui",
+                kidsDetails: "Très ludique avec de nombreux ateliers de fabrication de bougies en cire naturelle et des ruches d'observation vitrées sécurisées.",
+                date: "Deuxième dimanche de Novembre",
+                strategy: "Llubí est un village très calme en temps normal. Arrivez vers 10h00 pour profiter des stands d'artisans apiculteurs avant le rush du déjeuner.",
+                safety: "Aucun danger particulier. Présence de quelques abeilles calmes autour des stands de dégustation.",
+                desc: "Le paradis des gourmands. Llubí réunit tous les apiculteurs des Baléares pour présenter la diversité incroyable de leurs miels (caroubier, romarin, fleurs sauvages). Une foire d'automne chaleureuse et très parfumée.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Llubi+Mallorca"
+            },
+            {
+                id: 12,
+                name: "Fira de l'Oliva (Foire de l'Olive)",
+                location: "Caimari",
+                season: "Automne",
+                type: "gastronomie",
+                kids: "Oui",
+                kidsDetails: "Le village est décoré de branches d'olivier. Très agréable pour une balade familiale calme. Les pressoirs à huile d'olive en démonstration intéressent beaucoup les petits.",
+                date: "Troisième week-end de Novembre",
+                strategy: "Le village étant la porte d'entrée de la Tramuntana, garez-vous sur les parkings de terre aménagés par la mairie à l'entrée de Caimari.",
+                safety: "Aucun risque. Prévoyez un sac pour ramener vos achats de bouteilles d'huile d'olive fraîchement pressée.",
+                desc: "La célébration de l'or vert de Majorque. Caimari, village idyllique niché au pied de la montagne, transforme ses rues en une oliveraie géante. On y déguste les olives marinées locales (olives trencades) et l'huile nouvelle extra-vierge pressée sous vos yeux.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Caimari+Mallorca"
+            },
+            {
+                id: 13,
+                name: "Dijous Bo (Le Jeudi Gras)",
+                location: "Inca",
+                season: "Automne",
+                type: "foire",
+                kids: "Oui",
+                kidsDetails: "Foire immense mais extrêmement fréquentée. Évitez les rues centrales avec des poussettes, privilégiez le porte-bébé ou venez tôt le matin.",
+                date: "Deuxième jeudi de Novembre",
+                strategy: "N'essayez même pas de vous garer à Inca. Prenez le train direct depuis Palma ou Manacor. La gare d'Inca débouche directement sur les premières rues de la foire.",
+                safety: "Attention aux pickpockets en raison de la densité incroyable de la foule dans les rues commerçantes.",
+                desc: "La foire agricole, artisanale et commerciale la plus importante et massive de Majorque. Elle attire plus de 200 000 visiteurs sur une seule journée. Toute la ville d'Inca se transforme en un immense marché à ciel ouvert célébrant la richesse économique de l'île.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Inca+Mallorca"
+            },
+            {
+                id: 14,
+                name: "Correfoc de Sant Bartomeu",
+                location: "Sóller",
+                season: "Eté",
+                type: "feu",
+                kids: "Non",
+                kidsDetails: "Spectacle pyrotechnique d'une rare intensité. Le bruit des pétards dans la cuvette de la place de Sóller et la pluie d'étincelles projetée directement sur la foule en font un événement inadapté aux jeunes enfants.",
+                date: "Autour du 24 Août",
+                strategy: "Arrivez à Sóller en début d'après-midi, car la route principale est fermée dès 19h00. Garez-vous au parking du supermarché à l'entrée ou venez en train historique depuis Palma.",
+                safety: "Vêtements en coton épais obligatoires (jean, sweat à capuche), casquette, lunettes de chantier. Ne touchez jamais les démons en mouvement.",
+                desc: "L'un des Correfocs les plus célèbres de Majorque, mené par le groupe local 'Esclatabutzes'. La place centrale de Sóller, plongée dans le noir complet, est littéralement embrasée par des structures de feu rotatives géantes et des démons frénétiques dans une ambiance industrielle fantastique.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Soller+Placa+Constitucio"
+            },
+            {
+                id: 15,
+                name: "Festa des Sequer (Fête de la Figue)",
+                location: "Lloret de Vistalegre",
+                season: "Eté",
+                type: "gastronomie",
+                kids: "Oui",
+                kidsDetails: "Ambiance rurale calme de village du centre. Très sécurisé pour laisser courir les enfants sur la place ombragée.",
+                date: "Premier samedi de Septembre",
+                strategy: "Le stationnement est facile à l'entrée du village. Combinez votre visite avec une promenade dans la forêt publique de 'Sa Comuna de Lloret' adjacente.",
+                safety: "Aucune contre-indication, ambiance très détendue.",
+                desc: "Une foire de village délicieusement authentique dédiée à la figue majorquine. On y déguste des figues fraîches, séchées, cuisinées en confitures ou accompagnant des viandes traditionnelles, le tout au rythme des xeremiers (cornemuses locales).",
+                gps: "https://www.google.com/maps/search/?api=1&query=Lloret+de+Vistalegre"
+            },
+            {
+                id: 16,
+                name: "Fira de l'Albercoc (Foire de l'Abricot)",
+                location: "Porreres",
+                season: "Eté",
+                type: "gastronomie",
+                kids: "Oui",
+                kidsDetails: "Ateliers de cuisine pour enfants de confection de cocas et desserts traditionnels à base d'abricots locaux.",
+                date: "Midi-Juin (Généralement le 2ème week-end)",
+                strategy: "Arrivez vers 9h30 pour profiter des plus beaux étals d'abricots frais dorés au soleil avant qu'ils ne soient dévalisés par les pâtissiers de l'île.",
+                safety: "Chaleur intense à cette période de l'année. Prévoyez chapeaux et eau pour flâner sur la place principale.",
+                desc: "Porreres est la capitale fruitière de l'île. Cette foire met à l'honneur l'abricot local à la chair rouge et sucrée unique. On y trouve des cocas douces, des glaces artisanales, des liqueurs et des dizaines de variétés d'abricots frais ou séchés au soleil.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Porreres+Mallorca"
+            },
+            {
+                id: 17,
+                name: "Processó de la Beata",
+                location: "Valldemossa",
+                season: "Eté",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "La plus belle et poétique procession de l'île, calme, fleurie et très inspirante pour les enfants. Les chars décorés de fleurs fraîches sont spectaculaires.",
+                date: "28 Juillet",
+                strategy: "Le village de Valldemossa est bondé pour l'occasion. Garez-vous très tôt en périphérie ou prenez la ligne de bus publique 203 depuis Palma.",
+                safety: "Aucun danger. Respectez le silence lors du passage solennel de la petite Beata.",
+                desc: "Une procession d'une beauté plastique incroyable. Une jeune fille du village, élue pour incarner 'La Beateta' (Sainte Catalina Thomàs), parcourt les rues médiévales pavées et fleuries de Valldemossa sur un char triomphal, escortée par des enfants en costumes traditionnels chantant des louanges.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Valldemossa+Mallorca"
+            },
+            {
+                id: 18,
+                name: "Festa de Sant Jaume",
+                location: "Alcúdia",
+                season: "Eté",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "Idéal pour les familles. Les remparts d'Alcúdia s'illuminent le soir et de nombreux spectacles médiévaux extérieurs gratuits sont organisés pour les enfants.",
+                date: "25 Juillet (Semaine de festivités)",
+                strategy: "Garez-vous sur le grand parking de terre gratuit à l'extérieur des remparts médiévaux d'Alcúdia (près du marché romain).",
+                safety: "Aucune mesure de sécurité spécifique nécessaire. Températures douces en soirée à l'abri de la brise marine.",
+                desc: "Le saint patron d'Alcúdia est célébré au cœur de sa cité médiévale fortifiée. Concerts sous les remparts, pièces de théâtre historiques en plein air, danses traditionnelles de géants, le tout couronné par un feu d'artifice spectaculaire tiré depuis la muraille.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Alcudia+Old+Town"
+            },
+            {
+                id: 19,
+                name: "Festa de Sant Pere (Procession Maritime)",
+                location: "Port d'Andratx",
+                season: "Eté",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "Très poétique. Voir les bateaux décorés de fleurs et de drapeaux s'illuminer le soir sur l'eau capte immédiatement l'attention des petits.",
+                date: "29 Juin",
+                strategy: "Trouvez une place de stationnement le long de la colline de Monport et descendez à pied vers le quai des pêcheurs bien avant 19h00.",
+                safety: "Surveillance étroite obligatoire des enfants au bord des quais du port de pêche.",
+                desc: "La fête des gens de mer. Une magnifique procession maritime où l'image du Saint patron des pêcheurs est portée sur un bateau de pêche en bois traditionnel (llaüt), suivie par une flotte de dizaines d'embarcations décorées naviguant dans la baie au coucher du soleil.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Port+dAndratx"
+            },
+            {
+                id: 20,
+                name: "Festa de l'Estendard",
+                location: "Palma Centro",
+                season: "Hiver",
+                type: "tradition",
+                kids: "Oui",
+                kidsDetails: "Cérémonie civile solennelle très visuelle avec de magnifiques costumes d'époque médiévale. Très éducatif pour les enfants d'âge scolaire.",
+                date: "31 Décembre au matin",
+                strategy: "Garez-vous au parking souterrain de la Plaza Mayor et rejoignez la Plaza de Cort (devant la mairie) à pied dès 09h45.",
+                safety: "Aucun danger. La place centrale peut être dense le temps du discours protocolaire officiel.",
+                desc: "L'une des plus anciennes célébrations civiles ininterrompues d'Europe (depuis le XIIIe siècle). Elle commémore l'entrée des troupes du roi Jacques Ier d'Aragon à Palma en 1229, marquant la fin de la période musulmane. Un défilé médiéval somptueux avec les bannières royales d'époque.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Placa+de+Cort+Palma"
+            }
+        ];
+
+        const grid = document.getElementById('fiestas-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterSeason = document.getElementById('filter-season');
+        const filterType = document.getElementById('filter-type');
+        const filterKids = document.getElementById('filter-kids');
+        const resultsCount = document.getElementById('results-count');
+        const resetBtn = document.getElementById('reset-filters');
+
+        function renderFiestas(fiestas) {
+            grid.innerHTML = '';
+            
+            if (fiestas.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-3xl premium-shadow border border-slate-100">
+                        <p class="text-lg text-slate-500">Aucune fiesta ne correspond à vos critères de recherche.</p>
+                        <button onclick="resetAllFilters()" class="text-terracotta font-semibold mt-4 hover:underline">Afficher toutes les célébrations</button>
+                    </div>
+                `;
+                resultsCount.textContent = '0 fête affichée';
+                return;
+            }
+
+            fiestas.forEach((fiesta) => {
+                const badgeKidsClass = fiesta.kids === "Oui" ? "bg-emerald-50 text-emerald-800" : fiesta.kids === "Sous conditions" ? "bg-amber-50 text-amber-800" : "bg-rose-50 text-rose-800";
+                const badgeTypeClass = fiesta.type === "feu" ? "bg-red-50 text-red-800" : fiesta.type === "tradition" ? "bg-blue-50 text-blue-800" : fiesta.type === "foire" ? "bg-purple-50 text-purple-800" : "bg-amber-50 text-amber-800";
+                
+                const card = document.createElement('div');
+                card.className = "fiesta-card bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100";
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
+                        <div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-vert-eau">${fiesta.location} • ${fiesta.season}</span>
+                            <h3 class="text-3xl font-bold text-slate-900 mt-1">${fiesta.name}</h3>
+                        </div>
+                        <a href="${fiesta.gps}" target="_blank" class="w-full md:w-auto bg-vert-eau text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide text-center hover:bg-vert-eau-dark transition">
+                            Itinéraire GPS ➔
+                        </a>
+                    </div>
+
+                    <!-- Fiche Technique -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">📅 Date clé</span>
+                            <span class="font-bold text-slate-800">${fiesta.date}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeTypeClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🎭 Type d'événement</span>
+                            <span class="font-bold capitalize">${fiesta.type === 'feu' ? 'Feu & Démons' : fiesta.type === 'tradition' ? 'Tradition' : fiesta.type === 'foire' ? 'Foire locale' : 'Gastronomie'}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeKidsClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🧒 Adapté aux Enfants</span>
+                            <span class="font-bold">${fiesta.kids}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🚗 Stratégie d'accès</span>
+                            <span class="font-semibold text-slate-800 text-xs">${fiesta.strategy.substring(0, 45)}...</span>
+                        </div>
+                    </div>
+
+                    <!-- Description & Conseils -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <p><strong class="text-slate-800 font-semibold">Le Secret :</strong> ${fiesta.desc}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-4 border-t border-slate-100 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🚗 Stratégie Parking & Transports :</span>
+                                ${fiesta.strategy}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🛡️ Préparation & Sécurité :</span>
+                                ${fiesta.safety}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-2 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧒 Détails Famille :</span>
+                                ${fiesta.kidsDetails}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">📍 Localisation précise :</span>
+                                ${fiesta.location}
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            resultsCount.textContent = `${fiestas.length} fête${fiestas.length > 1 ? 's' : ''} affichée${fiestas.length > 1 ? 's' : ''}`;
+        }
+
+        function filterFiestas() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedSeason = filterSeason.value;
+            const selectedType = filterType.value;
+            const selectedKids = filterKids.value;
+
+            const filtered = fiestasData.filter((fiesta) => {
+                const matchesSearch = fiesta.name.toLowerCase().includes(searchText) || fiesta.desc.toLowerCase().includes(searchText) || fiesta.location.toLowerCase().includes(searchText);
+                const matchesSeason = selectedSeason === 'all' || fiesta.season === selectedSeason;
+                const matchesType = selectedType === 'all' || fiesta.type === selectedType;
+                const matchesKids = selectedKids === 'all' || fiesta.kids === selectedKids;
+
+                return matchesSearch && matchesSeason && matchesType && matchesKids;
+            });
+
+            renderFiestas(filtered);
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            filterSeason.value = 'all';
+            filterType.value = 'all';
+            filterKids.value = 'all';
+            renderFiestas(fiestasData);
+        }
+
+        // Événements d'interaction
+        searchInput.addEventListener('input', filterFiestas);
+        filterSeason.addEventListener('change', filterFiestas);
+        filterType.addEventListener('change', filterFiestas);
+        filterKids.addEventListener('change', filterFiestas);
+        resetBtn.addEventListener('click', resetAllFilters);
+
+        // Lancement initial au chargement
+        renderFiestas(fiestasData);
+    </script>
+</body>
+</html>

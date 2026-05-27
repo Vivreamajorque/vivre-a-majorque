@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>La Bible de la Tramuntana : Guide d'Exploration</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --terracotta: #A85A32;
+            --vert-eau: #7FB3A5;
+            --vert-eau-dark: #659388;
+        }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background-color: #FDFBF7; 
+            color: #2D3748; 
+        }
+        h1, h2, h3 { 
+            font-family: 'Playfair Display', serif; 
+        }
+        .text-terracotta { color: var(--terracotta); }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .bg-vert-eau { background-color: var(--vert-eau); }
+        .hover\:bg-vert-eau-dark:hover { background-color: var(--vert-eau-dark); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+        
+        .premium-shadow {
+            box-shadow: 0 10px 30px -10px rgba(168, 90, 50, 0.15);
+        }
+        .spot-card {
+            border-left: 5px solid var(--vert-eau);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .spot-card:hover {
+            transform: translateY(-4px);
+            border-left-color: var(--terracotta);
+        }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-12 lg:px-24">
+
+    <div class="max-w-5xl mx-auto">
+        <header class="text-center mb-16">
+            <span class="text-xs uppercase tracking-widest font-bold text-slate-400 block mb-3">Édition Résident Privée</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-slate-900 mb-6 leading-tight">
+                La Bible de la <br><span class="italic text-terracotta font-normal">"Tramuntana"</span>
+            </h1>
+            <p class="text-lg md:text-xl text-slate-600 max-w-2xl mx-auto leading-relaxed">
+                20 trésors d’altitude et de nature sauvage classés à l'UNESCO. Des sentiers oubliés aux belvédères secrets, planifiez vos explorations loin de l'agitation.
+            </p>
+        </header>
+
+        <section class="bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100 mb-12">
+            <h3 class="text-xl font-bold text-slate-900 mb-4 font-serif">Planifier votre échappée sauvage</h3>
+            
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <!-- Recherche textuelle -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Recherche</label>
+                    <input type="text" id="search-input" placeholder="Ex: Deià, Rando, Cascade..." class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                </div>
+                
+                <!-- Type d'activité -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Type d'activité</label>
+                    <select id="filter-type" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les activités</option>
+                        <option value="village">Villages Pittoresques</option>
+                        <option value="rando">Randonnées d'Initié</option>
+                        <option value="point">Points de Vue / Couchers de Soleil</option>
+                        <option value="experience">Expériences Uniques</option>
+                    </select>
+                </div>
+
+                <!-- Difficulté -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Difficulté / Accès</label>
+                    <select id="filter-difficulty" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Toutes les difficultés</option>
+                        <option value="Facile">Facile (Promenade)</option>
+                        <option value="Moyen">Moyen (Marcheur régulier)</option>
+                        <option value="Sportif">Sportif (Bonnes chaussures requises)</option>
+                        <option value="N/A">N/A (Village / Belvédère direct)</option>
+                    </select>
+                </div>
+
+                <!-- Adapté Enfants -->
+                <div>
+                    <label class="block text-xs uppercase font-bold text-slate-400 mb-2">Adapté Enfants</label>
+                    <select id="filter-kids" class="w-full px-4 py-3 rounded-xl bg-slate-50 border border-slate-200 text-sm focus:outline-none focus:border-vert-eau transition">
+                        <option value="all">Peu importe</option>
+                        <option value="Oui">Adapté (Sécurisé & ludique)</option>
+                        <option value="Sous conditions">Sous conditions (Attention requise)</option>
+                        <option value="Non">Non recommandé</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="mt-4 flex justify-between items-center text-xs text-slate-400">
+                <span id="results-count">20 spots affichés</span>
+                <button id="reset-filters" class="text-terracotta hover:underline font-semibold">Réinitialiser les filtres</button>
+            </div>
+        </section>
+
+        <main id="spots-grid" class="space-y-8">
+            <!-- Injecté dynamiquement en JS pour un chargement instantané -->
+        </main>
+
+        <footer class="mt-24 bg-terracotta text-white p-8 md:p-16 rounded-[2.5rem] text-center relative overflow-hidden">
+            <div class="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(253,251,247,0.15),transparent_50%)]"></div>
+            <div class="relative z-10 max-w-2xl mx-auto">
+                <span class="text-xs uppercase tracking-widest font-bold text-amber-200 block mb-4">La Trilogie du Résident</span>
+                <h2 class="text-4xl md:text-5xl font-bold mb-6 text-white">Une expérience 100% majorquine</h2>
+                <p class="text-amber-100 mb-8 leading-relaxed">
+                    Maximisez votre art de vivre insulaire. Économisez en accédant aux <strong>20 Calas Secrètes</strong> et à la <strong>Table des Locaux</strong> en choisissant notre Pack de lancement.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button class="bg-white text-terracotta px-8 py-4 rounded-full font-bold text-md hover:scale-105 active:scale-95 transition premium-shadow">
+                        Débloquer le Pack Trio (12,90 €)
+                    </button>
+                    <button class="border border-white border-opacity-30 hover:bg-white hover:bg-opacity-10 px-8 py-4 rounded-full font-bold text-md transition">
+                        Rejoindre le Club Privé
+                    </button>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        const spotsData = [
+            {
+                id: 1,
+                name: "Fornalutx",
+                type: "village",
+                difficulty: "N/A",
+                kids: "Oui",
+                kidsDetails: "Ruelles pavées piétonnes, idéal en poussette solide ou marche active. Nombreux cafés sympas sur la place du village.",
+                services: "services",
+                servicesDetails: "Boutiques d'artisanat, boulangerie locale mythique, bars de place et sanitaires publics à proximité.",
+                duration: "1h à 3h",
+                desc: "Régulièrement élu parmi les plus beaux villages d'Espagne. Fornalutx s'accroche fièrement à flanc de montagne, entouré d'une vallée d'orangers et de citronniers au parfum envoûtant. Ses ruelles d'escaliers fleuris sont un chef-d'œuvre de pierre ocre.",
+                strategy: "Arrivez vers 9h30 pour un café matinal sur la place avant que les cyclistes n'envahissent les terrasses. Garez-vous au parking municipal à l'entrée.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Fornalutx+Mallorca"
+            },
+            {
+                id: 2,
+                name: "Barranc de Biniaraix",
+                type: "rando",
+                difficulty: "Sportif",
+                kids: "Sous conditions",
+                kidsDetails: "Idéal pour les enfants marcheurs à partir de 8 ans. La montée est raide et comporte des marches glissantes par temps humide.",
+                services: "sauvage",
+                servicesDetails: "Pas d'installations, nature 100% préservée. Prenez absolument 1,5L d'eau par personne.",
+                duration: "3h à 4h (Aller-retour)",
+                desc: "Un chemin pavé d'origine médiévale qui s'enfonce dans un canyon spectaculaire d'oliviers millénaires en terrasses. C'est l'un des joyaux d'ingénierie en pierre sèche les plus saisissants d'Europe, escorté par un torrent rafraîchissant.",
+                strategy: "Le départ se fait depuis le minuscule hameau de Biniaraix. Garez-vous impérativement à Sóller et marchez jusqu'au départ (15 min) sous peine d'être bloqué dans des impasses sans stationnement possible.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Barranc+de+Biniaraix"
+            },
+            {
+                id: 3,
+                name: "Sa Dragonera (Île Mystique)",
+                type: "experience",
+                difficulty: "Moyen",
+                kids: "Oui",
+                kidsDetails: "Très ludique grâce à la traversée en bateau. Les chemins sur l'île sont larges et ombragés, habités par des centaines de lézards inoffensifs que les enfants adorent.",
+                services: "sauvage",
+                servicesDetails: "Centre d'interprétation et gardes forestiers sur place. Pas de point d'eau potable ni de restauration. Prévoyez vos encas.",
+                duration: "Demi-journée",
+                desc: "Ce parc naturel insulaire préservé fait face au village de Sant Elm. Ancien repaire de pirates, l'île s'explore à pied pour rejoindre ses trois phares historiques. La vue sur les falaises de la Tramuntana qui plongent dans la mer y est magique.",
+                strategy: "Prenez la navette bateau (Margarita) depuis le quai de Sant Elm. Premier départ à 9h45 en saison. Optez pour le sentier du Phare de Tramuntana (le plus court et ombragé).",
+                gps: "https://www.google.com/maps/search/?api=1&query=Sant+Elm+Dragonera"
+            },
+            {
+                id: 4,
+                name: "Mirador de Ses Ánimes",
+                type: "point",
+                difficulty: "N/A",
+                kids: "Sous conditions",
+                kidsDetails: "La montée à la tour par l'échelle intérieure étroite est réservée aux grands enfants très attentifs et calmes.",
+                services: "sauvage",
+                servicesDetails: "Accès libre, aucun commerce à proximité directe.",
+                duration: "30 min",
+                desc: "Une tour de guet historique du XVIe siècle accrochée au bord d'une falaise vertigineuse entre Banyalbufar et Estellencs. Le panorama s'ouvre sur un horizon marin d'une immensité théâtrale.",
+                strategy: "Un arrêt incontournable lors de votre road-trip sur la route côtière Ma-10. Venez y assister au coucher du soleil : le ciel embrase la mer dans un silence royal.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Torre+del+Verger+Banyalbufar"
+            },
+            {
+                id: 5,
+                name: "Torrent de Pareis (Canyon terrestre)",
+                type: "rando",
+                difficulty: "Sportif",
+                kids: "Non",
+                kidsDetails: "La descente du canyon complet est technique, vertigineuse et exige d'escalader d'immenses blocs de calcaire glissants. Absolument déconseillé aux enfants.",
+                services: "sauvage",
+                servicesDetails: "Sécurité totale requise. Aucun réseau cellulaire dans le canyon.",
+                duration: "5h",
+                desc: "Le canyon le plus impressionnant de la Méditerranée. Ses falaises de calcaire hautes de 200 mètres se referment parfois sur un passage de quelques mètres à peine, pour déboucher triomphalement sur la plage de Sa Calobra.",
+                strategy: "Ne le tentez JAMAIS en cas de prévision de pluie ou si le torrent a coulé dans les 48 heures précédentes. Engagez un guide professionnel si c'est votre première fois.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Torrent+de+Pareis+Escorca"
+            },
+            {
+                id: 6,
+                name: "Le Camí de s'Arxiduc (Valldemossa)",
+                type: "rando",
+                difficulty: "Sportif",
+                kids: "Non",
+                kidsDetails: "Passages aériens en crête très exposés au vent et au vide. Tracé long sans échappatoire facile.",
+                services: "sauvage",
+                servicesDetails: "Réserve naturelle sauvage. Aucun point d'eau sur le tracé de montagne.",
+                duration: "4h30",
+                desc: "Construit à la fin du XIXe siècle par l'archiduc Louis-Salvador d'Autriche, ce sentier pavé d'altitude parcourt de façon spectaculaire les crêtes rocheuses reliant Valldemossa à Deià, offrant des perspectives uniques.",
+                strategy: "Démarrez tôt le matin depuis le haut de Valldemossa pour éviter la chaleur sur les sections de crête non ombragées. Prévoyez de très bonnes chaussures de marche active.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cami+de+sArxiduc+Valldemossa"
+            },
+            {
+                id: 7,
+                name: "Monastère de Lluc",
+                type: "experience",
+                difficulty: "N/A",
+                kids: "Oui",
+                kidsDetails: "Idéal pour courir dans les immenses cours pavées. Un jardin botanique charmant est présent dans l'enceinte.",
+                services: "services",
+                servicesDetails: "Restaurants, boulangerie, chambres d'hôtes monastiques, parkings géants et sanitaires.",
+                duration: "2h à une demi-journée",
+                desc: "Le cœur spirituel de Majorque, isolé dans une majestueuse vallée forestière de la Tramuntana Nord. Ce monastère du XIIIe siècle dégage une paix absolue sous l'œil bienveillant des hauts pics rocheux qui l'encerclent.",
+                strategy: "Le dimanche à 11h15, vous pourrez écouter la célèbre chorale d'enfants 'Els Blauets' chanter dans la basilique. Le parking est payant mais très abordable.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Santuari+de+Lluc+Escorca"
+            },
+            {
+                id: 8,
+                name: "Talaia d'Albercutx",
+                type: "point",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Chemin facile, mais la plateforme sommitale exige une surveillance constante à cause du vent et de l'altitude.",
+                services: "sauvage",
+                servicesDetails: "Aucune commodité sur les hauteurs de la tour.",
+                duration: "1h (Aller-retour)",
+                desc: "Une tour de surveillance militaire haut perchée, dominant l'étroit cap de Formentor. De là-haut, la vue plongeante embrase à 360 degrés les baies de Pollença et d'Alcúdia, ainsi que l'interminable route sinueuse du phare.",
+                strategy: "Ne vous arrêtez pas au premier mirador bondé d'El Colomer. Continuez à monter sur la petite route étroite qui part à droite vers la Talaia pour une intimité royale.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Talaia+dAlbercutx+Pollensa"
+            },
+            {
+                id: 9,
+                name: "Terrasses de Banyalbufar",
+                type: "village",
+                difficulty: "N/A",
+                kids: "Oui",
+                kidsDetails: "Promenade tranquille au cœur des cultures en terrasse. Accès à la crique par une route pavée pittoresque.",
+                services: "services",
+                servicesDetails: "Cafés de village, domaines viticoles producteurs de Malvasia à proximité.",
+                duration: "2h",
+                desc: "Un paysage agricole d'influence maure à couper le souffle. Des centaines de terrasses de pierre sèche plongent littéralement dans la mer pour cultiver la vigne historique de Malvasía, irriguées par un réseau complexe de sources.",
+                strategy: "Rendez-vous au domaine 'Celler Son Vives' pour une dégustation de vin de Malvasia local au coucher du soleil face à la mer. Réservation indispensable.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Banyalbufar+Mallorca"
+            },
+            {
+                id: 10,
+                name: "Village d'Artistes de Deià",
+                type: "village",
+                difficulty: "N/A",
+                kids: "Oui",
+                kidsDetails: "Idéal pour flâner tranquillement. De superbes balades familiales partent du cœur du village vers les vergers environnants.",
+                services: "services",
+                servicesDetails: "Nombreuses galeries d'art, restaurants réputés, épiceries de produits locaux.",
+                duration: "2h à une demi-journée",
+                desc: "Rendu mythique par l'écrivain Robert Graves, Deià est un refuge d'artistes et de poètes à la beauté bohème indiscutable. Les maisons de pierre ocre s'ordonnent majestueusement autour de l'église paroissiale sur une colline arborée.",
+                strategy: "Visitez 'Ca N'Alluny', la maison-musée préservée de Robert Graves, pour vous imprégner de l'esprit originel du village avant de descendre vers la crique pour dîner.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Deia+Mallorca"
+            },
+            {
+                id: 11,
+                name: "Sentier Côtier Sóller - Cala Tuent",
+                type: "rando",
+                difficulty: "Moyen",
+                kids: "Non",
+                kidsDetails: "Randonnée linéaire de 14 km de longueur sous le soleil, trop exigeante pour de jeunes enfants.",
+                services: "sauvage",
+                servicesDetails: "Seul le magnifique restaurant de Cala Tuent est accessible à l'arrivée.",
+                duration: "4h30 (Aller simple)",
+                desc: "L'une des plus spectaculaires marches côtières de Majorque. Le sentier serpente à flanc de falaise à travers les oliveraies sauvages, offrant des perspectives changeantes d'un bleu cobalt saisissant, avant de s'ouvrir sur l'amphithéâtre de Cala Tuent.",
+                strategy: "Prenez le taxi ou un bateau pour le retour de Cala Tuent au Port de Sóller, pour vous éviter le trajet inverse épuisant. À planifier de préférence au printemps ou à l'automne.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Mirador+de+ses+Barques+Soller"
+            },
+            {
+                id: 12,
+                name: "L'Ascension du Puig de Galatzó",
+                type: "rando",
+                difficulty: "Sportif",
+                kids: "Non",
+                kidsDetails: "La partie finale comporte des passages d'escalade légère sur roche nue glissante.",
+                services: "sauvage",
+                servicesDetails: "Nature d'altitude pure. Aucun aménagement commercial.",
+                duration: "4h",
+                desc: "Surnommé le 'Cervin' de Majorque en raison de sa silhouette pointue distinctive, le sommet du Galatzó (1027m) offre une vue fantastique sur toute la côte sud de la Tramuntana et la baie de Palma.",
+                strategy: "Démarrez l'itinéraire depuis la zone récréative publique de 'Sa Font des d'Alt' à Estellencs. Emportez de bonnes vestes coupe-vent car le sommet est souvent balayé par de fortes rafales.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Puig+de+Galatzo+Estellencs"
+            },
+            {
+                id: 13,
+                name: "Castell d'Alaró (Forteresse suspendue)",
+                type: "rando",
+                difficulty: "Moyen",
+                kids: "Oui",
+                kidsDetails: "Chemin d'accès large et sans danger sous les arbres. Les ruines du vieux château fortifié sont très inspirantes pour l'imaginaire des enfants.",
+                services: "services",
+                servicesDetails: "Un refuge de montagne rustique sert des repas de grillades au sommet sur réservation.",
+                duration: "2h (Aller-retour)",
+                desc: "Une forteresse médiévale haut perchée sur un pic de roche calcaire vertigineux. Occupée successivement par les Romains, les Maures et les chrétiens, ses ruines dominent de manière royale toute la plaine centrale de Majorque.",
+                strategy: "Pour réduire le temps de marche avec des enfants, garez-vous au parking intermédiaire de la rôtisserie 'Es Verger' (et profitez-en pour réserver votre déjeuner d'agneau rôti pour le retour).",
+                gps: "https://www.google.com/maps/search/?api=1&query=Castell+dAlaro+Alaro"
+            },
+            {
+                id: 14,
+                name: "Ermita de la Trinitat (Valldemossa)",
+                type: "point",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Chemin forestier plat et très court depuis le parking. Calme absolu à respecter sur place.",
+                services: "sauvage",
+                servicesDetails: "Ermitage habité par des moines. Point d'eau douce gratuit.",
+                duration: "1h",
+                desc: "Un ermitage paisible du XVIIe siècle caché dans une forêt de chênes verts à l'écart des masses. Les moines y entretiennent un superbe jardin et une terrasse panoramique d'un calme religieux sur la côte ouest.",
+                strategy: "Garez-vous au parking de la forêt de la Ma-10 et accédez-y par le chemin des oliviers. C'est l'un des rares lieux de paix absolue préservés des flux touristiques.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Ermita+de+la+Trinitat+Valldemossa"
+            },
+            {
+                id: 15,
+                name: "Cala Estellencs & Sa Cascade",
+                type: "experience",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Accès en voiture jusqu'au petit quai de pêcheurs. Plage de galets nécessitant des sandales pour jouer confortablement.",
+                services: "services",
+                servicesDetails: "Un petit chiringuito charmant est ouvert durant la saison estivale.",
+                duration: "1h à 3h",
+                desc: "Une crique étroite de galets rouges et d'argile encadrée par de hautes falaises d'où se jette une cascade d'eau douce de montagne. Le site sert d'abri traditionnel aux petites barques en bois (llaüts) des habitants du village.",
+                strategy: "La route de descente vers la cala depuis le village d'Estellencs est extrêmement étroite et pentue. En haute saison, descendez-y plutôt à pied (20 min) pour vous éviter les soucis de croisement et de stationnement en bas.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Cala+Estellencs"
+            },
+            {
+                id: 16,
+                name: "Ses Fonts Ufanes",
+                type: "experience",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Chemin d'accès forestier entièrement balisé et plat. Parfait pour courir sous les chênes verts.",
+                services: "services",
+                servicesDetails: "Parking aménagé à l'entrée du domaine public de Gabellí Petit.",
+                duration: "1h30",
+                desc: "Un phénomène hydrologique naturel unique en Méditerranée. Après de fortes pluies sur les sommets de la Tramuntana, des sources d'eau souterraines jaillissent puissamment du sol de la forêt pour créer une rivière éphémère sauvage.",
+                strategy: "Vérifiez impérativement les réseaux locaux ou l'office du tourisme de Campanet avant de vous y déplacer : le jaillissement ne dure généralement que 2 à 3 jours après de très gros cumuls de pluie hivernaux ou automnaux.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Ses+Fonts+Ufanes+Campanet"
+            },
+            {
+                id: 17,
+                name: "Le Train Historique de Sóller",
+                type: "experience",
+                difficulty: "N/A",
+                kids: "Oui",
+                kidsDetails: "Une aventure ferroviaire magique à l'ancienne à travers les tunnels de la montagne. Les fenêtres s'ouvrent en grand pour respirer l'odeur des pins.",
+                services: "services",
+                servicesDetails: "Gares équipées de cafés et de sanitaires à Palma et Sóller.",
+                duration: "Demi-journée",
+                desc: "Inauguré en 1912, ce convoi de wagons historiques en bois précieux traverse le cœur de la Tramuntana en franchissant 13 tunnels creusés dans la roche calcaire, offrant des vues plongeantes sur la vallée des oranges de Sóller.",
+                strategy: "Combinez le voyage en train classique depuis Palma avec le tramway en bois rétro qui relie le village de Sóller au Port. C'est le plus beau parcours historique de l'île.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Ferrocarril+de+Soller+Palma"
+            },
+            {
+                id: 18,
+                name: "Les Jardins de Raixa",
+                type: "experience",
+                difficulty: "Facile",
+                kids: "Oui",
+                kidsDetails: "Les grands escaliers à l'italienne et le bassin de poissons rouges captivent l'attention des enfants. Espaces clos et sécurisés.",
+                services: "services",
+                servicesDetails: "Centre d'interprétation moderne de la Tramuntana à l'intérieur de la maison de maître, parking gratuit et sanitaires.",
+                duration: "2h",
+                desc: "Un somptueux domaine agricole d'origine islamique (Alquería) transformé au XVIIIe siècle en villa de style néoclassique avec d'immenses jardins d'inspiration italienne. L'escalier d'honneur majestueux et le grand bassin d'eau y sont spectaculaires.",
+                strategy: "L'accès est entièrement gratuit mais les horaires d'ouverture sont stricts (fermé le dimanche et lundi). Idéal pour une promenade culturelle paisible le samedi matin.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Finca+Publica+Raixa+Bunyola"
+            },
+            {
+                id: 19,
+                name: "La Route du Puig Major (Col de Cúber)",
+                type: "point",
+                difficulty: "N/A",
+                kids: "Oui",
+                kidsDetails: "Parfait pour une balade familiale autour des rives plates et paisibles du lac artificiel de Cúber.",
+                services: "sauvage",
+                servicesDetails: "Zones de pique-nique ombragées à proximité des parkings.",
+                duration: "1h à 3h",
+                desc: "Le point culminant routier de Majorque, frôlant le sommet du Puig Major (1445m). La route sinueuse traverse un paysage d'altitude minéral saisissant, reliant les deux grands lacs d'azur de Cúber et du Gorg Blau qui approvisionnent Palma en eau.",
+                strategy: "Garez-vous au parking officiel du réservoir de Cúber et marchez le long de la digue : le reflet des falaises calcaires du Puig Major dans l'eau tranquille du lac y est absolument divin.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Embassament+de+Cuber+Escorca"
+            },
+            {
+                id: 20,
+                name: "Mirador de Sa Foradada",
+                type: "point",
+                difficulty: "N/A",
+                kids: "Oui",
+                kidsDetails: "Terrasse du belvédère sécurisée et fermée par des barrières. Un bar avec de la musique lounge y est installé.",
+                services: "services",
+                servicesDetails: "Grand restaurant traditionnel et café 'Son Marroig' avec terrasses géantes à proximité.",
+                duration: "1h",
+                desc: "Le belvédère le plus célèbre et romantique de Majorque, offrant une vue plongeante splendide sur la péninsule de Sa Foradada, une étonnante langue de terre rocheuse percée d'un trou naturel de 18 mètres de diamètre.",
+                strategy: "Le spot ultime de l'île pour assister au coucher du soleil. Arrivez au moins 45 minutes avant l'heure fatidique pour trouver une place de stationnement décente le long de la route Ma-10.",
+                gps: "https://www.google.com/maps/search/?api=1&query=Mirador+de+Sa+Foradada+Deia"
+            }
+        ];
+
+        const grid = document.getElementById('spots-grid');
+        const searchInput = document.getElementById('search-input');
+        const filterType = document.getElementById('filter-type');
+        const filterDifficulty = document.getElementById('filter-difficulty');
+        const filterKids = document.getElementById('filter-kids');
+        const resultsCount = document.getElementById('results-count');
+        const resetBtn = document.getElementById('reset-filters');
+
+        function renderSpots(spots) {
+            grid.innerHTML = '';
+            
+            if (spots.length === 0) {
+                grid.innerHTML = `
+                    <div class="text-center py-16 bg-white rounded-3xl premium-shadow border border-slate-100">
+                        <p class="text-lg text-slate-500">Aucun spot ne correspond à vos critères d'exploration.</p>
+                        <button onclick="resetAllFilters()" class="text-terracotta font-semibold mt-4 hover:underline">Afficher toutes les activités</button>
+                    </div>
+                `;
+                resultsCount.textContent = '0 spot affiché';
+                return;
+            }
+
+            spots.forEach((spot) => {
+                const badgeKidsClass = spot.kids === "Oui" ? "bg-emerald-50 text-emerald-800" : spot.kids === "Sous conditions" ? "bg-amber-50 text-amber-800" : "bg-rose-50 text-rose-800";
+                const badgeDifficultyClass = spot.difficulty === "Facile" ? "bg-blue-50 text-blue-800" : spot.difficulty === "Moyen" ? "bg-amber-50 text-amber-800" : spot.difficulty === "Sportif" ? "bg-purple-50 text-purple-800" : "bg-slate-50 text-slate-800";
+                
+                const card = document.createElement('div');
+                card.className = "spot-card bg-white p-6 md:p-8 rounded-3xl premium-shadow border border-slate-100";
+                card.innerHTML = `
+                    <div class="flex flex-col md:flex-row justify-between items-start mb-6 gap-4">
+                        <div>
+                            <span class="text-xs uppercase tracking-wider font-bold text-vert-eau">${spot.type.toUpperCase()} • ${spot.duration}</span>
+                            <h3 class="text-3xl font-bold text-slate-900 mt-1">${spot.id}. ${spot.name}</h3>
+                        </div>
+                        <a href="${spot.gps}" target="_blank" class="w-full md:w-auto bg-vert-eau text-white px-6 py-3 rounded-xl font-bold text-sm tracking-wide text-center hover:bg-vert-eau-dark transition">
+                            Itinéraire GPS ➔
+                        </a>
+                    </div>
+
+                    <!-- Grille technique -->
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">⏱️ Durée estimée</span>
+                            <span class="font-semibold text-slate-800">${spot.duration}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeDifficultyClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">⛰️ Niveau / Accès</span>
+                            <span class="font-bold">${spot.difficulty}</span>
+                        </div>
+                        <div class="p-4 rounded-xl ${badgeKidsClass}">
+                            <span class="block text-[10px] uppercase font-bold opacity-60 tracking-wider mb-1">🧒 Adapté aux Enfants</span>
+                            <span class="font-bold">${spot.kids}</span>
+                        </div>
+                        <div class="bg-slate-50 p-4 rounded-xl border border-slate-100">
+                            <span class="block text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">🧺 Type de cadre</span>
+                            <span class="font-bold text-terracotta">${spot.services === "services" ? "Équipé / Services" : "Sauvage (Vierge)"}</span>
+                        </div>
+                    </div>
+
+                    <!-- Descriptions et détails tactiques -->
+                    <div class="space-y-4 text-sm text-slate-600 leading-relaxed">
+                        <p><strong class="text-slate-800 font-semibold">Le Secret :</strong> ${spot.desc}</p>
+                        
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-4 border-t border-slate-100 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🚗 Stratégie Parking & Arrivée :</span>
+                                ${spot.strategy}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧒 Détails Famille :</span>
+                                ${spot.kidsDetails}
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-2 pt-2 text-xs">
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧺 Aménagements & Commodités :</span>
+                                ${spot.servicesDetails}
+                            </div>
+                            <div>
+                                <span class="font-bold text-slate-700 block mb-1">🧭 Activité Principale :</span>
+                                <span class="capitalize">${spot.type}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+
+            resultsCount.textContent = `${spots.length} spot${spots.length > 1 ? 's' : ''} affiché${spots.length > 1 ? 's' : ''}`;
+        }
+
+        function filterSpots() {
+            const searchText = searchInput.value.toLowerCase().trim();
+            const selectedType = filterType.value;
+            const selectedDifficulty = filterDifficulty.value;
+            const selectedKids = filterKids.value;
+
+            const filtered = spotsData.filter((spot) => {
+                const matchesSearch = spot.name.toLowerCase().includes(searchText) || spot.desc.toLowerCase().includes(searchText);
+                const matchesType = selectedType === 'all' || spot.type === selectedType;
+                const matchesDifficulty = selectedDifficulty === 'all' || spot.difficulty === selectedDifficulty;
+                const matchesKids = selectedKids === 'all' || spot.kids === selectedKids;
+
+                return matchesSearch && matchesType && matchesDifficulty && matchesKids;
+            });
+
+            renderSpots(filtered);
+        }
+
+        function resetAllFilters() {
+            searchInput.value = '';
+            filterType.value = 'all';
+            filterDifficulty.value = 'all';
+            filterKids.value = 'all';
+            renderSpots(spotsData);
+        }
+
+        // Événements d'interaction
+        searchInput.addEventListener('input', filterSpots);
+        filterType.addEventListener('change', filterSpots);
+        filterDifficulty.addEventListener('change', filterSpots);
+        filterKids.addEventListener('change', filterSpots);
+        resetBtn.addEventListener('click', resetAllFilters);
+
+        // Lancement initial au chargement
+        renderSpots(spotsData);
+    </script>
+</body>
+</html>

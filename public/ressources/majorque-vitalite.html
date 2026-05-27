@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Majorque Vitalité - 20 Disciplines de Résident</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root { --terracotta: #A85A32; --vert-eau: #7FB3A5; }
+        .bg-terracotta { background-color: var(--terracotta); }
+        .text-terracotta { color: var(--terracotta); }
+        .border-vert-eau { border-color: var(--vert-eau); }
+        .text-vert-eau { color: var(--vert-eau); }
+    </style>
+</head>
+<body class="bg-slate-50 p-6">
+    <div class="max-w-5xl mx-auto">
+        <h1 class="text-4xl font-bold text-terracotta mb-4 text-center">Majorque Vitalité : 20 Disciplines de Résident</h1>
+        <p class="text-center text-slate-600 mb-8 italic">Le manuel tactique pour vivre l'île comme un initié.</p>
+        
+        <div id="grid" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+
+        <section class="mt-16 bg-white p-8 rounded-xl shadow-sm border border-slate-200">
+            <h2 class="text-2xl font-bold text-terracotta mb-6">🔗 Ressources Web Indispensables</h2>
+            <ul class="space-y-4">
+                <li><strong>Playtomic :</strong> L'app incontournable pour réserver vos terrains de Padel et trouver des partenaires.</li>
+                <li><strong>Wikiloc :</strong> La bible des tracés GPS pour le Trail et la randonnée à Majorque.</li>
+                <li><strong>Cycling Planet :</strong> La communauté numéro 1 pour les sorties route.</li>
+                <li><strong>Meetup Mallorca :</strong> Pour trouver des groupes de randonnée ou de yoga.</li>
+                <li><strong>Groupes Facebook "Mallorca Expat" :</strong> Pour les infos de dernière minute et réseaux locaux.</li>
+            </ul>
+        </section>
+    </div>
+
+    <script>
+        const disciplines = [
+            { icon: "🚴", name: "Cyclisme (Route)", cost: "€€€", diff: "Sportif", social: "Très élevé", kids: "Non", info: "Groupes Facebook : Mallorca Cycling. Site : Cycling Planet.", desc: "La Mecque mondiale du vélo. Essentiel pour réseauter, les sorties de groupe se font par niveau et sont la porte d'entrée sociale n°1." },
+            { icon: "🎾", name: "Padel", cost: "€", diff: "Facile", social: "Très élevé", kids: "Oui", info: "App : Playtomic. Cherchez les clubs autour de Palma et Santa Ponça.", desc: "Le sport social par excellence. Les matchs tournants permettent de rencontrer des résidents en 1h chrono. Indispensable." },
+            { icon: "🏃", name: "Trail Running", cost: "€", diff: "Sportif", social: "Moyen", kids: "Non", info: "App : Wikiloc. Groupe FB : Mallorca Trail.", desc: "La Tramuntana est votre terrain de jeu. Idéal pour la déconnexion pure. Les groupes locaux organisent des sorties dominicales très accessibles." },
+            { icon: "🧘", name: "Yoga", cost: "€€", diff: "Facile", social: "Modéré", kids: "Oui", info: "Instagram : #YogaMallorca. Studios à Santa Catalina.", desc: "Une pratique ancrée dans le lifestyle majorquin. Cherchez les cours de 'Yoga Flow' en anglais pour rencontrer la communauté internationale." },
+            { icon: "🏄", name: "Stand-Up Paddle", cost: "€€", diff: "Facile", social: "Faible", kids: "Oui", info: "Loueurs à Portitxol. Évitez les heures de vent (après 14h).", desc: "Méditatif et sportif. Parfait pour découvrir des criques inaccessibles par la terre. À pratiquer le matin sur mer d'huile." },
+            { icon: "🎾", name: "Tennis", cost: "€€", diff: "Moyen", social: "Élevé", kids: "Oui", info: "Clubs privés Santa Ponça. Réservez via les sites web des clubs.", desc: "Réseautage haut de gamme. Les clubs de tennis organisent souvent des tournois de doubles, parfaits pour lier connaissance." },
+            { icon: "🥾", name: "Randonnée (GR221)", cost: "€", diff: "Moyen", social: "Moyen", kids: "Oui", info: "Site : Camins de Pedra. App : Mallorca Hiking.", desc: "La colonne vertébrale de l'île. Le GR221 traverse des paysages sauvages uniques. Idéal pour les week-ends prolongés." },
+            { icon: "🤿", name: "Apnée", cost: "€€€", diff: "Sportif", social: "Moyen", kids: "Non", info: "Centres de plongée Port Adriano.", desc: "Découverte des fonds marins en apnée. Discipline exigeante qui demande une grande maîtrise de soi. Très technique." },
+            { icon: "🪁", name: "Kitesurf", cost: "€€€", diff: "Sportif", social: "Élevé", kids: "Non", info: "Spots : Platja de Muro. Écoles spécialisées.", desc: "Sport de glisse intense. La communauté est très soudée et se retrouve toujours sur les mêmes spots selon l'orientation du vent." },
+            { icon: "⛳", name: "Golf", cost: "€€€", diff: "Moyen", social: "Très élevé", kids: "Non", info: "Golfs d'Andratx ou Son Vida.", desc: "Sport de réseautage par excellence. Les golfs de Majorque possèdent des infrastructures d'accueil de très haut niveau." },
+            { icon: "🤸", name: "Pilates", cost: "€€", diff: "Facile", social: "Modéré", kids: "Oui", info: "Cherchez 'Pilates Studio' à Palma (Son Espanyolet).", desc: "Le sport de maintien des résidents. Très efficace pour le gainage, avec une communauté locale fidèle." },
+            { icon: "🪂", name: "Wing Foil", cost: "€€€", diff: "Sportif", social: "Élevé", kids: "Non", info: "Écoles Alcúdia / Nord.", desc: "La tendance glisse du moment. Nécessite une bonne condition physique mais procure des sensations de vol uniques." },
+            { icon: "⛵", name: "Voile légère", cost: "€€€", diff: "Moyen", social: "Élevé", kids: "Oui", info: "Club de Mar ou Club Nàutic Palma.", desc: "Naviguer dans la baie de Palma est une institution. Les régates hebdomadaires sont très courues par les résidents." },
+            { icon: "⚛️", name: "Méditation", cost: "€", diff: "Facile", social: "Moyen", kids: "Oui", info: "Retraites en Tramuntana via sites locaux.", desc: "Pratique idéale pour gérer le stress de la vie moderne. Plusieurs groupes se réunissent dans les jardins publics le matin." },
+            { icon: "🏋️", name: "CrossFit", cost: "€€", diff: "Sportif", social: "Élevé", kids: "Non", info: "Box certifiées à Palma (ex: CrossFit Palma).", desc: "La communauté internationale par excellence. Vous y trouverez des gens de tous les pays, idéal pour s'intégrer rapidement." },
+            { icon: "🏐", name: "Tennis de plage", cost: "€", diff: "Facile", social: "Très élevé", kids: "Oui", info: "Plages d'Arenal ou Can Pastilla.", desc: "Le 'Matkot'. Ludique, spontané, c'est le sport des plages majorquines pour rencontrer du monde en vacances ou week-end." },
+            { icon: "🚶", name: "Marche nordique", cost: "€", diff: "Facile", social: "Élevé", kids: "Oui", info: "Groupes Facebook : Nordic Walking Mallorca.", desc: "Sport doux et très social. Les groupes sont majoritairement composés de résidents actifs et sont ouverts." },
+            { icon: "☯️", name: "Tai Chi", cost: "€", diff: "Facile", social: "Modéré", kids: "Oui", info: "Jardins publics le matin (ex: Parc de la Mar).", desc: "La discipline du mouvement lent. Idéal pour commencer la journée avec une discipline mentale apaisante." },
+            { icon: "🧗", name: "Escalade", cost: "€€", diff: "Sportif", social: "Élevé", kids: "Non", info: "Guide : 'Mallorca Climbing'. Sektor de Valldemossa.", desc: "Majorque est mondialement réputée pour ses spots de psicobloc. Escalader les falaises face à la mer est unique au monde." },
+            { icon: "🏊", name: "Natation Eau Libre", cost: "€", diff: "Moyen", social: "Faible", kids: "Oui", info: "Groupes : Open Water Mallorca.", desc: "Pour les puristes. Nager en eau libre toute l'année est le secret de la forme physique des résidents majorquins." }
+        ];
+
+        const grid = document.getElementById('grid');
+        disciplines.forEach(d => {
+            grid.innerHTML += `
+                <div class="bg-white p-6 rounded-xl border-l-4 border-vert-eau shadow-sm">
+                    <div class="text-3xl mb-2">${d.icon} <span class="text-xl font-bold text-terracotta ml-2">${d.name}</span></div>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-2 text-xs mb-4">
+                        <span class="bg-slate-100 p-1 rounded">Coût: ${d.cost}</span>
+                        <span class="bg-slate-100 p-1 rounded">Diff: ${d.diff}</span>
+                        <span class="bg-slate-100 p-1 rounded">Social: ${d.social}</span>
+                        <span class="bg-slate-100 p-1 rounded">Famille: ${d.kids}</span>
+                    </div>
+                    <p class="text-sm text-slate-700 mb-2">${d.desc}</p>
+                    <p class="text-sm font-bold text-vert-eau">Info locale : <span class="text-slate-600 font-normal">${d.info}</span></p>
+                </div>
+            `;
+        });
+    </script>
+</body>
+</html>
