@@ -92,17 +92,7 @@ export default function Home() {
               <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 2 }}>{profile.emoji} {profile.label}</p>
             )}
           </div>
-          <Link to="/app/guides" style={{
-            background: 'var(--vert)',
-            color: '#fff',
-            padding: '8px 14px',
-            borderRadius: 8,
-            fontSize: 13,
-            fontWeight: 500,
-            textDecoration: 'none',
-          }}>
-            Explorer →
-          </Link>
+
         </div>
       </div>
 
