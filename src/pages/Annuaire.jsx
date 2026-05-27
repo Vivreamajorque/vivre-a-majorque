@@ -4,7 +4,7 @@ import { useNotionDB, parseAnnuaire } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 
 function hasContact(pro) {
-  return !!(pro.tel || pro.email || pro.site || pro.instagram || pro.maps)
+  return !!(pro.tel || pro.email || pro.maps)
 }
 
 function ProCard({ pro }) {
@@ -36,14 +36,8 @@ function ProCard({ pro }) {
           {pro.email && (
             <a href={`mailto:${pro.email}`} style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>✉️ {pro.email}</a>
           )}
-          {pro.site && (
-            <a href={pro.site} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>🌐 Site</a>
-          )}
-          {pro.instagram && (
-            <a href={pro.instagram} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--terra)', fontWeight: 500 }}>📷 Instagram</a>
-          )}
           {pro.maps && (
-            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#1a73e8', fontWeight: 500 }}>🗺️ Maps</a>
+            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#1a73e8', fontWeight: 500 }}>🗺️ Voir sur Maps</a>
           )}
         </div>
       )}
