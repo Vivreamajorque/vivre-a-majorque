@@ -1,7 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 
-const MALLORCA_CHERIE_URL = 'https://mallorcacherie.com'
+const MALLORCA_CHERIE_URL = 'https://mallorcacherie.netlify.app'
 
 const SCENARIOS = [
   {
