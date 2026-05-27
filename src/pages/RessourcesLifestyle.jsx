@@ -26,7 +26,7 @@ const DOSSIERS = [
     titre: 'Agenda des Fiestas Populaires',
     desc: '20 célébrations locales authentiques pour s\'intégrer : défilés, traditions, fêtes de village.',
     tags: ['Culture', 'Traditions', 'Local'],
-    premium: false,
+    premium: true,
   },
   {
     slug: 'bible-tramuntana',
@@ -50,7 +50,7 @@ const DOSSIERS = [
     titre: 'Guide du Circuit Court',
     desc: 'Consommez sain et 100% majorquin. Coopératives, fermes bio et producteurs d\'exception.',
     tags: ['Bio', 'Local', 'Alimentation'],
-    premium: false,
+    premium: true,
   },
   {
     slug: 'majorque-vitalite',
@@ -82,9 +82,6 @@ export default function RessourcesLifestyle() {
     }
     window.open(`/ressources/${dossier.slug}.html`, '_blank')
   }
-
-  const free = DOSSIERS.filter(d => !d.premium)
-  const premium = DOSSIERS.filter(d => d.premium)
 
   return (
     <div className="page" style={{ paddingBottom: 100 }}>
@@ -133,26 +130,9 @@ export default function RessourcesLifestyle() {
         </div>
       )}
 
-      {/* Dossiers gratuits */}
-      {free.length > 0 && (
-        <>
-          <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
-            🟢 Accès libre
-          </p>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28 }}>
-            {free.map(d => (
-              <DossierCard key={d.slug} dossier={d} isPremium={true} onClick={() => handleClick(d)} />
-            ))}
-          </div>
-        </>
-      )}
-
-      {/* Dossiers premium */}
-      <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
-        💎 Contenu Premium
-      </p>
+      {/* Dossiers — tous premium */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {premium.map(d => (
+        {DOSSIERS.map(d => (
           <DossierCard key={d.slug} dossier={d} isPremium={isPremium} onClick={() => handleClick(d)} />
         ))}
       </div>
