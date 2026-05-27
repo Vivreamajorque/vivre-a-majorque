@@ -18,7 +18,8 @@ const CARDS = [
     desc: 'Lifestyle & bons plans',
     bg: 'var(--ocre-light)',
     border: 'rgba(196,122,90,0.15)',
-    coming: false,
+    coming: true,
+    comingLabel: 'Prochainement',
   },
   {
     to: '/app/explorer/outils',
@@ -100,7 +101,7 @@ export default function Explorer() {
                   fontSize: 10, background: 'rgba(0,0,0,0.08)',
                   color: 'var(--texte-sec)', padding: '2px 7px',
                   borderRadius: 20, fontWeight: 700,
-                }}>À venir</span>
+                }}>{card.comingLabel || 'À venir'}</span>
               )}
               <span style={{ fontSize: 26 }}>{card.emoji}</span>
               <span style={{
