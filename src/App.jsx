@@ -12,6 +12,7 @@ import Boutiques from './pages/Boutiques'
 import Outils from './pages/Outils'
 import MonEspace from './pages/MonEspace'
 import CoutInstallation from './pages/CoutInstallation'
+import Contact from './pages/Contact'
 import BudgetSimulator from './pages/BudgetSimulator'
 
 function AppShell() {
@@ -25,6 +26,7 @@ function AppShell() {
         <Route path="app/explorer/annuaire" element={<Annuaire />} />
         <Route path="app/explorer/boutiques" element={<Boutiques />} />
         <Route path="app/explorer/outils" element={<Outils />} />
+        <Route path="app/explorer/contact" element={<Contact />} />
         <Route path="app/moi" element={<MonEspace />} />
         <Route path="app/outils/cout" element={<CoutInstallation />} />
         <Route path="app/outils/budget" element={<BudgetSimulator />} />

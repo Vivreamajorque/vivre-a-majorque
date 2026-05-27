@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const CARDS = [
   {
@@ -9,6 +9,7 @@ const CARDS = [
     desc: 'Pros francophones par catégorie',
     bg: 'var(--foret)',
     color: '#fff',
+    coming: false,
   },
   {
     to: '/app/explorer/boutiques',
@@ -17,6 +18,7 @@ const CARDS = [
     desc: 'Lifestyle & bons plans',
     bg: 'var(--terra)',
     color: '#fff',
+    coming: false,
   },
   {
     to: '/app/explorer/outils',
@@ -25,6 +27,34 @@ const CARDS = [
     desc: 'Simulateurs & calculateurs',
     bg: 'var(--vert)',
     color: '#fff',
+    coming: false,
+  },
+  {
+    to: '/app/home',
+    emoji: '📰',
+    title: 'Actus de la semaine',
+    desc: 'Infos et nouveautés Majorque',
+    bg: 'var(--gold)',
+    color: '#fff',
+    coming: false,
+  },
+  {
+    to: null,
+    emoji: '🤝',
+    title: 'Accompagnement',
+    desc: 'Suivi personnalisé',
+    bg: 'var(--lin)',
+    color: 'var(--foret)',
+    coming: true,
+  },
+  {
+    to: '/app/explorer/contact',
+    emoji: '✉️',
+    title: 'Contact',
+    desc: 'Question, partenariat, annuaire',
+    bg: 'var(--noir)',
+    color: '#fff',
+    coming: false,
   },
 ]
 
@@ -40,25 +70,48 @@ export default function Explorer() {
         </p>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-        {CARDS.map(card => (
-          <Link key={card.to} to={card.to} style={{ textDecoration: 'none' }}>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+        {CARDS.map(card => {
+          const inner = (
             <div style={{
               background: card.bg,
               borderRadius: 'var(--radius)',
-              padding: '22px 16px 18px',
-              color: card.color,
-              minHeight: 130,
+              padding: '20px 16px',
               display: 'flex',
               flexDirection: 'column',
-              justifyContent: 'flex-end',
+              gap: 8,
+              position: 'relative',
+              minHeight: 110,
+              opacity: card.coming ? 0.7 : 1,
             }}>
-              <div style={{ fontSize: 30, marginBottom: 10 }}>{card.emoji}</div>
-              <div style={{ fontFamily: 'var(--font-titre)', fontSize: 16, fontWeight: 600 }}>{card.title}</div>
-              <div style={{ fontSize: 12, opacity: 0.85, marginTop: 4, lineHeight: 1.4 }}>{card.desc}</div>
+              {card.coming && (
+                <span style={{
+                  position: 'absolute', top: 8, right: 8,
+                  fontSize: 10, background: 'rgba(255,255,255,0.35)',
+                  color: card.color, padding: '2px 7px',
+                  borderRadius: 20, fontWeight: 700,
+                }}>À venir</span>
+              )}
+              <span style={{ fontSize: 28 }}>{card.emoji}</span>
+              <span style={{
+                fontFamily: 'var(--font-titre)', fontSize: 15,
+                color: card.color, fontWeight: 700, lineHeight: 1.2,
+              }}>{card.title}</span>
+              <span style={{ fontSize: 12, color: card.color, opacity: 0.85, lineHeight: 1.4 }}>
+                {card.desc}
+              </span>
             </div>
-          </Link>
-        ))}
+          )
+
+          if (card.coming || !card.to) {
+            return <div key={card.title} style={{ cursor: 'default' }}>{inner}</div>
+          }
+          return (
+            <Link key={card.title} to={card.to} style={{ textDecoration: 'none' }}>
+              {inner}
+            </Link>
+          )
+        })}
       </div>
     </div>
   )
