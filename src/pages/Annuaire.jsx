@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseAnnuaire } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 function hasContact(pro) {
   return !!(pro.tel || pro.email || pro.maps)
@@ -135,7 +136,7 @@ export default function Annuaire() {
           <button onClick={() => navigate('/app/explorer')} style={{
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)', padding: 0,
           }}>←</button>
-          <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 22, color: 'var(--foret)', margin: 0 }}>Annuaires</h1>
+          <AccentWord color={TERRA} size={28}>Annuaires</AccentWord>
         </div>
         <div className="spinner">Chargement…</div>
       </div>
@@ -151,9 +152,9 @@ export default function Annuaire() {
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
             padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
           }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-          <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 12 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, fontSize: 24, color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
             Annuaires
-          </h1>
+          </div>
           <SearchBar value={search} onChange={setSearch} />
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 8 }}>
             {searchResults.length} résultat{searchResults.length > 1 ? 's' : ''}
@@ -177,9 +178,9 @@ export default function Annuaire() {
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
             padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
           }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Catégories</span></button>
-          <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 22, color: 'var(--foret)', marginBottom: 4 }}>
+          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, fontSize: 24, color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
             {selectedCat}
-          </h1>
+          </div>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
             {filtered.length} entrée{filtered.length > 1 ? 's' : ''}
           </p>
@@ -202,9 +203,9 @@ export default function Annuaire() {
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 12 }}>
+        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, fontSize: 24, color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
           Annuaires
-        </h1>
+        </div>
         <SearchBar value={search} onChange={setSearch} />
       </div>
 

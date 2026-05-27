@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const CARDS = [
   {
@@ -71,9 +72,7 @@ export default function Explorer() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)' }}>
-          Explorer
-        </h1>
+        <PageHeading label="découvre" accent="Explorer" color={TERRA} accentSize={34} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4 }}>
           Ressources pour votre vie à Majorque
         </p>
@@ -104,7 +103,7 @@ export default function Explorer() {
               )}
               <span style={{ fontSize: 26 }}>{card.emoji}</span>
               <span style={{
-                fontFamily: 'var(--font-titre)', fontSize: 15,
+                fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: 18,
                 color: 'var(--foret)', fontWeight: 700, lineHeight: 1.2,
               }}>{card.title}</span>
               <span style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>

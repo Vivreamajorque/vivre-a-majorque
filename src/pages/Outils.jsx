@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import AccompagnementBanner from '../components/AccompagnementBanner'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const OUTILS = [
   {
@@ -72,7 +73,7 @@ function ToolCard({ o, isPremium, onPaywall }) {
             position: 'absolute', top: 10, right: 10, fontSize: 14,
           }}>🔒</span>
           <div style={{ fontSize: 26, marginBottom: 8 }}>{o.emoji}</div>
-          <div style={{ fontFamily: 'var(--font-titre)', fontSize: 14, fontWeight: 600, color: 'var(--foret)' }}>
+          <div style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
             {o.title}
           </div>
           <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4 }}>
@@ -93,7 +94,7 @@ function ToolCard({ o, isPremium, onPaywall }) {
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
         }}>
           <div style={{ fontSize: 26, marginBottom: 8 }}>{o.emoji}</div>
-          <div style={{ fontFamily: 'var(--font-titre)', fontSize: 14, fontWeight: 600, color: 'var(--foret)' }}>
+          <div style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
             {o.title}
           </div>
           <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4 }}>
@@ -141,9 +142,7 @@ export default function Outils() {
           background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 13 }}>Explorer</span></button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 4 }}>
-          Outils
-        </h1>
+        <PageHeading label="tes" accent="Simulateurs" color={VERT} accentSize={34} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
           Simulateurs & calculateurs pour votre installation
         </p>

@@ -1,6 +1,7 @@
 import React, { useState, useMemo } from 'react'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import { useNavigate } from 'react-router-dom'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 /* ─────────────────────────────────────────────────────────────────
    DONNÉES DE RÉFÉRENCE

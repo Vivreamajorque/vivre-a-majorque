@@ -6,6 +6,7 @@ import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import { NOTION_DB, GUIDE_CATEGORIES } from '../config'
 import AccompagnementBanner from '../components/AccompagnementBanner'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const CAT_EMOJIS = {
   'Administratif': '📋', 'Logement': '🏠', 'Travail': '💼',
@@ -163,7 +164,7 @@ export default function Guides() {
     return (
       <div className="page">
         <div className="page-header">
-          <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)' }}>Guides</h1>
+          <PageHeading label="ta boîte à outils" accent="Guides" color={VERT} accentSize={34} />
         </div>
         {SearchBar}
         <div className="spinner">Chargement des guides…</div>
@@ -176,7 +177,7 @@ export default function Guides() {
     return (
       <div className="page">
         <div className="page-header">
-          <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)' }}>Guides</h1>
+          <PageHeading label="ta boîte à outils" accent="Guides" color={VERT} accentSize={34} />
         </div>
         {SearchBar}
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
@@ -210,7 +211,7 @@ export default function Guides() {
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 22 }}>{CAT_EMOJIS[selectedCat] || '📄'}</span>
-            <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 22, color: 'var(--foret)', margin: 0 }}>{selectedCat}</h1>
+            <AccentWord color={VERT} size={26}>{selectedCat}</AccentWord>
           </div>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4 }}>
             {catGuides.length} guide{catGuides.length > 1 ? 's' : ''}

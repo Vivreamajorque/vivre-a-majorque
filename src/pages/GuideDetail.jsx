@@ -6,6 +6,7 @@ import NotionBlocks from '../components/NotionBlocks'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import PremiumGate from '../components/PremiumGate'
 import { NOTION_DB } from '../config'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 export default function GuideDetail() {
   const { id } = useParams()
@@ -33,7 +34,7 @@ export default function GuideDetail() {
               {guide.isPiege && <span className="badge badge-ocre">⚠️ Piège fréquent</span>}
               {guide.access !== '🟢 Public' && <span className="badge badge-miel">💎 Premium</span>}
             </div>
-            <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 22, color: 'var(--foret)', lineHeight: 1.3, marginBottom: 10 }}>
+            <h1 style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", fontStyle: 'italic', fontWeight: 300, fontSize: 24, color: 'var(--foret)', lineHeight: 1.3, marginBottom: 10 }}>
               {guide.title}
             </h1>
             {guide.source && (

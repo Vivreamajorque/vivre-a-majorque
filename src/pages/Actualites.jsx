@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const CAT_COLORS = {
   'Admin':       { bg: '#EBF3E4', border: 'rgba(90,122,64,0.25)',   text: '#2D5016' },
@@ -195,12 +196,7 @@ export default function Actualites() {
         >
           ← <span>Explorer</span>
         </button>
-        <h1 style={{
-          fontFamily: 'var(--font-titre)', fontSize: 24,
-          color: 'var(--foret)', marginBottom: 4,
-        }}>
-          📰 Actualités
-        </h1>
+        <PageHeading label="les dernières" accent="Actualités" color={TERRA} accentSize={34} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
           Infos locales, nouveautés et alertes importantes
         </p>

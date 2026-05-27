@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 export default function Boutiques() {
   const navigate = useNavigate()
@@ -14,9 +15,7 @@ export default function Boutiques() {
         }}>
           ← <span>Explorer</span>
         </button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 4 }}>
-          Bons plans
-        </h1>
+        <PageHeading label="les" accent="Bons plans" color={TERRA} accentSize={34} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
           Nos coups de cœur pour vivre Majorque autrement
         </p>

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const PACK_3_LINK = 'https://buy.stripe.com/3cIeVc0yU8BX19623j6AM0O'
 
@@ -112,9 +113,7 @@ export default function RessourcesLifestyle() {
         >
           ← <span>Bons plans</span>
         </button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 4 }}>
-          Ressources Lifestyle
-        </h1>
+        <PageHeading label="à découvrir" accent="Lifestyle" color={TERRA} accentSize={34} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>
           Dossiers complets pour vivre Majorque comme un initié
         </p>

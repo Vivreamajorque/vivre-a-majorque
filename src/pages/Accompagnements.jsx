@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const CONTACT_EMAIL = 'lalignemallorca@gmail.com'
 
@@ -223,9 +224,7 @@ export default function Accompagnements() {
         }}>
           ← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span>
         </button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 6 }}>
-          Accompagnements
-        </h1>
+        <PageHeading label="nos" accent="Accompagnements" color={VERT} accentSize={28} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5, marginBottom: 4 }}>
           Vous ne voulez pas avancer seul ? Je vous accompagne personnellement dans votre installation à Majorque — de l'analyse de votre situation à la prise de route.
         </p>

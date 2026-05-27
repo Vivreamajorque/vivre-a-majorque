@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const RAISONS = [
   { id: 'question', label: '❓ J\'ai une question' },
@@ -81,9 +82,7 @@ export default function Contact() {
           color: 'var(--foret)', padding: 0, marginBottom: 8,
           display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 4 }}>
-          Contact
-        </h1>
+        <PageHeading label="une question ?" accent="Contact" color={VERT} accentSize={34} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Une question ? On vous répond sous 48h.
         </p>

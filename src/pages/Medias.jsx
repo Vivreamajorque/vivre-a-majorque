@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@majorquelileenvrai'
 const INSTAGRAM_URL = 'https://www.instagram.com/amely_mallorca_raw'
@@ -137,9 +138,7 @@ export default function Medias() {
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 4 }}>
-          Médias
-        </h1>
+        <PageHeading label="dans les" accent="Médias" color={VERT} accentSize={34} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Suivez la vie à Majorque en vrai
         </p>

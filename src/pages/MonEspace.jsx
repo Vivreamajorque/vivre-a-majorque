@@ -6,6 +6,7 @@ import { NOTION_DB, PROFILS } from '../config'
 import { useNavigate } from 'react-router-dom'
 import { PaywallModal } from '../components/PaywallModal'
 import AccompagnementBanner from '../components/AccompagnementBanner'
+import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
 const PROFIL_NEXT = {
   reve: 'installe',
@@ -81,7 +82,7 @@ function CockpitFull({ profileNotion, profileId, onUpgrade }) {
       {/* Jauge globale */}
       <div className="card" style={{ marginBottom: 16 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-          <span style={{ fontFamily: 'var(--font-titre)', fontSize: 16 }}>Progression</span>
+          <AccentWord color={VERT} size={22}>Progression</AccentWord>
           <span style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 18 }}>{pct}%</span>
         </div>
         <div style={{ height: 8, background: 'var(--gris)', borderRadius: 8, overflow: 'hidden', marginBottom: 6 }}>
@@ -280,9 +281,7 @@ export default function MonEspace() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)' }}>
-          Mon espace
-        </h1>
+        <PageHeading label="" accent="Mon espace" color={VERT} accentSize={34} />
       </div>
 
       {/* Carte profil */}
