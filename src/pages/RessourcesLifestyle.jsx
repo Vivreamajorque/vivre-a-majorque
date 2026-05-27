@@ -26,7 +26,7 @@ const DOSSIERS = [
     titre: 'Agenda des Fiestas Populaires',
     desc: '20 célébrations locales authentiques pour s\'intégrer : défilés, traditions, fêtes de village.',
     tags: ['Culture', 'Traditions', 'Local'],
-    premium: true,
+    premium: false,
   },
   {
     slug: 'bible-tramuntana',
@@ -83,6 +83,9 @@ export default function RessourcesLifestyle() {
     window.open(`/ressources/${dossier.slug}.html`, '_blank')
   }
 
+  const freeDossiers = DOSSIERS.filter(d => !d.premium)
+  const premiumDossiers = DOSSIERS.filter(d => d.premium)
+
   return (
     <div className="page" style={{ paddingBottom: 100 }}>
       {/* Header */}
@@ -130,9 +133,26 @@ export default function RessourcesLifestyle() {
         </div>
       )}
 
-      {/* Dossiers — tous premium */}
+      {/* Dossier gratuit — teaser */}
+      {freeDossiers.length > 0 && (
+        <>
+          <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
+            🟢 Aperçu gratuit
+          </p>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28 }}>
+            {freeDossiers.map(d => (
+              <DossierCard key={d.slug} dossier={d} isPremium={true} onClick={() => handleClick(d)} />
+            ))}
+          </div>
+        </>
+      )}
+
+      {/* Dossiers premium */}
+      <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
+        💎 Réservé aux abonnés Premium
+      </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-        {DOSSIERS.map(d => (
+        {premiumDossiers.map(d => (
           <DossierCard key={d.slug} dossier={d} isPremium={isPremium} onClick={() => handleClick(d)} />
         ))}
       </div>
