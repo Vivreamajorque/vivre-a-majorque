@@ -4,7 +4,10 @@ import { useProfile } from '../context/ProfileContext'
 import { useNotionDB, parseCockpit, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 
-/* ── Wave underline SVG — identique carrousel ─────────── */
+const TERRA = '#C76E4E'
+const VERT  = '#5AADA5'
+
+/* ── Wave SVG identique carrousel ──────────────────────── */
 function Wave({ color }) {
   return (
     <svg viewBox="0 0 120 10" preserveAspectRatio="none"
@@ -15,30 +18,40 @@ function Wave({ color }) {
   )
 }
 
-/* ── Titre section style carrousel ─────────────────────── */
-function SectionHeading({ label, accent, color = 'terra' }) {
-  const hex = color === 'terra' ? '#C76E4E' : '#5AADA5'
+/* ── Mot Caveat + vague — le bloc de base ──────────────── */
+function AccentWord({ children, color, size = 28 }) {
+  return (
+    <span style={{ display: 'inline-block' }}>
+      <span style={{
+        fontFamily: 'var(--font-accent)',
+        fontWeight: 700,
+        fontSize: size,
+        color,
+        lineHeight: 1,
+        display: 'block',
+      }}>
+        {children}
+      </span>
+      <Wave color={color} />
+    </span>
+  )
+}
+
+/* ── Titre 2 lignes : label Cormorant + mot Caveat+wave ─── */
+function SectionTitle({ label, accent, color, size }) {
   return (
     <div style={{ marginBottom: 16 }}>
-      <span style={{
-        display: 'block',
-        fontFamily: 'var(--font-titre)',
-        fontStyle: 'italic', fontWeight: 300,
-        fontSize: 15, color: 'var(--texte-sec)',
-        letterSpacing: '0.01em',
-      }}>
-        {label}
-      </span>
-      <span style={{ display: 'inline-block' }}>
+      {label && (
         <span style={{
-          fontFamily: 'var(--font-accent)',
-          fontWeight: 700, fontSize: 28,
-          color: hex, lineHeight: 1.05,
+          display: 'block',
+          fontFamily: 'var(--font-titre)',
+          fontStyle: 'italic', fontWeight: 300,
+          fontSize: 14, color: 'var(--texte-sec)',
         }}>
-          {accent}
+          {label}
         </span>
-        <Wave color={hex} />
-      </span>
+      )}
+      <AccentWord color={color} size={size}>{accent}</AccentWord>
     </div>
   )
 }
@@ -68,50 +81,38 @@ function CockpitMini({ profileNotion, profileId }) {
   if (loading) return null
 
   return (
-    <Link to="/app/moi" style={{ textDecoration: 'none', display: 'block', marginBottom: 20 }}>
+    <Link to="/app/moi" style={{ textDecoration: 'none', display: 'block', marginBottom: 22 }}>
       <div style={{
         background: '#fff',
-        border: '1.5px solid rgba(126,200,192,0.35)',
+        border: `1.5px solid ${VERT}40`,
         borderRadius: 16, padding: '16px 18px',
-        boxShadow: '0 2px 12px rgba(126,200,192,0.10)',
+        boxShadow: `0 2px 14px ${VERT}18`,
       }}>
-        {/* Titre avec wave */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 12 }}>
           <div>
             <span style={{
+              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+              fontWeight: 300, fontSize: 13, color: 'var(--texte-sec)',
               display: 'block',
-              fontFamily: 'var(--font-titre)',
-              fontStyle: 'italic', fontWeight: 300,
-              fontSize: 13, color: 'var(--texte-sec)',
             }}>
               mon
             </span>
-            <span style={{ display: 'inline-block' }}>
-              <span style={{
-                fontFamily: 'var(--font-accent)',
-                fontWeight: 700, fontSize: 22,
-                color: '#5AADA5', lineHeight: 1,
-              }}>
-                installation
-              </span>
-              <Wave color="#5AADA5" />
-            </span>
+            {/* 2e mot = VERT (alternance 2) */}
+            <AccentWord color={VERT} size={24}>installation</AccentWord>
           </div>
           <span style={{
-            fontFamily: 'var(--font-accent)',
-            fontWeight: 700, fontSize: 26,
-            color: '#5AADA5', marginTop: 4,
+            fontFamily: 'var(--font-accent)', fontWeight: 700,
+            fontSize: 28, color: VERT, marginTop: 2,
           }}>
             {pct}%
           </span>
         </div>
-
         <div className="progress-bar" style={{ marginBottom: 8 }}>
           <div className="progress-fill" style={{ width: `${pct}%` }} />
         </div>
         <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--texte-sec)' }}>
           <span>{done}/{total} étapes validées</span>
-          {next && <span style={{ color: 'var(--vert-dark)', fontWeight: 600 }}>→ {next.etape}</span>}
+          {next && <span style={{ color: VERT, fontWeight: 600 }}>→ {next.etape}</span>}
         </div>
       </div>
     </Link>
@@ -134,7 +135,7 @@ function ActuCard({ actu, navigate }) {
       boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
     }}>
       <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 8 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
           {actu.categorie
             ? <span className="badge badge-vert" style={{ fontSize: 10 }}>{actu.categorie}</span>
             : <span />}
@@ -163,7 +164,7 @@ function ActuCard({ actu, navigate }) {
           </p>
         )}
       </div>
-      <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--terra)', marginTop: 10 }}>Lire →</p>
+      <p style={{ fontSize: 11, fontWeight: 700, color: TERRA, marginTop: 10 }}>Lire →</p>
     </div>
   )
 }
@@ -176,9 +177,7 @@ function ActuCarousel({ actus, loading }) {
     <div style={{ marginBottom: 24 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         <p className="section-title" style={{ margin: 0 }}>Actus de la semaine</p>
-        <Link to="/app/actus" style={{ fontSize: 12, color: 'var(--terra)', fontWeight: 700 }}>
-          Toutes →
-        </Link>
+        <Link to="/app/actus" style={{ fontSize: 12, color: TERRA, fontWeight: 700 }}>Toutes →</Link>
       </div>
       <div style={{
         display: 'flex', gap: 10,
@@ -191,31 +190,35 @@ function ActuCarousel({ actus, loading }) {
   )
 }
 
-/* ── Grille navigation ──────────────────────────────────── */
+/* ── Grille — alternance terra/vert/terra/vert ──────────── */
 const NAV_CARDS = [
   {
     to: '/app/guides',
-    icon: '📚', label: 'Guides', sub: '50+ fiches admin',
-    accent: 'var(--vert-dark)', wave: '#5AADA5',
-    bg: 'rgba(126,200,192,0.08)', border: 'rgba(126,200,192,0.25)',
+    icon: '📚', label: 'Admin, logement, santé…',
+    accent: 'Guides',
+    color: TERRA,  /* 3 = terra */
+    bg: `${TERRA}10`, border: `${TERRA}30`,
   },
   {
     to: '/app/explorer',
-    icon: '🌴', label: 'Explorer', sub: 'Lifestyle & sorties',
-    accent: 'var(--terra)', wave: '#C76E4E',
-    bg: 'rgba(199,110,78,0.08)', border: 'rgba(199,110,78,0.22)',
+    icon: '🌴', label: 'Lifestyle & sorties',
+    accent: 'Explorer',
+    color: VERT,   /* 4 = vert */
+    bg: `${VERT}10`, border: `${VERT}30`,
   },
   {
     to: '/app/moi',
-    icon: '✅', label: 'Cockpit', sub: 'Mes étapes',
-    accent: '#5A8A3A', wave: '#5A8A3A',
-    bg: 'rgba(90,138,58,0.08)', border: 'rgba(90,138,58,0.22)',
+    icon: '✅', label: 'Mes étapes',
+    accent: 'Cockpit',
+    color: TERRA,  /* 5 = terra */
+    bg: `${TERRA}10`, border: `${TERRA}30`,
   },
   {
     to: '/app/explorer/outils',
-    icon: '🧮', label: 'Simulateurs', sub: 'Budget, autónoma…',
-    accent: 'var(--gold)', wave: '#b07d2a',
-    bg: 'rgba(176,125,42,0.08)', border: 'rgba(176,125,42,0.22)',
+    icon: '🧮', label: 'Budget, autónoma…',
+    accent: 'Simulateurs',
+    color: VERT,   /* 6 = vert */
+    bg: `${VERT}10`, border: `${VERT}30`,
   },
 ]
 
@@ -230,56 +233,40 @@ export default function Home() {
 
       {/* ── Header ─────────────────────────────────────── */}
       <div className="page-header">
-        <div style={{ paddingTop: 4 }}>
-          {profile && (
-            <span style={{
-              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontSize: 14, color: 'var(--texte-sec)',
-            }}>
-              {profile.emoji} {profile.label}
-            </span>
-          )}
-          {/* Titre principal style carrousel */}
-          <div style={{ marginTop: 4 }}>
-            <span style={{
-              display: 'block',
-              fontFamily: 'var(--font-titre)',
-              fontStyle: 'italic', fontWeight: 300,
-              fontSize: 22, color: 'var(--texte)',
-              lineHeight: 1.2,
-            }}>
-              {profile ? 'Bonjour 🌴 — prêt à' : 'Tout ce qu\'il faut pour'}
-            </span>
-            <span style={{ display: 'inline-block' }}>
-              <span style={{
-                fontFamily: 'var(--font-accent)',
-                fontWeight: 700, fontSize: 38,
-                color: '#C76E4E', lineHeight: 1,
-              }}>
-                {profile ? 'avancer' : 'vraiment partir'}
-              </span>
-              <Wave color="#C76E4E" />
-            </span>
-          </div>
-        </div>
+        {profile && (
+          <span style={{
+            fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+            fontSize: 14, color: 'var(--texte-sec)', display: 'block', marginBottom: 4,
+          }}>
+            {profile.emoji} {profile.label}
+          </span>
+        )}
+        {/* Ligne 1 Cormorant + Ligne 2 Caveat TERRA (alternance 1) */}
+        <span style={{
+          fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+          fontWeight: 300, fontSize: 22, color: 'var(--texte)',
+          display: 'block', lineHeight: 1.2,
+        }}>
+          {profile ? 'Bonjour 🌴 — prêt à' : 'Tout ce qu\'il faut pour'}
+        </span>
+        <AccentWord color={TERRA} size={40}>
+          {profile ? 'avancer' : 'vraiment partir'}
+        </AccentWord>
       </div>
 
       {/* ── Actus ──────────────────────────────────────── */}
       <ActuCarousel actus={actus} loading={actusLoading} />
 
-      {/* ── Cockpit mini ───────────────────────────────── */}
+      {/* ── Cockpit mini (VERT — alternance 2) ─────────── */}
       {profile && <CockpitMini profileNotion={profile.notion} profileId={profile.id} />}
 
-      {/* ── Grille 2×2 ─────────────────────────────────── */}
-      <div style={{ marginBottom: 6 }}>
-        <p className="section-title">Accès rapide</p>
-      </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
+      {/* ── Grille 2×2 (terra/vert/terra/vert) ─────────── */}
+      <p className="section-title" style={{ marginBottom: 10 }}>Accès rapide</p>
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 22 }}>
         {NAV_CARDS.map(card => (
           <Link key={card.to} to={card.to} style={{ textDecoration: 'none' }}>
             <div style={{
-              background: card.bg,
-              border: `1.5px solid ${card.border}`,
+              background: card.bg, border: `1.5px solid ${card.border}`,
               borderRadius: 16, padding: '16px 14px',
               transition: 'transform 0.15s',
             }}
@@ -287,53 +274,33 @@ export default function Home() {
             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
             >
               <div style={{ fontSize: 24, marginBottom: 10 }}>{card.icon}</div>
-              {/* Label avec wave */}
-              <span style={{ display: 'inline-block', marginBottom: 4 }}>
-                <span style={{
-                  fontFamily: 'var(--font-accent)',
-                  fontWeight: 700, fontSize: 20,
-                  color: card.wave, lineHeight: 1,
-                }}>
-                  {card.label}
-                </span>
-                <Wave color={card.wave} />
-              </span>
-              <div style={{
+              <AccentWord color={card.color} size={21}>{card.accent}</AccentWord>
+              <span style={{
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 12, color: 'var(--texte-sec)',
+                fontSize: 12, color: 'var(--texte-sec)', display: 'block', marginTop: 4,
               }}>
-                {card.sub}
-              </div>
+                {card.label}
+              </span>
             </div>
           </Link>
         ))}
       </div>
 
-      {/* ── Annuaire CTA ───────────────────────────────── */}
+      {/* ── Annuaire (TERRA — alternance 7) ────────────── */}
       <Link to="/app/annuaire" style={{ textDecoration: 'none', display: 'block', marginBottom: 10 }}>
         <div style={{
-          background: 'rgba(176,125,42,0.07)',
-          border: '1.5px solid rgba(176,125,42,0.25)',
+          background: `${TERRA}09`, border: `1.5px solid ${TERRA}35`,
           borderRadius: 14, padding: '14px 18px',
           display: 'flex', justifyContent: 'space-between', alignItems: 'center',
         }}>
           <div>
-            <span style={{ display: 'inline-block', marginBottom: 2 }}>
-              <span style={{
-                fontFamily: 'var(--font-accent)',
-                fontWeight: 700, fontSize: 18,
-                color: '#b07d2a', lineHeight: 1,
-              }}>
-                Annuaire
-              </span>
-              <Wave color="#b07d2a" />
-            </span>
-            <div style={{
+            <AccentWord color={TERRA} size={20}>Annuaire</AccentWord>
+            <span style={{
               fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontSize: 13, color: 'var(--texte-sec)',
+              fontSize: 13, color: 'var(--texte-sec)', display: 'block', marginTop: 2,
             }}>
               Pros francophones à Majorque
-            </div>
+            </span>
           </div>
           <span style={{ fontSize: 24 }}>📍</span>
         </div>
