@@ -31,10 +31,10 @@ const CARDS = [
     coming: false,
   },
   {
-    to: '/app/home',
+    to: '/app/explorer/actus',
     emoji: '📰',
-    title: 'Actus de la semaine',
-    desc: 'Infos et nouveautés Majorque',
+    title: 'Actualités',
+    desc: 'Infos locales, alertes et nouveautés',
     bg: 'var(--ocre-light)',
     border: 'rgba(196,122,90,0.15)',
     coming: false,

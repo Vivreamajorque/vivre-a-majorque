@@ -35,6 +35,7 @@ function AppShell() {
         <Route path="app/outils/cout" element={<CoutInstallation />} />
         <Route path="app/outils/budget" element={<BudgetSimulator />} />
         <Route path="app/actus" element={<Actualites />} />
+        <Route path="app/explorer/actus" element={<Actualites />} />
         <Route path="app/explorer/accompagnements" element={<Accompagnements />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
