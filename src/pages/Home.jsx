@@ -142,34 +142,34 @@ export default function Home() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 20 }}>
         <Link to="/app/guides" style={{ textDecoration: 'none' }}>
           <div style={{
-            background: 'var(--foret)',
+            background: 'var(--vert-light)',
             borderRadius: 'var(--radius)',
             padding: '18px 16px',
-            color: '#fff',
+            border: '1px solid rgba(90,122,64,0.15)',
           }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>📚</div>
-            <div style={{ fontFamily: 'var(--font-titre)', fontSize: 15, fontWeight: 500 }}>Guides</div>
-            <div style={{ fontSize: 12, opacity: 0.8, marginTop: 2 }}>Admin, logement, santé…</div>
+            <div style={{ fontFamily: 'var(--font-titre)', fontSize: 15, fontWeight: 600, color: 'var(--foret)' }}>Guides</div>
+            <div style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 2 }}>Admin, logement, santé…</div>
           </div>
         </Link>
         <Link to="/app/explorer" style={{ textDecoration: 'none' }}>
           <div style={{
-            background: 'var(--terra)',
+            background: 'var(--ocre-light)',
             borderRadius: 'var(--radius)',
             padding: '18px 16px',
-            color: '#fff',
+            border: '1px solid rgba(196,122,90,0.15)',
           }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>🌴</div>
-            <div style={{ fontFamily: 'var(--font-titre)', fontSize: 15, fontWeight: 500 }}>Explorer</div>
-            <div style={{ fontSize: 12, opacity: 0.8, marginTop: 2 }}>Annuaires, boutiques…</div>
+            <div style={{ fontFamily: 'var(--font-titre)', fontSize: 15, fontWeight: 600, color: 'var(--foret)' }}>Explorer</div>
+            <div style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 2 }}>Annuaires, boutiques…</div>
           </div>
         </Link>
         <Link to="/app/moi" style={{ textDecoration: 'none' }}>
           <div style={{
-            background: 'var(--lin)',
+            background: 'var(--vert-light)',
             borderRadius: 'var(--radius)',
             padding: '18px 16px',
-            border: '1px solid var(--gris)',
+            border: '1px solid rgba(90,122,64,0.15)',
           }}>
             <div style={{ fontSize: 24, marginBottom: 8 }}>✅</div>
             <div style={{ fontFamily: 'var(--font-titre)', fontSize: 15, fontWeight: 500, color: 'var(--foret)' }}>Cockpit</div>

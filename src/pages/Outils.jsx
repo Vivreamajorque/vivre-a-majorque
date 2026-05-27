@@ -65,18 +65,18 @@ export default function Outils() {
             return (
               <Link key={o.id} to={o.href} style={{ textDecoration: 'none' }}>
                 <div style={{
-                  background: 'var(--foret)',
+                  background: o.id === 'budget' ? 'var(--vert-light)' : 'var(--ocre-light)',
                   borderRadius: 'var(--radius)',
                   padding: '18px 14px',
-                  color: '#fff',
+                  border: o.id === 'budget' ? '1px solid rgba(90,122,64,0.15)' : '1px solid rgba(196,122,90,0.15)',
                   minHeight: 110,
                   display: 'flex',
                   flexDirection: 'column',
                   justifyContent: 'flex-end',
                 }}>
                   <div style={{ fontSize: 26, marginBottom: 8 }}>{o.emoji}</div>
-                  <div style={{ fontFamily: 'var(--font-titre)', fontSize: 14, fontWeight: 600 }}>{o.title}</div>
-                  <div style={{ fontSize: 11, opacity: 0.8, marginTop: 4, lineHeight: 1.4 }}>{o.desc}</div>
+                  <div style={{ fontFamily: 'var(--font-titre)', fontSize: 14, fontWeight: 600, color: 'var(--foret)' }}>{o.title}</div>
+                  <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4 }}>{o.desc}</div>
                 </div>
               </Link>
             )

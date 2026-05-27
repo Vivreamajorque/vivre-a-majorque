@@ -1,5 +1,5 @@
 import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 const CARDS = [
   {
@@ -7,8 +7,8 @@ const CARDS = [
     emoji: '👥',
     title: 'Annuaires',
     desc: 'Pros francophones par catégorie',
-    bg: 'var(--foret)',
-    color: '#fff',
+    bg: 'var(--vert-light)',
+    border: 'rgba(90,122,64,0.15)',
     coming: false,
   },
   {
@@ -16,8 +16,8 @@ const CARDS = [
     emoji: '🛍️',
     title: 'Boutiques',
     desc: 'Lifestyle & bons plans',
-    bg: 'var(--terra)',
-    color: '#fff',
+    bg: 'var(--ocre-light)',
+    border: 'rgba(196,122,90,0.15)',
     coming: false,
   },
   {
@@ -25,8 +25,8 @@ const CARDS = [
     emoji: '🧮',
     title: 'Outils',
     desc: 'Simulateurs & calculateurs',
-    bg: 'var(--vert)',
-    color: '#fff',
+    bg: 'var(--vert-light)',
+    border: 'rgba(90,122,64,0.15)',
     coming: false,
   },
   {
@@ -34,8 +34,8 @@ const CARDS = [
     emoji: '📰',
     title: 'Actus de la semaine',
     desc: 'Infos et nouveautés Majorque',
-    bg: 'var(--gold)',
-    color: '#fff',
+    bg: 'var(--ocre-light)',
+    border: 'rgba(196,122,90,0.15)',
     coming: false,
   },
   {
@@ -43,8 +43,8 @@ const CARDS = [
     emoji: '🤝',
     title: 'Accompagnement',
     desc: 'Suivi personnalisé',
-    bg: 'var(--lin)',
-    color: 'var(--foret)',
+    bg: 'var(--gris)',
+    border: 'var(--gris-mid)',
     coming: true,
   },
   {
@@ -52,8 +52,8 @@ const CARDS = [
     emoji: '✉️',
     title: 'Contact',
     desc: 'Question, partenariat, annuaire',
-    bg: 'var(--noir)',
-    color: '#fff',
+    bg: 'var(--vert-light)',
+    border: 'rgba(90,122,64,0.15)',
     coming: false,
   },
 ]
@@ -77,27 +77,28 @@ export default function Explorer() {
               background: card.bg,
               borderRadius: 'var(--radius)',
               padding: '20px 16px',
+              border: `1px solid ${card.border}`,
               display: 'flex',
               flexDirection: 'column',
-              gap: 8,
+              gap: 6,
               position: 'relative',
               minHeight: 110,
-              opacity: card.coming ? 0.7 : 1,
+              opacity: card.coming ? 0.65 : 1,
             }}>
               {card.coming && (
                 <span style={{
                   position: 'absolute', top: 8, right: 8,
-                  fontSize: 10, background: 'rgba(255,255,255,0.35)',
-                  color: card.color, padding: '2px 7px',
+                  fontSize: 10, background: 'rgba(0,0,0,0.08)',
+                  color: 'var(--texte-sec)', padding: '2px 7px',
                   borderRadius: 20, fontWeight: 700,
                 }}>À venir</span>
               )}
-              <span style={{ fontSize: 28 }}>{card.emoji}</span>
+              <span style={{ fontSize: 26 }}>{card.emoji}</span>
               <span style={{
                 fontFamily: 'var(--font-titre)', fontSize: 15,
-                color: card.color, fontWeight: 700, lineHeight: 1.2,
+                color: 'var(--foret)', fontWeight: 700, lineHeight: 1.2,
               }}>{card.title}</span>
-              <span style={{ fontSize: 12, color: card.color, opacity: 0.85, lineHeight: 1.4 }}>
+              <span style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>
                 {card.desc}
               </span>
             </div>
