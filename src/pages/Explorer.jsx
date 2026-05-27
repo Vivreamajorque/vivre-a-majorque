@@ -49,13 +49,13 @@ const CARDS = [
     coming: false,
   },
   {
-    to: null,
+    to: '/app/explorer/accompagnements',
     emoji: '🤝',
     title: 'Accompagnement',
     desc: 'Suivi personnalisé',
-    bg: 'var(--gris)',
-    border: 'var(--gris-mid)',
-    coming: true,
+    bg: 'var(--ocre-light)',
+    border: 'rgba(196,122,90,0.15)',
+    coming: false,
   },
   {
     to: '/app/explorer/contact',

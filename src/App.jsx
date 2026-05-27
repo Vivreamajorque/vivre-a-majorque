@@ -15,6 +15,7 @@ import CoutInstallation from './pages/CoutInstallation'
 import Contact from './pages/Contact'
 import Medias from './pages/Medias'
 import BudgetSimulator from './pages/BudgetSimulator'
+import Accompagnements from './pages/Accompagnements'
 import Actualites from './pages/Actualites'
 
 function AppShell() {
@@ -34,6 +35,7 @@ function AppShell() {
         <Route path="app/outils/cout" element={<CoutInstallation />} />
         <Route path="app/outils/budget" element={<BudgetSimulator />} />
         <Route path="app/actus" element={<Actualites />} />
+        <Route path="app/explorer/accompagnements" element={<Accompagnements />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       <Nav />
