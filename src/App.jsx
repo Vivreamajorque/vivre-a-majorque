@@ -8,6 +8,7 @@ import Guides from './pages/Guides'
 import GuideDetail from './pages/GuideDetail'
 import Explorer from './pages/Explorer'
 import MonEspace from './pages/MonEspace'
+import CoutInstallation from './pages/CoutInstallation'
 
 function AppShell() {
   return (
@@ -18,6 +19,7 @@ function AppShell() {
         <Route path="app/guide/:id" element={<GuideDetail />} />
         <Route path="app/explorer" element={<Explorer />} />
         <Route path="app/moi" element={<MonEspace />} />
+        <Route path="app/outils/cout" element={<CoutInstallation />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       <Nav />
