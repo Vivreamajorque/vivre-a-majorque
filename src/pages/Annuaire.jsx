@@ -3,33 +3,89 @@ import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseAnnuaire } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 
+function hasContact(pro) {
+  return !!(pro.tel || pro.email || pro.site || pro.instagram || pro.maps)
+}
+
 function ProCard({ pro }) {
+  const coming = !hasContact(pro)
+
   return (
-    <div className="card" style={{ marginBottom: 8 }}>
+    <div className="card" style={{ marginBottom: 8, opacity: coming ? 0.75 : 1 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-        <p style={{ fontWeight: 600, fontSize: 15, color: 'var(--foret)', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>{pro.nom}</p>
-        {pro.ville && <span style={{ fontSize: 12, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>📍 {pro.ville}</span>}
+        <p style={{ fontWeight: 600, fontSize: 15, color: 'var(--foret)', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>
+          {pro.nom}
+        </p>
+        {coming ? (
+          <span style={{
+            fontSize: 11, background: 'var(--gris)', color: 'var(--texte-sec)',
+            padding: '2px 8px', borderRadius: 20, fontWeight: 600, whiteSpace: 'nowrap',
+          }}>À venir</span>
+        ) : (
+          pro.ville && <span style={{ fontSize: 12, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>📍 {pro.ville}</span>
+        )}
       </div>
       {pro.description && (
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 8, lineHeight: 1.5 }}>{pro.description}</p>
       )}
-      <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
-        {pro.tel && (
-          <a href={`tel:${pro.tel}`} style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>📞 {pro.tel}</a>
-        )}
-        {pro.email && (
-          <a href={`mailto:${pro.email}`} style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>✉️ {pro.email}</a>
-        )}
-        {pro.site && (
-          <a href={pro.site} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>🌐 Site</a>
-        )}
-        {pro.instagram && (
-          <a href={pro.instagram} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--terra)', fontWeight: 500 }}>📷 Instagram</a>
-        )}
-        {pro.maps && (
-          <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#1a73e8', fontWeight: 500 }}>🗺️ Maps</a>
-        )}
-      </div>
+      {!coming && (
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          {pro.tel && (
+            <a href={`tel:${pro.tel}`} style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>📞 {pro.tel}</a>
+          )}
+          {pro.email && (
+            <a href={`mailto:${pro.email}`} style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>✉️ {pro.email}</a>
+          )}
+          {pro.site && (
+            <a href={pro.site} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>🌐 Site</a>
+          )}
+          {pro.instagram && (
+            <a href={pro.instagram} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: 'var(--terra)', fontWeight: 500 }}>📷 Instagram</a>
+          )}
+          {pro.maps && (
+            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#1a73e8', fontWeight: 500 }}>🗺️ Maps</a>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function SearchBar({ value, onChange }) {
+  return (
+    <div style={{ position: 'relative', marginBottom: 16 }}>
+      <span style={{
+        position: 'absolute', left: 12, top: '50%', transform: 'translateY(-50%)',
+        fontSize: 16, color: 'var(--texte-sec)', pointerEvents: 'none',
+      }}>🔍</span>
+      <input
+        type="text"
+        placeholder="Rechercher un professionnel…"
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        style={{
+          width: '100%',
+          padding: '10px 12px 10px 36px',
+          border: '1px solid var(--gris)',
+          borderRadius: 'var(--radius)',
+          fontSize: 14,
+          fontFamily: 'Inter, sans-serif',
+          background: '#fff',
+          color: 'var(--noir)',
+          outline: 'none',
+          boxSizing: 'border-box',
+        }}
+      />
+      {value && (
+        <button
+          onClick={() => onChange('')}
+          style={{
+            position: 'absolute', right: 10, top: '50%', transform: 'translateY(-50%)',
+            background: 'none', border: 'none', cursor: 'pointer', fontSize: 16,
+            color: 'var(--texte-sec)', padding: 0,
+          }}
+        >×</button>
+      )}
     </div>
   )
 }
@@ -38,26 +94,44 @@ export default function Annuaire() {
   const navigate = useNavigate()
   const { data, loading } = useNotionDB(NOTION_DB.annuaire)
   const [selectedCat, setSelectedCat] = useState(null)
+  const [search, setSearch] = useState('')
 
-  // Only show active entries with a name
   const pros = useMemo(() => data
     .map(parseAnnuaire)
     .filter(p => p.nom && p.statut !== 'Archivé'),
     [data]
   )
 
+  // Search across all pros (bypasses category nav)
+  const searchResults = useMemo(() => {
+    if (!search.trim()) return null
+    const q = search.toLowerCase()
+    return pros.filter(p =>
+      p.nom.toLowerCase().includes(q) ||
+      p.metier.toLowerCase().includes(q) ||
+      p.ville.toLowerCase().includes(q) ||
+      p.description.toLowerCase().includes(q)
+    )
+  }, [pros, search])
+
   const categories = useMemo(() => {
     const catMap = {}
     pros.forEach(p => {
-      const cat = p.metier || 'Autres'
+      const cat = p.metier || 'À venir'
       catMap[cat] = (catMap[cat] || 0) + 1
     })
-    return Object.entries(catMap).sort((a, b) => a[0].localeCompare(b[0]))
+    // Sort: "À venir" always last
+    const entries = Object.entries(catMap).sort((a, b) => {
+      if (a[0] === 'À venir') return 1
+      if (b[0] === 'À venir') return -1
+      return a[0].localeCompare(b[0])
+    })
+    return entries
   }, [pros])
 
   const filtered = useMemo(() => {
     if (!selectedCat) return []
-    return pros.filter(p => (p.metier || 'Autres') === selectedCat)
+    return pros.filter(p => (p.metier || 'À venir') === selectedCat)
   }, [pros, selectedCat])
 
   if (loading) {
@@ -74,6 +148,33 @@ export default function Annuaire() {
     )
   }
 
+  // — Vue recherche —
+  if (searchResults !== null) {
+    return (
+      <div className="page">
+        <div className="page-header">
+          <button onClick={() => navigate('/app/explorer')} style={{
+            background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
+            padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
+          }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
+          <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 12 }}>
+            Annuaires
+          </h1>
+          <SearchBar value={search} onChange={setSearch} />
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 8 }}>
+            {searchResults.length} résultat{searchResults.length > 1 ? 's' : ''}
+          </p>
+        </div>
+        {searchResults.length === 0 ? (
+          <div className="empty">Aucun résultat pour « {search} »</div>
+        ) : (
+          searchResults.map(pro => <ProCard key={pro.id} pro={pro} />)
+        )}
+      </div>
+    )
+  }
+
+  // — Vue catégorie —
   if (selectedCat) {
     return (
       <div className="page">
@@ -85,9 +186,10 @@ export default function Annuaire() {
           <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 22, color: 'var(--foret)', marginBottom: 4 }}>
             {selectedCat}
           </h1>
-          <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
             {filtered.length} entrée{filtered.length > 1 ? 's' : ''}
           </p>
+          <SearchBar value={search} onChange={v => { setSearch(v); setSelectedCat(null) }} />
         </div>
         {filtered.length === 0 ? (
           <div className="empty">Aucun résultat dans cette catégorie.</div>
@@ -98,6 +200,7 @@ export default function Annuaire() {
     )
   }
 
+  // — Vue grille catégories —
   return (
     <div className="page">
       <div className="page-header">
@@ -105,12 +208,10 @@ export default function Annuaire() {
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 4 }}>
+        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)', marginBottom: 12 }}>
           Annuaires
         </h1>
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
-          Professionnels francophones à Majorque
-        </p>
+        <SearchBar value={search} onChange={setSearch} />
       </div>
 
       {categories.length === 0 ? (
@@ -119,7 +220,7 @@ export default function Annuaire() {
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
           {categories.map(([cat, count]) => (
             <button key={cat} onClick={() => setSelectedCat(cat)} style={{
-              background: '#fff',
+              background: cat === 'À venir' ? 'var(--gris)' : '#fff',
               border: '1px solid var(--gris)',
               borderRadius: 'var(--radius)',
               padding: '16px 14px',
@@ -129,6 +230,7 @@ export default function Annuaire() {
               flexDirection: 'column',
               gap: 6,
               boxShadow: '0 1px 3px rgba(0,0,0,0.05)',
+              opacity: cat === 'À venir' ? 0.7 : 1,
             }}>
               <span style={{
                 fontFamily: 'var(--font-titre)', fontSize: 14, color: 'var(--foret)',
