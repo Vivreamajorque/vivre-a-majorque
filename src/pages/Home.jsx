@@ -224,7 +224,7 @@ const NAV_CARDS = [
 
 /* ── Page Home ──────────────────────────────────────────── */
 export default function Home() {
-  const { profile } = useProfile()
+  const { profile, prenom } = useProfile()
   const { data: actusData, loading: actusLoading } = useNotionDB(NOTION_DB.actus)
   const actus = useMemo(() => actusData.map(parseActu).slice(0, 6), [actusData])
 
@@ -247,10 +247,12 @@ export default function Home() {
           fontWeight: 300, fontSize: 22, color: 'var(--texte)',
           display: 'block', lineHeight: 1.2,
         }}>
-          {profile ? 'Bonjour 🌴 — prêt à' : 'Tout ce qu\'il faut pour'}
+          {profile
+            ? `Bonjour ${prenom ? prenom : ''} 🌴`
+            : 'Tout ce qu\'il faut pour'}
         </span>
         <AccentWord color={TERRA} size={40}>
-          {profile ? 'avancer' : 'vraiment partir'}
+          {profile ? 'prêt à avancer ?' : 'vraiment partir'}
         </AccentWord>
       </div>
 

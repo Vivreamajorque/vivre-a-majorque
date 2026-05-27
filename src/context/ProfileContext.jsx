@@ -5,11 +5,14 @@ const ProfileContext = createContext(null)
 
 export function ProfileProvider({ children }) {
   const [profileId, setProfileId] = useState(null)
-  const [loaded, setLoaded] = useState(false)
+  const [prenom, setPrenom]       = useState('')
+  const [loaded, setLoaded]       = useState(false)
 
   useEffect(() => {
-    const saved = localStorage.getItem('mq_profile')
-    if (saved) setProfileId(saved)
+    const savedId     = localStorage.getItem('mq_profile')
+    const savedPrenom = localStorage.getItem('mq_prenom')
+    if (savedId)     setProfileId(savedId)
+    if (savedPrenom) setPrenom(savedPrenom)
     setLoaded(true)
   }, [])
 
@@ -20,13 +23,21 @@ export function ProfileProvider({ children }) {
     localStorage.setItem('mq_profile', id)
   }
 
+  function savePrenom(nom) {
+    const trimmed = nom.trim()
+    setPrenom(trimmed)
+    localStorage.setItem('mq_prenom', trimmed)
+  }
+
   function resetProfile() {
     setProfileId(null)
+    setPrenom('')
     localStorage.removeItem('mq_profile')
+    localStorage.removeItem('mq_prenom')
   }
 
   return (
-    <ProfileContext.Provider value={{ profileId, profile, chooseProfile, resetProfile, loaded }}>
+    <ProfileContext.Provider value={{ profileId, profile, prenom, chooseProfile, savePrenom, resetProfile, loaded }}>
       {children}
     </ProfileContext.Provider>
   )
