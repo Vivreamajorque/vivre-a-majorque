@@ -9,6 +9,7 @@ import GuideDetail from './pages/GuideDetail'
 import Explorer from './pages/Explorer'
 import MonEspace from './pages/MonEspace'
 import CoutInstallation from './pages/CoutInstallation'
+import BudgetSimulator from './pages/BudgetSimulator'
 
 function AppShell() {
   return (
@@ -20,6 +21,7 @@ function AppShell() {
         <Route path="app/explorer" element={<Explorer />} />
         <Route path="app/moi" element={<MonEspace />} />
         <Route path="app/outils/cout" element={<CoutInstallation />} />
+        <Route path="app/outils/budget" element={<BudgetSimulator />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       <Nav />
