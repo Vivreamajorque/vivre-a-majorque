@@ -1,20 +1,8 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useNotionDB, parseLifestyle } from '../hooks/useNotion'
-import { NOTION_DB } from '../config'
 
 export default function Boutiques() {
   const navigate = useNavigate()
-  const { data, loading } = useNotionDB(NOTION_DB.lifestyle)
-
-  const items = useMemo(() => {
-    return data.map(parseLifestyle).filter(l => l.status === 'Publié')
-  }, [data])
-
-  const categories = useMemo(() => {
-    const cats = [...new Set(items.map(l => l.category).filter(Boolean))].sort()
-    return cats
-  }, [items])
 
   return (
     <div className="page">
@@ -31,73 +19,22 @@ export default function Boutiques() {
         </p>
       </div>
 
-      {loading ? (
-        <div className="spinner">Chargement…</div>
-      ) : items.length === 0 ? (
-        <div style={{
-          background: '#fff',
-          borderRadius: 'var(--radius)',
-          border: '1px solid var(--gris)',
-          padding: '40px 24px',
-          textAlign: 'center',
-          marginTop: 20,
-        }}>
-          <div style={{ fontSize: 48, marginBottom: 16 }}>🛍️</div>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 18, color: 'var(--foret)', marginBottom: 8 }}>
-            Bientôt disponible
-          </p>
-          <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.6 }}>
-            Notre sélection de boutiques et bons plans francophones à Majorque est en cours de préparation.
-          </p>
-        </div>
-      ) : (
-        <div>
-          {categories.length > 0 ? (
-            categories.map(cat => {
-              const catItems = items.filter(l => l.category === cat)
-              return (
-                <div key={cat} style={{ marginBottom: 20 }}>
-                  <p className="section-title">{cat}</p>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10 }}>
-                    {catItems.map(item => (
-                      <div key={item.id} style={{
-                        background: '#fff',
-                        border: '1px solid var(--gris)',
-                        borderRadius: 'var(--radius)',
-                        padding: '14px 12px',
-                        position: 'relative',
-                      }}>
-                        {item.access !== '🟢 Public' && (
-                          <span style={{ position: 'absolute', top: 8, right: 8, fontSize: 13 }}>💎</span>
-                        )}
-                        <p style={{ fontWeight: 600, fontSize: 13, color: 'var(--foret)', lineHeight: 1.4, marginBottom: 4,
-                          display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
-                          {item.title}
-                        </p>
-                        {item.zone.length > 0 && (
-                          <p style={{ fontSize: 11, color: 'var(--texte-sec)' }}>📍 {item.zone.join(', ')}</p>
-                        )}
-                        {item.lien && item.access === '🟢 Public' && (
-                          <a href={item.lien} target="_blank" rel="noopener noreferrer"
-                            style={{ fontSize: 11, color: 'var(--vert-dark)', marginTop: 6, display: 'inline-block' }}>
-                            Voir →
-                          </a>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )
-            })
-          ) : (
-            items.map(item => (
-              <div key={item.id} className="card" style={{ marginBottom: 8 }}>
-                <p style={{ fontWeight: 500, fontSize: 14, color: 'var(--foret)' }}>{item.title}</p>
-              </div>
-            ))
-          )}
-        </div>
-      )}
+      <div style={{
+        background: 'var(--ocre-light)',
+        borderRadius: 'var(--radius)',
+        border: '1px solid rgba(196,122,90,0.2)',
+        padding: '48px 24px',
+        textAlign: 'center',
+        marginTop: 8,
+      }}>
+        <div style={{ fontSize: 52, marginBottom: 16 }}>🛍️</div>
+        <p style={{ fontFamily: 'var(--font-titre)', fontSize: 20, color: 'var(--foret)', marginBottom: 12 }}>
+          Prochainement
+        </p>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.7, maxWidth: 280, margin: '0 auto' }}>
+          Notre sélection de boutiques, artisans et bons plans francophones à Majorque arrive bientôt.
+        </p>
+      </div>
     </div>
   )
 }

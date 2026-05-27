@@ -39,6 +39,15 @@ const CARDS = [
     coming: false,
   },
   {
+    to: '/app/explorer/medias',
+    emoji: '🎬',
+    title: 'Médias',
+    desc: 'YouTube, Instagram, TikTok',
+    bg: 'var(--vert-light)',
+    border: 'rgba(90,122,64,0.15)',
+    coming: false,
+  },
+  {
     to: null,
     emoji: '🤝',
     title: 'Accompagnement',
@@ -52,8 +61,8 @@ const CARDS = [
     emoji: '✉️',
     title: 'Contact',
     desc: 'Question, partenariat, annuaire',
-    bg: 'var(--vert-light)',
-    border: 'rgba(90,122,64,0.15)',
+    bg: 'var(--ocre-light)',
+    border: 'rgba(196,122,90,0.15)',
     coming: false,
   },
 ]
