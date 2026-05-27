@@ -38,7 +38,7 @@ export default function App() {
 
   return (
     <Routes>
-      <Route path="onboarding" element={<Onboarding />} />
+      <Route path="onboarding" element={profileId ? <Navigate to="/app" replace /> : <Onboarding />} />
       <Route path="*" element={profileId ? <AppShell /> : <Navigate to="/onboarding" replace />} />
     </Routes>
   )
