@@ -14,12 +14,11 @@ const CARDS = [
   {
     to: '/app/explorer/boutiques',
     emoji: '🛍️',
-    title: 'Boutiques',
-    desc: 'Lifestyle & bons plans',
+    title: 'Bons plans',
+    desc: 'Itinéraires & adresses locales',
     bg: 'var(--ocre-light)',
     border: 'rgba(196,122,90,0.15)',
-    coming: true,
-    comingLabel: 'Prochainement',
+    coming: false,
   },
   {
     to: '/app/explorer/outils',
