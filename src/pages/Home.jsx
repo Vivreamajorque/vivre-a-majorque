@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { useProfile } from '../context/ProfileContext'
 import { useNotionDB, parseCockpit, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
@@ -120,71 +120,110 @@ function CockpitMini({ profileNotion, profileId }) {
 }
 
 /* ── Carte Actu ─────────────────────────────────────────── */
-function ActuCard({ actu, navigate }) {
-  const handleClick = () => {
-    if (actu.lien) window.open(actu.lien, '_blank', 'noopener,noreferrer')
-    else navigate('/app/actus')
-  }
+function ActuCard({ actu, index }) {
+  const color = index % 2 === 0 ? TERRA : VERT
   return (
-    <div onClick={handleClick} style={{
-      minWidth: 210, maxWidth: 210,
-      background: '#fff', border: '1px solid var(--gris)',
-      borderRadius: 14, padding: '14px',
-      flexShrink: 0, cursor: 'pointer',
-      display: 'flex', flexDirection: 'column', justifyContent: 'space-between',
-      boxShadow: '0 1px 6px rgba(0,0,0,0.05)',
+    <div style={{
+      minWidth: 220, maxWidth: 220,
+      background: '#fff',
+      border: `1.5px solid ${color}30`,
+      borderRadius: 16,
+      flexShrink: 0,
+      display: 'flex', flexDirection: 'column',
+      overflow: 'hidden',
+      boxShadow: `0 2px 12px ${color}12`,
     }}>
-      <div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-          {actu.categorie
-            ? <span className="badge badge-vert" style={{ fontSize: 10 }}>{actu.categorie}</span>
-            : <span />}
+      {/* Barre couleur top */}
+      <div style={{ height: 4, background: `linear-gradient(90deg, ${color}, ${color}80)` }} />
+
+      <div style={{ padding: '14px 14px 12px', flex: 1, display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {/* Badge + date */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          {actu.categorie ? (
+            <span style={{
+              fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 13,
+              color, lineHeight: 1,
+            }}>
+              {actu.categorie}
+            </span>
+          ) : <span />}
           {actu.date && (
             <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>
               {new Date(actu.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
             </span>
           )}
         </div>
+
+        {/* Vague sous la catégorie */}
+        {actu.categorie && <Wave color={color} />}
+
+        {/* Titre */}
         <p style={{
-          fontFamily: 'var(--font-titre)', fontWeight: 600,
-          fontSize: 14, color: 'var(--texte)', lineHeight: 1.4,
-          marginBottom: actu.resume ? 6 : 0,
+          fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+          fontWeight: 600, fontSize: 14,
+          color: 'var(--texte)', lineHeight: 1.45,
           display: '-webkit-box', WebkitLineClamp: 3,
           WebkitBoxOrient: 'vertical', overflow: 'hidden',
+          margin: 0,
         }}>
           {actu.title}
         </p>
+
+        {/* Résumé */}
         {actu.resume && (
           <p style={{
             fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4,
             display: '-webkit-box', WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical', overflow: 'hidden',
+            margin: 0,
           }}>
             {actu.resume}
           </p>
         )}
+
+        {/* Source — pas de lien sortant */}
+        {actu.sourceDomain && (
+          <div style={{
+            marginTop: 'auto', paddingTop: 8,
+            display: 'flex', alignItems: 'center', gap: 5,
+          }}>
+            <div style={{ width: 6, height: 6, borderRadius: '50%', background: color, flexShrink: 0 }} />
+            <span style={{
+              fontFamily: 'var(--font-accent)', fontWeight: 700,
+              fontSize: 12, color: 'var(--texte-sec)',
+            }}>
+              {actu.sourceDomain}
+            </span>
+          </div>
+        )}
       </div>
-      <p style={{ fontSize: 11, fontWeight: 700, color: TERRA, marginTop: 10 }}>Lire →</p>
     </div>
   )
 }
 
 function ActuCarousel({ actus, loading }) {
-  const navigate = useNavigate()
   if (loading) return <div className="spinner">Chargement…</div>
   if (!actus.length) return null
   return (
-    <div style={{ marginBottom: 24 }}>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-        <p className="section-title" style={{ margin: 0 }}>Actus de la semaine</p>
-        <Link to="/app/actus" style={{ fontSize: 12, color: TERRA, fontWeight: 700 }}>Toutes →</Link>
+    <div style={{ marginBottom: 26 }}>
+      {/* Titre section avec wave */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 14 }}>
+        <AccentWord color={VERT} size={24}>Actus de la semaine</AccentWord>
+        <Link to="/app/actus" style={{
+          fontFamily: 'var(--font-accent)', fontWeight: 700,
+          fontSize: 14, color: TERRA, textDecoration: 'none',
+          paddingBottom: 6,
+        }}>
+          Toutes →
+        </Link>
       </div>
       <div style={{
-        display: 'flex', gap: 10,
+        display: 'flex', gap: 12,
         overflowX: 'auto', paddingBottom: 8,
         scrollbarWidth: 'none', msOverflowStyle: 'none',
+        WebkitOverflowScrolling: 'touch',
       }}>
-        {actus.map(a => <ActuCard key={a.id} actu={a} navigate={navigate} />)}
+        {actus.map((a, i) => <ActuCard key={a.id} actu={a} index={i} />)}
       </div>
     </div>
   )
@@ -242,18 +281,22 @@ export default function Home() {
           </span>
         )}
         {/* Ligne 1 Cormorant + Ligne 2 Caveat TERRA (alternance 1) */}
-        <span style={{
-          fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-          fontWeight: 300, fontSize: 22, color: 'var(--texte)',
-          display: 'block', lineHeight: 1.2,
-        }}>
-          {profile
-            ? `Bonjour ${prenom ? prenom : ''} 🌴`
-            : 'Tout ce qu\'il faut pour'}
-        </span>
-        <AccentWord color={TERRA} size={40}>
-          {profile ? 'prêt à avancer ?' : 'vraiment partir'}
-        </AccentWord>
+        {profile ? (
+          <AccentWord color={TERRA} size={40}>
+            Bonjour {prenom || ''} 🌴
+          </AccentWord>
+        ) : (
+          <>
+            <span style={{
+              display: 'block',
+              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+              fontWeight: 300, fontSize: 22, color: 'var(--texte)', lineHeight: 1.2,
+            }}>
+              Tout ce qu'il faut pour
+            </span>
+            <AccentWord color={TERRA} size={40}>vraiment partir</AccentWord>
+          </>
+        )}
       </div>
 
       {/* ── Actus ──────────────────────────────────────── */}
