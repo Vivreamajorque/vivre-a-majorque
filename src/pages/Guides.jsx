@@ -398,7 +398,7 @@ export default function Guides() {
                   }} />
                 )}
                 <span style={{ fontSize: 26 }}>{CAT_EMOJIS[cat] || '📄'}</span>
-                <span style={{ fontFamily: 'var(--font-titre)', fontSize: 14, color: 'var(--foret)', fontWeight: 600, lineHeight: 1.3 }}>{cat}</span>
+                <span style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', fontWeight: 600, lineHeight: 1.3 }}>{cat}</span>
                 <div style={{ display: 'flex', gap: 5, alignItems: 'center', flexWrap: 'wrap' }}>
                   <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>{freeCount} gratuit{freeCount > 1 ? 's' : ''}</span>
                   {total - freeCount > 0 && (

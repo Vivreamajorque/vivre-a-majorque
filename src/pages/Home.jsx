@@ -85,7 +85,7 @@ function ActuCard({ actu, index }) {
           {actu.categorie ? (
             <div>
               <span style={{
-                fontFamily: 'var(--font-accent)', fontStyle: 'italic',
+                fontFamily: 'var(--font-accent)',
                 fontWeight: 700, fontSize: 15, color,
               }}>
                 {actu.categorie}

@@ -19,7 +19,7 @@ export function AccentWord({ children, color = TERRA, size = 26 }) {
   return (
     <span style={{
       display: 'inline-block',
-      fontFamily: "'Caveat', cursive",
+      fontFamily: 'var(--font-accent)',
       fontStyle: 'italic',
       fontWeight: 700,
       fontSize: size,
@@ -36,7 +36,7 @@ export function DisplayTitle({ children, size = 32 }) {
   return (
     <span style={{
       display: 'block',
-      fontFamily: "'Playfair Display', Georgia, serif",
+      fontFamily: 'var(--font-display)',
       fontWeight: 900,
       fontSize: size,
       color: '#1C1410',
@@ -53,7 +53,7 @@ export function ContextLabel({ children, color = VERT, size = 14 }) {
   return (
     <span style={{
       display: 'block',
-      fontFamily: "'Cormorant Garamond', Georgia, serif",
+      fontFamily: 'var(--font-titre)',
       fontStyle: 'italic',
       fontWeight: 400,
       fontSize: size,

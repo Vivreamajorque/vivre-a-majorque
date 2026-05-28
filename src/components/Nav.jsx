@@ -43,7 +43,7 @@ export default function Nav() {
             )}
             <span style={{ fontSize: 19 }}>{tab.icon}</span>
             <span style={{
-              fontFamily: isActive ? "'Playfair Display', serif" : "'Cormorant Garamond', serif",
+              fontFamily: isActive ? 'var(--font-display)' : 'var(--font-titre)',
               fontStyle: isActive ? 'normal' : 'italic',
               fontWeight: isActive ? 900 : 400,
               fontSize: isActive ? 11 : 11,

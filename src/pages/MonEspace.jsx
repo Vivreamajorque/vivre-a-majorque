@@ -62,7 +62,7 @@ function MesGuides({ email, onUpgrade }) {
           textAlign: 'center',
         }}>
           <span style={{ fontSize: 28 }}>🔖</span>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 15, color: 'var(--foret)', fontWeight: 600 }}>
+          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', fontWeight: 600 }}>
             Aucun guide sauvegardé
           </p>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.55, maxWidth: 260 }}>
@@ -242,7 +242,7 @@ function CockpitFull({ profileNotion, profileId, onUpgrade }) {
           {isPremium ? (
             nextProfil ? (
               <>
-                <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 6 }}>Toutes les étapes validées !</p>
+                <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 6 }}>Toutes les étapes validées !</p>
                 <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>Vous êtes prêt pour l'étape suivante.</p>
                 <button onClick={() => { const el = document.querySelector('[data-profile-picker]'); if (el) el.click() }}
                   style={{ background: 'var(--foret)', color: 'white', padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
@@ -250,11 +250,11 @@ function CockpitFull({ profileNotion, profileId, onUpgrade }) {
                 </button>
               </>
             ) : (
-              <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>Bravo ! Vous êtes un résident confirmé de Majorque 🌿</p>
+              <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>Bravo ! Vous êtes un résident confirmé de Majorque 🌿</p>
             )
           ) : (
             <>
-              <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 6 }}>Étapes gratuites complétées !</p>
+              <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 6 }}>Étapes gratuites complétées !</p>
               <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>Débloquez les {total - accessible} étapes suivantes avec Premium.</p>
               <button onClick={onUpgrade} style={{ background: 'var(--foret)', color: 'white', padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
                 Voir tout le Cockpit →
@@ -355,7 +355,7 @@ export default function MonEspace() {
       {/* Carte profil */}
       <div className="card" style={{ marginBottom: 12 }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>Mon profil</p>
+          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>Mon profil</p>
           <button
             data-profile-picker
             onClick={() => setShowProfilPicker(!showProfilPicker)}
@@ -398,7 +398,7 @@ export default function MonEspace() {
       }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
           <div>
-            <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 4 }}>
+            <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 4 }}>
               {isPremium ? '💎 Premium actif' : '🟢 Accès gratuit'}
             </p>
             {isPremium ? (
@@ -443,7 +443,7 @@ export default function MonEspace() {
       ) : (
         <div style={{ background: 'var(--ocre-light)', borderRadius: 14, padding: '20px', textAlign: 'center', border: '1px solid rgba(196,122,90,0.15)' }}>
           <div style={{ fontSize: 28, marginBottom: 8 }}>🧭</div>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 15, color: 'var(--foret)', marginBottom: 6 }}>Choisissez votre profil</p>
+          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 6 }}>Choisissez votre profil</p>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 14 }}>Pour voir votre cockpit personnalisé, sélectionnez votre situation.</p>
           <button onClick={() => setShowProfilPicker(true)} style={{ background: 'var(--foret)', color: 'white', padding: '10px 20px', borderRadius: 10, fontSize: 13, fontWeight: 600, border: 'none', cursor: 'pointer' }}>
             Choisir mon profil →

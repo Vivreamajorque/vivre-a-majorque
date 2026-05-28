@@ -129,7 +129,7 @@ function OffreCard({ offre }) {
           </span>
           <div style={{ textAlign: 'right' }}>
             <span style={{
-              fontFamily: 'var(--font-titre)', fontSize: 22,
+              fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-2xl)',
               fontWeight: 700, color: 'var(--foret)',
             }}>
               {offre.prix}
@@ -146,7 +146,7 @@ function OffreCard({ offre }) {
         </div>
 
         <p style={{
-          fontFamily: 'var(--font-titre)', fontSize: 18,
+          fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-xl)',
           fontWeight: 700, color: 'var(--foret)', marginBottom: 6, lineHeight: 1.3,
         }}>
           {offre.titre}
@@ -201,7 +201,7 @@ function OffreCard({ offre }) {
             fontSize: 14,
             fontWeight: 700,
             cursor: 'pointer',
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'var(--font-corps)',
           }}
         >
           Réserver cette offre →
@@ -222,7 +222,7 @@ export default function Accompagnements() {
           color: 'var(--foret)', padding: 0, marginBottom: 8,
           display: 'flex', alignItems: 'center', gap: 6,
         }}>
-          ← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span>
+          ← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span>
         </button>
         <PageHeading label="nos" title="Accompagnements" accentColor={VERT} traitColor={VERT} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5, marginBottom: 4 }}>

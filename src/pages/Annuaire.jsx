@@ -64,7 +64,7 @@ function SearchBar({ value, onChange }) {
           border: '1px solid var(--gris)',
           borderRadius: 'var(--radius)',
           fontSize: 14,
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: 'var(--font-corps)',
           background: '#fff',
           color: 'var(--noir)',
           outline: 'none',
@@ -151,8 +151,8 @@ export default function Annuaire() {
           <button onClick={() => navigate('/app/explorer')} style={{
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
             padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-          }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, fontSize: 24, color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
+          }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
+          <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
             Annuaires
           </div>
           <SearchBar value={search} onChange={setSearch} />
@@ -177,8 +177,8 @@ export default function Annuaire() {
           <button onClick={() => setSelectedCat(null)} style={{
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
             padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-          }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Catégories</span></button>
-          <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, fontSize: 24, color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
+          }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Catégories</span></button>
+          <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
             {selectedCat}
           </div>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
@@ -202,8 +202,8 @@ export default function Annuaire() {
         <button onClick={() => navigate('/app/explorer')} style={{
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-        }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
-        <div style={{ fontFamily: "'Cormorant Garamond', serif", fontStyle: "italic", fontWeight: 300, fontSize: 24, color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
+        }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
+        <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
           Annuaires
         </div>
         <SearchBar value={search} onChange={setSearch} />
@@ -228,7 +228,7 @@ export default function Annuaire() {
               opacity: cat === 'À venir' ? 0.7 : 1,
             }}>
               <span style={{
-                fontFamily: 'var(--font-titre)', fontSize: 14, color: 'var(--foret)',
+                fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)',
                 fontWeight: 600, lineHeight: 1.3,
               }}>{cat}</span>
               <span style={{ fontSize: 12, color: 'var(--texte-sec)' }}>

@@ -103,7 +103,7 @@ export default function Explorer() {
               )}
               <span style={{ fontSize: 26 }}>{card.emoji}</span>
               <span style={{
-                fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: 18,
+                fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 18,
                 color: 'var(--foret)', fontWeight: 700, lineHeight: 1.2,
               }}>{card.title}</span>
               <span style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>

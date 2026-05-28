@@ -73,7 +73,7 @@ function ToolCard({ o, isPremium, onPaywall }) {
             position: 'absolute', top: 10, right: 10, fontSize: 14,
           }}>🔒</span>
           <div style={{ fontSize: 26, marginBottom: 8 }}>{o.emoji}</div>
-          <div style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
+          <div style={{ fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
             {o.title}
           </div>
           <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4 }}>
@@ -94,7 +94,7 @@ function ToolCard({ o, isPremium, onPaywall }) {
           display: 'flex', flexDirection: 'column', justifyContent: 'flex-end',
         }}>
           <div style={{ fontSize: 26, marginBottom: 8 }}>{o.emoji}</div>
-          <div style={{ fontFamily: "'Caveat', cursive", fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
+          <div style={{ fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
             {o.title}
           </div>
           <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4 }}>
@@ -120,7 +120,7 @@ function ToolCard({ o, isPremium, onPaywall }) {
         padding: '2px 8px', borderRadius: 20, fontWeight: 600,
       }}>À venir</span>
       <div style={{ fontSize: 26, marginBottom: 8, opacity: 0.4 }}>{o.emoji}</div>
-      <div style={{ fontFamily: 'var(--font-titre)', fontSize: 14, fontWeight: 600, color: 'var(--texte-sec)' }}>
+      <div style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', fontWeight: 600, color: 'var(--texte-sec)' }}>
         {o.title}
       </div>
       <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4, opacity: 0.7 }}>

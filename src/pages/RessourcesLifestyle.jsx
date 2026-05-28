@@ -203,7 +203,7 @@ function DossierCard({ dossier, unlocked, onClick }) {
       </div>
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{
-          fontFamily: 'var(--font-titre)', fontSize: 15, fontWeight: 700,
+          fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', fontWeight: 700,
           color: unlocked ? 'var(--foret)' : 'var(--texte-sec)',
           marginBottom: 5,
         }}>
@@ -258,7 +258,7 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
 
         <div style={{ textAlign: 'center', marginBottom: 22 }}>
           <div style={{ fontSize: 36, marginBottom: 8 }}>{dossier.emoji}</div>
-          <h2 style={{ fontFamily: 'var(--font-titre)', fontSize: 19, color: 'var(--foret)', marginBottom: 6 }}>
+          <h2 style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-xl)', color: 'var(--foret)', marginBottom: 6 }}>
             {dossier.titre}
           </h2>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>

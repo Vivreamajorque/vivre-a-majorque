@@ -162,7 +162,7 @@ export default function BudgetSimulator() {
           style={{ background: 'none', border: 'none', color: '#fff', fontSize: 20, cursor: 'pointer', padding: 0 }}>←</button>
         <h1 style={{ margin: 0, fontSize: 18, fontFamily: 'var(--font-titre)', color: '#fff', fontWeight: 600 }}>Budget mensuel</h1>
         {step === 3 && (
-          <span style={{ marginLeft: 'auto', fontSize: 15, fontWeight: 700, color: 'var(--gold)', fontFamily: 'Inter, sans-serif' }}>{fmt(total)}</span>
+          <span style={{ marginLeft: 'auto', fontSize: 15, fontWeight: 700, color: 'var(--gold)', fontFamily: 'var(--font-corps)' }}>{fmt(total)}</span>
         )}
       </div>
 
@@ -172,29 +172,29 @@ export default function BudgetSimulator() {
         {step === 1 && (
           <div>
             <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
-              <h2 style={{ margin: '0 0 14px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>Étape 1 / 3 — Composition familiale</h2>
+              <h2 style={{ margin: '0 0 14px', fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>Étape 1 / 3 — Composition familiale</h2>
 
               {/* Adultes */}
-              <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>Combien d'adultes ?</p>
+              <p style={{ margin: '0 0 8px', fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-corps)', color: 'var(--noir)' }}>Combien d'adultes ?</p>
               <div style={{ display: 'flex', gap: 10, marginBottom: 20 }}>
                 {[{ n: 1, label: '🧑 Seul(e)' }, { n: 2, label: '👫 En couple' }].map(o => (
                   <button key={o.n} onClick={() => setAdultes(o.n)} style={{
                     flex: 1, padding: '10px', borderRadius: 10, border: `2px solid ${adultes === o.n ? 'var(--vert)' : '#ddd'}`,
                     background: adultes === o.n ? 'var(--vert)' : '#fff', color: adultes === o.n ? '#fff' : 'var(--noir)',
-                    fontFamily: 'Inter, sans-serif', fontSize: 13, cursor: 'pointer', fontWeight: adultes === o.n ? 700 : 400,
+                    fontFamily: 'var(--font-corps)', fontSize: 13, cursor: 'pointer', fontWeight: adultes === o.n ? 700 : 400,
                   }}>{o.label}</button>
                 ))}
               </div>
 
               {/* Enfants */}
-              <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>Enfants à charge</p>
-              <p style={{ margin: '0 0 10px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>Cliquez sur une tranche d'âge pour ajouter un enfant</p>
+              <p style={{ margin: '0 0 6px', fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-corps)', color: 'var(--noir)' }}>Enfants à charge</p>
+              <p style={{ margin: '0 0 10px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>Cliquez sur une tranche d'âge pour ajouter un enfant</p>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8, marginBottom: 12 }}>
                 {TRANCHES.map(t => (
                   <button key={t} onClick={() => addEnfant(t)} style={{
                     display: 'flex', alignItems: 'center', gap: 8, padding: '9px 12px',
                     borderRadius: 10, border: '1.5px solid var(--gris)', background: 'var(--lin)',
-                    cursor: 'pointer', fontFamily: 'Inter, sans-serif',
+                    cursor: 'pointer', fontFamily: 'var(--font-corps)',
                   }}>
                     <span style={{ fontSize: 16 }}>+</span>
                     <span style={{ lineHeight: 1.2, textAlign: 'left', fontSize: 12, color: 'var(--noir)' }}>{TRANCHE_LABELS[t]}</span>
@@ -208,13 +208,13 @@ export default function BudgetSimulator() {
                       display: 'flex', alignItems: 'center', gap: 5, padding: '5px 10px',
                       borderRadius: 20, background: 'var(--foret)', border: 'none', cursor: 'pointer',
                     }}>
-                      <span style={{ fontSize: 12, color: '#fff', fontFamily: 'Inter, sans-serif' }}>{TRANCHE_LABELS[t]}</span>
+                      <span style={{ fontSize: 12, color: '#fff', fontFamily: 'var(--font-corps)' }}>{TRANCHE_LABELS[t]}</span>
                       <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.7)' }}>✕</span>
                     </button>
                   ))}
                 </div>
               ) : (
-                <p style={{ margin: 0, fontSize: 12, color: 'var(--texte-sec)', fontStyle: 'italic', fontFamily: 'Inter, sans-serif', textAlign: 'center', padding: '6px 0' }}>
+                <p style={{ margin: 0, fontSize: 12, color: 'var(--texte-sec)', fontStyle: 'italic', fontFamily: 'var(--font-corps)', textAlign: 'center', padding: '6px 0' }}>
                   Aucun enfant — modifiez si besoin
                 </p>
               )}
@@ -223,8 +223,8 @@ export default function BudgetSimulator() {
             {/* Choix d'école — visible seulement si enfants d'âge scolaire */}
             {hasScolaires && (
               <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
-                <h2 style={{ margin: '0 0 6px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>🏫 Type d'école</h2>
-                <p style={{ margin: '0 0 12px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+                <h2 style={{ margin: '0 0 6px', fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>🏫 Type d'école</h2>
+                <p style={{ margin: '0 0 12px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
                   Pour {enfants.filter(t => t !== '0-2').length} enfant{enfants.filter(t => t !== '0-2').length > 1 ? 's' : ''} d'âge scolaire
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -236,12 +236,12 @@ export default function BudgetSimulator() {
                       background: ecoleType === opt.id ? '#f0faf9' : '#fff',
                       cursor: 'pointer', textAlign: 'left',
                     }}>
-                      <span style={{ fontSize: 13, fontWeight: 600, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>{opt.label}</span>
-                      <span style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', marginTop: 2 }}>{opt.sub}</span>
+                      <span style={{ fontSize: 13, fontWeight: 600, fontFamily: 'var(--font-corps)', color: 'var(--noir)' }}>{opt.label}</span>
+                      <span style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', marginTop: 2 }}>{opt.sub}</span>
                     </button>
                   ))}
                 </div>
-                <p style={{ margin: '10px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.5 }}>
+                <p style={{ margin: '10px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
                   📋 Sources : <a href="https://www.lfp.edu.es" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>Lycée Français de Palma</a> (barème AEFE 2024-2025) · Govern Balear Educació
                 </p>
               </div>
@@ -250,7 +250,7 @@ export default function BudgetSimulator() {
             <button onClick={() => setStep(2)} style={{
               width: '100%', padding: '14px', borderRadius: 12, border: 'none',
               background: 'var(--foret)', color: '#fff', fontSize: 15, fontWeight: 700,
-              fontFamily: 'Inter, sans-serif', cursor: 'pointer',
+              fontFamily: 'var(--font-corps)', cursor: 'pointer',
             }}>
               Choisir mon mode de vie →
             </button>
@@ -261,8 +261,8 @@ export default function BudgetSimulator() {
         {step === 2 && (
           <div>
             <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
-              <h2 style={{ margin: '0 0 6px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>Étape 2 / 3 — Mode de vie</h2>
-              <p style={{ margin: '0 0 14px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+              <h2 style={{ margin: '0 0 6px', fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>Étape 2 / 3 — Mode de vie</h2>
+              <p style={{ margin: '0 0 14px', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
                 {adultes === 1 ? '🧑 Seul(e)' : '👫 En couple'}
                 {enfants.length > 0 && ` + ${enfants.length} enfant${enfants.length > 1 ? 's' : ''}`}
                 {hasScolaires && ` · ${ECOLE_OPTIONS.find(o => o.id === ecoleType)?.label}`}
@@ -279,12 +279,12 @@ export default function BudgetSimulator() {
                     }}>
                       <span style={{ fontSize: 28 }}>{m.emoji}</span>
                       <div style={{ flex: 1 }}>
-                        <div style={{ fontWeight: 700, fontFamily: 'Inter, sans-serif', color: 'var(--noir)', fontSize: 14 }}>{m.label}</div>
-                        <div style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', marginTop: 2 }}>{m.desc}</div>
+                        <div style={{ fontWeight: 700, fontFamily: 'var(--font-corps)', color: 'var(--noir)', fontSize: 14 }}>{m.label}</div>
+                        <div style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', marginTop: 2 }}>{m.desc}</div>
                       </div>
                       <div style={{ textAlign: 'right' }}>
-                        <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--foret)', fontFamily: 'Inter, sans-serif' }}>{fmt(previewTotal)}</div>
-                        <div style={{ fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>/mois</div>
+                        <div style={{ fontSize: 16, fontWeight: 700, color: 'var(--foret)', fontFamily: 'var(--font-corps)' }}>{fmt(previewTotal)}</div>
+                        <div style={{ fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>/mois</div>
                       </div>
                     </button>
                   )
@@ -297,7 +297,7 @@ export default function BudgetSimulator() {
               style={{
                 width: '100%', padding: '14px', borderRadius: 12, border: 'none',
                 background: 'var(--foret)', color: '#fff', fontSize: 15, fontWeight: 700,
-                fontFamily: 'Inter, sans-serif', cursor: 'pointer',
+                fontFamily: 'var(--font-corps)', cursor: 'pointer',
               }}>
               Voir le détail et ajuster →
             </button>
@@ -309,30 +309,30 @@ export default function BudgetSimulator() {
           <div>
             {/* Récap */}
             <div style={{ background: 'var(--lin)', borderRadius: 12, padding: '10px 14px', marginBottom: 16, display: 'flex', gap: 16, flexWrap: 'wrap', alignItems: 'center' }}>
-              <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+              <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
                 {adultes === 1 ? '🧑 Seul(e)' : '👫 En couple'}
                 {enfants.length > 0 && ` + ${enfants.length} enfant${enfants.length > 1 ? 's' : ''}`}
               </span>
-              <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+              <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
                 {MODES.find(m => m.id === mode)?.emoji} {MODES.find(m => m.id === mode)?.label}
               </span>
               {hasScolaires && (
-                <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+                <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
                   {ECOLE_OPTIONS.find(o => o.id === ecoleType)?.label.split(' ').slice(0, 3).join(' ')}
                 </span>
               )}
-              <button onClick={() => setStep(1)} style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--vert)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>Modifier</button>
+              <button onClick={() => setStep(1)} style={{ marginLeft: 'auto', fontSize: 11, color: 'var(--vert)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-corps)', textDecoration: 'underline' }}>Modifier</button>
             </div>
 
             {/* Barres visuelles */}
             <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
-              <h2 style={{ margin: '0 0 14px', fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>📊 Répartition mensuelle</h2>
+              <h2 style={{ margin: '0 0 14px', fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>📊 Répartition mensuelle</h2>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 {visibleCats.filter(c => budget[c.id] > 0).sort((a, b) => budget[b.id] - budget[a.id]).map(c => (
                   <div key={c.id}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 3 }}>
-                      <span style={{ fontSize: 12, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>{c.emoji} {c.label}</span>
-                      <span style={{ fontSize: 12, fontWeight: 600, fontFamily: 'Inter, sans-serif', color: 'var(--noir)' }}>{fmt(budget[c.id])}</span>
+                      <span style={{ fontSize: 12, fontFamily: 'var(--font-corps)', color: 'var(--noir)' }}>{c.emoji} {c.label}</span>
+                      <span style={{ fontSize: 12, fontWeight: 600, fontFamily: 'var(--font-corps)', color: 'var(--noir)' }}>{fmt(budget[c.id])}</span>
                     </div>
                     <div style={{ height: 8, background: 'var(--gris)', borderRadius: 4, overflow: 'hidden' }}>
                       <div style={{ height: '100%', width: `${(budget[c.id] / maxVal) * 100}%`, background: c.color, borderRadius: 4, transition: 'width 0.4s' }} />
@@ -340,7 +340,7 @@ export default function BudgetSimulator() {
                   </div>
                 ))}
               </div>
-              <p style={{ margin: '12px 0 0', fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif' }}>
+              <p style={{ margin: '12px 0 0', fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
                 Source : <a href={INE_SOURCE} target="_blank" rel="noreferrer" style={{ color: 'var(--vert)', textDecoration: 'none' }}>INE EPF 2023 — Illes Balears</a>
               </p>
             </div>
@@ -348,15 +348,15 @@ export default function BudgetSimulator() {
             {/* Ajustement par poste */}
             <div style={{ background: '#fff', borderRadius: 14, padding: '16px', marginBottom: 16, boxShadow: '0 1px 4px rgba(0,0,0,0.07)' }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                <h2 style={{ margin: 0, fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)' }}>✏️ Ajuster chaque poste</h2>
-                <button onClick={resetOverrides} style={{ fontSize: 11, color: 'var(--vert)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'Inter, sans-serif', textDecoration: 'underline' }}>Réinitialiser</button>
+                <h2 style={{ margin: 0, fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>✏️ Ajuster chaque poste</h2>
+                <button onClick={resetOverrides} style={{ fontSize: 11, color: 'var(--vert)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'var(--font-corps)', textDecoration: 'underline' }}>Réinitialiser</button>
               </div>
 
               {visibleCats.map(cat => (
                 <div key={cat.id} style={{ marginBottom: 16 }}>
                   <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 5 }}>
-                    <label style={{ fontSize: 13, fontFamily: 'Inter, sans-serif', color: 'var(--noir)', fontWeight: 500 }}>{cat.emoji} {cat.label}</label>
-                    {overrides[cat.id] !== undefined && <span style={{ fontSize: 10, color: 'var(--terra)', fontFamily: 'Inter, sans-serif' }}>✎ modifié</span>}
+                    <label style={{ fontSize: 13, fontFamily: 'var(--font-corps)', color: 'var(--noir)', fontWeight: 500 }}>{cat.emoji} {cat.label}</label>
+                    {overrides[cat.id] !== undefined && <span style={{ fontSize: 10, color: 'var(--terra)', fontFamily: 'var(--font-corps)' }}>✎ modifié</span>}
                   </div>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
                     <input
@@ -375,29 +375,29 @@ export default function BudgetSimulator() {
                       min={0}
                       style={{
                         width: 72, padding: '6px 8px', border: '1px solid #ddd', borderRadius: 7,
-                        fontSize: 14, fontFamily: 'Inter, sans-serif', fontWeight: 600, textAlign: 'right',
+                        fontSize: 14, fontFamily: 'var(--font-corps)', fontWeight: 600, textAlign: 'right',
                         background: overrides[cat.id] !== undefined ? '#fff8f0' : 'var(--lin)', color: 'var(--noir)',
                       }}
                     />
-                    <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', minWidth: 14 }}>€</span>
+                    <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', minWidth: 14 }}>€</span>
                   </div>
                   {cat.id === 'loyer' && (
-                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
+                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.4 }}>
                       💡 Variation annuelle +12,8 % Illes Balears · Source : <a href="https://www.ine.es/jaxiT3/Datos.htm?t=25171" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)', textDecoration: 'none' }}>INE IPV T3 2025</a>
                     </p>
                   )}
                   {cat.id === 'sante' && (
-                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
+                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.4 }}>
                       💡 Résidents UE : accès santé publique avec carte européenne puis tarjeta sanitaria (IBSALUT)
                     </p>
                   )}
                   {cat.id === 'transport' && (
-                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
+                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.4 }}>
                       🚌 Abonnement mensuel EMT Palma ~30 € · <a href="https://www.emtpalma.cat/fr/tarifs" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)', textDecoration: 'none' }}>emtpalma.cat/tarifs</a>
                     </p>
                   )}
                   {cat.id === 'scolarite' && (
-                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.4 }}>
+                    <p style={{ margin: '4px 0 0', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.4 }}>
                       🏫 {ECOLE_OPTIONS.find(o => o.id === ecoleType)?.label} — {ECOLE_OPTIONS.find(o => o.id === ecoleType)?.sub}
                     </p>
                   )}
@@ -407,7 +407,7 @@ export default function BudgetSimulator() {
 
             {/* Total récapitulatif */}
             <div style={{ background: 'var(--foret)', borderRadius: 16, padding: '20px 16px', marginBottom: 20 }}>
-              <h2 style={{ margin: '0 0 16px', fontFamily: 'var(--font-titre)', fontSize: 19, color: '#fff' }}>💶 Mon budget estimé</h2>
+              <h2 style={{ margin: '0 0 16px', fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-xl)', color: '#fff' }}>💶 Mon budget estimé</h2>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
                 {['Logement', 'Alimentation', 'Transport', 'Santé', 'Famille', 'Loisirs', 'Perso'].map(group => {
@@ -416,10 +416,10 @@ export default function BudgetSimulator() {
                   if (groupTotal === 0) return null
                   return (
                     <div key={group} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontFamily: 'Inter, sans-serif' }}>
+                      <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.8)', fontFamily: 'var(--font-corps)' }}>
                         {cats[0]?.emoji} {group}
                       </span>
-                      <span style={{ fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'Inter, sans-serif' }}>{fmt(groupTotal)}</span>
+                      <span style={{ fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'var(--font-corps)' }}>{fmt(groupTotal)}</span>
                     </div>
                   )
                 })}
@@ -427,18 +427,18 @@ export default function BudgetSimulator() {
 
               <div style={{ borderTop: '1px solid rgba(255,255,255,0.25)', paddingTop: 14 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-                  <span style={{ fontSize: 16, color: '#fff', fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>Total mensuel</span>
-                  <span style={{ fontSize: 28, fontWeight: 800, color: 'var(--gold)', fontFamily: 'Inter, sans-serif' }}>{fmt(total)}</span>
+                  <span style={{ fontSize: 16, color: '#fff', fontFamily: 'var(--font-corps)', fontWeight: 600 }}>Total mensuel</span>
+                  <span style={{ fontSize: 28, fontWeight: 800, color: 'var(--gold)', fontFamily: 'var(--font-corps)' }}>{fmt(total)}</span>
                 </div>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>Soit par an</span>
-                  <span style={{ fontSize: 15, fontWeight: 600, color: 'rgba(255,255,255,0.9)', fontFamily: 'Inter, sans-serif' }}>{fmt(total * 12)}</span>
+                  <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-corps)' }}>Soit par an</span>
+                  <span style={{ fontSize: 15, fontWeight: 600, color: 'rgba(255,255,255,0.9)', fontFamily: 'var(--font-corps)' }}>{fmt(total * 12)}</span>
                 </div>
               </div>
 
               <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 10, padding: '12px', marginTop: 14 }}>
-                <p style={{ margin: '0 0 6px', fontSize: 12, color: 'rgba(255,255,255,0.8)', fontFamily: 'Inter, sans-serif', fontWeight: 600 }}>💡 Revenu net nécessaire</p>
-                <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.7)', fontFamily: 'Inter, sans-serif', lineHeight: 1.5 }}>
+                <p style={{ margin: '0 0 6px', fontSize: 12, color: 'rgba(255,255,255,0.8)', fontFamily: 'var(--font-corps)', fontWeight: 600 }}>💡 Revenu net nécessaire</p>
+                <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
                   Budget + 15 % d'épargne → viser ≥ <strong style={{ color: '#fff' }}>{fmt(Math.round(total * 1.15))}/mois net</strong>.
                   {' '}En autónomo (RETA), prévoir 41 % supplémentaires (IVA + IRPF + cotización).
                 </p>
@@ -447,7 +447,7 @@ export default function BudgetSimulator() {
 
             {/* Sources */}
             <div style={{ background: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 20, border: '1px solid var(--gris)' }}>
-              <p style={{ margin: 0, fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'Inter, sans-serif', lineHeight: 1.6 }}>
+              <p style={{ margin: 0, fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.6 }}>
                 📋 <strong>Sources :</strong> <a href={INE_SOURCE} target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>INE EPF 2023 — Illes Balears</a> · <a href="https://www.emtpalma.cat/fr/tarifs" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>EMT Palma</a> · <a href="https://www.tib.org/ca/el-tib/tarifes" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>TIB Baléares</a> · <a href="https://www.lfp.edu.es" target="_blank" rel="noreferrer" style={{ color: 'var(--vert)' }}>LFP — barème AEFE 2024-2025</a>. Ce simulateur est indicatif.
               </p>
             </div>
@@ -465,12 +465,12 @@ export default function BudgetSimulator() {
           padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
         }}>
           <div>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif', textTransform: 'uppercase', letterSpacing: 0.5 }}>Total mensuel</div>
-            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--gold)', fontFamily: 'Inter, sans-serif', lineHeight: 1.1 }}>{fmt(total)}</div>
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-corps)', textTransform: 'uppercase', letterSpacing: 0.5 }}>Total mensuel</div>
+            <div style={{ fontSize: 22, fontWeight: 800, color: 'var(--gold)', fontFamily: 'var(--font-corps)', lineHeight: 1.1 }}>{fmt(total)}</div>
           </div>
           <div style={{ textAlign: 'right' }}>
-            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: 'Inter, sans-serif' }}>Par an</div>
-            <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.9)', fontFamily: 'Inter, sans-serif' }}>{fmt(total * 12)}</div>
+            <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.65)', fontFamily: 'var(--font-corps)' }}>Par an</div>
+            <div style={{ fontSize: 14, fontWeight: 600, color: 'rgba(255,255,255,0.9)', fontFamily: 'var(--font-corps)' }}>{fmt(total * 12)}</div>
           </div>
         </div>
       )}

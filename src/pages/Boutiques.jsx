@@ -47,7 +47,7 @@ export default function Boutiques() {
           </div>
           <div style={{ flex: 1 }}>
             <p style={{
-              fontFamily: 'var(--font-titre)', fontSize: 17,
+              fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)',
               fontWeight: 700, color: 'var(--foret)', marginBottom: 5,
             }}>
               Mallorca Chérie
@@ -87,7 +87,7 @@ export default function Boutiques() {
         </div>
         <div style={{ flex: 1 }}>
           <p style={{
-            fontFamily: 'var(--font-titre)', fontSize: 17,
+            fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)',
             fontWeight: 700, color: 'var(--foret)', marginBottom: 5,
           }}>
             Ressources Lifestyle

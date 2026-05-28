@@ -21,7 +21,7 @@ function SocialCard({ emoji, platform, handle, desc, url, bg, border }) {
       }}>
         <span style={{ fontSize: 32, flexShrink: 0 }}>{emoji}</span>
         <div style={{ flex: 1 }}>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 15, fontWeight: 700, color: 'var(--foret)', marginBottom: 2 }}>
+          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', fontWeight: 700, color: 'var(--foret)', marginBottom: 2 }}>
             {platform}
           </p>
           <p style={{ fontSize: 12, color: 'var(--vert-dark)', fontWeight: 500, marginBottom: 2 }}>{handle}</p>
@@ -137,7 +137,7 @@ export default function Medias() {
         <button onClick={() => navigate('/app/explorer')} style={{
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-        }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
+        }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
         <PageHeading label="dans les" title="Médias" accentColor={VERT} traitColor={VERT} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Suivez la vie à Majorque en vrai
@@ -146,7 +146,7 @@ export default function Medias() {
 
       {/* Dernière vidéo YouTube */}
       <div style={{ marginBottom: 24 }}>
-        <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 10, fontWeight: 600 }}>
+        <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 10, fontWeight: 600 }}>
           🎬 Dernière vidéo
         </p>
         <YoutubeEmbed />
@@ -164,7 +164,7 @@ export default function Medias() {
             padding: '10px 0',
             fontWeight: 700,
             fontSize: 14,
-            fontFamily: 'Inter, sans-serif',
+            fontFamily: 'var(--font-corps)',
             textDecoration: 'none',
           }}
         >
@@ -173,7 +173,7 @@ export default function Medias() {
       </div>
 
       {/* Réseaux sociaux */}
-      <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 10, fontWeight: 600 }}>
+      <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 10, fontWeight: 600 }}>
         📱 Réseaux sociaux
       </p>
 

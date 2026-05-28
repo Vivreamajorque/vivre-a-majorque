@@ -22,7 +22,7 @@ export default function Contact() {
     border: '1px solid var(--gris)',
     borderRadius: 'var(--radius)',
     fontSize: 14,
-    fontFamily: 'Inter, sans-serif',
+    fontFamily: 'var(--font-corps)',
     background: '#fff',
     color: 'var(--noir)',
     outline: 'none',
@@ -49,14 +49,14 @@ export default function Contact() {
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer',
             color: 'var(--foret)', padding: 0, marginBottom: 8,
             display: 'flex', alignItems: 'center', gap: 6,
-          }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
+          }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
         </div>
         <div style={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
           justifyContent: 'center', padding: '48px 24px', textAlign: 'center', gap: 16,
         }}>
           <span style={{ fontSize: 48 }}>✉️</span>
-          <h2 style={{ fontFamily: 'var(--font-titre)', color: 'var(--foret)', fontSize: 22 }}>
+          <h2 style={{ fontFamily: 'var(--font-titre)', color: 'var(--foret)', fontSize: 'var(--fs-2xl)' }}>
             Message prêt à envoyer
           </h2>
           <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.6 }}>
@@ -81,7 +81,7 @@ export default function Contact() {
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer',
           color: 'var(--foret)', padding: 0, marginBottom: 8,
           display: 'flex', alignItems: 'center', gap: 6,
-        }}>← <span style={{ fontSize: 13, fontFamily: 'Inter, sans-serif' }}>Explorer</span></button>
+        }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
         <PageHeading label="une question ?" title="Contact" accentColor={VERT} traitColor={VERT} />
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Une question ? On vous répond sous 48h.
@@ -105,7 +105,7 @@ export default function Contact() {
                 background: raison === r.id ? 'var(--foret)' : '#fff',
                 color: raison === r.id ? '#fff' : 'var(--noir)',
                 fontSize: 14,
-                fontFamily: 'Inter, sans-serif',
+                fontFamily: 'var(--font-corps)',
                 fontWeight: raison === r.id ? 600 : 400,
                 cursor: 'pointer',
                 textAlign: 'left',
@@ -165,7 +165,7 @@ export default function Contact() {
           borderRadius: 'var(--radius)',
           fontSize: 15,
           fontWeight: 600,
-          fontFamily: 'Inter, sans-serif',
+          fontFamily: 'var(--font-corps)',
           cursor: canSend ? 'pointer' : 'not-allowed',
           transition: 'all 0.15s',
         }}

@@ -57,7 +57,7 @@ export default function Onboarding() {
                   borderRadius: 14,
                   border: `1.5px solid ${inputPrenom.trim() ? TERRA : 'var(--gris)'}`,
                   background: '#fff',
-                  fontFamily: "'Playfair Display', serif",
+                  fontFamily: 'var(--font-display)',
                   fontWeight: 900, fontSize: 26,
                   color: 'var(--texte)',
                   outline: 'none',
@@ -71,7 +71,7 @@ export default function Onboarding() {
                 color: inputPrenom.trim() ? '#fff' : 'var(--texte-sec)',
                 border: 'none', borderRadius: 14,
                 padding: '14px',
-                fontFamily: "'Cormorant Garamond', serif",
+                fontFamily: 'var(--font-titre)',
                 fontStyle: 'italic', fontSize: 18,
                 cursor: inputPrenom.trim() ? 'pointer' : 'default',
                 transition: 'background 0.2s',
@@ -116,7 +116,7 @@ export default function Onboarding() {
                     <div style={{ flex: 1 }}>
                       <span style={{
                         display: 'block',
-                        fontFamily: "'Playfair Display', serif",
+                        fontFamily: 'var(--font-display)',
                         fontWeight: 900, fontSize: 16,
                         color: 'var(--texte)', lineHeight: 1.2,
                       }}>
