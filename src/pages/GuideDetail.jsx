@@ -164,7 +164,8 @@ export default function GuideDetail() {
   const { data } = useNotionDB(NOTION_DB.guides)
   const { canAccess, isPremium, email } = usePremium()
 
-  const guide = data.map(parseGuide).find(g => g.id === id)
+  const normalize = s => s?.replace(/-/g, '')
+  const guide = data.map(parseGuide).find(g => normalize(g.id) === normalize(id))
   const headings = extractHeadings(blocks)
   const readingTime = estimateReadingTime(blocks)
   const sectionCount = headings.filter(h => h.level === 1).length
