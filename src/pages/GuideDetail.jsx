@@ -24,11 +24,9 @@ function ReadingProgress() {
   return (
     <div style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 100, height: 3, background: 'var(--gris)' }}>
       <div style={{
-        height: '100%',
-        width: `${pct}%`,
+        height: '100%', width: `${pct}%`,
         background: 'linear-gradient(90deg, var(--vert), var(--terra))',
-        borderRadius: '0 2px 2px 0',
-        transition: 'width 0.15s linear',
+        borderRadius: '0 2px 2px 0', transition: 'width 0.15s linear',
       }} />
     </div>
   )
@@ -39,54 +37,23 @@ function TableOfContents({ headings }) {
   const [open, setOpen] = useState(true)
   if (!headings.length) return null
   return (
-    <div style={{
-      background: 'var(--bg-card)',
-      border: '1px solid var(--gris)',
-      borderRadius: 'var(--radius-sm)',
-      marginBottom: 20,
-      overflow: 'hidden',
-    }}>
-      <button
-        onClick={() => setOpen(o => !o)}
-        style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-          width: '100%', padding: '12px 14px',
-          fontSize: 13, fontWeight: 600, color: 'var(--texte)',
-          cursor: 'pointer', background: 'none', border: 'none',
-        }}
-      >
-        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-          <span>📋</span> Sommaire
-        </span>
-        <span style={{
-          color: 'var(--texte-sec)', fontSize: 11,
-          transition: 'transform 0.2s', display: 'inline-block',
-          transform: open ? 'rotate(0deg)' : 'rotate(180deg)',
-        }}>▲</span>
+    <div style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius-sm)', marginBottom: 20, overflow: 'hidden' }}>
+      <button onClick={() => setOpen(o => !o)} style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        width: '100%', padding: '12px 14px',
+        fontSize: 13, fontWeight: 600, color: 'var(--texte)',
+        cursor: 'pointer', background: 'none', border: 'none',
+      }}>
+        <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>📋 Sommaire</span>
+        <span style={{ color: 'var(--texte-sec)', fontSize: 11, transition: 'transform 0.2s', display: 'inline-block', transform: open ? 'rotate(0deg)' : 'rotate(180deg)' }}>▲</span>
       </button>
       {open && (
         <div style={{ borderTop: '1px solid var(--gris)', padding: '6px 0' }}>
           {headings.map(h => (
-            <div
-              key={h.id}
-              onClick={() => {
-                const el = document.getElementById(`notion-${h.id}`)
-                if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-              }}
-              style={{
-                display: 'flex', alignItems: 'center', gap: 10,
-                padding: '7px 14px', fontSize: 13,
-                color: 'var(--texte-sec)', cursor: 'pointer',
-              }}
+            <div key={h.id} onClick={() => { const el = document.getElementById(`notion-${h.id}`); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
+              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 14px', fontSize: 13, color: 'var(--texte-sec)', cursor: 'pointer' }}
             >
-              <div style={{
-                width: h.level === 1 ? 6 : 4,
-                height: h.level === 1 ? 6 : 4,
-                borderRadius: '50%',
-                background: h.level === 1 ? 'var(--vert)' : 'var(--gris-mid)',
-                flexShrink: 0,
-                marginLeft: h.level === 2 ? 4 : 0,
-              }} />
+              <div style={{ width: h.level === 1 ? 6 : 4, height: h.level === 1 ? 6 : 4, borderRadius: '50%', background: h.level === 1 ? 'var(--vert)' : 'var(--gris-mid)', flexShrink: 0, marginLeft: h.level === 2 ? 4 : 0 }} />
               <span style={{ lineHeight: 1.4 }}>{h.text}</span>
             </div>
           ))}
@@ -96,7 +63,7 @@ function TableOfContents({ headings }) {
   )
 }
 
-/* ── Bouton bookmark avec tooltip ── */
+/* ── Bouton bookmark ── */
 function BookmarkButton({ guide, email }) {
   const { isSaved, toggle } = useSavedGuides(email)
   const saved = isSaved(guide.id)
@@ -112,46 +79,49 @@ function BookmarkButton({ guide, email }) {
       tipRef.current = setTimeout(() => setShowTip(false), 2800)
     }
   }
-
   useEffect(() => () => clearTimeout(tipRef.current), [])
 
   return (
     <div style={{ position: 'relative' }}>
-      <button
-        onClick={handleClick}
-        title={saved ? 'Retirer des favoris' : 'Sauvegarder ce guide'}
-        style={{
-          width: 36, height: 36,
-          borderRadius: '50%',
-          background: saved ? 'var(--vert-light)' : 'var(--bg-card)',
-          border: `1.5px solid ${saved ? 'var(--vert)' : 'var(--gris)'}`,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 16, cursor: 'pointer',
-          transition: 'all 0.18s',
-          flexShrink: 0,
-        }}
-      >
+      <button onClick={handleClick} title={saved ? 'Retirer des favoris' : 'Sauvegarder ce guide'} style={{
+        width: 36, height: 36, borderRadius: '50%',
+        background: saved ? 'var(--vert-light)' : 'var(--bg-card)',
+        border: `1.5px solid ${saved ? 'var(--vert)' : 'var(--gris)'}`,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 16, cursor: 'pointer', transition: 'all 0.18s', flexShrink: 0,
+      }}>
         {saved ? '🔖' : '🏷'}
       </button>
-
       {showTip && (
         <div style={{
           position: 'absolute', bottom: 'calc(100% + 10px)', right: 0,
           background: 'var(--encre)', color: 'white',
-          fontSize: 12, lineHeight: 1.45,
-          padding: '8px 12px', borderRadius: 10,
-          whiteSpace: 'nowrap', zIndex: 200,
-          boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
+          fontSize: 12, lineHeight: 1.45, padding: '8px 12px', borderRadius: 10,
+          whiteSpace: 'nowrap', zIndex: 200, boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
           animation: 'fadeInUp 0.2s ease',
         }}>
           ✅ Sauvegardé dans <strong>Mon espace</strong>
-          <div style={{
-            position: 'absolute', bottom: -5, right: 12,
-            width: 10, height: 10, background: 'var(--encre)',
-            transform: 'rotate(45deg)', borderRadius: 2,
-          }} />
+          <div style={{ position: 'absolute', bottom: -5, right: 12, width: 10, height: 10, background: 'var(--encre)', transform: 'rotate(45deg)', borderRadius: 2 }} />
         </div>
       )}
+    </div>
+  )
+}
+
+/* ── Skeleton header pendant le chargement des métadonnées ── */
+function HeaderSkeleton() {
+  return (
+    <div style={{ paddingTop: 52, marginBottom: 4 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 20, opacity: 0.4 }}>
+        <span style={{ color: 'var(--vert)', fontSize: 13 }}>← Retour aux guides</span>
+      </div>
+      <div style={{ height: 14, background: 'var(--gris)', borderRadius: 8, width: '40%', marginBottom: 14 }} />
+      <div style={{ height: 28, background: 'var(--gris)', borderRadius: 8, width: '90%', marginBottom: 10 }} />
+      <div style={{ height: 22, background: 'var(--gris)', borderRadius: 8, width: '70%', marginBottom: 16 }} />
+      <div style={{ display: 'flex', gap: 8 }}>
+        <div style={{ height: 26, background: 'var(--gris)', borderRadius: 20, width: 80 }} />
+        <div style={{ height: 26, background: 'var(--gris)', borderRadius: 20, width: 100 }} />
+      </div>
     </div>
   )
 }
@@ -160,15 +130,20 @@ function BookmarkButton({ guide, email }) {
 export default function GuideDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
-  const { blocks, loading } = useNotionBlocks(id)
-  const { data } = useNotionDB(NOTION_DB.guides)
+  const { blocks, loading: blocksLoading } = useNotionBlocks(id)
+  const { data, loading: dataLoading } = useNotionDB(NOTION_DB.guides)
   const { canAccess, isPremium, email } = usePremium()
 
   const normalize = s => s?.replace(/-/g, '')
   const guide = data.map(parseGuide).find(g => normalize(g.id) === normalize(id))
+
   const headings = extractHeadings(blocks)
   const readingTime = estimateReadingTime(blocks)
   const sectionCount = headings.filter(h => h.level === 1).length
+
+  /* Chargement combiné — on attend les métadonnées ET les blocs */
+  const metaReady = !dataLoading
+  const contentReady = !blocksLoading
 
   return (
     <div className="page" style={{ padding: 0 }}>
@@ -178,88 +153,74 @@ export default function GuideDetail() {
       <div style={{ padding: '0 20px 100px' }}>
 
         {/* ── Header ── */}
-        <div style={{ paddingTop: 52, marginBottom: 4 }}>
-          <button
-            onClick={() => navigate(-1)}
-            style={{
+        {!metaReady ? (
+          <HeaderSkeleton />
+        ) : (
+          <div style={{ paddingTop: 52, marginBottom: 4 }}>
+            <button onClick={() => navigate(-1)} style={{
               display: 'flex', alignItems: 'center', gap: 6,
               color: 'var(--vert)', fontSize: 13, fontWeight: 500,
-              marginBottom: 20, cursor: 'pointer',
-              background: 'none', border: 'none', padding: 0,
-            }}
-          >
-            ← Retour aux guides
-          </button>
+              marginBottom: 20, cursor: 'pointer', background: 'none', border: 'none', padding: 0,
+            }}>
+              ← Retour aux guides
+            </button>
 
-          {guide && (
-            <>
-              {/* Badges */}
-              <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
-                {guide.category && <span className="badge badge-gris">{guide.category}</span>}
-                {guide.isPiege && <span className="badge badge-ocre">⚠️ Piège fréquent</span>}
-                {guide.access !== '🟢 Public' && <span className="badge badge-miel">💎 Premium</span>}
-              </div>
-
-              {/* Titre + bouton bookmark */}
-              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 14 }}>
-                <h1 style={{
-                  flex: 1,
-                  fontFamily: 'var(--font-titre)',
-                  fontStyle: 'italic',
-                  fontWeight: 300,
-                  fontSize: 26,
-                  color: 'var(--foret)',
-                  lineHeight: 1.25,
-                }}>
-                  {guide.title}
-                </h1>
-                {isPremium && <BookmarkButton guide={guide} email={email} />}
-              </div>
-
-              {/* Stats pills */}
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
-                <div style={{
-                  display: 'flex', alignItems: 'center', gap: 5,
-                  background: 'var(--bg-card)', border: '1px solid var(--gris)',
-                  borderRadius: 20, padding: '4px 12px',
-                  fontSize: 12, color: 'var(--texte-sec)', fontWeight: 500,
-                }}>
-                  <span>⏱</span><span>~{readingTime} min</span>
+            {guide ? (
+              <>
+                {/* Badges */}
+                <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
+                  {guide.category && <span className="badge badge-gris">{guide.category}</span>}
+                  {guide.isPiege && <span className="badge badge-ocre">⚠️ Piège fréquent</span>}
+                  {guide.access !== '🟢 Public' && <span className="badge badge-miel">💎 Premium</span>}
                 </div>
-                {sectionCount > 0 && (
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: 5,
-                    background: 'var(--bg-card)', border: '1px solid var(--gris)',
-                    borderRadius: 20, padding: '4px 12px',
-                    fontSize: 12, color: 'var(--texte-sec)', fontWeight: 500,
-                  }}>
-                    <span>📑</span><span>{sectionCount} section{sectionCount > 1 ? 's' : ''}</span>
-                  </div>
-                )}
-                {guide.source && (
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: 5,
-                    background: 'var(--bg-card)', border: '1px solid var(--gris)',
-                    borderRadius: 20, padding: '4px 12px',
-                    fontSize: 12, color: 'var(--texte-sec)', fontWeight: 500,
-                  }}>
-                    <span>✅</span><span>{guide.source}</span>
-                  </div>
-                )}
-              </div>
 
-              {/* Table des matières */}
-              {!loading && headings.length >= 3 && (
-                <TableOfContents headings={headings} />
-              )}
-            </>
-          )}
-        </div>
+                {/* Titre + bookmark */}
+                <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, marginBottom: 14 }}>
+                  <h1 style={{
+                    flex: 1, fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+                    fontWeight: 300, fontSize: 'var(--fs-2xl)', color: 'var(--foret)', lineHeight: 1.25,
+                  }}>
+                    {guide.title}
+                  </h1>
+                  {isPremium && <BookmarkButton guide={guide} email={email} />}
+                </div>
+
+                {/* Stats pills */}
+                <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 16 }}>
+                  {[
+                    { icon: '⏱', text: `~${readingTime} min` },
+                    sectionCount > 0 && { icon: '📑', text: `${sectionCount} section${sectionCount > 1 ? 's' : ''}` },
+                    guide.source && { icon: '✅', text: guide.source },
+                  ].filter(Boolean).map((pill, i) => (
+                    <div key={i} style={{
+                      display: 'flex', alignItems: 'center', gap: 5,
+                      background: 'var(--bg-card)', border: '1px solid var(--gris)',
+                      borderRadius: 20, padding: '4px 12px',
+                      fontSize: 12, color: 'var(--texte-sec)', fontWeight: 500,
+                    }}>
+                      <span>{pill.icon}</span><span>{pill.text}</span>
+                    </div>
+                  ))}
+                </div>
+
+                {/* TOC */}
+                {contentReady && headings.length >= 3 && (
+                  <TableOfContents headings={headings} />
+                )}
+              </>
+            ) : (
+              /* Guide non trouvé dans la DB — affiche juste le titre générique */
+              <p style={{ fontSize: 'var(--fs-sm)', color: 'var(--texte-sec)', marginBottom: 16 }}>
+                Chargement du guide…
+              </p>
+            )}
+          </div>
+        )}
 
         <div className="divider" />
 
         {/* ── Contenu ── */}
-        {loading ? (
+        {!contentReady ? (
           <div className="spinner">Chargement du contenu…</div>
         ) : guide && !canAccess(guide.access) ? (
           <PremiumGate accessLevel={guide.access}>
@@ -281,7 +242,6 @@ export default function GuideDetail() {
   )
 }
 
-/* Wrapper qui injecte des ancres sur les headings pour la TOC */
 function NotionBlocksWithAnchors({ blocks }) {
   if (!blocks?.length) return null
   return (
