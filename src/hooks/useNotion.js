@@ -35,6 +35,24 @@ export function useNotionDB(dbId, filter = null) {
   return { data, loading, error }
 }
 
+/* Fetch une page Notion directement par son ID — sans passer par la liste */
+export function useNotionPage(pageId) {
+  const [page, setPage] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    if (!pageId) return
+    setLoading(true)
+    notionFetch('get_page', pageId)
+      .then(res => setPage(res))
+      .catch(e => setError(e.message))
+      .finally(() => setLoading(false))
+  }, [pageId])
+
+  return { page, loading, error }
+}
+
 export function useNotionBlocks(pageId) {
   const [blocks, setBlocks] = useState([])
   const [loading, setLoading] = useState(true)
