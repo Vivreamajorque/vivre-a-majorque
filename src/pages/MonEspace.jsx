@@ -290,43 +290,80 @@ function CockpitFull({ profileNotion, profileId, onUpgrade }) {
             return (
               <div
                 key={step.id}
-                onClick={() => toggle(step.id)}
                 style={{
                   background: isDone ? 'var(--vert-light)' : 'white',
                   border: `1px solid ${isDone ? 'rgba(90,122,64,0.2)' : 'var(--gris)'}`,
-                  borderRadius: 10, padding: '12px 14px', marginBottom: 6,
-                  display: 'flex', gap: 10, alignItems: 'flex-start',
-                  cursor: 'pointer', transition: 'background 0.15s',
+                  borderRadius: 10, marginBottom: 6,
+                  overflow: 'hidden', transition: 'background 0.15s',
                 }}
               >
-                <div style={{
-                  width: 22, height: 22, borderRadius: 6, flexShrink: 0, marginTop: 1,
-                  border: `2px solid ${isDone ? 'var(--foret)' : 'var(--gris)'}`,
-                  background: isDone ? 'var(--foret)' : 'transparent',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.15s',
-                }}>
-                  {isDone && <span style={{ color: 'white', fontSize: 13, fontWeight: 900 }}>✓</span>}
-                </div>
-                <div style={{ flex: 1 }}>
-                  <p style={{
-                    fontSize: 14, fontWeight: 500, lineHeight: 1.4, marginBottom: 4,
-                    color: isDone ? 'var(--texte-sec)' : 'var(--foret)',
-                    textDecoration: isDone ? 'line-through' : 'none',
-                  }}>{step.etape}</p>
-                  <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
-                    {step.categorie && <span className="badge badge-gris" style={{ fontSize: 10 }}>{step.categorie}</span>}
-                    {step.priorite === '🔴 Urgent' && <span className="badge badge-ocre" style={{ fontSize: 10 }}>Urgent</span>}
-                    {step.delai && <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>⏱ {step.delai}</span>}
-                  </div>
-                </div>
-                {step.guideId && (
-                  <button
-                    onClick={e => { e.stopPropagation(); navigate(`/app/guide/${step.guideId}`) }}
-                    style={{ color: 'var(--foret)', fontSize: 12, fontWeight: 500, flexShrink: 0, marginTop: 2, background: 'none', border: 'none', cursor: 'pointer' }}
+                {/* Zone principale — clique sur guide si dispo, sinon coche */}
+                <div
+                  onClick={() => {
+                    if (step.guideId) {
+                      navigate(`/app/guide/${step.guideId}?stepId=${step.id}&profileId=${profileId}`)
+                    } else {
+                      toggle(step.id)
+                    }
+                  }}
+                  style={{
+                    display: 'flex', gap: 10, alignItems: 'flex-start',
+                    padding: '12px 14px', cursor: 'pointer',
+                  }}
+                >
+                  {/* Checkbox — coche directement sans ouvrir le guide */}
+                  <div
+                    onClick={e => { e.stopPropagation(); toggle(step.id) }}
+                    style={{
+                      width: 22, height: 22, borderRadius: 6, flexShrink: 0, marginTop: 1,
+                      border: `2px solid ${isDone ? 'var(--foret)' : 'var(--gris)'}`,
+                      background: isDone ? 'var(--foret)' : 'transparent',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      transition: 'all 0.15s', cursor: 'pointer',
+                    }}
                   >
-                    Guide →
-                  </button>
+                    {isDone && <span style={{ color: 'white', fontSize: 13, fontWeight: 900 }}>✓</span>}
+                  </div>
+
+                  {/* Texte */}
+                  <div style={{ flex: 1, minWidth: 0 }}>
+                    <p style={{
+                      fontSize: 14, fontWeight: 500, lineHeight: 1.4, marginBottom: 4,
+                      color: isDone ? 'var(--texte-sec)' : 'var(--foret)',
+                      textDecoration: isDone ? 'line-through' : 'none',
+                    }}>{step.etape}</p>
+                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
+                      {step.categorie && <span className="badge badge-gris" style={{ fontSize: 10 }}>{step.categorie}</span>}
+                      {step.priorite === '🔴 Urgent' && <span className="badge badge-ocre" style={{ fontSize: 10 }}>Urgent</span>}
+                      {step.delai && <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>⏱ {step.delai}</span>}
+                    </div>
+                  </div>
+
+                  {/* Indicateur guide dispo */}
+                  {step.guideId && (
+                    <span style={{
+                      fontSize: 16, flexShrink: 0, marginTop: 2,
+                      color: 'var(--vert)', opacity: 0.8,
+                    }}>›</span>
+                  )}
+                </div>
+
+                {/* Bannière "Guide disponible" si guide lié et étape non cochée */}
+                {step.guideId && !isDone && (
+                  <div
+                    onClick={() => navigate(`/app/guide/${step.guideId}?stepId=${step.id}&profileId=${profileId}`)}
+                    style={{
+                      borderTop: '1px solid var(--gris)',
+                      padding: '8px 14px',
+                      display: 'flex', alignItems: 'center', gap: 6,
+                      fontSize: 12, color: 'var(--vert)', fontWeight: 600,
+                      cursor: 'pointer', background: 'var(--vert-light)',
+                    }}
+                  >
+                    <span>📖</span>
+                    <span>Lire le guide pour valider cette étape</span>
+                    <span style={{ marginLeft: 'auto' }}>→</span>
+                  </div>
                 )}
               </div>
             )

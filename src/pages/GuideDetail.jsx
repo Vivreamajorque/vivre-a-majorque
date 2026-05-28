@@ -1,11 +1,34 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useNotionBlocks, useNotionPage, parseGuide } from '../hooks/useNotion'
 import { usePremium } from '../context/PremiumContext'
 import { useSavedGuides } from '../hooks/useSavedGuides'
 import NotionBlocks, { extractHeadings, estimateReadingTime } from '../components/NotionBlocks'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import PremiumGate from '../components/PremiumGate'
+
+/* ── Coche une étape Cockpit dans localStorage ── */
+function useCockpitStep(stepId, profileId) {
+  const [done, setDone] = useState(() => {
+    if (!stepId || !profileId) return false
+    try {
+      return new Set(JSON.parse(localStorage.getItem(`vmaq_done_${profileId}`) || '[]')).has(stepId)
+    } catch { return false }
+  })
+
+  const validate = useCallback(() => {
+    if (!stepId || !profileId) return
+    const KEY = `vmaq_done_${profileId}`
+    try {
+      const current = new Set(JSON.parse(localStorage.getItem(KEY) || '[]'))
+      current.add(stepId)
+      localStorage.setItem(KEY, JSON.stringify([...current]))
+      setDone(true)
+    } catch {}
+  }, [stepId, profileId])
+
+  return { done, validate }
+}
 
 /* ── Barre de progression ── */
 function ReadingProgress() {
@@ -111,7 +134,7 @@ function BookmarkButton({ guide, email }) {
 function HeaderSkeleton() {
   return (
     <div style={{ paddingTop: 52, marginBottom: 4 }}>
-      <div style={{ height: 16, background: 'var(--gris)', borderRadius: 8, width: '35%', marginBottom: 20, opacity: 0.6 }} />
+      <div style={{ height: 16, background: 'var(--gris)', borderRadius: 8, width: '35%', marginBottom: 20, opacity: 0.5 }} />
       <div style={{ height: 14, background: 'var(--gris)', borderRadius: 6, width: '40%', marginBottom: 14, opacity: 0.4 }} />
       <div style={{ height: 30, background: 'var(--gris)', borderRadius: 8, width: '95%', marginBottom: 8, opacity: 0.4 }} />
       <div style={{ height: 30, background: 'var(--gris)', borderRadius: 8, width: '75%', marginBottom: 16, opacity: 0.4 }} />
@@ -123,12 +146,89 @@ function HeaderSkeleton() {
   )
 }
 
+/* ── CTA validation étape Cockpit ── */
+function CockpitValidationCTA({ stepId, profileId }) {
+  const navigate = useNavigate()
+  const { done, validate } = useCockpitStep(stepId, profileId)
+  const [justValidated, setJustValidated] = useState(false)
+
+  const handleValidate = () => {
+    validate()
+    setJustValidated(true)
+    setTimeout(() => navigate(-1), 1200)
+  }
+
+  if (done && !justValidated) {
+    return (
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        background: 'var(--vert-light)',
+        border: '1px solid rgba(90,173,165,0.3)',
+        borderRadius: 'var(--radius)', padding: '16px 18px',
+        marginTop: 24,
+      }}>
+        <span style={{ fontSize: 22 }}>✅</span>
+        <div>
+          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 15, color: 'var(--foret)', fontWeight: 600, marginBottom: 2 }}>
+            Étape déjà validée
+          </p>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+            Cette étape est cochée dans votre Cockpit.
+          </p>
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{
+      background: 'var(--foret)',
+      borderRadius: 'var(--radius)',
+      padding: '20px 18px',
+      marginTop: 24,
+      textAlign: 'center',
+    }}>
+      {justValidated ? (
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 10, color: 'white' }}>
+          <span style={{ fontSize: 22 }}>✅</span>
+          <span style={{ fontFamily: 'var(--font-titre)', fontSize: 16, fontWeight: 600 }}>Étape validée ! Retour au Cockpit…</span>
+        </div>
+      ) : (
+        <>
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, marginBottom: 14, lineHeight: 1.5 }}>
+            Vous avez lu ce guide ?
+          </p>
+          <button
+            onClick={handleValidate}
+            style={{
+              background: 'white',
+              color: 'var(--foret)',
+              border: 'none',
+              borderRadius: 20,
+              padding: '12px 28px',
+              fontSize: 14, fontWeight: 700,
+              cursor: 'pointer',
+              display: 'inline-flex', alignItems: 'center', gap: 8,
+            }}
+          >
+            <span>✅</span> Valider cette étape
+          </button>
+        </>
+      )}
+    </div>
+  )
+}
+
 /* ── Page principale ── */
 export default function GuideDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
+  const [searchParams] = useSearchParams()
 
-  /* Fetch la page guide DIRECTEMENT par son ID — fiable depuis n'importe quel contexte */
+  /* Contexte Cockpit — présent seulement si on arrive depuis Mon Espace */
+  const stepId    = searchParams.get('stepId')
+  const profileId = searchParams.get('profileId')
+
   const { page: rawPage, loading: pageLoading } = useNotionPage(id)
   const { blocks, loading: blocksLoading } = useNotionBlocks(id)
   const { canAccess, isPremium, email } = usePremium()
@@ -155,11 +255,26 @@ export default function GuideDetail() {
               color: 'var(--vert)', fontSize: 13, fontWeight: 500,
               marginBottom: 20, cursor: 'pointer', background: 'none', border: 'none', padding: 0,
             }}>
-              ← Retour aux guides
+              ← {stepId ? 'Retour au Cockpit' : 'Retour aux guides'}
             </button>
 
             {guide && (
               <>
+                {/* Bandeau Cockpit si contexte */}
+                {stepId && (
+                  <div style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    background: 'rgba(45,80,22,0.07)',
+                    border: '1px solid rgba(45,80,22,0.15)',
+                    borderRadius: 'var(--radius-sm)',
+                    padding: '8px 12px', marginBottom: 14,
+                    fontSize: 12, color: 'var(--foret)', fontWeight: 500,
+                  }}>
+                    <span>🧭</span>
+                    <span>Étape de votre Cockpit — lisez et validez en bas de page</span>
+                  </div>
+                )}
+
                 {/* Badges */}
                 <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexWrap: 'wrap', alignItems: 'center' }}>
                   {guide.category && <span className="badge badge-gris">{guide.category}</span>}
@@ -219,12 +334,18 @@ export default function GuideDetail() {
         ) : (
           <>
             <NotionBlocksWithAnchors blocks={blocks} />
-            <div style={{ margin: '32px 0 0' }}>
-              <AccompagnementBanner
-                texte="Cette démarche vous semble complexe à appliquer à votre situation personnelle ?"
-                cta="Je vous accompagne pas à pas →"
-              />
-            </div>
+
+            {/* CTA validation Cockpit — uniquement si on vient du Cockpit */}
+            {stepId && profileId ? (
+              <CockpitValidationCTA stepId={stepId} profileId={profileId} />
+            ) : (
+              <div style={{ margin: '32px 0 0' }}>
+                <AccompagnementBanner
+                  texte="Cette démarche vous semble complexe à appliquer à votre situation personnelle ?"
+                  cta="Je vous accompagne pas à pas →"
+                />
+              </div>
+            )}
           </>
         )}
       </div>
