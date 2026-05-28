@@ -243,7 +243,7 @@ export default function Guides() {
   return (
     <div className="page">
       <div className="page-header">
-        <h1 style={{ fontFamily: 'var(--font-titre)', fontSize: 24, color: 'var(--foret)' }}>Guides</h1>
+        <PageHeading label="ta boîte à outils" title="Guides" accentColor={VERT} traitColor={VERT} />
         {profile && <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4 }}>{profile.emoji} {profile.label}</p>}
       </div>
       {SearchBar}

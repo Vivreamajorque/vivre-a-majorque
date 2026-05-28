@@ -176,7 +176,7 @@ function ActuCarousel({ actus, loading }) {
 
 /* ── Grille navigation ──────────────────────────────────── */
 const NAV_CARDS = [
-  { to: '/app/guides',         icon: '📚', context: 'admin, logement, santé', title: 'Guides',      color: TERRA },
+  { to: '/app/guides',         icon: '📚', context: '100+ fiches admin', title: 'Guides',      color: TERRA },
   { to: '/app/explorer',       icon: '🌴', context: 'lifestyle & sorties',    title: 'Explorer',    color: VERT  },
   { to: '/app/moi',            icon: '✅', context: 'mes étapes',             title: 'Cockpit',     color: TERRA },
   { to: '/app/explorer/outils',icon: '🧮', context: 'budget, autónoma…',      title: 'Simulateurs', color: VERT  },
@@ -197,16 +197,23 @@ export default function Home() {
           <div>
             <ContextLabel color={VERT} size={14}>bienvenue,</ContextLabel>
             <DisplayTitle size={38}>{prenom || 'Bonjour'}</DisplayTitle>
-            <AccentWord color={TERRA} size={22} style={{ fontStyle: 'italic' }}>
-              {profile.emoji} {profile.label}
-            </AccentWord>
+            <AccentWord color={TERRA} size={22}>{profile.emoji} {profile.label}</AccentWord>
             <Trait color={TERRA} width={40} />
           </div>
         ) : (
           <div>
-            <ContextLabel color={VERT} size={14}>tout ce qu'il faut pour</ContextLabel>
-            <DisplayTitle size={36}>vraiment</DisplayTitle>
-            <AccentWord color={TERRA} size={30}>partir.</AccentWord>
+            {/* 3 couleurs : vert / encre / terra */}
+            <span style={{
+              display: 'block',
+              fontFamily: 'var(--font-titre)',
+              fontStyle: 'italic', fontWeight: 400,
+              fontSize: 18, color: VERT,
+              lineHeight: 1.2, marginBottom: 2,
+            }}>
+              l'appli pour
+            </span>
+            <DisplayTitle size={38}>s'installer</DisplayTitle>
+            <AccentWord color={TERRA} size={38}>à Majorque</AccentWord>
             <Trait color={TERRA} width={40} />
           </div>
         )}
