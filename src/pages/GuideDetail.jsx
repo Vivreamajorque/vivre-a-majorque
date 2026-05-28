@@ -7,6 +7,20 @@ import NotionBlocks, { extractHeadings, estimateReadingTime } from '../component
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import PremiumGate from '../components/PremiumGate'
 
+/* ── Guides liés à un simulateur de l'app ── */
+const GUIDE_SIMULATEURS = {
+  '36891a14-59f7-81ba-a303-c227233bf3d1': {
+    label: '🧮 Simulateur Budget mensuel',
+    desc: 'Calculez votre budget personnalisé selon votre composition familiale et votre mode de vie.',
+    path: '/app/outils/budget',
+  },
+  '36a91a14-59f7-8155-a9a9-d2cb4b457044': {
+    label: '🧮 Simulateur Coût d\'installation',
+    desc: 'Estimez précisément le capital de départ nécessaire selon votre situation.',
+    path: '/app/outils/cout',
+  },
+}
+
 /* ── Coche une étape Cockpit dans localStorage ── */
 function useCockpitStep(stepId, profileId) {
   const [done, setDone] = useState(() => {
@@ -335,11 +349,44 @@ export default function GuideDetail() {
           <>
             <NotionBlocksWithAnchors blocks={blocks} />
 
+            {/* CTA simulateur si guide lié à un outil */}
+            {guide && (() => {
+              const sim = GUIDE_SIMULATEURS[guide.id] || GUIDE_SIMULATEURS[guide.id?.replace(/-/g,'')]
+              if (!sim) return null
+              return (
+                <div style={{
+                  background: 'linear-gradient(135deg, var(--foret) 0%, #3D6B20 100%)',
+                  borderRadius: 'var(--radius)', padding: '20px 18px', marginTop: 24,
+                }}>
+                  <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: 13, marginBottom: 4 }}>
+                    Outil interactif disponible
+                  </p>
+                  <p style={{ fontFamily: 'var(--font-titre)', fontSize: 18, color: 'white', fontWeight: 600, marginBottom: 8, lineHeight: 1.3 }}>
+                    {sim.label}
+                  </p>
+                  <p style={{ color: 'rgba(255,255,255,0.75)', fontSize: 14, lineHeight: 1.5, marginBottom: 14 }}>
+                    {sim.desc}
+                  </p>
+                  <button
+                    onClick={() => navigate(sim.path)}
+                    style={{
+                      background: 'white', color: 'var(--foret)',
+                      border: 'none', borderRadius: 20,
+                      padding: '11px 22px', fontSize: 14, fontWeight: 700,
+                      cursor: 'pointer', display: 'inline-flex', alignItems: 'center', gap: 6,
+                    }}
+                  >
+                    Lancer le simulateur →
+                  </button>
+                </div>
+              )
+            })()}
+
             {/* CTA validation Cockpit — uniquement si on vient du Cockpit */}
             {stepId && profileId ? (
               <CockpitValidationCTA stepId={stepId} profileId={profileId} />
             ) : (
-              <div style={{ margin: '32px 0 0' }}>
+              <div style={{ margin: '24px 0 0' }}>
                 <AccompagnementBanner
                   texte="Cette démarche vous semble complexe à appliquer à votre situation personnelle ?"
                   cta="Je vous accompagne pas à pas →"
