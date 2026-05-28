@@ -73,7 +73,7 @@ export default function Explorer() {
     <div className="page">
       <div className="page-header">
         <PageHeading label="découvre" title="Explorer" accentColor={TERRA} traitColor={TERRA} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginTop: 4 }}>
           Ressources pour votre vie à Majorque
         </p>
       </div>
@@ -96,7 +96,7 @@ export default function Explorer() {
               {card.coming && (
                 <span style={{
                   position: 'absolute', top: 8, right: 8,
-                  fontSize: 10, background: 'rgba(0,0,0,0.08)',
+                  fontSize: 12, background: 'rgba(0,0,0,0.08)',
                   color: 'var(--texte-sec)', padding: '2px 7px',
                   borderRadius: 20, fontWeight: 700,
                 }}>{card.comingLabel || 'À venir'}</span>
@@ -104,9 +104,9 @@ export default function Explorer() {
               <span style={{ fontSize: 26 }}>{card.emoji}</span>
               <span style={{
                 fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 18,
-                color: 'var(--foret)', fontWeight: 700, lineHeight: 1.2,
+                color: 'var(--foret)', fontWeight: 700, lineHeight: 1.25,
               }}>{card.title}</span>
-              <span style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>
+              <span style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.40 }}>
                 {card.desc}
               </span>
             </div>

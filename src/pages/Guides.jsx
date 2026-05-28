@@ -40,7 +40,7 @@ function PourVousBadge({ color }) {
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center', gap: 3,
-      fontSize: 10, fontWeight: 700,
+      fontSize: 12, fontWeight: 700,
       color: color || 'var(--vert)',
       background: `${color || 'var(--vert)'}18`,
       border: `1px solid ${color || 'var(--vert)'}40`,
@@ -59,7 +59,7 @@ function SortPill({ active, onClick, label }) {
     <button onClick={onClick} style={{
       display: 'inline-flex', alignItems: 'center', gap: 5,
       padding: '6px 14px', borderRadius: 20,
-      fontSize: 12, fontWeight: 600, cursor: 'pointer',
+      fontSize: 13, fontWeight: 600, cursor: 'pointer',
       border: `1.5px solid ${active ? 'var(--vert)' : 'var(--gris)'}`,
       background: active ? 'var(--vert-light)' : 'var(--bg-card)',
       color: active ? 'var(--vert)' : 'var(--texte-sec)',
@@ -100,12 +100,12 @@ function GuideCard({ guide, onOpen, onPaywall, profile }) {
       }}
     >
       {!accessible && (
-        <span style={{ position: 'absolute', top: 8, right: 8, fontSize: 13, color: 'var(--texte-sec)' }}>🔒</span>
+        <span style={{ position: 'absolute', top: 8, right: 8, fontSize: 14, color: 'var(--texte-sec)' }}>🔒</span>
       )}
       <p style={{
-        fontWeight: 500, fontSize: 13,
+        fontWeight: 500, fontSize: 14,
         color: accessible ? 'var(--foret)' : 'var(--texte-sec)',
-        lineHeight: 1.4,
+        lineHeight: 1.40,
         display: '-webkit-box', WebkitLineClamp: 4,
         WebkitBoxOrient: 'vertical', overflow: 'hidden',
         marginBottom: 8,
@@ -115,8 +115,8 @@ function GuideCard({ guide, onOpen, onPaywall, profile }) {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 4 }}>
         {isForMe && <PourVousBadge color={profileColor} />}
         {accessible
-          ? <span style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 600, marginLeft: 'auto' }}>Lire →</span>
-          : <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>Premium</span>
+          ? <span style={{ fontSize: 13, color: 'var(--foret)', fontWeight: 600, marginLeft: 'auto' }}>Lire →</span>
+          : <span style={{ fontSize: 12, color: 'var(--texte-sec)' }}>Premium</span>
         }
       </div>
     </div>
@@ -145,11 +145,11 @@ function SearchResultCard({ guide, onOpen, onPaywall, profile }) {
       }}
     >
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 13, fontWeight: 500, color: accessible ? 'var(--foret)' : 'var(--texte-sec)', lineHeight: 1.4, marginBottom: 5 }}>
+        <p style={{ fontSize: 14, fontWeight: 500, color: accessible ? 'var(--foret)' : 'var(--texte-sec)', lineHeight: 1.40, marginBottom: 5 }}>
           {guide.title}
         </p>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-          <span style={{ fontSize: 11, color: 'var(--texte-sec)', background: 'var(--gris)', padding: '2px 8px', borderRadius: 20 }}>
+          <span style={{ fontSize: 12, color: 'var(--texte-sec)', background: 'var(--gris)', padding: '2px 8px', borderRadius: 20 }}>
             {CAT_EMOJIS[guide.category] || '📄'} {guide.category}
           </span>
           {isForMe && <PourVousBadge color={profileColor} />}
@@ -252,7 +252,7 @@ export default function Guides() {
         style={{
           width: '100%', padding: '11px 36px 11px 38px',
           border: '1.5px solid var(--gris)', borderRadius: 12,
-          fontSize: 14, background: 'white', color: 'var(--foret)',
+          fontSize: 16, background: 'white', color: 'var(--foret)',
           outline: 'none', boxSizing: 'border-box',
         }}
       />
@@ -282,7 +282,7 @@ export default function Guides() {
         <PageHeading label="ta boîte à outils" accent="Guides" color={VERT} accentSize={34} />
       </div>
       {SearchBar}
-      <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
+      <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 12 }}>
         {searchResults.length} résultat{searchResults.length !== 1 ? 's' : ''} pour « {search} »
       </p>
       {searchResults.length === 0
@@ -312,18 +312,18 @@ export default function Guides() {
             color: 'var(--foret)', padding: 0, marginBottom: 8,
             display: 'flex', alignItems: 'center', gap: 6,
           }}>
-            ← <span style={{ fontSize: 13 }}>Catégories</span>
+            ← <span style={{ fontSize: 14 }}>Catégories</span>
           </button>
           <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
             <span style={{ fontSize: 22 }}>{CAT_EMOJIS[selectedCat] || '📄'}</span>
             <AccentWord color={VERT} size={26}>{selectedCat}</AccentWord>
           </div>
           <div style={{ display: 'flex', gap: 8, alignItems: 'center', marginTop: 6, flexWrap: 'wrap' }}>
-            <span style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+            <span style={{ fontSize: 14, color: 'var(--texte-sec)' }}>
               {catGuides.length} guide{catGuides.length > 1 ? 's' : ''}
             </span>
             {lockedCount > 0 && (
-              <span onClick={() => setShowPaywall(true)} style={{ fontSize: 12, color: 'var(--foret)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 500 }}>
+              <span onClick={() => setShowPaywall(true)} style={{ fontSize: 13, color: 'var(--foret)', cursor: 'pointer', textDecoration: 'underline', fontWeight: 500 }}>
                 · {lockedCount} en Premium →
               </span>
             )}
@@ -367,9 +367,9 @@ export default function Guides() {
         <PageHeading label="ta boîte à outils" title="Guides" accentColor={VERT} traitColor={VERT} />
         {activeProfile && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
-            <span style={{ fontSize: 13 }}>{activeProfile.emoji}</span>
-            <span style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{activeProfile.label}</span>
-            <span style={{ fontSize: 11, color: activeProfile.color, background: `${activeProfile.color}15`, padding: '1px 8px', borderRadius: 20, fontWeight: 600, marginLeft: 2 }}>
+            <span style={{ fontSize: 14 }}>{activeProfile.emoji}</span>
+            <span style={{ fontSize: 14, color: 'var(--texte-sec)' }}>{activeProfile.label}</span>
+            <span style={{ fontSize: 12, color: activeProfile.color, background: `${activeProfile.color}15`, padding: '1px 8px', borderRadius: 20, fontWeight: 600, marginLeft: 2 }}>
               ✦ guides fléchés pour vous
             </span>
           </div>
@@ -398,11 +398,11 @@ export default function Guides() {
                   }} />
                 )}
                 <span style={{ fontSize: 26 }}>{CAT_EMOJIS[cat] || '📄'}</span>
-                <span style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', fontWeight: 600, lineHeight: 1.3 }}>{cat}</span>
+                <span style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', fontWeight: 600, lineHeight: 1.30 }}>{cat}</span>
                 <div style={{ display: 'flex', gap: 5, alignItems: 'center', flexWrap: 'wrap' }}>
-                  <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>{freeCount} gratuit{freeCount > 1 ? 's' : ''}</span>
+                  <span style={{ fontSize: 12, color: 'var(--texte-sec)' }}>{freeCount} gratuit{freeCount > 1 ? 's' : ''}</span>
                   {total - freeCount > 0 && (
-                    <span style={{ fontSize: 10, padding: '1px 6px', borderRadius: 20, background: 'var(--vert-light)', color: 'var(--foret)', fontWeight: 600 }}>
+                    <span style={{ fontSize: 12, padding: '1px 6px', borderRadius: 20, background: 'var(--vert-light)', color: 'var(--foret)', fontWeight: 600 }}>
                       +{total - freeCount} Premium
                     </span>
                   )}
@@ -410,7 +410,7 @@ export default function Guides() {
                 {/* Badge "pour vous" sur la tuile */}
                 {activeProfile && forMeCount > 0 && (
                   <span style={{
-                    fontSize: 10, fontWeight: 700,
+                    fontSize: 12, fontWeight: 700,
                     color: activeProfile.color,
                     fontFamily: 'var(--font-accent)',
                   }}>

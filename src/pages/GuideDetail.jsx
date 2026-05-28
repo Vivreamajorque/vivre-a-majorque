@@ -62,21 +62,21 @@ function TableOfContents({ headings }) {
     <div style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius-sm)', marginBottom: 20, overflow: 'hidden' }}>
       <button onClick={() => setOpen(o => !o)} style={{
         display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-        width: '100%', padding: '12px 14px', fontSize: 13, fontWeight: 600,
+        width: '100%', padding: '12px 14px', fontSize: 14, fontWeight: 600,
         color: 'var(--texte)', cursor: 'pointer', background: 'none', border: 'none',
       }}>
         <span style={{ display: 'flex', alignItems: 'center', gap: 6 }}>📋 Sommaire</span>
-        <span style={{ color: 'var(--texte-sec)', fontSize: 11, display: 'inline-block', transform: open ? 'rotate(0deg)' : 'rotate(180deg)' }}>▲</span>
+        <span style={{ color: 'var(--texte-sec)', fontSize: 12, display: 'inline-block', transform: open ? 'rotate(0deg)' : 'rotate(180deg)' }}>▲</span>
       </button>
       {open && (
         <div style={{ borderTop: '1px solid var(--gris)', padding: '6px 0' }}>
           {headings.map(h => (
             <div key={h.id}
               onClick={() => { const el = document.getElementById(`notion-${h.id}`); if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' }) }}
-              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 14px', fontSize: 13, color: 'var(--texte-sec)', cursor: 'pointer' }}
+              style={{ display: 'flex', alignItems: 'center', gap: 10, padding: '7px 14px', fontSize: 14, color: 'var(--texte-sec)', cursor: 'pointer' }}
             >
               <div style={{ width: h.level === 1 ? 6 : 4, height: h.level === 1 ? 6 : 4, borderRadius: '50%', background: h.level === 1 ? 'var(--vert)' : 'var(--gris-mid)', flexShrink: 0, marginLeft: h.level === 2 ? 4 : 0 }} />
-              <span style={{ lineHeight: 1.4 }}>{h.text}</span>
+              <span style={{ lineHeight: 1.40 }}>{h.text}</span>
             </div>
           ))}
         </div>
@@ -117,7 +117,7 @@ function BookmarkButton({ guide, email }) {
       {showTip && (
         <div style={{
           position: 'absolute', bottom: 'calc(100% + 10px)', right: 0,
-          background: 'var(--encre)', color: 'white', fontSize: 12, lineHeight: 1.45,
+          background: 'var(--encre)', color: 'white', fontSize: 13, lineHeight: 1.50,
           padding: '8px 12px', borderRadius: 10, whiteSpace: 'nowrap',
           zIndex: 200, boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
           animation: 'fadeInUp 0.2s ease',
@@ -169,10 +169,10 @@ function CockpitValidationCTA({ stepId, profileId }) {
       }}>
         <span style={{ fontSize: 22 }}>✅</span>
         <div>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 15, color: 'var(--foret)', fontWeight: 600, marginBottom: 2 }}>
+          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', fontWeight: 600, marginBottom: 2 }}>
             Étape déjà validée
           </p>
-          <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+          <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>
             Cette étape est cochée dans votre Cockpit.
           </p>
         </div>
@@ -195,7 +195,7 @@ function CockpitValidationCTA({ stepId, profileId }) {
         </div>
       ) : (
         <>
-          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, marginBottom: 14, lineHeight: 1.5 }}>
+          <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 14, marginBottom: 14, lineHeight: 1.50 }}>
             Vous avez lu ce guide ?
           </p>
           <button
@@ -206,7 +206,7 @@ function CockpitValidationCTA({ stepId, profileId }) {
               border: 'none',
               borderRadius: 20,
               padding: '12px 28px',
-              fontSize: 14, fontWeight: 700,
+              fontSize: 16, fontWeight: 700,
               cursor: 'pointer',
               display: 'inline-flex', alignItems: 'center', gap: 8,
             }}
@@ -252,7 +252,7 @@ export default function GuideDetail() {
           <div style={{ paddingTop: 52, marginBottom: 4 }}>
             <button onClick={() => navigate(-1)} style={{
               display: 'flex', alignItems: 'center', gap: 6,
-              color: 'var(--vert)', fontSize: 13, fontWeight: 500,
+              color: 'var(--vert)', fontSize: 14, fontWeight: 500,
               marginBottom: 20, cursor: 'pointer', background: 'none', border: 'none', padding: 0,
             }}>
               ← {stepId ? 'Retour au Cockpit' : 'Retour aux guides'}
@@ -268,7 +268,7 @@ export default function GuideDetail() {
                     border: '1px solid rgba(45,80,22,0.15)',
                     borderRadius: 'var(--radius-sm)',
                     padding: '8px 12px', marginBottom: 14,
-                    fontSize: 12, color: 'var(--foret)', fontWeight: 500,
+                    fontSize: 13, color: 'var(--foret)', fontWeight: 500,
                   }}>
                     <span>🧭</span>
                     <span>Étape de votre Cockpit — lisez et validez en bas de page</span>
@@ -305,7 +305,7 @@ export default function GuideDetail() {
                         display: 'flex', alignItems: 'center', gap: 5,
                         background: 'var(--bg-card)', border: '1px solid var(--gris)',
                         borderRadius: 20, padding: '4px 12px',
-                        fontSize: 12, color: 'var(--texte-sec)', fontWeight: 500,
+                        fontSize: 13, color: 'var(--texte-sec)', fontWeight: 500,
                       }}>
                         <span>{pill.icon}</span><span>{pill.text}</span>
                       </div>

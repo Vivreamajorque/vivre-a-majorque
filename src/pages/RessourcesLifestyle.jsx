@@ -108,13 +108,13 @@ export default function RessourcesLifestyle() {
             background: 'none', border: 'none', cursor: 'pointer',
             color: 'var(--foret)', padding: 0, marginBottom: 10,
             display: 'flex', alignItems: 'center', gap: 6,
-            fontSize: 14, fontWeight: 500,
+            fontSize: 16, fontWeight: 500,
           }}
         >
           ← <span>Bons plans</span>
         </button>
         <PageHeading label="à découvrir" title="Lifestyle" accentColor={TERRA} traitColor={TERRA} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.50 }}>
           Dossiers complets pour vivre Majorque comme un initié
         </p>
       </div>
@@ -132,10 +132,10 @@ export default function RessourcesLifestyle() {
         >
           <span style={{ fontSize: 28 }}>💎</span>
           <div style={{ flex: 1 }}>
-            <p style={{ color: 'white', fontWeight: 700, fontSize: 14, marginBottom: 3 }}>
+            <p style={{ color: 'white', fontWeight: 700, fontSize: 16, marginBottom: 3 }}>
               Tous les dossiers inclus avec Premium
             </p>
-            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 12, lineHeight: 1.4 }}>
+            <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: 13, lineHeight: 1.40 }}>
               7 dossiers débloqués · À partir de 9,90€/mois
             </p>
           </div>
@@ -144,7 +144,7 @@ export default function RessourcesLifestyle() {
       )}
 
       {/* Dossier gratuit */}
-      <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
+      <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
         🟢 Aperçu gratuit
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12, marginBottom: 28 }}>
@@ -154,7 +154,7 @@ export default function RessourcesLifestyle() {
       </div>
 
       {/* Dossiers premium */}
-      <p style={{ fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
+      <p style={{ fontSize: 12, fontWeight: 700, color: 'var(--texte-sec)', letterSpacing: 1, textTransform: 'uppercase', marginBottom: 12 }}>
         💎 Réservé aux abonnés · ou achat à l'unité
       </p>
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
@@ -209,13 +209,13 @@ function DossierCard({ dossier, unlocked, onClick }) {
         }}>
           {dossier.titre}
         </p>
-        <p style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.5, marginBottom: 8 }}>
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.50, marginBottom: 8 }}>
           {dossier.desc}
         </p>
         <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5 }}>
           {dossier.tags.map(tag => (
             <span key={tag} style={{
-              fontSize: 10, fontWeight: 600, padding: '2px 8px', borderRadius: 20,
+              fontSize: 12, fontWeight: 600, padding: '2px 8px', borderRadius: 20,
               background: unlocked ? 'var(--vert-light)' : 'var(--gris)',
               color: unlocked ? 'var(--foret)' : 'var(--texte-sec)',
             }}>
@@ -261,7 +261,7 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
           <h2 style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-xl)', color: 'var(--foret)', marginBottom: 6 }}>
             {dossier.titre}
           </h2>
-          <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.50 }}>
             {dossier.desc}
           </p>
         </div>
@@ -279,10 +279,10 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
           }}
         >
           <div>
-            <p style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 14, marginBottom: 2 }}>
+            <p style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 16, marginBottom: 2 }}>
               Ce dossier uniquement
             </p>
-            <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>Accès immédiat après paiement</p>
+            <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>Accès immédiat après paiement</p>
           </div>
           <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--foret)' }}>4,90€</span>
         </a>
@@ -302,15 +302,15 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
           <div style={{
             position: 'absolute', top: -8, right: 14,
             background: 'var(--terra)', color: 'white',
-            fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+            fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
           }}>
             MEILLEUR PRIX
           </div>
           <div>
-            <p style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 14, marginBottom: 2 }}>
+            <p style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 16, marginBottom: 2 }}>
               Pack 3 fascicules au choix
             </p>
-            <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>4,30€ le fascicule</p>
+            <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>4,30€ le fascicule</p>
           </div>
           <span style={{ fontWeight: 800, fontSize: 17, color: 'var(--foret)' }}>12,90€</span>
         </a>
@@ -326,19 +326,19 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
           }}
         >
           <div style={{ textAlign: 'left' }}>
-            <p style={{ fontWeight: 700, color: 'white', fontSize: 14, marginBottom: 2 }}>
+            <p style={{ fontWeight: 700, color: 'white', fontSize: 16, marginBottom: 2 }}>
               💎 Tous les dossiers avec Premium
             </p>
-            <p style={{ fontSize: 12, color: 'rgba(255,255,255,0.75)' }}>+ guides, simulateurs, cockpit</p>
+            <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)' }}>+ guides, simulateurs, cockpit</p>
           </div>
-          <span style={{ fontWeight: 800, fontSize: 15, color: 'white' }}>9,90€/mois</span>
+          <span style={{ fontWeight: 800, fontSize: 16, color: 'white' }}>9,90€/mois</span>
         </button>
 
         <button
           onClick={onClose}
           style={{
             width: '100%', background: 'none', border: 'none',
-            color: 'var(--texte-sec)', fontSize: 13, cursor: 'pointer', padding: '8px 0',
+            color: 'var(--texte-sec)', fontSize: 14, cursor: 'pointer', padding: '8px 0',
           }}
         >
           Pas maintenant

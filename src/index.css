@@ -42,7 +42,7 @@ h1, h2, h3, h4 {
 a { color: var(--vert); text-decoration: none; }
 a:hover { opacity: 0.82; }
 button { font-family: var(--font-corps); cursor: pointer; border: none; background: none; }
-input, select, textarea { font-family: var(--font-corps); font-size: 15px; }
+input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
 
 .card {
   background: var(--bg-card);
@@ -192,3 +192,26 @@ input, select, textarea { font-family: var(--font-corps); font-size: 15px; }
 
 /* Variable CSS de vert-dark si manquante */
 :root { --foret: #2D5016; --gold: #b07d2a; --vert-dark: #3D8F88; }
+
+/* ═══════════════════════════════════════════
+   ÉCHELLE TYPOGRAPHIQUE — variables globales
+   (mobile-first, définies ici pour tout le projet)
+═══════════════════════════════════════════ */
+:root {
+  --fs-xs:   12px;   /* micro-labels, ticks décoratifs          */
+  --fs-sm:   13px;   /* métadonnées, compteurs, timestamps       */
+  --fs-base: 14px;   /* descriptions, texte secondaire lisible   */
+  --fs-md:   16px;   /* corps principal — standard mobile iOS    */
+  --fs-lg:   17px;   /* titres de cartes, étapes cockpit         */
+  --fs-xl:   20px;   /* titres de sections                       */
+  --fs-2xl:  24px;   /* titres de pages Cormorant                */
+  --fs-3xl:  30px;   /* display Playfair hero                    */
+
+  --lh-titre: 1.25;  /* headings                                 */
+  --lh-card:  1.40;  /* cartes et items de liste                 */
+  --lh-body:  1.65;  /* corps de texte lisible                   */
+}
+
+/* Body global → 16px baseline */
+html, body { font-size: 16px; }
+input, select, textarea { font-size: 16px; } /* évite le zoom auto iOS */

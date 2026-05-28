@@ -70,16 +70,16 @@ function ToolCard({ o, isPremium, onPaywall }) {
           }}
         >
           <span style={{
-            position: 'absolute', top: 10, right: 10, fontSize: 14,
+            position: 'absolute', top: 10, right: 10, fontSize: 16,
           }}>🔒</span>
           <div style={{ fontSize: 26, marginBottom: 8 }}>{o.emoji}</div>
           <div style={{ fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
             {o.title}
           </div>
-          <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4 }}>
+          <div style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.40 }}>
             {o.desc}
           </div>
-          <div style={{ fontSize: 10, color: 'var(--foret)', marginTop: 6, fontWeight: 600 }}>
+          <div style={{ fontSize: 12, color: 'var(--foret)', marginTop: 6, fontWeight: 600 }}>
             Premium
           </div>
         </div>
@@ -97,10 +97,10 @@ function ToolCard({ o, isPremium, onPaywall }) {
           <div style={{ fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 18, color: 'var(--foret)' }}>
             {o.title}
           </div>
-          <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4 }}>
+          <div style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.40 }}>
             {o.desc}
           </div>
-          <div style={{ fontSize: 12, color: 'var(--foret)', marginTop: 6, fontWeight: 600 }}>
+          <div style={{ fontSize: 13, color: 'var(--foret)', marginTop: 6, fontWeight: 600 }}>
             Ouvrir →
           </div>
         </div>
@@ -116,14 +116,14 @@ function ToolCard({ o, isPremium, onPaywall }) {
     }}>
       <span style={{
         position: 'absolute', top: 10, right: 10,
-        fontSize: 10, background: 'rgba(0,0,0,0.10)', color: '#666',
+        fontSize: 12, background: 'rgba(0,0,0,0.10)', color: '#666',
         padding: '2px 8px', borderRadius: 20, fontWeight: 600,
       }}>À venir</span>
       <div style={{ fontSize: 26, marginBottom: 8, opacity: 0.4 }}>{o.emoji}</div>
       <div style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', fontWeight: 600, color: 'var(--texte-sec)' }}>
         {o.title}
       </div>
-      <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.4, opacity: 0.7 }}>
+      <div style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 4, lineHeight: 1.40, opacity: 0.7 }}>
         {o.desc}
       </div>
     </div>
@@ -141,9 +141,9 @@ export default function Outils() {
         <button onClick={() => navigate('/app/explorer')} style={{
           background: 'none', border: 'none', fontSize: 18, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-        }}>← <span style={{ fontSize: 13 }}>Explorer</span></button>
+        }}>← <span style={{ fontSize: 14 }}>Explorer</span></button>
         <PageHeading label="tes" title="Simulateurs" accentColor={VERT} traitColor={VERT} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>
           Simulateurs & calculateurs pour votre installation
         </p>
         {!isPremium && (
@@ -151,7 +151,7 @@ export default function Outils() {
             marginTop: 12, padding: '10px 14px',
             background: 'var(--vert-light)', borderRadius: 10,
             border: '1px solid rgba(90,122,64,0.2)',
-            fontSize: 12, color: 'var(--foret)',
+            fontSize: 13, color: 'var(--foret)',
             display: 'flex', alignItems: 'center', gap: 8,
           }}>
             <span>🔒</span>

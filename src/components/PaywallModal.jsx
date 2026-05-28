@@ -75,7 +75,7 @@ export function PaywallModal({ isOpen, onClose }) {
                 fontSize: 22, color: 'var(--foret)',
                 marginBottom: 8,
               }}>Contenu Premium</h2>
-              <p style={{ color: 'var(--texte-sec)', fontSize: 14, lineHeight: 1.5 }}>
+              <p style={{ color: 'var(--texte-sec)', fontSize: 16, lineHeight: 1.50 }}>
                 Accédez à l'intégralité des guides, simulateurs et ressources pour préparer votre installation à Majorque.
               </p>
             </div>
@@ -93,14 +93,14 @@ export function PaywallModal({ isOpen, onClose }) {
                 </span>
                 <span style={{
                   background: 'var(--foret)', color: 'white',
-                  fontSize: 11, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                  fontSize: 12, fontWeight: 700, padding: '2px 8px', borderRadius: 20,
                 }}>LIMITÉ</span>
               </div>
               <div style={{ display: 'flex', alignItems: 'baseline', gap: 8, marginBottom: 4 }}>
                 <span style={{ fontSize: 28, fontWeight: 800, color: 'var(--foret)' }}>9,90€</span>
-                <span style={{ color: 'var(--texte-sec)', fontSize: 13 }}>/mois les 3 premiers mois</span>
+                <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>/mois les 3 premiers mois</span>
               </div>
-              <div style={{ color: 'var(--texte-sec)', fontSize: 12 }}>puis 14,90€/mois · résiliation à tout moment</div>
+              <div style={{ color: 'var(--texte-sec)', fontSize: 13 }}>puis 14,90€/mois · résiliation à tout moment</div>
 
               {/* Code promo */}
               <div style={{
@@ -109,12 +109,12 @@ export function PaywallModal({ isOpen, onClose }) {
                 border: '1px dashed rgba(90,122,64,0.4)',
                 display: 'flex', alignItems: 'center', gap: 8,
               }}>
-                <span style={{ fontSize: 13, color: 'var(--texte-sec)' }}>Code :</span>
+                <span style={{ fontSize: 14, color: 'var(--texte-sec)' }}>Code :</span>
                 <code style={{
-                  fontWeight: 700, color: 'var(--foret)', fontSize: 14, letterSpacing: 1,
+                  fontWeight: 700, color: 'var(--foret)', fontSize: 16, letterSpacing: 1,
                   fontFamily: 'monospace',
                 }}>BIENVENUE3</code>
-                <span style={{ fontSize: 11, color: 'var(--texte-sec)', marginLeft: 'auto' }}>
+                <span style={{ fontSize: 12, color: 'var(--texte-sec)', marginLeft: 'auto' }}>
                   à saisir au paiement
                 </span>
               </div>
@@ -144,7 +144,7 @@ export function PaywallModal({ isOpen, onClose }) {
                 background: 'white',
                 border: '1.5px solid var(--foret)',
                 borderRadius: 10,
-                color: 'var(--foret)', fontSize: 14,
+                color: 'var(--foret)', fontSize: 16,
                 fontWeight: 600,
                 cursor: 'pointer', padding: '12px 0',
               }}
@@ -158,7 +158,7 @@ export function PaywallModal({ isOpen, onClose }) {
           <>
             <button
               onClick={() => setView('main')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--texte-sec)', marginBottom: 16, fontSize: 14 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--texte-sec)', marginBottom: 16, fontSize: 16 }}
             >
               ← Retour
             </button>
@@ -166,7 +166,7 @@ export function PaywallModal({ isOpen, onClose }) {
               fontFamily: 'var(--font-titre)', fontSize: 20, color: 'var(--foret)',
               marginBottom: 8,
             }}>Activer mon accès</h2>
-            <p style={{ color: 'var(--texte-sec)', fontSize: 13, marginBottom: 20, lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--texte-sec)', fontSize: 14, marginBottom: 20, lineHeight: 1.50 }}>
               Entrez l'email utilisé lors de votre abonnement.
             </p>
             <input
@@ -178,7 +178,7 @@ export function PaywallModal({ isOpen, onClose }) {
               style={{
                 width: '100%', padding: '12px 16px',
                 border: '1.5px solid var(--gris)', borderRadius: 10,
-                fontSize: 15, background: 'white', color: 'var(--foret)',
+                fontSize: 16, background: 'white', color: 'var(--foret)',
                 outline: 'none', boxSizing: 'border-box', marginBottom: 14,
               }}
               autoFocus
@@ -190,7 +190,7 @@ export function PaywallModal({ isOpen, onClose }) {
                 width: '100%', padding: '13px 0', borderRadius: 10,
                 background: emailInput.trim() ? 'var(--foret)' : 'var(--gris)',
                 color: emailInput.trim() ? 'white' : 'var(--texte-sec)',
-                fontWeight: 700, fontSize: 15, border: 'none', cursor: emailInput.trim() ? 'pointer' : 'default',
+                fontWeight: 700, fontSize: 16, border: 'none', cursor: emailInput.trim() ? 'pointer' : 'default',
               }}
             >
               Activer mon accès →
@@ -201,7 +201,7 @@ export function PaywallModal({ isOpen, onClose }) {
         {view === 'loading' && (
           <div style={{ textAlign: 'center', padding: '30px 0' }}>
             <div style={{ fontSize: 32, marginBottom: 16 }}>⏳</div>
-            <p style={{ color: 'var(--texte-sec)', fontSize: 14 }}>Vérification en cours…</p>
+            <p style={{ color: 'var(--texte-sec)', fontSize: 16 }}>Vérification en cours…</p>
           </div>
         )}
 
@@ -211,7 +211,7 @@ export function PaywallModal({ isOpen, onClose }) {
             <h2 style={{ fontFamily: 'var(--font-titre)', fontSize: 20, color: 'var(--foret)', marginBottom: 8 }}>
               Accès activé !
             </h2>
-            <p style={{ color: 'var(--texte-sec)', fontSize: 14, marginBottom: 24, lineHeight: 1.5 }}>
+            <p style={{ color: 'var(--texte-sec)', fontSize: 16, marginBottom: 24, lineHeight: 1.50 }}>
               Bienvenue dans Vivre à Majorque Premium. Tout le contenu est maintenant débloqué.
             </p>
             <button
@@ -219,7 +219,7 @@ export function PaywallModal({ isOpen, onClose }) {
               style={{
                 padding: '12px 32px', borderRadius: 10,
                 background: 'var(--foret)', color: 'white',
-                fontWeight: 700, fontSize: 15, border: 'none', cursor: 'pointer',
+                fontWeight: 700, fontSize: 16, border: 'none', cursor: 'pointer',
               }}
             >
               Découvrir le contenu →
@@ -231,7 +231,7 @@ export function PaywallModal({ isOpen, onClose }) {
           <>
             <button
               onClick={() => setView('login')}
-              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--texte-sec)', marginBottom: 16, fontSize: 14 }}
+              style={{ background: 'none', border: 'none', cursor: 'pointer', color: 'var(--texte-sec)', marginBottom: 16, fontSize: 16 }}
             >
               ← Retour
             </button>
@@ -240,7 +240,7 @@ export function PaywallModal({ isOpen, onClose }) {
               <h2 style={{ fontFamily: 'var(--font-titre)', fontSize: 18, color: 'var(--foret)', marginBottom: 8 }}>
                 Abonnement introuvable
               </h2>
-              <p style={{ color: 'var(--texte-sec)', fontSize: 13, lineHeight: 1.5, marginBottom: 20 }}>
+              <p style={{ color: 'var(--texte-sec)', fontSize: 14, lineHeight: 1.50, marginBottom: 20 }}>
                 {errorMsg}
               </p>
               <a
@@ -251,7 +251,7 @@ export function PaywallModal({ isOpen, onClose }) {
                   display: 'inline-block',
                   padding: '12px 28px', borderRadius: 10,
                   background: 'var(--foret)', color: 'white',
-                  fontWeight: 700, fontSize: 14, textDecoration: 'none',
+                  fontWeight: 700, fontSize: 16, textDecoration: 'none',
                 }}
               >
                 S'abonner maintenant →

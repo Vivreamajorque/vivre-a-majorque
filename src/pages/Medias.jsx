@@ -24,8 +24,8 @@ function SocialCard({ emoji, platform, handle, desc, url, bg, border }) {
           <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', fontWeight: 700, color: 'var(--foret)', marginBottom: 2 }}>
             {platform}
           </p>
-          <p style={{ fontSize: 12, color: 'var(--vert-dark)', fontWeight: 500, marginBottom: 2 }}>{handle}</p>
-          <p style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>{desc}</p>
+          <p style={{ fontSize: 13, color: 'var(--vert-dark)', fontWeight: 500, marginBottom: 2 }}>{handle}</p>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.40 }}>{desc}</p>
         </div>
         <span style={{ fontSize: 16, color: 'var(--texte-sec)' }}>→</span>
       </div>
@@ -62,7 +62,7 @@ function YoutubeEmbed() {
         position: 'relative',
       }}>
         <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-          <p style={{ color: 'var(--texte-sec)', fontSize: 13 }}>Chargement…</p>
+          <p style={{ color: 'var(--texte-sec)', fontSize: 14 }}>Chargement…</p>
         </div>
       </div>
     )
@@ -77,7 +77,7 @@ function YoutubeEmbed() {
         background: 'var(--gris)',
         textAlign: 'center',
       }}>
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 12 }}>
           Vidéo temporairement indisponible
         </p>
         <a
@@ -91,7 +91,7 @@ function YoutubeEmbed() {
             borderRadius: 8,
             padding: '10px 20px',
             fontWeight: 700,
-            fontSize: 14,
+            fontSize: 16,
             textDecoration: 'none',
           }}
         >
@@ -137,9 +137,9 @@ export default function Medias() {
         <button onClick={() => navigate('/app/explorer')} style={{
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-        }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
+        }}>← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
         <PageHeading label="dans les" title="Médias" accentColor={VERT} traitColor={VERT} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Suivez la vie à Majorque en vrai
         </p>
       </div>
@@ -163,7 +163,7 @@ export default function Medias() {
             borderRadius: 'var(--radius)',
             padding: '10px 0',
             fontWeight: 700,
-            fontSize: 14,
+            fontSize: 16,
             fontFamily: 'var(--font-corps)',
             textDecoration: 'none',
           }}

@@ -11,12 +11,12 @@ export default function Boutiques() {
         <button onClick={() => navigate('/app/explorer')} style={{
           background: 'none', border: 'none', cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 10, display: 'flex', alignItems: 'center', gap: 6,
-          fontSize: 14, fontWeight: 500,
+          fontSize: 16, fontWeight: 500,
         }}>
           ← <span>Explorer</span>
         </button>
         <PageHeading label="les" title="Bons plans" accentColor={TERRA} traitColor={TERRA} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>
           Nos coups de cœur pour vivre Majorque autrement
         </p>
       </div>
@@ -52,7 +52,7 @@ export default function Boutiques() {
             }}>
               Mallorca Chérie
             </p>
-            <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.55 }}>
+            <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.65 }}>
               Adelina, française installée depuis 8 ans. Itinéraires personnalisés & adresses locales authentiques pour découvrir ou redécouvrir l'île.
             </p>
           </div>
@@ -92,7 +92,7 @@ export default function Boutiques() {
           }}>
             Ressources Lifestyle
           </p>
-          <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.55 }}>
+          <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.65 }}>
             8 dossiers complets pour vivre Majorque comme un initié — plages secrètes, gastronomie, nature, bien-être.
           </p>
         </div>

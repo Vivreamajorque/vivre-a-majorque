@@ -24,7 +24,7 @@ export function AccentWord({ children, color = TERRA, size = 26 }) {
       fontWeight: 700,
       fontSize: size,
       color,
-      lineHeight: 1.15,
+      lineHeight: 1.25,
     }}>
       {children}
     </span>
@@ -40,7 +40,7 @@ export function DisplayTitle({ children, size = 32 }) {
       fontWeight: 900,
       fontSize: size,
       color: '#1C1410',
-      lineHeight: 1.1,
+      lineHeight: 1.25,
       letterSpacing: '-0.01em',
     }}>
       {children}

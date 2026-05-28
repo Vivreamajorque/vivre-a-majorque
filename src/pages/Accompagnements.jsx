@@ -120,7 +120,7 @@ function OffreCard({ offre }) {
       <div style={{ padding: '18px 18px 14px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
           <span style={{
-            fontSize: 11, fontWeight: 700,
+            fontSize: 12, fontWeight: 700,
             color: offre.textAccent,
             background: offre.highlight ? 'rgba(126,200,192,0.25)' : 'rgba(0,0,0,0.07)',
             padding: '3px 10px', borderRadius: 20,
@@ -136,7 +136,7 @@ function OffreCard({ offre }) {
             </span>
             {offre.prixBarre && (
               <span style={{
-                fontSize: 12, color: 'var(--texte-sec)',
+                fontSize: 13, color: 'var(--texte-sec)',
                 textDecoration: 'line-through', marginLeft: 6,
               }}>
                 {offre.prixBarre}
@@ -147,12 +147,12 @@ function OffreCard({ offre }) {
 
         <p style={{
           fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-xl)',
-          fontWeight: 700, color: 'var(--foret)', marginBottom: 6, lineHeight: 1.3,
+          fontWeight: 700, color: 'var(--foret)', marginBottom: 6, lineHeight: 1.30,
         }}>
           {offre.titre}
         </p>
 
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5, marginBottom: 14 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.50, marginBottom: 14 }}>
           {offre.accroche}
         </p>
 
@@ -161,14 +161,14 @@ function OffreCard({ offre }) {
           {offre.inclus.map((item, i) => (
             <div key={i} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
               <span style={{
-                fontSize: 13, flexShrink: 0, marginTop: 1,
+                fontSize: 14, flexShrink: 0, marginTop: 1,
                 color: item.ok ? offre.textAccent : 'var(--texte-sec)',
                 opacity: item.ok ? 1 : 0.4,
               }}>
                 {item.ok ? '✓' : '✕'}
               </span>
               <span style={{
-                fontSize: 13, lineHeight: 1.4,
+                fontSize: 14, lineHeight: 1.40,
                 color: item.ok ? 'var(--foret)' : 'var(--texte-sec)',
                 opacity: item.ok ? 1 : 0.5,
               }}>
@@ -180,9 +180,9 @@ function OffreCard({ offre }) {
 
         {/* Pour qui */}
         <p style={{
-          fontSize: 11, color: offre.textAccent,
+          fontSize: 12, color: offre.textAccent,
           background: 'rgba(0,0,0,0.05)', borderRadius: 8,
-          padding: '7px 10px', lineHeight: 1.5, marginBottom: 14,
+          padding: '7px 10px', lineHeight: 1.50, marginBottom: 14,
           fontStyle: 'italic',
         }}>
           {offre.pour}
@@ -198,7 +198,7 @@ function OffreCard({ offre }) {
             color: offre.highlight ? '#fff' : 'var(--foret)',
             border: `1.5px solid var(--foret)`,
             borderRadius: 10,
-            fontSize: 14,
+            fontSize: 16,
             fontWeight: 700,
             cursor: 'pointer',
             fontFamily: 'var(--font-corps)',
@@ -222,10 +222,10 @@ export default function Accompagnements() {
           color: 'var(--foret)', padding: 0, marginBottom: 8,
           display: 'flex', alignItems: 'center', gap: 6,
         }}>
-          ← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span>
+          ← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span>
         </button>
         <PageHeading label="nos" title="Accompagnements" accentColor={VERT} traitColor={VERT} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5, marginBottom: 4 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.50, marginBottom: 4 }}>
           Vous ne voulez pas avancer seul ? Je vous accompagne personnellement dans votre installation à Majorque — de l'analyse de votre situation à la prise de route.
         </p>
       </div>
@@ -237,7 +237,7 @@ export default function Accompagnements() {
       <div style={{
         textAlign: 'center', padding: '16px 0 8px',
         borderTop: '0.5px solid var(--gris)',
-        fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.6,
+        fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.65,
       }}>
         Une question avant de vous décider ?{' '}
         <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: 'var(--foret)', fontWeight: 600 }}>

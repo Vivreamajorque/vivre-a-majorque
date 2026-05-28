@@ -34,15 +34,15 @@ export default function AccompagnementBanner({ texte, cta = 'Voir les accompagne
       <span style={{ fontSize: 22, flexShrink: 0, marginTop: 1 }}>🧭</span>
       <div>
         <p style={{
-          fontSize: 13,
+          fontSize: 14,
           color: 'var(--foret, #2D5016)',
-          lineHeight: 1.45,
+          lineHeight: 1.50,
           marginBottom: 4,
         }}>
           {texte}
         </p>
         <span style={{
-          fontSize: 12,
+          fontSize: 13,
           fontWeight: 700,
           color: 'var(--vert, #7EC8C0)',
           textDecoration: 'underline',

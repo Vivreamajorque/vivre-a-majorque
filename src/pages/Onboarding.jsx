@@ -38,7 +38,7 @@ export default function Onboarding() {
               <Trait color={TERRA} width={44} />
               <p style={{
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.5,
+                fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.50,
               }}>
                 Pour une expérience personnalisée.
               </p>
@@ -90,7 +90,7 @@ export default function Onboarding() {
               <Trait color={VERT} width={44} />
               <p style={{
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.5,
+                fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.50,
               }}>
                 L'appli s'adapte à ta situation.
               </p>
@@ -118,14 +118,14 @@ export default function Onboarding() {
                         display: 'block',
                         fontFamily: 'var(--font-display)',
                         fontWeight: 900, fontSize: 16,
-                        color: 'var(--texte)', lineHeight: 1.2,
+                        color: 'var(--texte)', lineHeight: 1.25,
                       }}>
                         {p.label}
                       </span>
                       <div style={{ width: 20, height: 2, background: color, borderRadius: 1, margin: '4px 0' }} />
                       <span style={{
                         fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                        fontSize: 13, color: 'var(--texte-sec)',
+                        fontSize: 14, color: 'var(--texte-sec)',
                       }}>
                         {p.description}
                       </span>
@@ -138,7 +138,7 @@ export default function Onboarding() {
 
             <button onClick={() => setStep(1)} style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 13, color: 'var(--texte-sec)', marginTop: 20,
+              fontSize: 14, color: 'var(--texte-sec)', marginTop: 20,
               display: 'block', width: '100%', textAlign: 'center',
               fontFamily: 'var(--font-titre)', fontStyle: 'italic',
             }}>

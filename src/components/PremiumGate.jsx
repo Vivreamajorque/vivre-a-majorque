@@ -28,7 +28,7 @@ export default function PremiumGate({ children, accessLevel }) {
         <h4 style={{ fontFamily: 'var(--font-titre)', fontSize: 17, marginBottom: 6 }}>
           Contenu Premium
         </h4>
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Accédez à 35+ guides détaillés pour {PREMIUM_PRICE}
         </p>
         <a
@@ -36,11 +36,11 @@ export default function PremiumGate({ children, accessLevel }) {
           target="_blank"
           rel="noopener noreferrer"
           className="btn btn-ocre"
-          style={{ display: 'inline-flex', fontSize: 14, padding: '10px 20px', borderRadius: 8, background: 'var(--ocre)', color: '#fff', textDecoration: 'none', fontWeight: 500 }}
+          style={{ display: 'inline-flex', fontSize: 16, padding: '10px 20px', borderRadius: 8, background: 'var(--ocre)', color: '#fff', textDecoration: 'none', fontWeight: 500 }}
         >
           Devenir Premium
         </a>
-        <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 10 }}>
+        <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 10 }}>
           Déjà Premium ? <a href="/app/moi" style={{ color: 'var(--vert-dark)' }}>Connectez-vous</a>
         </p>
       </div>

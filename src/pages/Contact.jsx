@@ -21,7 +21,7 @@ export default function Contact() {
     padding: '10px 12px',
     border: '1px solid var(--gris)',
     borderRadius: 'var(--radius)',
-    fontSize: 14,
+    fontSize: 16,
     fontFamily: 'var(--font-corps)',
     background: '#fff',
     color: 'var(--noir)',
@@ -49,7 +49,7 @@ export default function Contact() {
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer',
             color: 'var(--foret)', padding: 0, marginBottom: 8,
             display: 'flex', alignItems: 'center', gap: 6,
-          }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
+          }}>← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
         </div>
         <div style={{
           display: 'flex', flexDirection: 'column', alignItems: 'center',
@@ -59,13 +59,13 @@ export default function Contact() {
           <h2 style={{ fontFamily: 'var(--font-titre)', color: 'var(--foret)', fontSize: 'var(--fs-2xl)' }}>
             Message prêt à envoyer
           </h2>
-          <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.6 }}>
+          <p style={{ fontSize: 16, color: 'var(--texte-sec)', lineHeight: 1.65 }}>
             Votre application mail vient de s'ouvrir avec votre message pré-rempli. Il vous suffit d'appuyer sur Envoyer.
           </p>
           <button onClick={() => { setSent(false); setRaison(''); setNom(''); setEmail(''); setMessage('') }}
             style={{
               background: 'none', border: '1px solid var(--gris)', borderRadius: 'var(--radius)',
-              padding: '10px 20px', fontSize: 14, cursor: 'pointer', color: 'var(--texte-sec)',
+              padding: '10px 20px', fontSize: 16, cursor: 'pointer', color: 'var(--texte-sec)',
             }}>
             Nouveau message
           </button>
@@ -81,16 +81,16 @@ export default function Contact() {
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer',
           color: 'var(--foret)', padding: 0, marginBottom: 8,
           display: 'flex', alignItems: 'center', gap: 6,
-        }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
+        }}>← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
         <PageHeading label="une question ?" title="Contact" accentColor={VERT} traitColor={VERT} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Une question ? On vous répond sous 48h.
         </p>
       </div>
 
       {/* Sélection raison */}
       <div style={{ marginBottom: 20 }}>
-        <p style={{ fontSize: 13, fontWeight: 600, color: 'var(--foret)', marginBottom: 10 }}>
+        <p style={{ fontSize: 14, fontWeight: 600, color: 'var(--foret)', marginBottom: 10 }}>
           Quel est le motif de votre message ?
         </p>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -104,7 +104,7 @@ export default function Contact() {
                 border: raison === r.id ? '2px solid var(--foret)' : '1px solid var(--gris)',
                 background: raison === r.id ? 'var(--foret)' : '#fff',
                 color: raison === r.id ? '#fff' : 'var(--noir)',
-                fontSize: 14,
+                fontSize: 16,
                 fontFamily: 'var(--font-corps)',
                 fontWeight: raison === r.id ? 600 : 400,
                 cursor: 'pointer',
@@ -121,7 +121,7 @@ export default function Contact() {
       {/* Champs */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
         <div>
-          <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--foret)' }}>Votre nom</label>
+          <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--foret)' }}>Votre nom</label>
           <input
             type="text"
             placeholder="Marie Dupont"
@@ -131,7 +131,7 @@ export default function Contact() {
           />
         </div>
         <div>
-          <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--foret)' }}>Votre email</label>
+          <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--foret)' }}>Votre email</label>
           <input
             type="email"
             placeholder="marie@exemple.com"
@@ -141,13 +141,13 @@ export default function Contact() {
           />
         </div>
         <div>
-          <label style={{ fontSize: 13, fontWeight: 600, color: 'var(--foret)' }}>Votre message</label>
+          <label style={{ fontSize: 14, fontWeight: 600, color: 'var(--foret)' }}>Votre message</label>
           <textarea
             placeholder="Décrivez votre demande…"
             value={message}
             onChange={e => setMessage(e.target.value)}
             rows={5}
-            style={{ ...inputStyle, resize: 'vertical', lineHeight: 1.5 }}
+            style={{ ...inputStyle, resize: 'vertical', lineHeight: 1.50 }}
           />
         </div>
       </div>
@@ -163,7 +163,7 @@ export default function Contact() {
           color: canSend ? '#fff' : 'var(--texte-sec)',
           border: 'none',
           borderRadius: 'var(--radius)',
-          fontSize: 15,
+          fontSize: 16,
           fontWeight: 600,
           fontFamily: 'var(--font-corps)',
           cursor: canSend ? 'pointer' : 'not-allowed',

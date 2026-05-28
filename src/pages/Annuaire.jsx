@@ -14,31 +14,31 @@ function ProCard({ pro }) {
   return (
     <div className="card" style={{ marginBottom: 8, opacity: coming ? 0.75 : 1 }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 6 }}>
-        <p style={{ fontWeight: 600, fontSize: 15, color: 'var(--foret)', flex: 1, paddingRight: 8, lineHeight: 1.3 }}>
+        <p style={{ fontWeight: 600, fontSize: 16, color: 'var(--foret)', flex: 1, paddingRight: 8, lineHeight: 1.30 }}>
           {pro.nom}
         </p>
         {coming ? (
           <span style={{
-            fontSize: 11, background: 'var(--gris)', color: 'var(--texte-sec)',
+            fontSize: 12, background: 'var(--gris)', color: 'var(--texte-sec)',
             padding: '2px 8px', borderRadius: 20, fontWeight: 600, whiteSpace: 'nowrap',
           }}>À venir</span>
         ) : (
-          pro.ville && <span style={{ fontSize: 12, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>📍 {pro.ville}</span>
+          pro.ville && <span style={{ fontSize: 13, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>📍 {pro.ville}</span>
         )}
       </div>
       {pro.description && (
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 8, lineHeight: 1.5 }}>{pro.description}</p>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 8, lineHeight: 1.50 }}>{pro.description}</p>
       )}
       {!coming && (
         <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
           {pro.tel && (
-            <a href={`tel:${pro.tel}`} style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>📞 {pro.tel}</a>
+            <a href={`tel:${pro.tel}`} style={{ fontSize: 13, color: 'var(--foret)', fontWeight: 500 }}>📞 {pro.tel}</a>
           )}
           {pro.email && (
-            <a href={`mailto:${pro.email}`} style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 500 }}>✉️ {pro.email}</a>
+            <a href={`mailto:${pro.email}`} style={{ fontSize: 13, color: 'var(--foret)', fontWeight: 500 }}>✉️ {pro.email}</a>
           )}
           {pro.maps && (
-            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{ fontSize: 12, color: '#1a73e8', fontWeight: 500 }}>🗺️ Voir sur Maps</a>
+            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{ fontSize: 13, color: '#1a73e8', fontWeight: 500 }}>🗺️ Voir sur Maps</a>
           )}
         </div>
       )}
@@ -63,7 +63,7 @@ function SearchBar({ value, onChange }) {
           padding: '10px 12px 10px 36px',
           border: '1px solid var(--gris)',
           borderRadius: 'var(--radius)',
-          fontSize: 14,
+          fontSize: 16,
           fontFamily: 'var(--font-corps)',
           background: '#fff',
           color: 'var(--noir)',
@@ -151,12 +151,12 @@ export default function Annuaire() {
           <button onClick={() => navigate('/app/explorer')} style={{
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
             padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-          }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
-          <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
+          }}>← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
+          <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.30, marginBottom: 8 }}>
             Annuaires
           </div>
           <SearchBar value={search} onChange={setSearch} />
-          <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 8 }}>
+          <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 8 }}>
             {searchResults.length} résultat{searchResults.length > 1 ? 's' : ''}
           </p>
         </div>
@@ -177,11 +177,11 @@ export default function Annuaire() {
           <button onClick={() => setSelectedCat(null)} style={{
             background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
             padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-          }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Catégories</span></button>
-          <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
+          }}>← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Catégories</span></button>
+          <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.30, marginBottom: 8 }}>
             {selectedCat}
           </div>
-          <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12 }}>
+          <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 12 }}>
             {filtered.length} entrée{filtered.length > 1 ? 's' : ''}
           </p>
           <SearchBar value={search} onChange={v => { setSearch(v); setSelectedCat(null) }} />
@@ -202,8 +202,8 @@ export default function Annuaire() {
         <button onClick={() => navigate('/app/explorer')} style={{
           background: 'none', border: 'none', fontSize: 20, cursor: 'pointer', color: 'var(--foret)',
           padding: 0, marginBottom: 8, display: 'flex', alignItems: 'center', gap: 6,
-        }}>← <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
-        <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.3, marginBottom: 8 }}>
+        }}>← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
+        <div style={{ fontFamily: 'var(--font-titre)', fontStyle: "italic", fontWeight: 300, fontSize: "var(--fs-2xl)", color: "var(--texte)", lineHeight: 1.30, marginBottom: 8 }}>
           Annuaires
         </div>
         <SearchBar value={search} onChange={setSearch} />
@@ -229,9 +229,9 @@ export default function Annuaire() {
             }}>
               <span style={{
                 fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)',
-                fontWeight: 600, lineHeight: 1.3,
+                fontWeight: 600, lineHeight: 1.30,
               }}>{cat}</span>
-              <span style={{ fontSize: 12, color: 'var(--texte-sec)' }}>
+              <span style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
                 {count} entrée{count > 1 ? 's' : ''}
               </span>
             </button>

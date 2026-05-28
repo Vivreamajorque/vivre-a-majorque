@@ -48,7 +48,7 @@ function ActuCard({ actu }) {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
         {actu.categorie ? (
           <span style={{
-            fontSize: 11, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
+            fontSize: 12, fontWeight: 700, padding: '3px 10px', borderRadius: 20,
             background: cs.bg, border: `1px solid ${cs.border}`, color: cs.text,
             letterSpacing: 0.2,
           }}>
@@ -56,7 +56,7 @@ function ActuCard({ actu }) {
           </span>
         ) : <span />}
         {actu.date && (
-          <span style={{ fontSize: 11, color: 'var(--texte-sec)', flexShrink: 0 }}>
+          <span style={{ fontSize: 12, color: 'var(--texte-sec)', flexShrink: 0 }}>
             {formatDateShort(actu.date)}
           </span>
         )}
@@ -68,7 +68,7 @@ function ActuCard({ actu }) {
         fontSize: 16,
         fontWeight: 700,
         color: 'var(--foret)',
-        lineHeight: 1.35,
+        lineHeight: 1.40,
         marginBottom: actu.resume ? 10 : 0,
       }}>
         {actu.title}
@@ -77,7 +77,7 @@ function ActuCard({ actu }) {
       {/* Résumé complet */}
       {actu.resume && (
         <p style={{
-          fontSize: 13,
+          fontSize: 14,
           color: '#444',
           lineHeight: 1.65,
           marginBottom: (actu.tags?.length || actu.lien) ? 12 : 0,
@@ -91,7 +91,7 @@ function ActuCard({ actu }) {
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: actu.lien ? 12 : 0 }}>
           {actu.tags.map(tag => (
             <span key={tag} style={{
-              fontSize: 10, padding: '2px 8px', borderRadius: 20,
+              fontSize: 12, padding: '2px 8px', borderRadius: 20,
               background: 'var(--gris)', color: 'var(--texte-sec)',
               fontWeight: 500,
             }}>
@@ -108,9 +108,9 @@ function ActuCard({ actu }) {
           paddingTop: 12,
           borderTop: '1px solid rgba(0,0,0,0.06)',
         }}>
-          <span style={{ fontSize: 11, color: 'var(--texte-sec)', flexShrink: 0 }}>🔗 Source :</span>
+          <span style={{ fontSize: 12, color: 'var(--texte-sec)', flexShrink: 0 }}>🔗 Source :</span>
           <span style={{
-            fontSize: 12,
+            fontSize: 13,
             fontWeight: 600,
             color: 'var(--vert-dark, #2D5016)',
             textDecoration: 'underline',
@@ -191,13 +191,13 @@ export default function Actualites() {
             background: 'none', border: 'none', cursor: 'pointer',
             color: 'var(--foret)', padding: 0, marginBottom: 10,
             display: 'flex', alignItems: 'center', gap: 6,
-            fontSize: 14, fontWeight: 500,
+            fontSize: 16, fontWeight: 500,
           }}
         >
           ← <span>Explorer</span>
         </button>
         <PageHeading label="les dernières" title="Actualités" accentColor={TERRA} traitColor={TERRA} />
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>
           Infos locales, nouveautés et alertes importantes
         </p>
       </div>
@@ -219,7 +219,7 @@ export default function Actualites() {
                   flexShrink: 0,
                   padding: '6px 14px',
                   borderRadius: 20,
-                  fontSize: 12,
+                  fontSize: 13,
                   fontWeight: active ? 700 : 500,
                   border: active
                     ? `1.5px solid ${cat === 'Toutes' ? 'var(--foret)' : cs.border}`
@@ -248,7 +248,7 @@ export default function Actualites() {
 
       {/* Vide */}
       {!loading && filtered.length === 0 && (
-        <p style={{ textAlign: 'center', color: 'var(--texte-sec)', fontSize: 13, marginTop: 40 }}>
+        <p style={{ textAlign: 'center', color: 'var(--texte-sec)', fontSize: 14, marginTop: 40 }}>
           Aucune actualité pour le moment.
         </p>
       )}
@@ -258,14 +258,14 @@ export default function Actualites() {
         <div key={monthKey} style={{ marginBottom: 24 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <span style={{
-              fontSize: 12, fontWeight: 700, color: 'var(--foret)',
+              fontSize: 13, fontWeight: 700, color: 'var(--foret)',
               textTransform: 'capitalize', letterSpacing: 0.3,
             }}>
               {monthKey}
             </span>
             <div style={{ flex: 1, height: 1, background: 'var(--gris)' }} />
             <span style={{
-              fontSize: 11, color: 'var(--texte-sec)',
+              fontSize: 12, color: 'var(--texte-sec)',
               background: 'var(--gris)', padding: '2px 8px', borderRadius: 20,
             }}>
               {grouped[monthKey].length}

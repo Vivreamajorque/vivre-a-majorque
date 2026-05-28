@@ -33,7 +33,7 @@ function SourceBadge({ src }) {
   return (
     <a href={src.url} target="_blank" rel="noreferrer" style={{
       display: 'inline-flex', alignItems: 'center', gap: 3,
-      fontSize: 10, color: 'var(--texte-sec)', background: 'var(--gris)',
+      fontSize: 12, color: 'var(--texte-sec)', background: 'var(--gris)',
       borderRadius: 4, padding: '1px 6px', textDecoration: 'none',
       fontFamily: 'var(--font-corps)', border: '1px solid #e0ddd8',
       marginLeft: 4, verticalAlign: 'middle', whiteSpace: 'nowrap',
@@ -59,7 +59,7 @@ function SectionCard({ title, emoji, children, defaultOpen = true }) {
           <span style={{ fontSize: 18 }}>{emoji}</span>
           {title}
         </span>
-        <span style={{ color: 'var(--texte-sec)', fontSize: 13, transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}>›</span>
+        <span style={{ color: 'var(--texte-sec)', fontSize: 14, transform: open ? 'rotate(90deg)' : 'none', transition: 'transform 0.2s' }}>›</span>
       </button>
       {open && <div style={{ padding: '0 16px 16px' }}>{children}</div>}
     </div>
@@ -70,10 +70,10 @@ function InputRow({ label, source, note, children }) {
   return (
     <div style={{ marginBottom: 12 }}>
       <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 4, marginBottom: 5 }}>
-        <label style={{ fontSize: 13, fontWeight: 500, color: 'var(--noir)', fontFamily: 'var(--font-corps)' }}>{label}</label>
+        <label style={{ fontSize: 14, fontWeight: 500, color: 'var(--noir)', fontFamily: 'var(--font-corps)' }}>{label}</label>
         {source && <SourceBadge src={source} />}
       </div>
-      {note && <p style={{ fontSize: 11, color: 'var(--texte-sec)', margin: '0 0 5px', fontFamily: 'var(--font-corps)', lineHeight: 1.4 }}>{note}</p>}
+      {note && <p style={{ fontSize: 12, color: 'var(--texte-sec)', margin: '0 0 5px', fontFamily: 'var(--font-corps)', lineHeight: 1.40 }}>{note}</p>}
       {children}
     </div>
   )
@@ -91,11 +91,11 @@ function NumInput({ value, onChange, min = 0, max, step = 1, suffix = '€' }) {
         step={step}
         style={{
           width: '100%', padding: '9px 12px', border: '1px solid #ddd', borderRadius: 8,
-          fontSize: 15, fontFamily: 'var(--font-corps)', outline: 'none',
+          fontSize: 16, fontFamily: 'var(--font-corps)', outline: 'none',
           background: 'var(--lin)', color: 'var(--noir)', boxSizing: 'border-box',
         }}
       />
-      {suffix && <span style={{ fontSize: 13, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>{suffix}</span>}
+      {suffix && <span style={{ fontSize: 14, color: 'var(--texte-sec)', whiteSpace: 'nowrap' }}>{suffix}</span>}
     </div>
   )
 }
@@ -108,13 +108,13 @@ function FixedRow({ label, amount, source, sublabel, green }) {
     }}>
       <div style={{ flex: 1 }}>
         <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: 4 }}>
-          <span style={{ fontSize: 13, color: 'var(--noir)', fontFamily: 'var(--font-corps)' }}>{label}</span>
+          <span style={{ fontSize: 14, color: 'var(--noir)', fontFamily: 'var(--font-corps)' }}>{label}</span>
           {source && <SourceBadge src={source} />}
         </div>
-        {sublabel && <div style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 2, fontFamily: 'var(--font-corps)' }}>{sublabel}</div>}
+        {sublabel && <div style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 2, fontFamily: 'var(--font-corps)' }}>{sublabel}</div>}
       </div>
       <div style={{
-        fontWeight: 600, fontSize: 14, fontFamily: 'var(--font-corps)',
+        fontWeight: 600, fontSize: 16, fontFamily: 'var(--font-corps)',
         color: green ? '#2e7d32' : (amount === 0 ? '#2e7d32' : 'var(--noir)'),
         whiteSpace: 'nowrap',
       }}>
@@ -139,7 +139,7 @@ function Toggle({ checked, onChange, label }) {
           borderRadius: 9, background: '#fff', transition: 'left 0.2s', boxShadow: '0 1px 3px rgba(0,0,0,0.2)',
         }} />
       </div>
-      <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)', color: 'var(--noir)' }}>{label}</span>
+      <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)', color: 'var(--noir)' }}>{label}</span>
     </label>
   )
 }
@@ -151,8 +151,8 @@ function SubTotal({ label, amount, recoverable }) {
       padding: '10px 12px', background: 'var(--lin)', borderRadius: 8, marginTop: 10,
     }}>
       <div>
-        <div style={{ fontSize: 13, fontWeight: 600, color: 'var(--foret)', fontFamily: 'var(--font-corps)' }}>{label}</div>
-        {recoverable > 0 && <div style={{ fontSize: 11, color: '#2e7d32', fontFamily: 'var(--font-corps)' }}>dont {fmt(recoverable)} récupérables (dépôts)</div>}
+        <div style={{ fontSize: 14, fontWeight: 600, color: 'var(--foret)', fontFamily: 'var(--font-corps)' }}>{label}</div>
+        {recoverable > 0 && <div style={{ fontSize: 12, color: '#2e7d32', fontFamily: 'var(--font-corps)' }}>dont {fmt(recoverable)} récupérables (dépôts)</div>}
       </div>
       <div style={{ fontSize: 17, fontWeight: 700, color: 'var(--foret)', fontFamily: 'var(--font-corps)' }}>{fmt(amount)}</div>
     </div>
@@ -263,7 +263,7 @@ export default function CoutInstallation() {
           <button onClick={() => navigate(-1)} style={{ background: 'rgba(255,255,255,0.15)', border: 'none', borderRadius: 8, color: '#fff', padding: '6px 10px', cursor: 'pointer', fontSize: 16 }}>←</button>
           <div>
             <h1 style={{ margin: 0, fontSize: 18, fontFamily: 'var(--font-titre)', color: '#fff', fontWeight: 600 }}>Coût d'installation</h1>
-            <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.75)', fontFamily: 'var(--font-corps)' }}>Données sources officielles uniquement</p>
+            <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.75)', fontFamily: 'var(--font-corps)' }}>Données sources officielles uniquement</p>
           </div>
         </div>
       </div>
@@ -313,7 +313,7 @@ export default function CoutInstallation() {
                   onClick={() => setGarantieAdd(m)}
                   style={{
                     padding: '8px 16px', borderRadius: 8, cursor: 'pointer', fontFamily: 'var(--font-corps)',
-                    fontSize: 13, fontWeight: garantieAdd === m ? 600 : 400,
+                    fontSize: 14, fontWeight: garantieAdd === m ? 600 : 400,
                     background: garantieAdd === m ? 'var(--vert)' : 'var(--gris)',
                     color: garantieAdd === m ? '#fff' : 'var(--noir)',
                     border: garantieAdd === m ? '2px solid var(--vert)' : '2px solid transparent',
@@ -337,7 +337,7 @@ export default function CoutInstallation() {
                   onClick={() => setChevauchement(m)}
                   style={{
                     padding: '8px 14px', borderRadius: 8, cursor: 'pointer', fontFamily: 'var(--font-corps)',
-                    fontSize: 13, fontWeight: chevauchement === m ? 600 : 400,
+                    fontSize: 14, fontWeight: chevauchement === m ? 600 : 400,
                     background: chevauchement === m ? 'var(--terra)' : 'var(--gris)',
                     color: chevauchement === m ? '#fff' : 'var(--noir)',
                     border: chevauchement === m ? '2px solid var(--terra)' : '2px solid transparent',
@@ -385,7 +385,7 @@ export default function CoutInstallation() {
                   onClick={() => setNationalite(n)}
                   style={{
                     flex: 1, padding: '10px 0', borderRadius: 8, cursor: 'pointer', fontFamily: 'var(--font-corps)',
-                    fontSize: 13, fontWeight: nationalite === n ? 600 : 400,
+                    fontSize: 14, fontWeight: nationalite === n ? 600 : 400,
                     background: nationalite === n ? 'var(--vert)' : 'var(--gris)',
                     color: nationalite === n ? '#fff' : 'var(--noir)',
                     border: nationalite === n ? '2px solid var(--vert)' : '2px solid transparent',
@@ -457,7 +457,7 @@ export default function CoutInstallation() {
 
           {withVehicule && (
             <div style={{ marginTop: 14 }}>
-              <p style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.5, marginBottom: 12 }}>
+              <p style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.50, marginBottom: 12 }}>
                 ⚠️ La réimmatriculation est obligatoire dans les 30 jours suivant l'empadronamiento
                 <SourceBadge src={SOURCES.rveh} />
               </p>
@@ -489,7 +489,7 @@ export default function CoutInstallation() {
                   ].map(t => (
                     <label key={t.val} style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', padding: '6px 10px', borderRadius: 8, background: co2Tranche === t.val ? 'var(--lin)' : 'transparent', border: co2Tranche === t.val ? '1px solid #ddd' : '1px solid transparent' }}>
                       <input type="radio" name="co2" value={t.val} checked={co2Tranche === t.val} onChange={() => setCo2Tranche(t.val)} style={{ accentColor: 'var(--vert)' }} />
-                      <span style={{ fontSize: 12, fontFamily: 'var(--font-corps)', color: t.color }}>{t.label}</span>
+                      <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)', color: t.color }}>{t.label}</span>
                     </label>
                   ))}
                 </div>
@@ -529,7 +529,7 @@ export default function CoutInstallation() {
           {withAutonoma && (
             <div style={{ marginTop: 14 }}>
               <div style={{ background: '#e8f5e9', borderRadius: 8, padding: '10px 12px', marginBottom: 12 }}>
-                <p style={{ margin: 0, fontSize: 12, color: '#2e7d32', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
+                <p style={{ margin: 0, fontSize: 13, color: '#2e7d32', fontFamily: 'var(--font-corps)', lineHeight: 1.50 }}>
                   <strong>Tarifa plana — 80 € / mois</strong> pendant les 12 premiers mois (nouveaux inscrits sans activité antérieure dans les 2 dernières années).
                   <SourceBadge src={SOURCES.reta} />
                 </p>
@@ -543,7 +543,7 @@ export default function CoutInstallation() {
                       onClick={() => setMoisTarifaPlana(m)}
                       style={{
                         flex: 1, padding: '10px 0', borderRadius: 8, cursor: 'pointer', fontFamily: 'var(--font-corps)',
-                        fontSize: 13, fontWeight: moisTarifaPlana === m ? 600 : 400,
+                        fontSize: 14, fontWeight: moisTarifaPlana === m ? 600 : 400,
                         background: moisTarifaPlana === m ? 'var(--vert)' : 'var(--gris)',
                         color: moisTarifaPlana === m ? '#fff' : 'var(--noir)',
                         border: moisTarifaPlana === m ? '2px solid var(--vert)' : '2px solid transparent',
@@ -570,14 +570,14 @@ export default function CoutInstallation() {
         {/* ─── SECTION 6 : TRÉSORERIE ─── */}
         <SectionCard title="Trésorerie de sécurité" emoji="🛡️">
 
-          <p style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.5, marginBottom: 12 }}>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.50, marginBottom: 12 }}>
             Réserve de trésorerie recommandée pour couvrir vos charges fixes pendant la période de lancement, sans pression financière.
           </p>
 
           <div style={{ marginBottom: 8 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
-              <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)', fontWeight: 500 }}>Nombre de mois : <strong>{moisReserve}</strong></span>
-              <span style={{ fontSize: 13, fontFamily: 'var(--font-corps)', color: 'var(--texte-sec)' }}>Charges : {fmt(calculs.chargesMensuelles)}/mois</span>
+              <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)', fontWeight: 500 }}>Nombre de mois : <strong>{moisReserve}</strong></span>
+              <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)', color: 'var(--texte-sec)' }}>Charges : {fmt(calculs.chargesMensuelles)}/mois</span>
             </div>
             <input
               type="range"
@@ -587,7 +587,7 @@ export default function CoutInstallation() {
               onChange={e => setMoisReserve(Number(e.target.value))}
               style={{ width: '100%', accentColor: 'var(--vert)' }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 10, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', marginTop: 2 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', marginTop: 2 }}>
               <span>1 mois (minimum)</span>
               <span>3 mois (recommandé)</span>
               <span>12 mois</span>
@@ -613,17 +613,17 @@ export default function CoutInstallation() {
               { label: `Trésorerie de sécurité (${moisReserve} mois)`, val: calculs.tresorerie, highlight: true },
             ].filter(Boolean).map((row, i) => (
               <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 13, color: row.highlight ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-corps)' }}>
+                <span style={{ fontSize: 14, color: row.highlight ? 'rgba(255,255,255,0.6)' : 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-corps)' }}>
                   {row.highlight ? '⊕ ' : '·  '}{row.label}
                 </span>
-                <span style={{ fontSize: 14, fontWeight: 600, color: '#fff', fontFamily: 'var(--font-corps)' }}>{fmt(row.val)}</span>
+                <span style={{ fontSize: 16, fontWeight: 600, color: '#fff', fontFamily: 'var(--font-corps)' }}>{fmt(row.val)}</span>
               </div>
             ))}
           </div>
 
           <div style={{ borderTop: '1px solid rgba(255,255,255,0.25)', paddingTop: 14, marginBottom: 14 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
-              <span style={{ fontSize: 14, color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-corps)' }}>Avant trésorerie</span>
+              <span style={{ fontSize: 16, color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-corps)' }}>Avant trésorerie</span>
               <span style={{ fontSize: 16, fontWeight: 600, color: '#fff', fontFamily: 'var(--font-corps)' }}>{fmt(calculs.totalAvantTresorerie)}</span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -634,14 +634,14 @@ export default function CoutInstallation() {
 
           {calculs.recoverables > 0 && (
             <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 12px', marginBottom: 12 }}>
-              <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-corps)' }}>
+              <p style={{ margin: 0, fontSize: 13, color: 'rgba(255,255,255,0.85)', fontFamily: 'var(--font-corps)' }}>
                 ♻️ <strong style={{ color: '#fff' }}>{fmt(calculs.recoverables)} récupérables</strong> — les dépôts de garantie vous sont restitués à votre départ (sous réserve d'état du logement).
               </p>
             </div>
           )}
 
           <div style={{ background: 'rgba(255,255,255,0.1)', borderRadius: 8, padding: '10px 12px' }}>
-            <p style={{ margin: 0, fontSize: 11, color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
+            <p style={{ margin: 0, fontSize: 12, color: 'rgba(255,255,255,0.7)', fontFamily: 'var(--font-corps)', lineHeight: 1.50 }}>
               📋 Toutes les données réglementaires (fianza, frais d'agence, taxes, cotisations) proviennent de sources officielles espagnoles. Vérifiez les sources via les badges ↗ et consultez un professionnel pour votre situation personnelle.
             </p>
           </div>
@@ -649,15 +649,15 @@ export default function CoutInstallation() {
 
         {/* Disclaimer sources */}
         <div style={{ background: '#fff', borderRadius: 12, padding: '14px 16px', marginBottom: 20, border: '1px solid var(--gris)' }}>
-          <h3 style={{ margin: '0 0 10px', fontSize: 13, fontFamily: 'var(--font-titre)', color: 'var(--foret)' }}>Sources officielles utilisées</h3>
+          <h3 style={{ margin: '0 0 10px', fontSize: 14, fontFamily: 'var(--font-titre)', color: 'var(--foret)' }}>Sources officielles utilisées</h3>
           {Object.values(SOURCES).map(s => (
             <div key={s.label} style={{ marginBottom: 4 }}>
-              <a href={s.url} target="_blank" rel="noreferrer" style={{ fontSize: 11, color: 'var(--vert)', fontFamily: 'var(--font-corps)', textDecoration: 'none' }}>
+              <a href={s.url} target="_blank" rel="noreferrer" style={{ fontSize: 12, color: 'var(--vert)', fontFamily: 'var(--font-corps)', textDecoration: 'none' }}>
                 ↗ {s.label}
               </a>
             </div>
           ))}
-          <p style={{ margin: '10px 0 0', fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.4 }}>
+          <p style={{ margin: '10px 0 0', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)', lineHeight: 1.40 }}>
             Simulateur à titre indicatif. Les taux et montants officiels sont susceptibles d'évolution législative. Ce simulateur ne constitue pas un conseil juridique ou fiscal.
           </p>
         </div>

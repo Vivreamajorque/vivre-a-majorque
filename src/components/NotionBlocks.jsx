@@ -65,13 +65,13 @@ function ToggleBlock({ content }) {
         style={{
           display: 'flex', alignItems: 'center', gap: 8,
           padding: '11px 14px', cursor: 'pointer',
-          fontSize: 14, fontWeight: 500,
+          fontSize: 16, fontWeight: 500,
           background: 'var(--bg-card)',
           userSelect: 'none',
         }}
       >
         <span style={{
-          color: 'var(--texte-sec)', fontSize: 10,
+          color: 'var(--texte-sec)', fontSize: 12,
           transition: 'transform 0.2s',
           transform: open ? 'rotate(90deg)' : 'none',
           display: 'inline-block',
@@ -81,7 +81,7 @@ function ToggleBlock({ content }) {
       {open && (
         <div style={{
           padding: '10px 14px',
-          fontSize: 14,
+          fontSize: 16,
           color: 'var(--texte-sec)',
           borderTop: '1px solid var(--gris)',
           background: 'var(--bg)',
@@ -131,7 +131,7 @@ export default function NotionBlocks({ blocks }) {
   if (!groups.length) return null
 
   return (
-    <div style={{ lineHeight: 1.75, color: 'var(--texte)', fontSize: 15 }}>
+    <div style={{ lineHeight: 1.65, color: 'var(--texte)', fontSize: 16 }}>
       {groups.map((group, gi) => {
 
         /* ── Listes groupées ── */
@@ -139,8 +139,8 @@ export default function NotionBlocks({ blocks }) {
           return (
             <ul key={gi} style={{ listStyle: 'none', padding: 0, margin: '4px 0 14px' }}>
               {group.items.map(item => (
-                <li key={item.id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '3px 0', fontSize: 15, lineHeight: 1.65 }}>
-                  <span style={{ color: 'var(--vert)', fontSize: 18, lineHeight: 1.4, flexShrink: 0, marginTop: 1 }}>·</span>
+                <li key={item.id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '3px 0', fontSize: 16, lineHeight: 1.65 }}>
+                  <span style={{ color: 'var(--vert)', fontSize: 18, lineHeight: 1.40, flexShrink: 0, marginTop: 1 }}>·</span>
                   <span><RichText rt={item.bulleted_list_item?.rich_text} /></span>
                 </li>
               ))}
@@ -152,8 +152,8 @@ export default function NotionBlocks({ blocks }) {
           return (
             <ol key={gi} style={{ listStyle: 'none', padding: 0, margin: '4px 0 14px' }}>
               {group.items.map((item, idx) => (
-                <li key={item.id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '3px 0', fontSize: 15, lineHeight: 1.65 }}>
-                  <span style={{ color: 'var(--terra)', fontWeight: 700, fontSize: 14, fontFamily: 'var(--font-accent)', minWidth: 22, flexShrink: 0, marginTop: 2 }}>
+                <li key={item.id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '3px 0', fontSize: 16, lineHeight: 1.65 }}>
+                  <span style={{ color: 'var(--terra)', fontWeight: 700, fontSize: 16, fontFamily: 'var(--font-accent)', minWidth: 22, flexShrink: 0, marginTop: 2 }}>
                     {idx + 1}.
                   </span>
                   <span><RichText rt={item.numbered_list_item?.rich_text} /></span>
@@ -172,7 +172,7 @@ export default function NotionBlocks({ blocks }) {
           case 'paragraph':
             if (!content?.rich_text?.length) return <div key={id} style={{ height: 8 }} />
             return (
-              <p key={id} style={{ margin: '0 0 14px', fontSize: 15, lineHeight: 1.75 }}>
+              <p key={id} style={{ margin: '0 0 14px', fontSize: 16, lineHeight: 1.65 }}>
                 <RichText rt={content.rich_text} />
               </p>
             )
@@ -188,7 +188,7 @@ export default function NotionBlocks({ blocks }) {
                 margin: '28px 0 12px',
                 paddingLeft: 12,
                 borderLeft: '3px solid var(--vert)',
-                lineHeight: 1.3,
+                lineHeight: 1.30,
               }}>
                 <RichText rt={content?.rich_text} />
               </h2>
@@ -214,7 +214,7 @@ export default function NotionBlocks({ blocks }) {
           case 'heading_3':
             return (
               <h4 key={id} style={{
-                fontSize: 12,
+                fontSize: 13,
                 fontWeight: 700,
                 color: 'var(--terra)',
                 letterSpacing: '0.05em',
@@ -227,7 +227,7 @@ export default function NotionBlocks({ blocks }) {
 
           case 'to_do':
             return (
-              <div key={id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '5px 0', fontSize: 15 }}>
+              <div key={id} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '5px 0', fontSize: 16 }}>
                 <div style={{
                   width: 18, height: 18,
                   borderRadius: 4,
@@ -235,7 +235,7 @@ export default function NotionBlocks({ blocks }) {
                   background: content?.checked ? 'var(--vert)' : 'transparent',
                   flexShrink: 0, marginTop: 2,
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'white', fontSize: 11,
+                  color: 'white', fontSize: 12,
                 }}>
                   {content?.checked ? '✓' : ''}
                 </div>
@@ -261,8 +261,8 @@ export default function NotionBlocks({ blocks }) {
                 margin: '14px 0',
                 display: 'flex',
                 gap: 10,
-                fontSize: 14,
-                lineHeight: 1.6,
+                fontSize: 16,
+                lineHeight: 1.65,
                 alignItems: 'flex-start',
               }}>
                 <span style={{ fontSize: 16, flexShrink: 0, marginTop: 1 }}>{emoji}</span>
@@ -279,7 +279,7 @@ export default function NotionBlocks({ blocks }) {
                 margin: '14px 0',
                 fontStyle: 'italic',
                 color: 'var(--texte-sec)',
-                fontSize: 15,
+                fontSize: 16,
                 background: 'rgba(176,125,42,0.07)',
                 borderRadius: '0 var(--radius-sm) var(--radius-sm) 0',
               }}>
@@ -304,10 +304,10 @@ export default function NotionBlocks({ blocks }) {
                 color: '#F4EDE0',
                 padding: '12px 16px',
                 borderRadius: 'var(--radius-sm)',
-                fontSize: 13,
+                fontSize: 14,
                 overflowX: 'auto',
                 margin: '12px 0',
-                lineHeight: 1.6,
+                lineHeight: 1.65,
               }}>
                 <RichText rt={content?.rich_text} />
               </pre>
@@ -326,7 +326,7 @@ export default function NotionBlocks({ blocks }) {
                 {caption && (
                   <figcaption style={{
                     textAlign: 'center',
-                    fontSize: 12,
+                    fontSize: 13,
                     color: 'var(--texte-sec)',
                     marginTop: 6,
                     fontStyle: 'italic',

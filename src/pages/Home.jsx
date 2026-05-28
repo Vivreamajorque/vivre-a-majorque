@@ -53,7 +53,7 @@ function CockpitMini({ profileNotion, profileId }) {
         <div className="progress-bar" style={{ marginBottom: 8 }}>
           <div className="progress-fill" style={{ width: `${pct}%` }} />
         </div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-titre)', fontStyle: 'italic' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--texte-sec)', fontFamily: 'var(--font-titre)', fontStyle: 'italic' }}>
           <span>{done}/{total} étapes validées</span>
           {next && <span style={{ color: VERT }}>→ {next.etape}</span>}
         </div>
@@ -86,7 +86,7 @@ function ActuCard({ actu, index }) {
             <div>
               <span style={{
                 fontFamily: 'var(--font-accent)',
-                fontWeight: 700, fontSize: 15, color,
+                fontWeight: 700, fontSize: 16, color,
               }}>
                 {actu.categorie}
               </span>
@@ -96,7 +96,7 @@ function ActuCard({ actu, index }) {
           {actu.date && (
             <span style={{
               fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontSize: 11, color: 'var(--texte-sec)',
+              fontSize: 12, color: 'var(--texte-sec)',
             }}>
               {new Date(actu.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
             </span>
@@ -106,7 +106,7 @@ function ActuCard({ actu, index }) {
         {/* Titre */}
         <p style={{
           fontFamily: 'var(--font-display)', fontWeight: 900,
-          fontSize: 15, color: 'var(--texte)', lineHeight: 1.35,
+          fontSize: 16, color: 'var(--texte)', lineHeight: 1.40,
           display: '-webkit-box', WebkitLineClamp: 3,
           WebkitBoxOrient: 'vertical', overflow: 'hidden',
           margin: 0,
@@ -118,7 +118,7 @@ function ActuCard({ actu, index }) {
         {actu.resume && (
           <p style={{
             fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-            fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.45,
+            fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.50,
             display: '-webkit-box', WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical', overflow: 'hidden',
             margin: 0,
@@ -133,7 +133,7 @@ function ActuCard({ actu, index }) {
             <div style={{ width: 5, height: 5, borderRadius: '50%', background: color }} />
             <span style={{
               fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontSize: 11, color: 'var(--texte-sec)',
+              fontSize: 12, color: 'var(--texte-sec)',
             }}>
               {actu.sourceDomain}
             </span>
@@ -157,7 +157,7 @@ function ActuCarousel({ actus, loading }) {
         </div>
         <Link to="/app/actus" style={{
           fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-          fontSize: 13, color: TERRA, paddingBottom: 4,
+          fontSize: 14, color: TERRA, paddingBottom: 4,
         }}>
           Toutes →
         </Link>
@@ -208,7 +208,7 @@ export default function Home() {
               fontFamily: 'var(--font-titre)',
               fontStyle: 'italic', fontWeight: 400,
               fontSize: 18, color: VERT,
-              lineHeight: 1.2, marginBottom: 2,
+              lineHeight: 1.25, marginBottom: 2,
             }}>
               l'appli pour
             </span>
@@ -248,7 +248,7 @@ export default function Home() {
               <span style={{
                 display: 'block', marginTop: 6,
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 12, color: 'var(--texte-sec)',
+                fontSize: 13, color: 'var(--texte-sec)',
               }}>
                 {card.context}
               </span>
