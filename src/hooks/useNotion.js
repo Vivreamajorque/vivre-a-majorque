@@ -132,7 +132,20 @@ export function parseAnnuaire(page) {
   return {
     id: page.id,
     nom: p['Nom_professionnel']?.title?.[0]?.plain_text || p.Nom?.title?.[0]?.plain_text || '',
-    metier: p['Profession']?.select?.name || p['Métier']?.select?.name || p['Catégorie']?.select?.name || '',
+    metier: (() => {
+      const raw = p['Profession']?.select?.name || p['Métier']?.select?.name || p['Catégorie']?.select?.name || ''
+      // Si "Autre", extraire la vraie catégorie depuis Spécialité_expats
+      if (raw.includes('Autre')) {
+        const spe = p['Spécialité_expats']?.rich_text?.[0]?.plain_text || ''
+        if (spe.toLowerCase().includes('tatou')) return 'Tatoueur'
+        if (spe.toLowerCase().includes('coach')) return 'Coach'
+        if (spe.toLowerCase().includes('photo')) return 'Photographe'
+        if (spe.toLowerCase().includes('traduct')) return 'Traducteur'
+        return raw
+      }
+      return raw
+    })(),
+    specialite: p['Spécialité_expats']?.rich_text?.[0]?.plain_text || '',
     ville: p['Zone_géographique']?.multi_select?.[0]?.name || p.Ville?.select?.name || '',
     langue: p['Langues']?.multi_select?.map(l => l.name) || p.Langue?.multi_select?.map(l => l.name) || [],
     tel: p['Téléphone']?.phone_number || p.Tel?.phone_number || '',
