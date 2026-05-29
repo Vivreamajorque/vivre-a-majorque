@@ -180,8 +180,26 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   }, [hasData, isPremium])
 
   const handleOnboardingSubmit = async ({ prenom, email: userEmail, newsletter }) => {
+    // 1. Sauvegarde locale immédiate (UX réactive)
     saveUser({ prenom, email: userEmail, newsletter })
     setShowOnboarding(false)
+
+    // 2. Envoi à Brevo en arrière-plan (non bloquant)
+    try {
+      await fetch('/api/subscribe', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          prenom,
+          email: userEmail,
+          newsletter,
+          profil: profile?.label || '',
+        }),
+      })
+    } catch (err) {
+      // Silencieux — les données sont déjà en localStorage
+      console.warn('Subscribe API unavailable:', err.message)
+    }
   }
 
   /* Données cockpit pour la progression et la prochaine étape */
