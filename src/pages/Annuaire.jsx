@@ -95,17 +95,7 @@ function ProCard({ pro }) {
               📍 {pro.ville}
             </span>
           )}
-          {pro.description && /\d,\d\s*⭐/.test(pro.description) && (() => {
-            const m = pro.description.match(/(\d,\d)\s*⭐\s*\((\d+)\s*avis\)/)
-            return m ? (
-              <span style={{
-                fontSize: 12, background: 'rgba(251,188,4,0.15)', color: '#b7791f',
-                padding: '2px 8px', borderRadius: 20, fontWeight: 600,
-              }}>
-                ⭐ {m[1]} ({m[2]} avis)
-              </span>
-            ) : null
-          })()}
+
           {pro.langue?.filter(l => LANG_FLAG[l]).map(l => (
             <span key={l} style={{
               fontSize: 12, background: 'rgba(90,173,165,0.10)',
