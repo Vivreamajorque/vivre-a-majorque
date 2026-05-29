@@ -28,6 +28,14 @@ export default function Onboarding() {
     if (!isValidEmail(email)) { setEmailError('Adresse email invalide') ; return }
     setEmailError('')
     setSubmitting(true)
+    // Sauvegarde locale immédiate — évite la modale redondante dans Mon Espace
+    localStorage.setItem('vmaq_user', JSON.stringify({
+      prenom: inputPrenom.trim(),
+      email: email.toLowerCase(),
+      newsletter,
+      welcome: true,
+      created_at: new Date().toISOString(),
+    }))
     try {
       await fetch('/api/subscribe', {
         method: 'POST',
