@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useCallback } from 'react'
+import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import { useProfile } from '../context/ProfileContext'
 import { usePremium } from '../context/PremiumContext'
 import { useSavedGuides } from '../hooks/useSavedGuides'
@@ -7,14 +7,10 @@ import { NOTION_DB, PROFILS } from '../config'
 import { useNavigate } from 'react-router-dom'
 import { PaywallModal } from '../components/PaywallModal'
 import AccompagnementBanner from '../components/AccompagnementBanner'
-import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 
-const PROFIL_NEXT = {
-  reve: 'installe',
-  installe: 'premiere',
-  premiere: 'confirme',
-}
-
+/* ─────────────────────────────────────────────
+   Hook — étapes cochées
+───────────────────────────────────────────── */
 function useCheckedSteps(profileId) {
   const KEY = `vmaq_done_${profileId}`
   const [checked, setChecked] = useState(() => {
@@ -32,337 +28,123 @@ function useCheckedSteps(profileId) {
   return [checked, toggle]
 }
 
-// ─── Section Mes Guides Sauvegardés ─────────────────────────────────────────
-function MesGuides({ email, onUpgrade }) {
-  const { saved, toggle, isSaved } = useSavedGuides(email)
-  const navigate = useNavigate()
+const PROFIL_NEXT = { reve: 'installe', installe: 'premiere', premiere: 'confirme' }
 
-  return (
-    <div style={{ marginBottom: 28 }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-        <p className="section-title" style={{ margin: 0 }}>Mes guides sauvegardés</p>
-        {saved.length > 0 && (
-          <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontWeight: 500 }}>
-            {saved.length} guide{saved.length > 1 ? 's' : ''}
-          </span>
-        )}
-      </div>
-
-      {saved.length === 0 ? (
-        /* ── État vide avec explication ── */
-        <div style={{
-          background: 'var(--bg-card)',
-          border: '1.5px dashed var(--gris-mid)',
-          borderRadius: 'var(--radius)',
-          padding: '20px 18px',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: 8,
-          textAlign: 'center',
-        }}>
-          <span style={{ fontSize: 28 }}>🔖</span>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', fontWeight: 600 }}>
-            Aucun guide sauvegardé
-          </p>
-          <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.65, maxWidth: 260 }}>
-            Dans chaque guide, tapez l'icône 🏷 en haut à droite du titre pour le retrouver ici facilement.
-          </p>
-          <button
-            onClick={() => navigate('/app/guides')}
-            style={{
-              marginTop: 4,
-              background: 'none',
-              border: '1.5px solid var(--vert)',
-              color: 'var(--vert)',
-              borderRadius: 20,
-              padding: '7px 18px',
-              fontSize: 14, fontWeight: 600,
-              cursor: 'pointer',
-            }}
-          >
-            Parcourir les guides →
-          </button>
-        </div>
-      ) : (
-        /* ── Liste des guides sauvegardés ── */
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-          {saved
-            .slice()
-            .sort((a, b) => b.savedAt - a.savedAt)
-            .map(guide => (
-              <div
-                key={guide.id}
-                style={{
-                  background: 'var(--bg-card)',
-                  border: '1px solid var(--gris)',
-                  borderRadius: 'var(--radius-sm)',
-                  padding: '12px 14px',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                }}
-              >
-                {/* Icône catégorie */}
-                <div style={{
-                  width: 36, height: 36, borderRadius: 10,
-                  background: 'var(--vert-light)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  fontSize: 16, flexShrink: 0,
-                }}>
-                  🔖
-                </div>
-
-                {/* Texte */}
-                <div style={{ flex: 1, minWidth: 0 }}>
-                  <p style={{
-                    fontSize: 14, fontWeight: 500, color: 'var(--foret)',
-                    lineHeight: 1.40, marginBottom: 3,
-                    overflow: 'hidden', textOverflow: 'ellipsis',
-                    display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical',
-                  }}>
-                    {guide.title}
-                  </p>
-                  {guide.category && (
-                    <span style={{
-                      fontSize: 12, color: 'var(--texte-sec)',
-                      background: 'var(--gris)', padding: '1px 8px',
-                      borderRadius: 20, display: 'inline-block',
-                    }}>
-                      {guide.category}
-                    </span>
-                  )}
-                </div>
-
-                {/* Actions */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, flexShrink: 0, alignItems: 'flex-end' }}>
-                  <button
-                    onClick={() => navigate(`/app/guide/${guide.id}`)}
-                    style={{
-                      background: 'var(--foret)', color: 'white',
-                      border: 'none', borderRadius: 20,
-                      padding: '5px 12px', fontSize: 13, fontWeight: 600,
-                      cursor: 'pointer',
-                    }}
-                  >
-                    Lire →
-                  </button>
-                  <button
-                    onClick={() => toggle(guide)}
-                    style={{
-                      background: 'none', border: 'none',
-                      fontSize: 12, color: 'var(--texte-sec)',
-                      cursor: 'pointer', textDecoration: 'underline',
-                    }}
-                  >
-                    Retirer
-                  </button>
-                </div>
-              </div>
-            ))}
-        </div>
-      )}
-    </div>
-  )
-}
-
-// ─── CockpitFull ────────────────────────────────────────────────────────────
-function CockpitFull({ profileNotion, profileId, onUpgrade }) {
+/* ─────────────────────────────────────────────
+   Cockpit complet (vue dédiée)
+───────────────────────────────────────────── */
+function CockpitView({ profileNotion, profileId, onBack, onUpgrade }) {
   const { data, loading } = useNotionDB(NOTION_DB.cockpit)
   const { isPremium } = usePremium()
   const navigate = useNavigate()
   const [checked, toggle] = useCheckedSteps(profileId)
   const [showPaywallLocal, setShowPaywallLocal] = useState(false)
 
-  const steps = useMemo(() => {
-    return data
-      .map(parseCockpit)
+  const steps = useMemo(() =>
+    data.map(parseCockpit)
       .filter(s => !profileNotion || s.profilCible === profileNotion)
       .sort((a, b) => a.ordre - b.ordre)
-  }, [data, profileNotion])
+  , [data, profileNotion])
 
   const freeCount = useMemo(() => Math.max(1, Math.ceil(steps.length * 0.30)), [steps])
-
-  const stepsWithAccess = useMemo(() => {
-    return steps.map((s, i) => ({ ...s, accessible: isPremium || i < freeCount }))
-  }, [steps, isPremium, freeCount])
+  const stepsWithAccess = useMemo(() =>
+    steps.map((s, i) => ({ ...s, accessible: isPremium || i < freeCount }))
+  , [steps, isPremium, freeCount])
 
   const byPhase = useMemo(() => {
     const map = {}
-    stepsWithAccess.forEach(s => {
-      if (!map[s.phase]) map[s.phase] = []
-      map[s.phase].push(s)
-    })
+    stepsWithAccess.forEach(s => { if (!map[s.phase]) map[s.phase] = []; map[s.phase].push(s) })
     return map
   }, [stepsWithAccess])
 
-  const total = steps.length
-  const accessible = stepsWithAccess.filter(s => s.accessible).length
   const done = stepsWithAccess.filter(s => checked.has(s.id)).length
-  const doneAccessible = stepsWithAccess.filter(s => s.accessible && checked.has(s.id)).length
+  const total = steps.length
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
-  const allAccessibleDone = accessible > 0 && doneAccessible >= accessible
-  const nextProfil = PROFILS.find(p => p.id === PROFIL_NEXT[profileId])
 
   if (loading) return <div className="spinner">Chargement…</div>
-  if (steps.length === 0) return <div className="empty">Aucune étape pour ce profil.</div>
 
   return (
-    <div>
-      <div className="card" style={{ marginBottom: 16 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
-          <AccentWord color={VERT} size={22}>Progression</AccentWord>
-          <span style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 18 }}>{pct}%</span>
+    <div className="page">
+      {/* Header */}
+      <div style={{ paddingTop: 48, marginBottom: 20 }}>
+        <button onClick={onBack} style={{
+          display: 'flex', alignItems: 'center', gap: 6,
+          color: 'var(--vert)', fontSize: 13, fontWeight: 500,
+          background: 'none', border: 'none', padding: 0, cursor: 'pointer', marginBottom: 16,
+        }}>
+          ← Mon espace
+        </button>
+        <h1 style={{
+          fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontWeight: 300,
+          fontSize: 'var(--fs-2xl)', color: 'var(--foret)', lineHeight: 1.25, marginBottom: 12,
+        }}>
+          Mon Cockpit
+        </h1>
+        {/* Barre de progression */}
+        <div style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius-sm)', padding: '12px 14px', marginBottom: 4 }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8 }}>
+            <span style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{done} / {total} étapes</span>
+            <span style={{ fontWeight: 700, color: 'var(--foret)', fontSize: 16 }}>{pct}%</span>
+          </div>
+          <div style={{ height: 7, background: 'var(--gris)', borderRadius: 8, overflow: 'hidden' }}>
+            <div style={{ height: '100%', width: `${pct}%`, background: 'var(--foret)', borderRadius: 8, transition: 'width 0.4s' }} />
+          </div>
         </div>
-        <div style={{ height: 8, background: 'var(--gris)', borderRadius: 8, overflow: 'hidden', marginBottom: 6 }}>
-          <div style={{
-            height: '100%', borderRadius: 8,
-            background: pct >= 100 ? '#4caf50' : 'var(--foret)',
-            width: `${pct}%`, transition: 'width 0.4s ease',
-          }} />
-        </div>
-        <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
-          {done} / {total} étapes · {accessible < total && !isPremium && (
-            <span
-              onClick={onUpgrade}
-              style={{ color: 'var(--foret)', fontWeight: 600, cursor: 'pointer', textDecoration: 'underline' }}
-            >
-              {total - accessible} en Premium →
-            </span>
-          )}
-        </p>
       </div>
 
-      {allAccessibleDone && (
-        <div style={{
-          background: 'var(--vert-light)', border: '1.5px solid rgba(90,122,64,0.3)',
-          borderRadius: 14, padding: '16px 18px', marginBottom: 20, textAlign: 'center',
-        }}>
-          <div style={{ fontSize: 32, marginBottom: 8 }}>🎉</div>
-          {isPremium ? (
-            nextProfil ? (
-              <>
-                <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 6 }}>Toutes les étapes validées !</p>
-                <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 12 }}>Vous êtes prêt pour l'étape suivante.</p>
-                <button onClick={() => { const el = document.querySelector('[data-profile-picker]'); if (el) el.click() }}
-                  style={{ background: 'var(--foret)', color: 'white', padding: '10px 20px', borderRadius: 10, fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
-                  Passer à {nextProfil.emoji} {nextProfil.label} →
-                </button>
-              </>
-            ) : (
-              <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>Bravo ! Vous êtes un résident confirmé de Majorque 🌿</p>
-            )
-          ) : (
-            <>
-              <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 6 }}>Étapes gratuites complétées !</p>
-              <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 12 }}>Débloquez les {total - accessible} étapes suivantes avec Premium.</p>
-              <button onClick={onUpgrade} style={{ background: 'var(--foret)', color: 'white', padding: '10px 20px', borderRadius: 10, fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
-                Voir tout le Cockpit →
-              </button>
-            </>
-          )}
-        </div>
-      )}
-
+      {/* Étapes par phase */}
       {Object.entries(byPhase).map(([phase, phaseSteps]) => (
         <div key={phase} style={{ marginBottom: 20 }}>
           <p className="section-title">{phase}</p>
           {phaseSteps.map(step => {
             const isDone = checked.has(step.id)
-            if (!step.accessible) {
-              return (
-                <div key={step.id} onClick={onUpgrade} style={{ position: 'relative', marginBottom: 6, borderRadius: 10, overflow: 'hidden', cursor: 'pointer' }}>
-                  <div style={{ background: 'white', border: '1px solid var(--gris)', borderRadius: 10, padding: '12px 14px', filter: 'blur(3px)', userSelect: 'none', pointerEvents: 'none' }}>
-                    <p style={{ fontSize: 16, color: 'var(--foret)', fontWeight: 500 }}>{step.etape}</p>
-                    <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', marginTop: 4 }}>
-                      {step.categorie && <span className="badge badge-gris" style={{ fontSize: 12 }}>{step.categorie}</span>}
-                    </div>
-                  </div>
-                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(250,250,248,0.5)' }}>
-                    <div style={{ background: 'white', borderRadius: 20, padding: '4px 12px', display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
-                      <span style={{ fontSize: 16 }}>🔒</span>
-                      <span style={{ fontSize: 12, color: 'var(--foret)', fontWeight: 700 }}>Premium</span>
-                    </div>
+            if (!step.accessible) return (
+              <div key={step.id} onClick={onUpgrade} style={{ position: 'relative', marginBottom: 6, borderRadius: 10, overflow: 'hidden', cursor: 'pointer' }}>
+                <div style={{ background: 'white', border: '1px solid var(--gris)', borderRadius: 10, padding: '12px 14px', filter: 'blur(3px)', userSelect: 'none', pointerEvents: 'none' }}>
+                  <p style={{ fontSize: 14, color: 'var(--foret)', fontWeight: 500 }}>{step.etape}</p>
+                </div>
+                <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'rgba(250,250,248,0.5)' }}>
+                  <div style={{ background: 'white', borderRadius: 20, padding: '4px 12px', display: 'flex', alignItems: 'center', gap: 6, boxShadow: '0 2px 8px rgba(0,0,0,0.12)' }}>
+                    <span style={{ fontSize: 14 }}>🔒</span>
+                    <span style={{ fontSize: 11, color: 'var(--foret)', fontWeight: 700 }}>Premium</span>
                   </div>
                 </div>
-              )
-            }
+              </div>
+            )
             return (
-              <div
-                key={step.id}
-                style={{
-                  background: isDone ? 'var(--vert-light)' : 'white',
-                  border: `1px solid ${isDone ? 'rgba(90,122,64,0.2)' : 'var(--gris)'}`,
-                  borderRadius: 10, marginBottom: 6,
-                  overflow: 'hidden', transition: 'background 0.15s',
-                }}
-              >
-                {/* Zone principale — clique sur guide si dispo, sinon coche */}
-                <div
-                  onClick={() => {
-                    if (step.guideId) {
-                      navigate(`/app/guide/${step.guideId}?stepId=${step.id}&profileId=${profileId}`)
-                    } else {
-                      toggle(step.id)
-                    }
-                  }}
-                  style={{
-                    display: 'flex', gap: 10, alignItems: 'flex-start',
-                    padding: '12px 14px', cursor: 'pointer',
-                  }}
-                >
-                  {/* Checkbox — coche directement sans ouvrir le guide */}
-                  <div
-                    onClick={e => { e.stopPropagation(); toggle(step.id) }}
-                    style={{
-                      width: 22, height: 22, borderRadius: 6, flexShrink: 0, marginTop: 1,
-                      border: `2px solid ${isDone ? 'var(--foret)' : 'var(--gris)'}`,
-                      background: isDone ? 'var(--foret)' : 'transparent',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      transition: 'all 0.15s', cursor: 'pointer',
-                    }}
-                  >
-                    {isDone && <span style={{ color: 'white', fontSize: 14, fontWeight: 900 }}>✓</span>}
+              <div key={step.id} style={{
+                background: isDone ? 'var(--vert-light)' : 'white',
+                border: `1px solid ${isDone ? 'rgba(90,122,64,0.2)' : 'var(--gris)'}`,
+                borderRadius: 10, marginBottom: 6, overflow: 'hidden',
+              }}>
+                <div onClick={() => {
+                  if (step.guideId) navigate(`/app/guide/${step.guideId}?stepId=${step.id}&profileId=${profileId}`)
+                  else toggle(step.id)
+                }} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', padding: '12px 14px', cursor: 'pointer' }}>
+                  <div onClick={e => { e.stopPropagation(); toggle(step.id) }} style={{
+                    width: 22, height: 22, borderRadius: 6, flexShrink: 0, marginTop: 1,
+                    border: `2px solid ${isDone ? 'var(--foret)' : 'var(--gris)'}`,
+                    background: isDone ? 'var(--foret)' : 'transparent',
+                    display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  }}>
+                    {isDone && <span style={{ color: 'white', fontSize: 13, fontWeight: 900 }}>✓</span>}
                   </div>
-
-                  {/* Texte */}
-                  <div style={{ flex: 1, minWidth: 0 }}>
-                    <p style={{
-                      fontSize: 16, fontWeight: 500, lineHeight: 1.40, marginBottom: 4,
-                      color: isDone ? 'var(--texte-sec)' : 'var(--foret)',
-                      textDecoration: isDone ? 'line-through' : 'none',
-                    }}>{step.etape}</p>
+                  <div style={{ flex: 1 }}>
+                    <p style={{ fontSize: 14, fontWeight: 500, lineHeight: 1.4, marginBottom: 4, color: isDone ? 'var(--texte-sec)' : 'var(--foret)', textDecoration: isDone ? 'line-through' : 'none' }}>
+                      {step.etape}
+                    </p>
                     <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
-                      {step.categorie && <span className="badge badge-gris" style={{ fontSize: 12 }}>{step.categorie}</span>}
-                      {step.priorite === '🔴 Urgent' && <span className="badge badge-ocre" style={{ fontSize: 12 }}>Urgent</span>}
-                      {step.delai && <span style={{ fontSize: 12, color: 'var(--texte-sec)' }}>⏱ {step.delai}</span>}
+                      {step.categorie && <span className="badge badge-gris" style={{ fontSize: 10 }}>{step.categorie}</span>}
+                      {step.priorite === '🔴 Urgent' && <span className="badge badge-ocre" style={{ fontSize: 10 }}>Urgent</span>}
+                      {step.delai && <span style={{ fontSize: 11, color: 'var(--texte-sec)' }}>⏱ {step.delai}</span>}
                     </div>
                   </div>
-
-                  {/* Indicateur guide dispo */}
-                  {step.guideId && (
-                    <span style={{
-                      fontSize: 16, flexShrink: 0, marginTop: 2,
-                      color: 'var(--vert)', opacity: 0.8,
-                    }}>›</span>
-                  )}
+                  {step.guideId && <span style={{ color: 'var(--vert)', fontSize: 16, flexShrink: 0, marginTop: 2 }}>›</span>}
                 </div>
-
-                {/* Bannière "Guide disponible" si guide lié et étape non cochée */}
                 {step.guideId && !isDone && (
-                  <div
-                    onClick={() => navigate(`/app/guide/${step.guideId}?stepId=${step.id}&profileId=${profileId}`)}
-                    style={{
-                      borderTop: '1px solid var(--gris)',
-                      padding: '8px 14px',
-                      display: 'flex', alignItems: 'center', gap: 6,
-                      fontSize: 13, color: 'var(--vert)', fontWeight: 600,
-                      cursor: 'pointer', background: 'var(--vert-light)',
-                    }}
-                  >
-                    <span>📖</span>
-                    <span>Lire le guide pour valider cette étape</span>
-                    <span style={{ marginLeft: 'auto' }}>→</span>
+                  <div onClick={() => navigate(`/app/guide/${step.guideId}?stepId=${step.id}&profileId=${profileId}`)}
+                    style={{ borderTop: '1px solid var(--gris)', padding: '8px 14px', display: 'flex', alignItems: 'center', gap: 6, fontSize: 12, color: 'var(--vert)', fontWeight: 600, cursor: 'pointer', background: 'var(--vert-light)' }}>
+                    <span>📖</span><span>Lire le guide</span><span style={{ marginLeft: 'auto' }}>→</span>
                   </div>
                 )}
               </div>
@@ -370,130 +152,347 @@ function CockpitFull({ profileNotion, profileId, onUpgrade }) {
           })}
         </div>
       ))}
-
       <PaywallModal isOpen={showPaywallLocal} onClose={() => setShowPaywallLocal(false)} />
     </div>
   )
 }
 
-// ─── MonEspace ──────────────────────────────────────────────────────────────
-export default function MonEspace() {
+/* ─────────────────────────────────────────────
+   Dashboard principal
+───────────────────────────────────────────── */
+function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const { profile, chooseProfile } = useProfile()
   const { isPremium, role, email, logout } = usePremium()
+  const navigate = useNavigate()
   const [showProfilPicker, setShowProfilPicker] = useState(false)
-  const [showPaywall, setShowPaywall] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+
+  /* Données cockpit pour la progression et la prochaine étape */
+  const { data } = useNotionDB(NOTION_DB.cockpit)
+  const [checked] = useCheckedSteps(profile?.id || 'guest')
+
+  const steps = useMemo(() =>
+    data.map(parseCockpit)
+      .filter(s => !profile?.notion || s.profilCible === profile.notion)
+      .sort((a, b) => a.ordre - b.ordre)
+  , [data, profile])
+
+  const done = steps.filter(s => checked.has(s.id)).length
+  const total = steps.length
+  const pct = total > 0 ? Math.round((done / total) * 100) : 0
+
+  const nextUrgent = useMemo(() =>
+    steps.find(s => !checked.has(s.id) && (s.priorite === '🔴 Urgent' || s.priorite === '🟠 Important'))
+  , [steps, checked])
+
+  /* Guides sauvegardés */
+  const { saved } = useSavedGuides(email)
+
+  /* Salutation selon l'heure */
+  const greeting = useMemo(() => {
+    const h = new Date().getHours()
+    if (h < 12) return 'Bonjour'
+    if (h < 18) return 'Bonjour'
+    return 'Bonsoir'
+  }, [])
 
   return (
-    <div className="page">
-      <div className="page-header">
-        <PageHeading label="" title="Mon espace" accentColor={VERT} traitColor={VERT} />
-      </div>
+    <div className="page" style={{ paddingBottom: 100 }}>
+      <div style={{ paddingTop: 48 }}>
 
-      {/* Carte profil */}
-      <div className="card" style={{ marginBottom: 12 }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)' }}>Mon profil</p>
-          <button
-            data-profile-picker
-            onClick={() => setShowProfilPicker(!showProfilPicker)}
-            style={{ fontSize: 13, color: 'var(--foret)', fontWeight: 500, background: 'none', border: 'none', cursor: 'pointer' }}
-          >
-            Modifier
-          </button>
-        </div>
-        {profile ? (
-          <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-            <span style={{ fontSize: 28 }}>{profile.emoji}</span>
-            <div>
-              <p style={{ fontWeight: 600, fontSize: 16, color: 'var(--foret)' }}>{profile.label}</p>
-              <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>{profile.desc}</p>
+        {/* ── En-tête ── */}
+        <div style={{ marginBottom: 24 }}>
+          <p style={{ fontFamily: 'var(--font-accent)', fontSize: 20, color: 'var(--terra)', marginBottom: 2 }}>
+            {greeting} 👋
+          </p>
+          <h1 style={{
+            fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontWeight: 300,
+            fontSize: 'var(--fs-2xl)', color: 'var(--foret)', lineHeight: 1.25, marginBottom: 8,
+          }}>
+            Mon espace
+          </h1>
+          {profile && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+              <span style={{ fontSize: 16 }}>{profile.emoji}</span>
+              <span style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{profile.label}</span>
+              <button onClick={() => setShowProfilPicker(v => !v)} style={{
+                background: 'none', border: 'none', cursor: 'pointer',
+                fontSize: 12, color: 'var(--vert)', fontWeight: 600, textDecoration: 'underline',
+              }}>Changer</button>
             </div>
-          </div>
-        ) : (
-          <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>Aucun profil sélectionné</p>
-        )}
+          )}
+        </div>
+
+        {/* ── Sélecteur de profil ── */}
         {showProfilPicker && (
-          <div style={{ marginTop: 12, borderTop: '1px solid var(--gris)', paddingTop: 12 }}>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius)', padding: '12px 16px', marginBottom: 20 }}>
             {PROFILS.map(p => (
               <button key={p.id} onClick={() => { chooseProfile(p.id); setShowProfilPicker(false) }} style={{
-                display: 'flex', gap: 10, alignItems: 'center', width: '100%', padding: '8px 0',
-                borderBottom: '1px solid var(--gris)', background: 'none', cursor: 'pointer', textAlign: 'left', border: 'none',
+                display: 'flex', gap: 10, alignItems: 'center', width: '100%',
+                padding: '10px 0', borderBottom: '1px solid var(--gris)',
+                background: 'none', cursor: 'pointer', textAlign: 'left', border: 'none',
               }}>
                 <span style={{ fontSize: 20 }}>{p.emoji}</span>
-                <span style={{ fontSize: 16, color: 'var(--foret)' }}>{p.label}</span>
+                <div>
+                  <p style={{ fontSize: 14, color: 'var(--foret)', fontWeight: 500, marginBottom: 1 }}>{p.label}</p>
+                  <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>{p.desc}</p>
+                </div>
+                {profile?.id === p.id && <span style={{ marginLeft: 'auto', color: 'var(--vert)', fontSize: 16 }}>✓</span>}
               </button>
             ))}
           </div>
         )}
-      </div>
 
-      {/* Carte accès premium */}
-      <div style={{
-        background: isPremium ? 'var(--vert-light)' : 'var(--gris)',
-        border: isPremium ? '1px solid rgba(90,122,64,0.2)' : '1px solid rgba(0,0,0,0.06)',
-        borderRadius: 14, padding: '16px 18px', marginBottom: 24,
-      }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div>
-            <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 4 }}>
-              {isPremium ? '💎 Premium actif' : '🟢 Accès gratuit'}
-            </p>
-            {isPremium ? (
-              <>
-                {role === 'admin' && (
-                  <span style={{ fontSize: 12, background: 'var(--foret)', color: 'white', padding: '2px 8px', borderRadius: 20, fontWeight: 700, letterSpacing: 0.5, display: 'inline-block', marginBottom: 6 }}>ADMIN</span>
-                )}
-                {email && <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>{email}</p>}
-              </>
-            ) : (
-              <>
-                <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 10 }}>
-                  Débloquez 100% des guides et tous les outils.
-                </p>
-                <button onClick={() => setShowPaywall(true)} style={{ background: 'var(--foret)', color: 'white', padding: '10px 18px', borderRadius: 10, fontSize: 14, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
-                  Découvrir Premium →
-                </button>
-              </>
+        {/* ── Si pas de profil ── */}
+        {!profile && (
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius)', padding: '20px', textAlign: 'center', marginBottom: 20 }}>
+            <p style={{ fontSize: 28, marginBottom: 8 }}>🧭</p>
+            <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 6 }}>Choisissez votre profil</p>
+            <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 14 }}>Pour personnaliser votre espace et accéder à votre cockpit d'installation.</p>
+            <button onClick={() => setShowProfilPicker(true)} style={{ background: 'var(--foret)', color: 'white', padding: '10px 20px', borderRadius: 10, fontSize: 14, fontWeight: 600, border: 'none', cursor: 'pointer' }}>
+              Choisir mon profil →
+            </button>
+          </div>
+        )}
+
+        {/* ── Deux cartes accès rapide ── */}
+        {profile && (
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
+            {/* Cockpit */}
+            <button onClick={onShowCockpit} style={{
+              background: 'var(--foret)', border: 'none', borderRadius: 'var(--radius)',
+              padding: '18px 14px', cursor: 'pointer', textAlign: 'left',
+              display: 'flex', flexDirection: 'column', gap: 6,
+            }}>
+              <span style={{ fontSize: 24 }}>🧭</span>
+              <span style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'white', fontWeight: 600, lineHeight: 1.3 }}>Mon Cockpit</span>
+              <span style={{ fontSize: 12, color: 'rgba(255,255,255,0.7)', lineHeight: 1.4 }}>
+                {total > 0 ? `${pct}% — ${done}/${total} étapes` : 'Votre suivi d\'installation'}
+              </span>
+              {total > 0 && (
+                <div style={{ height: 4, background: 'rgba(255,255,255,0.2)', borderRadius: 4, overflow: 'hidden', marginTop: 4 }}>
+                  <div style={{ height: '100%', width: `${pct}%`, background: 'rgba(255,255,255,0.8)', borderRadius: 4 }} />
+                </div>
+              )}
+            </button>
+
+            {/* Guides sauvegardés */}
+            <button onClick={() => navigate('/app/guides')} style={{
+              background: 'var(--bg-card)', border: '1px solid var(--gris)',
+              borderRadius: 'var(--radius)', padding: '18px 14px', cursor: 'pointer', textAlign: 'left',
+              display: 'flex', flexDirection: 'column', gap: 6,
+            }}>
+              <span style={{ fontSize: 24 }}>🔖</span>
+              <span style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', fontWeight: 600, lineHeight: 1.3 }}>Mes guides</span>
+              <span style={{ fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>
+                {isPremium
+                  ? saved.length > 0 ? `${saved.length} sauvegardé${saved.length > 1 ? 's' : ''}` : 'Aucun sauvegardé'
+                  : 'Disponible en Premium'}
+              </span>
+            </button>
+          </div>
+        )}
+
+        {/* ── Guides sauvegardés (si Premium + guides) ── */}
+        {isPremium && saved.length > 0 && (
+          <div style={{ marginBottom: 20 }}>
+            <p className="section-title" style={{ marginBottom: 10 }}>Mes guides sauvegardés</p>
+            {saved.slice(0, 3).map(guide => (
+              <div key={guide.id} onClick={() => navigate(`/app/guide/${guide.id}`)}
+                style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius-sm)', padding: '12px 14px', marginBottom: 6, display: 'flex', alignItems: 'center', gap: 10, cursor: 'pointer' }}>
+                <span style={{ fontSize: 20 }}>🔖</span>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--foret)', lineHeight: 1.35, overflow: 'hidden', textOverflow: 'ellipsis', display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical' }}>{guide.title}</p>
+                  {guide.category && <span style={{ fontSize: 11, color: 'var(--texte-sec)', background: 'var(--gris)', padding: '1px 7px', borderRadius: 20 }}>{guide.category}</span>}
+                </div>
+                <span style={{ color: 'var(--texte-sec)', fontSize: 16, flexShrink: 0 }}>›</span>
+              </div>
+            ))}
+            {saved.length > 3 && (
+              <button onClick={() => navigate('/app/guides')} style={{ width: '100%', background: 'none', border: '1px solid var(--gris)', borderRadius: 'var(--radius-sm)', padding: '9px', fontSize: 13, color: 'var(--texte-sec)', cursor: 'pointer' }}>
+                Voir les {saved.length - 3} autres →
+              </button>
             )}
           </div>
-          {isPremium && (
-            <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 12, color: 'var(--texte-sec)', textDecoration: 'underline', marginTop: 2, flexShrink: 0 }}>
-              Déconnecter
-            </button>
-          )}
+        )}
+
+        {/* ── Prochaine étape urgente ── */}
+        {profile && nextUrgent && (
+          <div style={{ marginBottom: 20 }}>
+            <p className="section-title" style={{ marginBottom: 10 }}>Prochaine étape</p>
+            <div style={{ background: 'var(--bg-card)', border: '1.5px solid var(--terra-light)', borderLeft: '3px solid var(--terra)', borderRadius: 'var(--radius-sm)', overflow: 'hidden' }}>
+              <div style={{ padding: '14px 14px 10px' }}>
+                <div style={{ display: 'flex', gap: 6, marginBottom: 8, flexWrap: 'wrap', alignItems: 'center' }}>
+                  {nextUrgent.priorite === '🔴 Urgent' && <span className="badge badge-ocre" style={{ fontSize: 10 }}>Urgent</span>}
+                  {nextUrgent.categorie && <span className="badge badge-gris" style={{ fontSize: 10 }}>{nextUrgent.categorie}</span>}
+                </div>
+                <p style={{ fontSize: 15, fontWeight: 500, color: 'var(--foret)', lineHeight: 1.4, marginBottom: nextUrgent.delai ? 6 : 0 }}>{nextUrgent.etape}</p>
+                {nextUrgent.delai && <p style={{ fontSize: 12, color: 'var(--terra)', fontWeight: 500 }}>⏱ {nextUrgent.delai}</p>}
+              </div>
+              {nextUrgent.guideId && (
+                <button onClick={() => navigate(`/app/guide/${nextUrgent.guideId}?stepId=${nextUrgent.id}&profileId=${profile.id}`)}
+                  style={{ width: '100%', background: 'var(--terra-light)', border: 'none', borderTop: '1px solid rgba(199,110,78,0.15)', padding: '9px 14px', fontSize: 12, color: 'var(--terra)', fontWeight: 600, cursor: 'pointer', textAlign: 'left', display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span>📖</span><span>Lire le guide</span><span style={{ marginLeft: 'auto' }}>→</span>
+                </button>
+              )}
+            </div>
+          </div>
+        )}
+
+        {/* ── Accès Premium ── */}
+        <div style={{ marginBottom: 20 }}>
+          <p className="section-title" style={{ marginBottom: 10 }}>Mon accès</p>
+          <div style={{
+            background: isPremium ? 'var(--vert-light)' : 'var(--bg-card)',
+            border: `1px solid ${isPremium ? 'rgba(90,122,64,0.2)' : 'var(--gris)'}`,
+            borderRadius: 'var(--radius)', padding: '16px 18px',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>
+                <p style={{ fontFamily: 'var(--font-titre)', fontSize: 16, color: 'var(--foret)', marginBottom: 4 }}>
+                  {isPremium ? '💎 Premium actif' : '🟢 Accès gratuit'}
+                </p>
+                {isPremium ? (
+                  <>
+                    {role === 'admin' && <span style={{ fontSize: 10, background: 'var(--foret)', color: 'white', padding: '2px 8px', borderRadius: 20, fontWeight: 700, display: 'inline-block', marginBottom: 4 }}>ADMIN</span>}
+                    {email && <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{email}</p>}
+                  </>
+                ) : (
+                  <>
+                    <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 10 }}>Débloquez 100% des guides et tous les outils.</p>
+                    <button onClick={onUpgrade} style={{ background: 'var(--foret)', color: 'white', padding: '10px 18px', borderRadius: 10, fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer' }}>
+                      Découvrir Premium →
+                    </button>
+                  </>
+                )}
+              </div>
+              {isPremium && (
+                <button onClick={logout} style={{ background: 'none', border: 'none', cursor: 'pointer', fontSize: 11, color: 'var(--texte-sec)', textDecoration: 'underline', flexShrink: 0 }}>
+                  Déconnecter
+                </button>
+              )}
+            </div>
+          </div>
         </div>
+
+        {/* ── Accompagnement ── */}
+        <AccompagnementBanner
+          texte="Vous préférez être guidé·e plutôt qu'avancer seul·e ?"
+          cta="Voir les accompagnements →"
+          style={{ marginBottom: 20 }}
+        />
+
+        {/* ── Gestion du compte (légal RGPD / LSSI) ── */}
+        <div style={{ marginBottom: 8 }}>
+          <p className="section-title" style={{ marginBottom: 10 }}>Gestion du compte</p>
+          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius)', overflow: 'hidden' }}>
+
+            {/* Résilier l'abonnement */}
+            {isPremium && (
+              <a href="mailto:vivre@vivre-a-majorque.es?subject=Résiliation%20abonnement%20Premium" style={{
+                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                padding: '14px 16px', borderBottom: '1px solid var(--gris)',
+                fontSize: 14, color: 'var(--texte)', textDecoration: 'none',
+              }}>
+                <div>
+                  <p style={{ fontWeight: 500, marginBottom: 2 }}>Résilier mon abonnement</p>
+                  <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>Annuler le renouvellement Premium</p>
+                </div>
+                <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>›</span>
+              </a>
+            )}
+
+            {/* Supprimer mes données */}
+            <div>
+              {!showDeleteConfirm ? (
+                <button onClick={() => setShowDeleteConfirm(true)} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  width: '100%', padding: '14px 16px', borderBottom: '1px solid var(--gris)',
+                  background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
+                }}>
+                  <div>
+                    <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--texte)', marginBottom: 2 }}>Supprimer mes données</p>
+                    <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>Droit à l'effacement — Art. 17 RGPD</p>
+                  </div>
+                  <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>›</span>
+                </button>
+              ) : (
+                <div style={{ padding: '14px 16px', borderBottom: '1px solid var(--gris)', background: 'rgba(199,78,78,0.05)' }}>
+                  <p style={{ fontSize: 13, color: 'var(--texte)', marginBottom: 10, lineHeight: 1.5 }}>
+                    Vos données locales (progression, guides sauvegardés) seront supprimées de cet appareil. Pour la suppression de votre compte Premium, un email vous sera adressé sous 72h.
+                  </p>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <a href={`mailto:vivre@vivre-a-majorque.es?subject=Suppression%20données%20RGPD${email ? `&body=Adresse%20associée%20%3A%20${encodeURIComponent(email)}` : ''}`}
+                      onClick={() => {
+                        localStorage.clear()
+                        setShowDeleteConfirm(false)
+                      }}
+                      style={{ background: '#C74E4E', color: 'white', padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>
+                      Confirmer la suppression
+                    </a>
+                    <button onClick={() => setShowDeleteConfirm(false)} style={{ background: 'none', border: '1px solid var(--gris)', padding: '8px 14px', borderRadius: 8, fontSize: 13, cursor: 'pointer', color: 'var(--texte-sec)' }}>
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* Politique de confidentialité */}
+            <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer" style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              padding: '14px 16px', fontSize: 14, color: 'var(--texte)', textDecoration: 'none',
+            }}>
+              <div>
+                <p style={{ fontWeight: 500, marginBottom: 2 }}>Politique de confidentialité</p>
+                <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>RGPD · LOPDGDD · LSSI — AEPD</p>
+              </div>
+              <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>↗</span>
+            </a>
+          </div>
+        </div>
+
+        <p style={{ fontSize: 11, color: 'var(--texte-sec)', textAlign: 'center', marginTop: 12, lineHeight: 1.6 }}>
+          Vivre à Majorque — Conformité RGPD (UE 2016/679) · LOPDGDD · LSSI{'\n'}
+          Responsable de traitement : Amely Attias — vivre@vivre-a-majorque.es
+        </p>
+
       </div>
+    </div>
+  )
+}
 
-      {/* ── Mes guides sauvegardés (Premium uniquement) ── */}
-      {isPremium && <MesGuides email={email} />}
+/* ─────────────────────────────────────────────
+   Composant principal
+───────────────────────────────────────────── */
+export default function MonEspace() {
+  const { profile } = useProfile()
+  const { isPremium } = usePremium()
+  const [view, setView] = useState('dashboard') // 'dashboard' | 'cockpit'
+  const [showPaywall, setShowPaywall] = useState(false)
 
-      {/* Cockpit */}
-      {profile ? (
-        <div>
-          <p className="section-title">Mon cockpit d'installation</p>
-          <CockpitFull
-            profileNotion={profile.notion}
-            profileId={profile.id}
-            onUpgrade={() => setShowPaywall(true)}
-          />
-        </div>
-      ) : (
-        <div style={{ background: 'var(--ocre-light)', borderRadius: 14, padding: '20px', textAlign: 'center', border: '1px solid rgba(196,122,90,0.15)' }}>
-          <div style={{ fontSize: 28, marginBottom: 8 }}>🧭</div>
-          <p style={{ fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-lg)', color: 'var(--foret)', marginBottom: 6 }}>Choisissez votre profil</p>
-          <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 14 }}>Pour voir votre cockpit personnalisé, sélectionnez votre situation.</p>
-          <button onClick={() => setShowProfilPicker(true)} style={{ background: 'var(--foret)', color: 'white', padding: '10px 20px', borderRadius: 10, fontSize: 14, fontWeight: 600, border: 'none', cursor: 'pointer' }}>
-            Choisir mon profil →
-          </button>
-        </div>
-      )}
+  if (view === 'cockpit' && profile) {
+    return (
+      <>
+        <CockpitView
+          profileNotion={profile.notion}
+          profileId={profile.id}
+          onBack={() => setView('dashboard')}
+          onUpgrade={() => { setView('dashboard'); setShowPaywall(true) }}
+        />
+        <PaywallModal isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
+      </>
+    )
+  }
 
-      <AccompagnementBanner
-        texte="Vous préférez ne pas avancer seul·e dans ces étapes ? Je peux analyser votre situation et vous guider de A à Z."
-        cta="Découvrir les accompagnements →"
-        style={{ marginTop: 28 }}
+  return (
+    <>
+      <Dashboard
+        onShowCockpit={() => setView('cockpit')}
+        onUpgrade={() => setShowPaywall(true)}
+        setShowPaywall={setShowPaywall}
       />
       <PaywallModal isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
-    </div>
+    </>
   )
 }
