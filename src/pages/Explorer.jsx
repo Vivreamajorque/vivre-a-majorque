@@ -82,31 +82,35 @@ export default function Explorer() {
         {CARDS.map(card => {
           const inner = (
             <div style={{
-              background: card.bg,
+              background: 'var(--bg-card)',
               borderRadius: 'var(--radius)',
-              padding: '20px 16px',
-              border: `1px solid ${card.border}`,
+              padding: '18px 16px',
+              border: '1px solid var(--gris)',
+              boxShadow: '0 1px 4px rgba(0,0,0,0.05)',
               display: 'flex',
               flexDirection: 'column',
               gap: 6,
               position: 'relative',
               minHeight: 110,
-              opacity: card.coming ? 0.65 : 1,
+              opacity: card.coming ? 0.6 : 1,
             }}>
               {card.coming && (
                 <span style={{
                   position: 'absolute', top: 8, right: 8,
-                  fontSize: 12, background: 'rgba(0,0,0,0.08)',
+                  fontSize: 11, background: 'var(--gris)',
                   color: 'var(--texte-sec)', padding: '2px 7px',
                   borderRadius: 20, fontWeight: 700,
                 }}>{card.comingLabel || 'À venir'}</span>
               )}
               <span style={{ fontSize: 26 }}>{card.emoji}</span>
               <span style={{
-                fontFamily: 'var(--font-accent)', fontWeight: 700, fontSize: 18,
-                color: 'var(--foret)', fontWeight: 700, lineHeight: 1.25,
+                fontFamily: 'var(--font-titre)',
+                fontWeight: 600,
+                fontSize: 'var(--fs-lg)',
+                color: 'var(--foret)',
+                lineHeight: 1.25,
               }}>{card.title}</span>
-              <span style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.40 }}>
+              <span style={{ fontSize: 'var(--fs-sm)', color: 'var(--texte-sec)', lineHeight: 1.40 }}>
                 {card.desc}
               </span>
             </div>
