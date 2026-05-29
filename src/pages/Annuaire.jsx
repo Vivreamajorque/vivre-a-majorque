@@ -4,6 +4,13 @@ import { useNotionDB, parseAnnuaire } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 import { AccentWord, TERRA, VERT } from '../components/WaveTitle'
 
+/* ── Badge Nouveau — fiche < 30 jours ── */
+const isNew = (createdAt) => {
+  if (!createdAt) return false
+  const diff = Date.now() - new Date(createdAt).getTime()
+  return diff < 30 * 24 * 60 * 60 * 1000
+}
+
 /* ── Emojis par catégorie ── */
 const CAT_EMOJI = {
   'Médecin':           '🩺', 'Médecin généraliste': '🩺', 'Médecin de famille': '🩺',
@@ -104,6 +111,13 @@ function ProCard({ pro }) {
               {langFlag(l)} {l}
             </span>
           ))}
+          {isNew(pro.createdAt) && (
+            <span style={{
+              fontSize: 11, fontWeight: 800, letterSpacing: '0.04em',
+              background: 'linear-gradient(135deg, var(--terra), #E8834A)',
+              color: 'white', padding: '2px 8px', borderRadius: 20,
+            }}>🆕 Nouveau</span>
+          )}
         </div>
 
         {/* Description toujours visible (tronquée si non expanded) */}

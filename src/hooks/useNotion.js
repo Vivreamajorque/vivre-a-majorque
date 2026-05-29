@@ -146,6 +146,7 @@ export function parseAnnuaire(page) {
       return raw
     })(),
     specialite: p['Spécialité_expats']?.rich_text?.[0]?.plain_text || '',
+    createdAt: page.created_time || '',
     ville: p['Zone_géographique']?.multi_select?.[0]?.name || p.Ville?.select?.name || '',
     langue: p['Langues']?.multi_select?.map(l => l.name) || p.Langue?.multi_select?.map(l => l.name) || [],
     tel: p['Téléphone']?.phone_number || p.Tel?.phone_number || '',
