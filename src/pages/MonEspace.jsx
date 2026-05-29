@@ -382,80 +382,48 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
           style={{ marginBottom: 20 }}
         />
 
-        {/* ── Gestion du compte (légal RGPD / LSSI) ── */}
-        <div style={{ marginBottom: 8 }}>
-          <p className="section-title" style={{ marginBottom: 10 }}>Gestion du compte</p>
-          <div style={{ background: 'var(--bg-card)', border: '1px solid var(--gris)', borderRadius: 'var(--radius)', overflow: 'hidden' }}>
-
-            {/* Résilier l'abonnement */}
+        {/* ── Gestion du compte — discret ── */}
+        <div style={{ borderTop: '1px solid var(--gris)', marginTop: 8, paddingTop: 20 }}>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px', marginBottom: 12 }}>
             {isPremium && (
-              <a href="mailto:vivre@vivre-a-majorque.es?subject=Résiliation%20abonnement%20Premium" style={{
-                display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                padding: '14px 16px', borderBottom: '1px solid var(--gris)',
-                fontSize: 14, color: 'var(--texte)', textDecoration: 'none',
-              }}>
-                <div>
-                  <p style={{ fontWeight: 500, marginBottom: 2 }}>Résilier mon abonnement</p>
-                  <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>Annuler le renouvellement Premium</p>
-                </div>
-                <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>›</span>
+              <a href="mailto:vivre@vivre-a-majorque.es?subject=Résiliation%20abonnement%20Premium"
+                style={{ fontSize: 12, color: 'var(--texte-sec)', textDecoration: 'underline' }}>
+                Résilier l'abonnement
               </a>
             )}
-
-            {/* Supprimer mes données */}
-            <div>
-              {!showDeleteConfirm ? (
-                <button onClick={() => setShowDeleteConfirm(true)} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  width: '100%', padding: '14px 16px', borderBottom: '1px solid var(--gris)',
-                  background: 'none', border: 'none', cursor: 'pointer', textAlign: 'left',
-                }}>
-                  <div>
-                    <p style={{ fontSize: 14, fontWeight: 500, color: 'var(--texte)', marginBottom: 2 }}>Supprimer mes données</p>
-                    <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>Droit à l'effacement — Art. 17 RGPD</p>
-                  </div>
-                  <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>›</span>
-                </button>
-              ) : (
-                <div style={{ padding: '14px 16px', borderBottom: '1px solid var(--gris)', background: 'rgba(199,78,78,0.05)' }}>
-                  <p style={{ fontSize: 13, color: 'var(--texte)', marginBottom: 10, lineHeight: 1.5 }}>
-                    Vos données locales (progression, guides sauvegardés) seront supprimées de cet appareil. Pour la suppression de votre compte Premium, un email vous sera adressé sous 72h.
-                  </p>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <a href={`mailto:vivre@vivre-a-majorque.es?subject=Suppression%20données%20RGPD${email ? `&body=Adresse%20associée%20%3A%20${encodeURIComponent(email)}` : ''}`}
-                      onClick={() => {
-                        localStorage.clear()
-                        setShowDeleteConfirm(false)
-                      }}
-                      style={{ background: '#C74E4E', color: 'white', padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 600, textDecoration: 'none' }}>
-                      Confirmer la suppression
-                    </a>
-                    <button onClick={() => setShowDeleteConfirm(false)} style={{ background: 'none', border: '1px solid var(--gris)', padding: '8px 14px', borderRadius: 8, fontSize: 13, cursor: 'pointer', color: 'var(--texte-sec)' }}>
-                      Annuler
-                    </button>
-                  </div>
+            {!showDeleteConfirm ? (
+              <button onClick={() => setShowDeleteConfirm(true)} style={{
+                background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+                fontSize: 12, color: 'var(--texte-sec)', textDecoration: 'underline',
+              }}>
+                Supprimer mes données
+              </button>
+            ) : (
+              <div style={{ width: '100%', background: 'rgba(199,78,78,0.05)', border: '1px solid rgba(199,78,78,0.2)', borderRadius: 'var(--radius-sm)', padding: '12px 14px', marginBottom: 6 }}>
+                <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginBottom: 10, lineHeight: 1.5 }}>
+                  Vos données locales seront supprimées. Pour votre compte Premium, vous recevrez une confirmation sous 72h.
+                </p>
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <a href={`mailto:vivre@vivre-a-majorque.es?subject=Suppression%20données%20RGPD${email ? `&body=Adresse%20%3A%20${encodeURIComponent(email)}` : ''}`}
+                    onClick={() => { localStorage.clear(); setShowDeleteConfirm(false) }}
+                    style={{ background: '#C74E4E', color: 'white', padding: '6px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
+                    Confirmer
+                  </a>
+                  <button onClick={() => setShowDeleteConfirm(false)} style={{ background: 'none', border: '1px solid var(--gris)', padding: '6px 12px', borderRadius: 6, fontSize: 12, cursor: 'pointer', color: 'var(--texte-sec)' }}>
+                    Annuler
+                  </button>
                 </div>
-              )}
-            </div>
-
-            {/* Politique de confidentialité */}
-            <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer" style={{
-              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-              padding: '14px 16px', fontSize: 14, color: 'var(--texte)', textDecoration: 'none',
-            }}>
-              <div>
-                <p style={{ fontWeight: 500, marginBottom: 2 }}>Politique de confidentialité</p>
-                <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>RGPD · LOPDGDD · LSSI — AEPD</p>
               </div>
-              <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>↗</span>
+            )}
+            <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer"
+              style={{ fontSize: 12, color: 'var(--texte-sec)', textDecoration: 'underline' }}>
+              Confidentialité
             </a>
           </div>
+          <p style={{ fontSize: 11, color: 'var(--gris-mid)', lineHeight: 1.5 }}>
+            RGPD · LOPDGDD · LSSI · AEPD — Responsable : Amely Attias · vivre@vivre-a-majorque.es
+          </p>
         </div>
-
-        <p style={{ fontSize: 11, color: 'var(--texte-sec)', textAlign: 'center', marginTop: 12, lineHeight: 1.6 }}>
-          Vivre à Majorque — Conformité RGPD (UE 2016/679) · LOPDGDD · LSSI{'\n'}
-          Responsable de traitement : Amely Attias — vivre@vivre-a-majorque.es
-        </p>
 
       </div>
     </div>
