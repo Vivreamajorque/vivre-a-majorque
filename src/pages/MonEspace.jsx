@@ -373,6 +373,50 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
               )}
             </div>
           </div>
+
+          {/* ── Gestion du compte — sous Mon accès ── */}
+          <div style={{ borderTop: '1px solid var(--gris)', marginTop: 12, paddingTop: 12 }}>
+            <p style={{ fontSize: 12, color: 'var(--texte-sec)', fontWeight: 600, marginBottom: 8, letterSpacing: '0.03em', textTransform: 'uppercase' }}>Gestion du compte</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+              {isPremium && (
+                <a href="mailto:vivre@vivre-a-majorque.es?subject=Résiliation%20abonnement%20Premium"
+                  style={{ fontSize: 13, color: 'var(--texte-sec)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                  <span>Résilier mon abonnement</span>
+                  <span style={{ fontSize: 12 }}>›</span>
+                </a>
+              )}
+              {!showDeleteConfirm ? (
+                <button onClick={() => setShowDeleteConfirm(true)} style={{ background: 'none', border: 'none', padding: 0, cursor: 'pointer', fontSize: 13, color: 'var(--texte-sec)', textAlign: 'left', display: 'flex', alignItems: 'center', justifyContent: 'space-between', width: '100%' }}>
+                  <span>Supprimer mes données</span>
+                  <span style={{ fontSize: 12 }}>›</span>
+                </button>
+              ) : (
+                <div style={{ background: 'rgba(199,78,78,0.05)', border: '1px solid rgba(199,78,78,0.2)', borderRadius: 'var(--radius-sm)', padding: '12px 14px' }}>
+                  <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginBottom: 10, lineHeight: 1.5 }}>
+                    Vos données locales seront supprimées. Pour votre compte Premium, une confirmation vous sera envoyée sous 72h.
+                  </p>
+                  <div style={{ display: 'flex', gap: 8 }}>
+                    <a href={`mailto:vivre@vivre-a-majorque.es?subject=Suppression%20données%20RGPD${email ? `&body=Adresse%20%3A%20${encodeURIComponent(email)}` : ''}`}
+                      onClick={() => { localStorage.clear(); setShowDeleteConfirm(false) }}
+                      style={{ background: '#C74E4E', color: 'white', padding: '6px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
+                      Confirmer
+                    </a>
+                    <button onClick={() => setShowDeleteConfirm(false)} style={{ background: 'none', border: '1px solid var(--gris)', padding: '6px 12px', borderRadius: 6, fontSize: 12, cursor: 'pointer', color: 'var(--texte-sec)' }}>
+                      Annuler
+                    </button>
+                  </div>
+                </div>
+              )}
+              <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer"
+                style={{ fontSize: 13, color: 'var(--texte-sec)', textDecoration: 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <span>Politique de confidentialité</span>
+                <span style={{ fontSize: 12 }}>↗</span>
+              </a>
+            </div>
+            <p style={{ fontSize: 10, color: 'var(--gris-mid)', marginTop: 10, lineHeight: 1.5 }}>
+              RGPD · LOPDGDD · LSSI · AEPD — Amely Attias · vivre@vivre-a-majorque.es
+            </p>
+          </div>
         </div>
 
         {/* ── Accompagnement ── */}
@@ -382,8 +426,8 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
           style={{ marginBottom: 20 }}
         />
 
-        {/* ── Gestion du compte — discret ── */}
-        <div style={{ borderTop: '1px solid var(--gris)', marginTop: 8, paddingTop: 20 }}>
+        {/* ── Gestion du compte (déplacé sous Mon accès) ── */}
+        <div style={{ display: 'none' }}>
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px 16px', marginBottom: 12 }}>
             {isPremium && (
               <a href="mailto:vivre@vivre-a-majorque.es?subject=Résiliation%20abonnement%20Premium"
