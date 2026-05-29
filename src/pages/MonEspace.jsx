@@ -1,4 +1,6 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react'
+import OnboardingModal from '../components/OnboardingModal'
+import { useUserData } from '../hooks/useUserData'
 import { useProfile } from '../context/ProfileContext'
 import { usePremium } from '../context/PremiumContext'
 import { useSavedGuides } from '../hooks/useSavedGuides'
@@ -166,6 +168,21 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const navigate = useNavigate()
   const [showProfilPicker, setShowProfilPicker] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const { user, saveUser, dismiss, hasData } = useUserData()
+  const [showOnboarding, setShowOnboarding] = useState(false)
+
+  /* Afficher le modal si : pas encore de données ET premier passage sur Mon Espace */
+  useEffect(() => {
+    if (!hasData && !isPremium) {
+      const timer = setTimeout(() => setShowOnboarding(true), 800)
+      return () => clearTimeout(timer)
+    }
+  }, [hasData, isPremium])
+
+  const handleOnboardingSubmit = async ({ prenom, email: userEmail, newsletter }) => {
+    saveUser({ prenom, email: userEmail, newsletter })
+    setShowOnboarding(false)
+  }
 
   /* Données cockpit pour la progression et la prochaine étape */
   const { data } = useNotionDB(NOTION_DB.cockpit)
@@ -203,7 +220,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
         {/* ── En-tête ── */}
         <div style={{ marginBottom: 24 }}>
           <p style={{ fontFamily: 'var(--font-accent)', fontSize: 20, color: 'var(--terra)', marginBottom: 2 }}>
-            {greeting} 👋
+            {greeting}{user?.prenom ? ` ${user.prenom}` : ''} 👋
           </p>
           <h1 style={{
             fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontWeight: 300,
