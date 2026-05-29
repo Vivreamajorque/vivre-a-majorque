@@ -1,23 +1,17 @@
-// Fonction one-shot — crée les listes Brevo et configure Vercel
-// Protégée par un secret dans le header
 export default async function handler(req, res) {
+  // CORS — accepte toutes les origines y compris file://
   res.setHeader('Access-Control-Allow-Origin', '*')
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, x-setup-secret')
   if (req.method === 'OPTIONS') return res.status(200).end()
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' })
 
-  // Protection basique
-  if (req.headers['x-setup-secret'] !== process.env.SETUP_SECRET && req.query.secret !== process.env.SETUP_SECRET) {
-    return res.status(401).json({ error: 'Unauthorized' })
-  }
-
-  const brevoKey    = req.body?.brevoKey    || process.env.BREVO_API_KEY_TEMP
-  const vercelToken = req.body?.vercelToken || process.env.VERCEL_TOKEN_TEMP
-  const vercelProj  = req.body?.vercelProj  || process.env.VERCEL_PROJECT_TEMP
-
+  const { brevoKey, vercelToken, vercelProj } = req.body || {}
   if (!brevoKey || !vercelToken || !vercelProj) {
-    return res.status(400).json({ error: 'Missing keys', keys: { brevoKey: !!brevoKey, vercelToken: !!vercelToken, vercelProj: !!vercelProj } })
+    return res.status(400).json({ error: 'Missing keys', received: { brevoKey: !!brevoKey, vercelToken: !!vercelToken, vercelProj: !!vercelProj } })
   }
 
-  const bh = { 'api-key': brevoKey, 'Content-Type': 'application/json' }
+  const bh = { 'api-key': brevoKey, 'Content-Type': 'application/json', 'Accept': 'application/json' }
   const results = {}
 
   // 1. Liste Inscrits
@@ -44,7 +38,7 @@ export default async function handler(req, res) {
     results.list2 = `✅ ID ${d.id}`
   } catch(e) { results.list2 = `❌ ${e.message}` }
 
-  // Helper : upsert env var Vercel
+  // Helper Vercel env
   async function upsertEnv(key, value) {
     const base = `https://api.vercel.com/v9/projects/${vercelProj}/env`
     const headers = { Authorization: `Bearer ${vercelToken}`, 'Content-Type': 'application/json' }
@@ -55,18 +49,16 @@ export default async function handler(req, res) {
       method: 'POST', headers,
       body: JSON.stringify({ key, value, type: 'encrypted', target: ['production', 'preview'] })
     })
-    if (!cr.ok) { const e = await cr.json(); throw new Error(e.error?.message) }
-    return true
+    if (!cr.ok) { const e = await cr.json(); throw new Error(e.error?.message || JSON.stringify(e)) }
   }
 
   // 3-5. Variables Vercel
-  const envVars = [
+  for (const [k, v] of [
     ['BREVO_API_KEY', brevoKey],
     ['BREVO_LIST_ID', String(results.listId || '')],
     ['BREVO_LIST_NEWSLETTER_ID', String(results.newsletterId || '')],
-  ]
-  for (const [k, v] of envVars) {
-    try { await upsertEnv(k, v); results[k] = '✅' }
+  ]) {
+    try { await upsertEnv(k, v); results[k] = '✅ configuré' }
     catch(e) { results[k] = `❌ ${e.message}` }
   }
 
