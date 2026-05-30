@@ -13,6 +13,14 @@ const TERRA = '#C76E4E'
  */
 const TEMOIGNAGES = [
   {
+    prenom: 'Hervé',
+    situation: 'Projet d\'installation à Majorque, 3 ans de réflexion',
+    texte: 'Amely m\'a permis de déterminer que mon projet était viable, mais nécessitait des ajustements importants. Grâce à cette analyse hyper précise, chiffrée et sourcée, j\'ai pris conscience très rapidement de la direction à prendre. Ça fait trois ans qu\'on réfléchit à ce projet — maintenant on est prêts à sauter le pas. Et pouvoir la rencontrer directement sur l\'île, c\'est une vraie sécurité : avec elle, il n\'y a pas de problèmes, il n\'y a que des solutions.',
+    offre: 'Audit Éclaireur',
+    avatar: 'H',
+    couleur: TERRA,
+  },
+  {
     prenom: 'Stéphane & Amélie',
     situation: 'Entrepreneurs, installés depuis 3 mois',
     texte: 'L\'Audit Éclaireur nous a évité de nombreuses erreurs sur notre statut. Amely a analysé notre situation en détail et on a eu des réponses concrètes en 5 jours. Indispensable avant de se lancer.',
@@ -20,15 +28,6 @@ const TEMOIGNAGES = [
     avatar: 'SA',
     couleur: VERT,
   },
-  // ── Ajoute ici tes prochains témoignages ──
-  // {
-  //   prenom: 'Marie',
-  //   situation: 'Retraitée, installée à Alcúdia',
-  //   texte: '...',
-  //   offre: 'Cap Majorque',
-  //   avatar: 'M',
-  //   couleur: TERRA,
-  // },
 ]
 
 function TemoignageCard({ t }) {
@@ -113,7 +112,7 @@ export default function Temoignages({ style = {} }) {
         textAlign: 'center', marginTop: 10,
         fontStyle: 'italic',
       }}>
-        Des centaines de Français accompagnés depuis Majorque 🌿
+        Français installés à Majorque ou en chemin — ils nous font confiance 🌿
       </p>
     </div>
   )
