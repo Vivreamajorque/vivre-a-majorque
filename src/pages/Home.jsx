@@ -5,7 +5,7 @@ import { useUserData } from '../hooks/useUserData'
 import { useQuizData, isEntrepreneurProfile } from '../hooks/useQuizData'
 import { useNotionDB, parseCockpit, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
-import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait } from '../components/WaveTitle'
+import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait, SectionHead } from '../components/WaveTitle'
 import QuizProfil from '../components/QuizProfil'
 
 /* ── Mon Espace personnalisé ───────────────────────────── */
@@ -203,20 +203,7 @@ function ActuCarousel({ actus, loading }) {
 
   return (
     <div style={{ marginBottom: 22 }}>
-      {/* Header */}
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: 12 }}>
-        <div>
-          <ContextLabel color={TERRA} size={12}>cette semaine</ContextLabel>
-          <DisplayTitle size={22}>Actus</DisplayTitle>
-          <Trait color={VERT} width={28} />
-        </div>
-        <Link to="/app/actus" style={{
-          fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-          fontSize: 13, color: TERRA, paddingBottom: 4,
-        }}>
-          Toutes →
-        </Link>
-      </div>
+      <SectionHead title="Actus" cta="Toutes →" ctaTo="/app/actus" />
 
       {/* Track */}
       <div
@@ -321,9 +308,7 @@ export default function Home() {
       />
 
       {/* ── Accès rapide ────────────────────────────────── */}
-      <div style={{ marginBottom: 10 }}>
-        <ContextLabel color={TERRA} size={12}>accès rapide</ContextLabel>
-      </div>
+      <SectionHead title="Accès rapide" style={{ marginBottom: 12, marginTop: 4 }} />
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
         {NAV_CARDS.map(card => (
           <Link key={card.to} to={card.to} style={{ textDecoration: 'none' }}>

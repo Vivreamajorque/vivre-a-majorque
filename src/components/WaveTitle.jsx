@@ -95,3 +95,59 @@ export function SectionAccent({ children, color = TERRA, size = 20 }) {
 export function Wave({ color }) {
   return <Trait color={color} width={32} />
 }
+
+/* ══════════════════════════════════════════════
+   SectionHead — titre de section uniforme
+   Utilisé sur TOUTES les pages de l'app.
+   Playfair Display italic 20px foret + CTA optionnel.
+══════════════════════════════════════════════ */
+import { useNavigate } from 'react-router-dom'
+
+export function SectionHead({ title, cta, ctaTo, onCta, style = {} }) {
+  let navigate
+  try { navigate = useNavigate() } catch (_) { navigate = null }
+
+  const handleCta = () => {
+    if (onCta) { onCta(); return }
+    if (ctaTo && navigate) navigate(ctaTo)
+  }
+
+  return (
+    <div style={{
+      display: 'flex',
+      justifyContent: 'space-between',
+      alignItems: 'baseline',
+      marginBottom: 12,
+      ...style,
+    }}>
+      <span style={{
+        fontFamily: 'var(--font-display)',
+        fontStyle: 'italic',
+        fontWeight: 400,
+        fontSize: 20,
+        color: 'var(--foret, #0F3D35)',
+        lineHeight: 1,
+      }}>
+        {title}
+      </span>
+      {cta && (
+        <button
+          onClick={handleCta}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            fontSize: 12,
+            fontWeight: 700,
+            color: 'var(--vert, #5AADA5)',
+            fontFamily: 'var(--font-corps)',
+            letterSpacing: '0.02em',
+            padding: 0,
+          }}
+        >
+          {cta}
+        </button>
+      )}
+    </div>
+  )
+}

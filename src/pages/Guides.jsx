@@ -6,7 +6,7 @@ import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import { NOTION_DB, GUIDE_CATEGORIES, PROFILS } from '../config'
 import AccompagnementBanner from '../components/AccompagnementBanner'
-import { PageHeading, AccentWord } from '../components/WaveTitle'
+import { PageHeading, AccentWord, SectionHead } from '../components/WaveTitle'
 
 const CAT_EMOJIS = {
   'Administratif': '📋', 'Logement': '🏠', 'Travail': '💼',

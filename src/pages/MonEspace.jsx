@@ -713,40 +713,46 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
           Mon espace
         </h1>
 
-        {/* Badges profil */}
-        {hasQuiz && profileQuizLabel && (
-          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-            <span style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700,
-              background: 'rgba(90,173,165,0.2)', color: '#7EC8C0',
-              border: '1.5px solid rgba(90,173,165,0.35)',
-              fontFamily: 'var(--font-corps)',
-            }}>
-              {profileQuizLabel.emoji} {profileQuizLabel.label}
-            </span>
-            {isEntrepreneurProfile(quiz) && (
-              <span style={{
-                display: 'inline-flex', alignItems: 'center', gap: 5,
-                padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700,
-                background: 'rgba(199,110,78,0.2)', color: '#E8956E',
-                border: '1.5px solid rgba(199,110,78,0.35)',
-                fontFamily: 'var(--font-corps)',
+        {/* Étiquettes profil — toutes les infos quiz dans le hero */}
+        {hasQuiz && quiz && (() => {
+          const INTENTION = { vivre: 'Vivre & travailler', retraite: 'Retraite', remote: 'Télétravail', creer: 'Créer mon activité' }
+          const FAMILLE   = { seul: 'Seul·e', couple: 'En couple', enfants: 'Famille' }
+          const HORIZON   = { plus1an: '+ 1 an', entre6et12: '6–12 mois', moins6: '< 6 mois', deja: 'Déjà là' }
+          const DOULEUR   = { admin: 'Démarches admin', fiscal: 'Fiscalité', logement: 'Logement', clients: 'Clients', solitude: 'Intégration', tout: 'Tout à la fois' }
+          const tags = [
+            profileQuizLabel && { emoji: profileQuizLabel.emoji, label: profileQuizLabel.label, v: true },
+            quiz.intention && { label: INTENTION[quiz.intention] },
+            quiz.famille   && { label: FAMILLE[quiz.famille] },
+            quiz.douleur   && { label: `💬 ${DOULEUR[quiz.douleur]}` },
+          ].filter(Boolean)
+          return (
+            <div style={{ display: 'flex', gap: 7, flexWrap: 'wrap', alignItems: 'center' }}>
+              {tags.map((t, i) => (
+                <span key={i} style={{
+                  display: 'inline-flex', alignItems: 'center', gap: 4,
+                  padding: '5px 12px', borderRadius: 20,
+                  fontSize: 12, fontWeight: 700,
+                  fontFamily: 'var(--font-corps)',
+                  background: t.v ? 'rgba(90,173,165,0.22)' : 'rgba(255,255,255,0.12)',
+                  color: t.v ? '#7EC8C0' : 'rgba(247,242,235,0.85)',
+                  border: `1.5px solid ${t.v ? 'rgba(90,173,165,0.4)' : 'rgba(255,255,255,0.18)'}`,
+                }}>
+                  {t.emoji && <span>{t.emoji}</span>}
+                  {t.label}
+                </span>
+              ))}
+              <button onClick={() => setShowQuiz(true)} style={{
+                display: 'inline-flex', alignItems: 'center',
+                padding: '5px 11px', borderRadius: 20, fontSize: 11, fontWeight: 700,
+                background: 'rgba(255,255,255,0.08)', color: 'rgba(247,242,235,0.5)',
+                border: '1.5px solid rgba(255,255,255,0.12)',
+                fontFamily: 'var(--font-corps)', cursor: 'pointer',
               }}>
-                🏢 Entrepreneur
-              </span>
-            )}
-            <button onClick={() => setShowQuiz(true)} style={{
-              display: 'inline-flex', alignItems: 'center',
-              padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700,
-              background: 'rgba(255,255,255,0.1)', color: 'rgba(247,242,235,0.6)',
-              border: '1.5px solid rgba(255,255,255,0.15)',
-              fontFamily: 'var(--font-corps)', cursor: 'pointer',
-            }}>
-              ✏️
-            </button>
-          </div>
-        )}
+                ✏️ Modifier
+              </button>
+            </div>
+          )
+        })()}
 
         {/* CTA quiz si pas fait */}
         {!hasQuiz && (
@@ -771,14 +777,6 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
           </button>
         )}
       </div>
-
-      {/* ── PROFIL RÉSUMÉ ── */}
-      {hasQuiz && (
-        <div style={{ marginBottom: 28 }}>
-          <SectionHead title="Mon profil" cta="Modifier ✏️" onCta={() => setShowQuiz(true)} />
-          <ProfilResume quiz={quiz} onEdit={() => setShowQuiz(true)} />
-        </div>
-      )}
 
       {/* ── COCKPIT ── */}
       {profile && total > 0 && (
