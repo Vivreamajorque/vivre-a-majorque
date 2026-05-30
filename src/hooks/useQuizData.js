@@ -1,20 +1,21 @@
 import { useState, useCallback } from 'react'
+import { useProfile } from '../context/ProfileContext'
 
 const KEY = 'vmaq_quiz'
 
 /*
- * Mapping horizon quiz → profileId (source unique de vérité)
- * L'onboarding pré-remplit "horizon" avant de lancer le quiz —
- * c'est donc le quiz qui détermine TOUT le fléchage, pas l'onboarding.
+ * Mapping horizon → profileId — source unique de vérité.
+ * Quand l'utilisateur modifie ses réponses, le profil change
+ * immédiatement dans toute l'application.
  */
 export const HORIZON_TO_PROFILE = {
-  plus1an:    'reve',       // Je rêve — plus d'un an
-  entre6et12: 'installe',   // Je m'installe — 6-12 mois
-  moins6:     'installe',   // Je m'installe — urgent
-  deja:       'premiere',   // 1ère année — déjà là
+  plus1an:    'reve',      // Je rêve (+ 1 an)
+  entre6et12: 'installe',  // Je m'installe (6–12 mois)
+  moins6:     'installe',  // Je m'installe (< 6 mois, urgent)
+  deja:       'premiere',  // 1ère année ici
 }
 
-/* Rétro-compatibilité ancienne clé "etape" */
+/* Rétro-compat ancienne clé "etape" */
 export const ETAPE_TO_PROFILE = {
   reve:     'reve',
   prepare:  'installe',
@@ -27,8 +28,7 @@ function load() {
   catch { return null }
 }
 
-function deriveProfile(answers) {
-  // Priorité : horizon (quiz v2) > etape (rétro-compat)
+export function deriveProfileId(answers) {
   if (answers?.horizon) return HORIZON_TO_PROFILE[answers.horizon] || 'reve'
   if (answers?.etape)   return ETAPE_TO_PROFILE[answers.etape]   || 'reve'
   return 'reve'
@@ -36,16 +36,23 @@ function deriveProfile(answers) {
 
 export function useQuizData() {
   const [quiz, setQuiz] = useState(() => load())
+  const { chooseProfile } = useProfile()
 
   const saveQuiz = useCallback((answers) => {
     const data = { ...answers, completed_at: new Date().toISOString() }
     localStorage.setItem(KEY, JSON.stringify(data))
     setQuiz(data)
-    // Le profil découle entièrement du quiz — source unique
-    const profileId = deriveProfile(answers)
-    localStorage.setItem('mq_profile', profileId)
+
+    /*
+     * Mise à jour immédiate du profil dans le contexte React —
+     * chooseProfile écrit localStorage ET met à jour le state,
+     * donc toute l'app re-render avec le bon profil sans rechargement.
+     */
+    const profileId = deriveProfileId(answers)
+    chooseProfile(profileId)
+
     return data
-  }, [])
+  }, [chooseProfile])
 
   const resetQuiz = useCallback(() => {
     localStorage.removeItem(KEY)
@@ -57,7 +64,7 @@ export function useQuizData() {
   return { quiz, saveQuiz, resetQuiz, hasQuiz }
 }
 
-/* ─── Helpers d'interprétation ─────────────────── */
+/* ─── Helpers d'interprétation ───────────────── */
 
 export function isEntrepreneurProfile(quiz) {
   return quiz?.intention === 'creer'
@@ -98,7 +105,7 @@ export function getPainLabel(pain) {
   return map[pain] || ''
 }
 
-/* ─── Catégories de guides suggérées depuis quiz ─── */
+/* ─── Catégories de guides suggérées ──────────── */
 export function getSuggestedGuideCategories(quiz) {
   if (!quiz) return ['Administratif']
   const { intention, famille, douleur, horizon } = quiz
@@ -114,7 +121,7 @@ export function getSuggestedGuideCategories(quiz) {
   return [...cats]
 }
 
-/* ─── Outils suggérés ────────────────────────── */
+/* ─── Outils suggérés ─────────────────────────── */
 export function getSuggestedTools(quiz) {
   if (!quiz) return []
   const tools = []
@@ -136,9 +143,9 @@ export function getSuggestedTools(quiz) {
 export function getProfileLabelFromQuiz(quiz) {
   if (!quiz) return null
   const { horizon, intention } = quiz
-  if (horizon === 'deja') return { label: '1ère année à Majorque', emoji: '🏡' }
-  if (horizon === 'moins6') return { label: 'Installation imminente', emoji: '📦' }
-  if (horizon === 'entre6et12') return { label: 'Projet concret', emoji: '🎯' }
-  if (intention === 'retraite') return { label: 'Projet retraite', emoji: '🌅' }
+  if (horizon === 'deja')       return { label: '1ère année à Majorque', emoji: '🏡' }
+  if (horizon === 'moins6')     return { label: 'Installation imminente', emoji: '📦' }
+  if (horizon === 'entre6et12') return { label: 'Projet concret',         emoji: '🎯' }
+  if (intention === 'retraite') return { label: 'Projet retraite',         emoji: '🌅' }
   return { label: 'Je rêve de Majorque', emoji: '🌅' }
 }

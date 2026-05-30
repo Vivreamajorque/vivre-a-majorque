@@ -860,6 +860,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
         <QuizProfil
           onComplete={(answers) => { saveQuiz(answers); setShowQuiz(false) }}
           onSkip={() => setShowQuiz(false)}
+          initialAnswers={hasQuiz ? quiz : null}
         />
       )}
     </div>

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 import { PROFILS } from '../config'
 
 const ProfileContext = createContext(null)
@@ -8,12 +8,36 @@ export function ProfileProvider({ children }) {
   const [prenom, setPrenom]       = useState('')
   const [loaded, setLoaded]       = useState(false)
 
+  /* Lecture initiale */
   useEffect(() => {
     const savedId     = localStorage.getItem('mq_profile')
     const savedPrenom = localStorage.getItem('mq_prenom')
     if (savedId)     setProfileId(savedId)
     if (savedPrenom) setPrenom(savedPrenom)
     setLoaded(true)
+  }, [])
+
+  /*
+   * Écoute les changements de mq_profile venant de l'extérieur
+   * (notamment depuis saveQuiz dans useQuizData qui écrit directement
+   * dans localStorage sans passer par chooseProfile).
+   * StorageEvent ne se déclenche que sur les autres onglets —
+   * on expose donc syncFromStorage pour appel manuel après saveQuiz.
+   */
+  const syncFromStorage = useCallback(() => {
+    const id = localStorage.getItem('mq_profile')
+    if (id && id !== profileId) setProfileId(id)
+  }, [profileId])
+
+  /* Écoute les autres onglets */
+  useEffect(() => {
+    const handler = (e) => {
+      if (e.key === 'mq_profile' && e.newValue) {
+        setProfileId(e.newValue)
+      }
+    }
+    window.addEventListener('storage', handler)
+    return () => window.removeEventListener('storage', handler)
   }, [])
 
   const profile = PROFILS.find(p => p.id === profileId) || null
@@ -37,7 +61,11 @@ export function ProfileProvider({ children }) {
   }
 
   return (
-    <ProfileContext.Provider value={{ profileId, profile, prenom, chooseProfile, savePrenom, resetProfile, loaded }}>
+    <ProfileContext.Provider value={{
+      profileId, profile, prenom,
+      chooseProfile, savePrenom, resetProfile,
+      syncFromStorage, loaded,
+    }}>
       {children}
     </ProfileContext.Provider>
   )
