@@ -13,6 +13,7 @@ import { NOTION_DB } from '../config'
 import { PaywallModal } from '../components/PaywallModal'
 import QuizProfil from '../components/QuizProfil'
 import NotionError from '../components/NotionError'
+import EmailCaptureBar from '../components/EmailCaptureBar'
 import { TERRA, VERT, SectionHead } from '../components/WaveTitle'
 
 const FORET = '#0F3D35'
@@ -847,6 +848,11 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
           </button>
         )}
       </div>
+
+      {/* ── EMAIL CAPTURE — pour les utilisateurs qui ont skippé l'onboarding ── */}
+      {!user?.email && (
+        <EmailCaptureBar prenom={user?.prenom} />
+      )}
 
       {/* ── COCKPIT ── */}
       {profile && total > 0 && (

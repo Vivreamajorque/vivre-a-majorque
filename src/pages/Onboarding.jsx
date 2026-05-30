@@ -4,19 +4,11 @@ import { useProfile } from '../context/ProfileContext'
 import { PROFILS } from '../config'
 import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait } from '../components/WaveTitle'
 import { useQuizData } from '../hooks/useQuizData'
+import { track } from '@vercel/analytics'
+import QuizProfil from '../components/QuizProfil'
 
-/*
- * Onboarding — 3 étapes :
- *   1. Prénom
- *   2. Email (optionnel)
- *   3. Profil → sélection d'un profil PRE-REMPLIT l'horizon du quiz et lance le quiz inline
- *
- * Le quiz (QuizProfil inline) devient la source unique du fléchage.
- * Le profil sélectionné en étape 3 = point d'entrée qui pré-remplit "horizon"
- * pour éviter de reposer la question plus tard dans Mon Espace.
- */
+const FORET = '#0F3D35'
 
-/* Mapping profil onboarding → valeur horizon quiz */
 const PROFIL_TO_HORIZON = {
   reve:      'plus1an',
   installe:  'entre6et12',
@@ -24,21 +16,27 @@ const PROFIL_TO_HORIZON = {
   confirme:  'deja',
 }
 
-/* ─── Composant quiz inline (allégé) ─────────── */
-import QuizProfil from '../components/QuizProfil'
+/* Ce que reçoit l'utilisateur selon son profil — affiché dans le step email */
+const PROFIL_PROMESSES = {
+  reve:     ['Le guide "Partir vivre à Majorque" offert', 'Alertes sur les nouveaux guides admin', 'Accès prioritaire aux accompagnements'],
+  installe: ['Check-list d\'installation complète par email', 'Alertes deadlines NIE, empadronamiento, SS', 'Accès prioritaire aux accompagnements'],
+  premiere: ['Récapitulatif fiscal autónomo du trimestre', 'Alertes Hacienda & SS à ne pas rater', 'Accès prioritaire aux accompagnements'],
+  confirme: ['Ressources lifestyle exclusives', 'Infos communauté francophone Majorque', 'Accès prioritaire aux accompagnements'],
+}
 
 export default function Onboarding() {
   const { chooseProfile, savePrenom } = useProfile()
   const { saveQuiz } = useQuizData()
   const navigate = useNavigate()
+
   const [step, setStep]               = useState(1)
   const [inputPrenom, setInputPrenom] = useState('')
   const [inputEmail, setInputEmail]   = useState('')
-  const [newsletter, setNewsletter]   = useState(false)
+  const [newsletter, setNewsletter]   = useState(true) // coché par défaut
   const [emailError, setEmailError]   = useState('')
   const [submitting, setSubmitting]   = useState(false)
-  const [selectedProfil, setSelectedProfil] = useState(null) // profil cliqué → pré-remplit quiz
-  const [showQuiz, setShowQuiz] = useState(false)
+  const [selectedProfil, setSelectedProfil] = useState(null)
+  const [showQuiz, setShowQuiz]       = useState(false)
 
   const handlePrenom = () => {
     if (!inputPrenom.trim()) return
@@ -50,10 +48,11 @@ export default function Onboarding() {
 
   const handleEmail = async () => {
     const email = inputEmail.trim()
-    if (!email) { setEmailError('Ton adresse email est requise'); return }
-    if (!isValidEmail(email)) { setEmailError('Adresse email invalide'); return }
+    if (!email) { setEmailError('Ton adresse email est requise') ; return }
+    if (!isValidEmail(email)) { setEmailError('Adresse email invalide') ; return }
     setEmailError('')
     setSubmitting(true)
+
     localStorage.setItem('vmaq_user', JSON.stringify({
       prenom: inputPrenom.trim(),
       email: email.toLowerCase(),
@@ -61,42 +60,46 @@ export default function Onboarding() {
       welcome: true,
       created_at: new Date().toISOString(),
     }))
+
     try {
       await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ prenom: inputPrenom.trim(), email, newsletter, welcome: true }),
+        body: JSON.stringify({
+          prenom: inputPrenom.trim(),
+          email,
+          newsletter,
+          welcome: true,
+          profil: selectedProfil?.id || '',
+        }),
       })
+      track('email_captured', { newsletter: String(newsletter) })
     } catch (_) { /* silencieux */ }
+
     setSubmitting(false)
     setStep(3)
   }
 
-  const skipEmail = () => setStep(3)
+  /* Skip discret — on sauvegarde quand même le prénom */
+  const skipEmail = () => {
+    track('email_skipped')
+    setStep(3)
+  }
 
-  /* Clic sur un profil = pré-remplit horizon + lance quiz */
   const handleSelectProfil = (profil) => {
     setSelectedProfil(profil)
-    // Sauver le profil de base immédiatement (fallback si quiz skippé)
     chooseProfile(profil.id)
     setShowQuiz(true)
   }
 
-  /* Quiz complété → sauver + naviguer */
   const handleQuizComplete = (answers) => {
     const horizonFromProfil = PROFIL_TO_HORIZON[selectedProfil?.id] || answers.horizon || 'plus1an'
-    // Fusionner : on garde l'horizon du profil sélectionné sauf si le quiz a une réponse explicite
-    const merged = {
-      horizon: answers.horizon || horizonFromProfil,
-      ...answers,
-    }
+    const merged = { horizon: answers.horizon || horizonFromProfil, ...answers }
     saveQuiz(merged)
     navigate('/app')
   }
 
-  /* Quiz skipé → naviguer directement */
   const handleQuizSkip = () => {
-    // Sauver un profil minimal basé sur la sélection
     if (selectedProfil) {
       const horizon = PROFIL_TO_HORIZON[selectedProfil.id] || 'plus1an'
       saveQuiz({ horizon })
@@ -105,17 +108,16 @@ export default function Onboarding() {
   }
 
   const dots = [1, 2, 3]
+  const promesses = selectedProfil ? (PROFIL_PROMESSES[selectedProfil.id] || PROFIL_PROMESSES.reve) : PROFIL_PROMESSES.reve
 
+  /* ── Mode quiz inline ── */
   if (showQuiz) {
     return (
       <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative' }}>
-        {/* Header discret avec le profil choisi */}
         <div style={{
           position: 'fixed', top: 0, left: 0, right: 0,
-          background: 'var(--bg)',
-          padding: '16px 24px 12px',
-          zIndex: 10,
-          borderBottom: '1px solid var(--gris)',
+          background: 'var(--bg)', padding: '16px 24px 12px',
+          zIndex: 10, borderBottom: '1px solid var(--gris)',
           display: 'flex', alignItems: 'center', gap: 10,
         }}>
           <span style={{ fontSize: 20 }}>{selectedProfil?.emoji}</span>
@@ -153,20 +155,20 @@ export default function Onboarding() {
         {step === 1 && (
           <>
             <div style={{ marginBottom: 36 }}>
-              <ContextLabel color={VERT} size={16}>entrez</ContextLabel>
-              <DisplayTitle size={42}>votre prénom</DisplayTitle>
+              <ContextLabel color={VERT} size={16}>bienvenue sur</ContextLabel>
+              <DisplayTitle size={38}>Vivre à Majorque</DisplayTitle>
               <Trait color={TERRA} width={44} />
               <p style={{
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.50,
+                fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.55,
               }}>
-                Pour une expérience personnalisée.
+                L'app des Français qui s'installent à Majorque. Commençons par votre prénom.
               </p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               <input
                 type="text"
-                placeholder="Ton prénom…"
+                placeholder="Votre prénom…"
                 value={inputPrenom}
                 onChange={e => setInputPrenom(e.target.value)}
                 onKeyDown={e => e.key === 'Enter' && handlePrenom()}
@@ -176,10 +178,8 @@ export default function Onboarding() {
                   borderRadius: 14,
                   border: `1.5px solid ${inputPrenom.trim() ? TERRA : 'var(--gris)'}`,
                   background: '#fff',
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 900, fontSize: 26,
-                  color: 'var(--texte)',
-                  outline: 'none', textAlign: 'center',
+                  fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 26,
+                  color: 'var(--texte)', outline: 'none', textAlign: 'center',
                   letterSpacing: '-0.01em', transition: 'border-color 0.2s',
                   boxSizing: 'border-box',
                 }}
@@ -187,10 +187,8 @@ export default function Onboarding() {
               <button onClick={handlePrenom} disabled={!inputPrenom.trim()} style={{
                 background: inputPrenom.trim() ? TERRA : 'var(--gris)',
                 color: inputPrenom.trim() ? '#fff' : 'var(--texte-sec)',
-                border: 'none', borderRadius: 14,
-                padding: '14px',
-                fontFamily: 'var(--font-titre)',
-                fontStyle: 'italic', fontSize: 18,
+                border: 'none', borderRadius: 14, padding: '14px',
+                fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 18,
                 cursor: inputPrenom.trim() ? 'pointer' : 'default',
                 transition: 'background 0.2s',
               }}>
@@ -200,26 +198,45 @@ export default function Onboarding() {
           </>
         )}
 
-        {/* ── Step 2 : Email ── */}
+        {/* ── Step 2 : Email — proposition de valeur forte ── */}
         {step === 2 && (
           <>
-            <div style={{ marginBottom: 32 }}>
-              <ContextLabel color={TERRA} size={16}>presque !</ContextLabel>
-              <DisplayTitle size={38}>ton email</DisplayTitle>
+            <div style={{ marginBottom: 24 }}>
+              <ContextLabel color={TERRA} size={16}>
+                {inputPrenom ? `${inputPrenom},` : 'et'}
+              </ContextLabel>
+              <DisplayTitle size={34}>restez informé·e</DisplayTitle>
               <Trait color={VERT} width={44} />
-              <p style={{
-                fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 15, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.55,
-              }}>
-                Pour recevoir tes guides prioritaires et suivre ton installation.
-              </p>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+            {/* Ce que tu reçois — la vraie valeur */}
+            <div style={{
+              background: FORET,
+              borderRadius: 16, padding: '16px 18px',
+              marginBottom: 20,
+            }}>
+              <p style={{
+                fontSize: 12, fontWeight: 700, color: 'rgba(90,173,165,0.9)',
+                textTransform: 'uppercase', letterSpacing: '0.07em',
+                fontFamily: 'var(--font-corps)', marginBottom: 12,
+              }}>
+                Ce que vous recevez gratuitement
+              </p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                {promesses.map((p, i) => (
+                  <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                    <span style={{ color: VERT, fontSize: 14, flexShrink: 0, marginTop: 1 }}>✓</span>
+                    <span style={{ fontSize: 13, color: 'rgba(247,242,235,0.88)', lineHeight: 1.45 }}>{p}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
               <div>
                 <input
                   type="email"
-                  placeholder="ton@email.com"
+                  placeholder="votre@email.com"
                   value={inputEmail}
                   onChange={e => { setInputEmail(e.target.value); setEmailError('') }}
                   onKeyDown={e => e.key === 'Enter' && handleEmail()}
@@ -228,10 +245,8 @@ export default function Onboarding() {
                     width: '100%', padding: '15px 18px',
                     borderRadius: 14,
                     border: `1.5px solid ${emailError ? '#C74E4E' : inputEmail.trim() ? VERT : 'var(--gris)'}`,
-                    background: '#fff',
-                    fontFamily: 'var(--font-corps)',
-                    fontSize: 17, color: 'var(--texte)',
-                    outline: 'none', textAlign: 'center',
+                    background: '#fff', fontFamily: 'var(--font-corps)',
+                    fontSize: 17, color: 'var(--texte)', outline: 'none', textAlign: 'center',
                     transition: 'border-color 0.2s', boxSizing: 'border-box',
                   }}
                 />
@@ -242,73 +257,54 @@ export default function Onboarding() {
                 )}
               </div>
 
-              <label
-                onClick={() => setNewsletter(v => !v)}
-                style={{
-                  display: 'flex', alignItems: 'flex-start', gap: 10,
-                  cursor: 'pointer', padding: '4px 0',
-                }}
-              >
-                <div style={{
-                  width: 20, height: 20, borderRadius: 5, flexShrink: 0, marginTop: 1,
-                  background: newsletter ? VERT : 'white',
-                  border: `2px solid ${newsletter ? VERT : 'var(--gris)'}`,
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  transition: 'all 0.15s',
-                }}>
-                  {newsletter && <span style={{ color: 'white', fontSize: 12, fontWeight: 900 }}>✓</span>}
-                </div>
-                <span style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>
-                  <strong style={{ color: 'var(--foret)' }}>Newsletter mensuelle</strong> — nouveaux guides, alertes utiles
-                  <span style={{ display: 'block', fontSize: 11, color: 'var(--texte-sec)', marginTop: 1, opacity: 0.7 }}>
-                    Optionnel · 1 email/mois max · désabonnement en 1 clic
-                  </span>
-                </span>
-              </label>
-
               <button
                 onClick={handleEmail}
                 disabled={submitting || !inputEmail.trim()}
                 style={{
-                  background: (!submitting && inputEmail.trim()) ? VERT : 'var(--gris)',
+                  background: (!submitting && inputEmail.trim()) ? FORET : 'var(--gris)',
                   color: (!submitting && inputEmail.trim()) ? '#fff' : 'var(--texte-sec)',
-                  border: 'none', borderRadius: 14, padding: '14px',
-                  fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 18,
+                  border: 'none', borderRadius: 14, padding: '15px',
+                  fontFamily: 'var(--font-corps)', fontSize: 15, fontWeight: 700,
                   cursor: (!submitting && inputEmail.trim()) ? 'pointer' : 'default',
-                  transition: 'background 0.2s',
+                  transition: 'background 0.2s', letterSpacing: '0.01em',
                 }}
               >
-                {submitting ? 'Envoi…' : 'Créer mon accès →'}
+                {submitting ? 'Envoi…' : `Recevoir mes ressources gratuites →`}
               </button>
 
+              <p style={{ fontSize: 11, color: 'var(--texte-sec)', textAlign: 'center', lineHeight: 1.5 }}>
+                Désabonnement en 1 clic · Aucun spam · RGPD
+              </p>
+
+              {/* Skip très discret */}
               <button
                 onClick={skipEmail}
                 style={{
                   background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 13, color: 'var(--texte-sec)',
-                  fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                  textDecoration: 'underline', padding: '2px 0',
+                  fontSize: 12, color: 'var(--texte-sec)', opacity: 0.6,
+                  fontFamily: 'var(--font-corps)',
+                  textDecoration: 'none', padding: '4px 0',
                   textAlign: 'center',
                 }}
               >
-                Continuer sans email
+                Passer cette étape
               </button>
             </div>
           </>
         )}
 
-        {/* ── Step 3 : Profil → entrée dans le quiz ── */}
+        {/* ── Step 3 : Profil ── */}
         {step === 3 && (
           <>
             <div style={{ marginBottom: 32 }}>
-              <ContextLabel color={TERRA} size={16}>et ton projet,</ContextLabel>
-              <DisplayTitle size={38}>où tu en es ?</DisplayTitle>
+              <ContextLabel color={TERRA} size={16}>et votre projet,</ContextLabel>
+              <DisplayTitle size={38}>où en êtes-vous ?</DisplayTitle>
               <Trait color={VERT} width={44} />
               <p style={{
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
                 fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.50,
               }}>
-                L'appli s'adapte entièrement à ta situation.
+                L'app s'adapte entièrement à votre situation.
               </p>
             </div>
 
@@ -331,10 +327,8 @@ export default function Onboarding() {
                     <span style={{ fontSize: 26 }}>{p.emoji}</span>
                     <div style={{ flex: 1 }}>
                       <span style={{
-                        display: 'block',
-                        fontFamily: 'var(--font-display)',
-                        fontWeight: 900, fontSize: 16,
-                        color: 'var(--texte)', lineHeight: 1.25,
+                        display: 'block', fontFamily: 'var(--font-display)',
+                        fontWeight: 900, fontSize: 16, color: 'var(--texte)', lineHeight: 1.25,
                       }}>
                         {p.label}
                       </span>
@@ -354,21 +348,20 @@ export default function Onboarding() {
 
             <button onClick={() => setStep(2)} style={{
               background: 'none', border: 'none', cursor: 'pointer',
-              fontSize: 14, color: 'var(--texte-sec)', marginTop: 20,
+              fontSize: 13, color: 'var(--texte-sec)', marginTop: 20,
               display: 'block', width: '100%', textAlign: 'center',
-              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+              fontFamily: 'var(--font-corps)',
             }}>
-              ← Modifier mon email
+              ← Retour
             </button>
           </>
         )}
 
-        {/* Dots */}
+        {/* Dots de progression */}
         <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: 28 }}>
           {dots.map(s => (
             <div key={s} style={{
-              width: s === step ? 24 : 8, height: 3,
-              borderRadius: 2,
+              width: s === step ? 24 : 8, height: 3, borderRadius: 2,
               background: s === step ? TERRA : s < step ? VERT : 'var(--gris)',
               transition: 'all 0.3s',
             }} />
