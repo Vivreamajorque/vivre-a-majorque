@@ -19,6 +19,7 @@ import BudgetSimulator from './pages/BudgetSimulator'
 import Accompagnements from './pages/Accompagnements'
 import Actualites from './pages/Actualites'
 import Entreprendre from './pages/Entreprendre'
+import AutonomaSimulator from './pages/AutonomaSimulator'
 
 function AppShell() {
   return (
@@ -37,6 +38,7 @@ function AppShell() {
         <Route path="app/moi" element={<MonEspace />} />
         <Route path="app/outils/cout" element={<CoutInstallation />} />
         <Route path="app/outils/budget" element={<BudgetSimulator />} />
+        <Route path="app/outils/autonoma" element={<AutonomaSimulator />} />
         <Route path="app/actus" element={<Actualites />} />
         <Route path="app/explorer/actus" element={<Actualites />} />
         <Route path="app/explorer/accompagnements" element={<Accompagnements />} />
