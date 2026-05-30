@@ -1,74 +1,121 @@
 import { useState, useEffect, useRef } from 'react'
 
+/* ── Cache avec TTL 5 minutes ────────────────── */
 const cache = {}
+const CACHE_TTL = 5 * 60 * 1000
 
-async function notionFetch(endpoint, id, filter = null) {
-  const key = `${endpoint}:${id}:${JSON.stringify(filter)}`
-  if (cache[key]) return cache[key]
-
-  const res = await fetch('/api/notion', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ endpoint, database_id: id, filter }),
-  })
-  if (!res.ok) throw new Error(`Notion API error ${res.status}`)
-  const data = await res.json()
-  cache[key] = data
-  return data
+function getCached(key) {
+  const entry = cache[key]
+  if (!entry) return null
+  if (Date.now() - entry.ts > CACHE_TTL) { delete cache[key]; return null }
+  return entry.data
+}
+function setCached(key, data) {
+  cache[key] = { data, ts: Date.now() }
 }
 
+/* ── Fetch Notion avec pagination ────────────── */
+async function notionFetch(endpoint, id, filter = null) {
+  if (endpoint !== 'query_database') {
+    const key = `${endpoint}:${id}`
+    const hit = getCached(key)
+    if (hit) return hit
+    const res = await fetch('/api/notion', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ endpoint, database_id: id, filter }),
+    })
+    if (!res.ok) throw new Error(`Notion API ${res.status}`)
+    const data = await res.json()
+    setCached(key, data)
+    return data
+  }
+
+  // query_database : gère la pagination automatiquement (jusqu'à 300 items)
+  const key = `${endpoint}:${id}:${JSON.stringify(filter)}`
+  const hit = getCached(key)
+  if (hit) return hit
+
+  let allResults = []
+  let cursor = undefined
+  let pages = 0
+
+  while (pages < 3) {
+    const res = await fetch('/api/notion', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ endpoint, database_id: id, filter, start_cursor: cursor }),
+    })
+    if (!res.ok) throw new Error(`Notion API ${res.status}`)
+    const data = await res.json()
+    allResults = allResults.concat(data.results || [])
+    if (!data.has_more) break
+    cursor = data.next_cursor
+    pages++
+  }
+
+  const merged = { results: allResults }
+  setCached(key, merged)
+  return merged
+}
+
+/* ── Hook DB ─────────────────────────────────── */
 export function useNotionDB(dbId, filter = null) {
-  const [data, setData] = useState([])
+  const [data, setData]       = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError]     = useState(null)
   const filterRef = useRef(JSON.stringify(filter))
 
   useEffect(() => {
-    if (!dbId) return
+    if (!dbId) { setLoading(false); return }
     setLoading(true)
+    setError(null)
     notionFetch('query_database', dbId, filter)
-      .then(res => setData(res.results || []))
-      .catch(e => setError(e.message))
+      .then(res => { setData(res.results || []); setError(null) })
+      .catch(e  => { setError(e.message); setData([]) })
       .finally(() => setLoading(false))
   }, [dbId, filterRef.current])
 
   return { data, loading, error }
 }
 
-/* Fetch une page Notion directement par son ID — sans passer par la liste */
+/* ── Hook page ───────────────────────────────── */
 export function useNotionPage(pageId) {
-  const [page, setPage] = useState(null)
+  const [page, setPage]       = useState(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError]     = useState(null)
 
   useEffect(() => {
-    if (!pageId) return
+    if (!pageId) { setLoading(false); return }
     setLoading(true)
     notionFetch('get_page', pageId)
       .then(res => setPage(res))
-      .catch(e => setError(e.message))
+      .catch(e  => setError(e.message))
       .finally(() => setLoading(false))
   }, [pageId])
 
   return { page, loading, error }
 }
 
+/* ── Hook blocs ──────────────────────────────── */
 export function useNotionBlocks(pageId) {
-  const [blocks, setBlocks] = useState([])
+  const [blocks, setBlocks]   = useState([])
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState(null)
+  const [error, setError]     = useState(null)
 
   useEffect(() => {
-    if (!pageId) return
+    if (!pageId) { setLoading(false); return }
     setLoading(true)
     notionFetch('get_blocks', pageId)
       .then(res => setBlocks(res.results || []))
-      .catch(e => setError(e.message))
+      .catch(e  => setError(e.message))
       .finally(() => setLoading(false))
   }, [pageId])
 
   return { blocks, loading, error }
 }
+
+/* ── Parsers ─────────────────────────────────── */
 
 export function parseGuide(page) {
   const p = page.properties || {}
@@ -90,6 +137,9 @@ export function parseGuide(page) {
 
 export function parseCockpit(page) {
   const p = page.properties || {}
+  // Profil_cible est un multi_select dans Notion → tableau de valeurs
+  const profilCible = p.Profil_cible?.multi_select?.map(s => s.name) ||
+                      (p.Profil_cible?.select?.name ? [p.Profil_cible.select.name] : [])
   return {
     id: page.id,
     etape: p['Étape']?.title?.[0]?.plain_text || '',
@@ -99,7 +149,7 @@ export function parseCockpit(page) {
     priorite: p['Priorité']?.select?.name || '',
     statut: p.Statut?.select?.name || '⬜ À faire',
     access: p.Access_Level?.select?.name || '🟢 Public',
-    profilCible: p.Profil_cible?.select?.name || '',
+    profilCible,   // tableau — ex: ['Je rêve', "Je m'installe"]
     guideId: p.Guide_lié?.relation?.[0]?.id || null,
     delai: p['Délai_légal']?.rich_text?.[0]?.plain_text || '',
     lien: p.Lien_formulaire?.url || '',
@@ -117,7 +167,7 @@ export function parseActu(page) {
   return {
     id: page.id,
     title: p.Titre?.title?.[0]?.plain_text || p.Name?.title?.[0]?.plain_text || '',
-    date: p.Date?.date?.start || p['date:Date:start'] || '',
+    date: p.Date?.date?.start || '',
     categorie: p['Catégorie']?.select?.name || '',
     resume: p['Résumé']?.rich_text?.map(r => r.plain_text).join('') || p.Accroche?.rich_text?.[0]?.plain_text || '',
     lien: lienUrl,
@@ -134,7 +184,6 @@ export function parseAnnuaire(page) {
     nom: p['Nom_professionnel']?.title?.[0]?.plain_text || p.Nom?.title?.[0]?.plain_text || '',
     metier: (() => {
       const raw = p['Profession']?.select?.name || p['Métier']?.select?.name || p['Catégorie']?.select?.name || ''
-      // Si "Autre", extraire la vraie catégorie depuis Spécialité_expats
       if (raw.includes('Autre')) {
         const spe = p['Spécialité_expats']?.rich_text?.[0]?.plain_text || ''
         if (spe.toLowerCase().includes('tatou')) return 'Tatoueur'

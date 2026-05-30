@@ -9,9 +9,10 @@ import {
 } from '../hooks/useQuizData'
 import { useNotionDB, parseCockpit, parseGuide } from '../hooks/useNotion'
 import { useSavedGuides } from '../hooks/useSavedGuides'
-import { NOTION_DB, PROFILS } from '../config'
+import { NOTION_DB } from '../config'
 import { PaywallModal } from '../components/PaywallModal'
 import QuizProfil from '../components/QuizProfil'
+import NotionError from '../components/NotionError'
 import { TERRA, VERT, SectionHead } from '../components/WaveTitle'
 
 const FORET = '#0F3D35'
@@ -290,7 +291,7 @@ function CockpitHero({ pct, done, total, onBack }) {
 }
 
 function CockpitView({ profileNotion, profileId, onBack }) {
-  const { data, loading } = useNotionDB(NOTION_DB.cockpit)
+  const { data, loading, error } = useNotionDB(NOTION_DB.cockpit)
   const { isPremium } = usePremium()
   const navigate = useNavigate()
   const [checked, toggle] = useCheckedSteps(profileId)
@@ -298,7 +299,7 @@ function CockpitView({ profileNotion, profileId, onBack }) {
 
   const steps = useMemo(() =>
     data.map(parseCockpit)
-      .filter(s => !profileNotion || s.profilCible === profileNotion)
+      .filter(s => !profileNotion || s.profilCible.includes(profileNotion))
       .sort((a, b) => a.ordre - b.ordre)
   , [data, profileNotion])
 
@@ -327,6 +328,15 @@ function CockpitView({ profileNotion, profileId, onBack }) {
     }
     return Object.keys(byPhase)[0]
   }, [byPhase, checked])
+
+  if (error) return (
+    <div className="page" style={{ paddingTop: 48 }}>
+      <button onClick={onBack} style={{ color: VERT, fontSize: 13, fontWeight: 600, background: 'none', border: 'none', cursor: 'pointer', marginBottom: 20, fontFamily: 'var(--font-corps)' }}>
+        ← Mon espace
+      </button>
+      <NotionError message={error} />
+    </div>
+  )
 
   if (loading) return (
     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh' }}>
@@ -722,7 +732,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const [checked] = useCheckedSteps(profile?.id || 'guest')
   const steps = useMemo(() =>
     cockpitData.map(parseCockpit)
-      .filter(s => !profile?.notion || s.profilCible === profile.notion)
+      .filter(s => !profile?.notion || s.profilCible.includes(profile.notion))
       .sort((a, b) => a.ordre - b.ordre)
   , [cockpitData, profile])
   const done = steps.filter(s => checked.has(s.id)).length

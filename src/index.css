@@ -44,6 +44,11 @@
   --fs-xl:   20px;
   --fs-2xl:  24px;
   --fs-3xl:  32px;
+
+  /* Variables utilitaires complémentaires */
+  --lin:        #F5F0E8;
+  --ocre-light: rgba(196,122,90,0.10);
+  --noir:       #1C1410;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }

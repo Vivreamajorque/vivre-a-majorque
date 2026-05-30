@@ -3,19 +3,13 @@ import { useProfile } from '../context/ProfileContext'
 
 const KEY = 'vmaq_quiz'
 
-/*
- * Mapping horizon → profileId — source unique de vérité.
- * Quand l'utilisateur modifie ses réponses, le profil change
- * immédiatement dans toute l'application.
- */
 export const HORIZON_TO_PROFILE = {
-  plus1an:    'reve',      // Je rêve (+ 1 an)
-  entre6et12: 'installe',  // Je m'installe (6–12 mois)
-  moins6:     'installe',  // Je m'installe (< 6 mois, urgent)
-  deja:       'premiere',  // 1ère année ici
+  plus1an:    'reve',
+  entre6et12: 'installe',
+  moins6:     'installe',
+  deja:       'premiere',
 }
 
-/* Rétro-compat ancienne clé "etape" */
 export const ETAPE_TO_PROFILE = {
   reve:     'reve',
   prepare:  'installe',
@@ -29,6 +23,13 @@ function load() {
 }
 
 export function deriveProfileId(answers) {
+  // Résidents confirmés : déjà là + retraite ou télétravailleurs installés depuis longtemps
+  // On les map sur 'confirme' si horizon=deja et pas de douleur admin critique
+  if (answers?.horizon === 'deja') {
+    if (answers?.intention === 'retraite') return 'confirme'
+    // Sinon 1ère année → premiere
+    return 'premiere'
+  }
   if (answers?.horizon) return HORIZON_TO_PROFILE[answers.horizon] || 'reve'
   if (answers?.etape)   return ETAPE_TO_PROFILE[answers.etape]   || 'reve'
   return 'reve'
@@ -42,15 +43,8 @@ export function useQuizData() {
     const data = { ...answers, completed_at: new Date().toISOString() }
     localStorage.setItem(KEY, JSON.stringify(data))
     setQuiz(data)
-
-    /*
-     * Mise à jour immédiate du profil dans le contexte React —
-     * chooseProfile écrit localStorage ET met à jour le state,
-     * donc toute l'app re-render avec le bon profil sans rechargement.
-     */
     const profileId = deriveProfileId(answers)
     chooseProfile(profileId)
-
     return data
   }, [chooseProfile])
 
@@ -63,8 +57,6 @@ export function useQuizData() {
 
   return { quiz, saveQuiz, resetQuiz, hasQuiz }
 }
-
-/* ─── Helpers d'interprétation ───────────────── */
 
 export function isEntrepreneurProfile(quiz) {
   return quiz?.intention === 'creer'
@@ -105,7 +97,6 @@ export function getPainLabel(pain) {
   return map[pain] || ''
 }
 
-/* ─── Catégories de guides suggérées ──────────── */
 export function getSuggestedGuideCategories(quiz) {
   if (!quiz) return ['Administratif']
   const { intention, famille, douleur, horizon } = quiz
@@ -121,13 +112,11 @@ export function getSuggestedGuideCategories(quiz) {
   return [...cats]
 }
 
-/* ─── Outils suggérés ─────────────────────────── */
 export function getSuggestedTools(quiz) {
   if (!quiz) return []
   const tools = []
   if (quiz.intention === 'creer') {
-    tools.push({ id: 'autonoma', label: 'Simulateur autónoma', href: '/app/outils/autonoma', emoji: '📊' })
-    tools.push({ id: 'statuts', label: 'Comparateur statuts', href: '/app/outils/statuts', emoji: '⚖️' })
+    tools.push({ id: 'autonoma', label: 'Simulateur autónomo', href: '/app/outils/autonoma', emoji: '📊' })
   }
   tools.push({ id: 'cout', label: "Coût d'installation", href: '/app/outils/cout', emoji: '🏠' })
   if (quiz.intention !== 'retraite') {
@@ -139,13 +128,13 @@ export function getSuggestedTools(quiz) {
   return tools.slice(0, 3)
 }
 
-/* ─── Label profil dérivé du quiz ─────────────── */
 export function getProfileLabelFromQuiz(quiz) {
   if (!quiz) return null
   const { horizon, intention } = quiz
+  if (horizon === 'deja' && intention === 'retraite') return { label: 'Résident confirmé', emoji: '🌿' }
   if (horizon === 'deja')       return { label: '1ère année à Majorque', emoji: '🏡' }
   if (horizon === 'moins6')     return { label: 'Installation imminente', emoji: '📦' }
-  if (horizon === 'entre6et12') return { label: 'Projet concret',         emoji: '🎯' }
-  if (intention === 'retraite') return { label: 'Projet retraite',         emoji: '🌅' }
+  if (horizon === 'entre6et12') return { label: 'Projet concret', emoji: '🎯' }
+  if (intention === 'retraite') return { label: 'Projet retraite', emoji: '🌅' }
   return { label: 'Je rêve de Majorque', emoji: '🌅' }
 }

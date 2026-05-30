@@ -12,7 +12,7 @@ export default async function handler(req, res) {
   const key = process.env.NOTION_API_KEY
   if (!key) return res.status(500).json({ error: 'NOTION_API_KEY not set' })
 
-  const { endpoint, database_id, filter } = req.body
+  const { endpoint, database_id, filter, start_cursor } = req.body
   const headers = {
     'Authorization': `Bearer ${key}`,
     'Notion-Version': NOTION_VERSION,
@@ -27,7 +27,7 @@ export default async function handler(req, res) {
       options = {
         method: 'POST',
         headers,
-        body: JSON.stringify({ filter: filter || undefined, page_size: 100 }),
+        body: JSON.stringify({ filter: filter || undefined, page_size: 100, start_cursor: start_cursor || undefined }),
       }
     } else if (endpoint === 'get_page') {
       url = `${NOTION_API}/pages/${database_id}`

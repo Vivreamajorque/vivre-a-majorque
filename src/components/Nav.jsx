@@ -3,11 +3,11 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { TERRA, VERT } from './WaveTitle'
 
 const TABS = [
-  { to: '/app',               label: 'Accueil',   icon: '🏠', exact: true },
-  { to: '/app/guides',        label: 'Guides',    icon: '📚' },
-  { to: '/app/explorer',      label: 'Explorer',  icon: '🌴' },
-  { to: '/app/explorer/boutiques', label: 'Boutiques', icon: '🛍️' },
-  { to: '/app/moi',           label: 'Moi',       icon: '👤' },
+  { to: '/app',                    label: 'Accueil',  icon: '🏠', match: (p) => p === '/app' },
+  { to: '/app/guides',             label: 'Guides',   icon: '📚', match: (p) => p.startsWith('/app/guides') || p.startsWith('/app/guide/') },
+  { to: '/app/explorer',           label: 'Explorer', icon: '🌴', match: (p) => p.startsWith('/app/explorer') && !p.startsWith('/app/explorer/boutiques') },
+  { to: '/app/explorer/boutiques', label: 'Boutique', icon: '🛍️', match: (p) => p.startsWith('/app/explorer/boutiques') || p.startsWith('/app/explorer/lifestyle') || p.startsWith('/app/explorer/circuits') },
+  { to: '/app/moi',                label: 'Moi',      icon: '👤', match: (p) => p.startsWith('/app/moi') },
 ]
 
 const COLORS = [TERRA, VERT, TERRA, VERT, TERRA]
@@ -17,24 +17,27 @@ export default function Nav() {
   return (
     <nav style={{
       position: 'fixed', bottom: 0, left: 0, right: 0,
-      background: 'rgba(247,242,235,0.97)',
+      background: 'rgba(240,234,224,0.97)',
       backdropFilter: 'blur(16px)',
       WebkitBackdropFilter: 'blur(16px)',
-      borderTop: '1px solid #E8E2D9',
+      borderTop: '1px solid #D4CCC2',
       display: 'flex', zIndex: 100,
       paddingBottom: 'env(safe-area-inset-bottom)',
-    }}>
+    }}
+      role="navigation"
+      aria-label="Navigation principale"
+    >
       {TABS.map((tab, i) => {
-        const isActive = tab.exact
-          ? location.pathname === tab.to
-          : location.pathname.startsWith(tab.to)
+        const isActive = tab.match(location.pathname)
         const color = COLORS[i]
         return (
           <NavLink key={tab.to} to={tab.to} style={{
             flex: 1, display: 'flex', flexDirection: 'column',
             alignItems: 'center', padding: '10px 0 8px',
             textDecoration: 'none', gap: 2, position: 'relative',
-          }}>
+          }}
+            aria-current={isActive ? 'page' : undefined}
+          >
             {isActive && (
               <div style={{
                 position: 'absolute', top: 0, left: '50%',
@@ -44,7 +47,7 @@ export default function Nav() {
                 borderRadius: '0 0 2px 2px',
               }} />
             )}
-            <span style={{ fontSize: 18 }}>{tab.icon}</span>
+            <span style={{ fontSize: 18 }} aria-hidden="true">{tab.icon}</span>
             <span style={{
               fontFamily: isActive ? 'var(--font-display)' : 'var(--font-titre)',
               fontStyle: isActive ? 'normal' : 'italic',

@@ -6,6 +6,7 @@ import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import { NOTION_DB, GUIDE_CATEGORIES, PROFILS } from '../config'
 import AccompagnementBanner from '../components/AccompagnementBanner'
+import NotionError from '../components/NotionError'
 import { PageHeading, AccentWord, SectionHead } from '../components/WaveTitle'
 
 const CAT_EMOJIS = {
@@ -168,7 +169,7 @@ function SearchResultCard({ guide, onOpen, onPaywall, profile }) {
 export default function Guides() {
   const navigate = useNavigate()
   const { profile } = useProfile()
-  const { data, loading } = useNotionDB(NOTION_DB.guides)
+  const { data, loading, error } = useNotionDB(NOTION_DB.guides)
   const [selectedCat, setSelectedCat] = useState(null)
   const [showPaywall, setShowPaywall] = useState(false)
   const [search, setSearch] = useState('')
@@ -262,6 +263,15 @@ export default function Guides() {
           background: 'none', border: 'none', cursor: 'pointer', fontSize: 16, color: 'var(--texte-sec)',
         }}>×</button>
       )}
+    </div>
+  )
+
+  if (error) return (
+    <div className="page">
+      <div className="page-header">
+        <PageHeading label="ta boîte à outils" title="Guides" accentColor={VERT} traitColor={VERT} />
+      </div>
+      <NotionError message={error} />
     </div>
   )
 
