@@ -1,18 +1,7 @@
 import React, { useState } from 'react'
 
-/* ─── Définition des 5 questions ──────────────── */
+/* ─── Définition des 4 questions (sans doublon profil) ── */
 const QUESTIONS = [
-  {
-    id: 'etape',
-    emoji: '🧭',
-    question: 'Où en êtes-vous dans votre projet ?',
-    options: [
-      { value: 'reve',    label: 'Je rêve encore',         desc: 'Curiosité, pas encore décidé' },
-      { value: 'prepare', label: 'Je prépare activement',  desc: 'Déménagement planifié' },
-      { value: 'bientot', label: 'Je pars bientôt',        desc: 'Dans les 6 prochains mois' },
-      { value: 'deja',    label: 'Je suis déjà là',        desc: 'Installé ou en cours d\'installation' },
-    ],
-  },
   {
     id: 'intention',
     emoji: '🎯',
@@ -39,10 +28,10 @@ const QUESTIONS = [
     emoji: '📅',
     question: 'Votre horizon de déménagement ?',
     options: [
-      { value: 'plus1an',  label: 'Dans plus d\'un an',   desc: 'Temps de bien préparer' },
-      { value: 'entre6et12', label: 'Dans 6 à 12 mois',  desc: 'C\'est sérieux' },
-      { value: 'moins6',   label: 'Dans moins de 6 mois', desc: 'C\'est urgent' },
-      { value: 'deja',     label: 'Je suis déjà là',      desc: 'Régularisation en cours' },
+      { value: 'plus1an',    label: "Dans plus d'un an",   desc: 'Temps de bien préparer' },
+      { value: 'entre6et12', label: 'Dans 6 à 12 mois',   desc: "C'est sérieux" },
+      { value: 'moins6',     label: 'Dans moins de 6 mois', desc: "C'est urgent" },
+      { value: 'deja',       label: 'Je suis déjà là',     desc: 'Régularisation en cours' },
     ],
   },
   {
@@ -54,7 +43,7 @@ const QUESTIONS = [
       { value: 'fiscal',   label: 'La fiscalité',          desc: 'Impôts, autónoma, cotisations' },
       { value: 'logement', label: 'Trouver un logement',   desc: 'Marché tendu, prix élevés' },
       { value: 'clients',  label: 'Trouver des clients',   desc: 'Développer mon activité' },
-      { value: 'solitude', label: 'Me sentir seul·e',      desc: 'S\'intégrer, trouver une communauté' },
+      { value: 'solitude', label: "M'intégrer",            desc: "Communauté, réseau, ne pas me sentir seul·e" },
       { value: 'tout',     label: 'Tout à la fois',        desc: 'Un peu de tout ça' },
     ],
   },
