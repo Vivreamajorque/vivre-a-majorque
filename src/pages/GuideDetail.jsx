@@ -420,10 +420,19 @@ export default function GuideDetail() {
               <CockpitValidationCTA stepId={stepId} profileId={profileId} />
             ) : (
               <div style={{ margin: '24px 0 0' }}>
-                <AccompagnementBanner
-                  texte="Cette démarche vous semble complexe à appliquer à votre situation personnelle ?"
-                  cta="Je vous accompagne pas à pas →"
-                />
+                {/* Mode hard (CTA Stripe direct) pour les catégories à fort intent d'achat */}
+                {['Administratif', 'Travail', 'Argent', 'Voiture', 'Logement'].includes(guide.category) ? (
+                  <AccompagnementBanner
+                    mode="hard"
+                    category={guide.category}
+                    texte="Cette démarche vous semble complexe à appliquer à votre situation ?"
+                  />
+                ) : (
+                  <AccompagnementBanner
+                    texte="Cette démarche vous semble complexe à appliquer à votre situation personnelle ?"
+                    cta="Je vous accompagne pas à pas →"
+                  />
+                )}
               </div>
             )}
           </>
