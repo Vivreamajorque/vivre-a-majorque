@@ -20,6 +20,7 @@ import Accompagnements from './pages/Accompagnements'
 import Actualites from './pages/Actualites'
 import Entreprendre from './pages/Entreprendre'
 import AutonomaSimulator from './pages/AutonomaSimulator'
+import CircuitsMajorque from './pages/CircuitsMajorque'
 
 function AppShell() {
   return (
@@ -43,6 +44,7 @@ function AppShell() {
         <Route path="app/explorer/actus" element={<Actualites />} />
         <Route path="app/explorer/accompagnements" element={<Accompagnements />} />
         <Route path="app/explorer/entreprendre" element={<Entreprendre />} />
+        <Route path="app/explorer/circuits" element={<CircuitsMajorque />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       <Nav />

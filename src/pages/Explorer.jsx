@@ -15,8 +15,8 @@ const CARDS = [
   {
     to: '/app/explorer/boutiques',
     emoji: '🛍️',
-    title: 'Bons plans',
-    desc: 'Itinéraires & adresses locales',
+    title: 'Boutique',
+    desc: 'Guides, circuits & ressources',
     bg: 'var(--ocre-light)',
     border: 'rgba(196,122,90,0.15)',
     coming: false,
