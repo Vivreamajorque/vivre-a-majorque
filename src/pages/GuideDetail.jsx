@@ -99,10 +99,11 @@ function TableOfContents({ headings }) {
   )
 }
 
-/* ── Bouton bookmark ── */
+/* ── Bouton bookmark — accessible à tous ── */
 function BookmarkButton({ guide, email }) {
   const { isSaved, toggle } = useSavedGuides(email)
   const saved = isSaved(guide.id)
+  const [burst, setBurst] = useState(false)
   const [showTip, setShowTip] = useState(false)
   const tipRef = useRef(null)
 
@@ -110,6 +111,8 @@ function BookmarkButton({ guide, email }) {
     const wasNew = !saved
     toggle(guide)
     if (wasNew) {
+      setBurst(true)
+      setTimeout(() => setBurst(false), 400)
       setShowTip(true)
       clearTimeout(tipRef.current)
       tipRef.current = setTimeout(() => setShowTip(false), 2800)
@@ -118,26 +121,56 @@ function BookmarkButton({ guide, email }) {
   useEffect(() => () => clearTimeout(tipRef.current), [])
 
   return (
-    <div style={{ position: 'relative' }}>
-      <button onClick={handleClick} style={{
-        width: 36, height: 36, borderRadius: '50%',
-        background: saved ? 'var(--vert-light)' : 'var(--bg-card)',
-        border: `1.5px solid ${saved ? 'var(--vert)' : 'var(--gris)'}`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 16, cursor: 'pointer', transition: 'all 0.18s', flexShrink: 0,
-      }}>
-        {saved ? '🔖' : '🏷'}
+    <div style={{ position: 'relative', flexShrink: 0 }}>
+      <button
+        onClick={handleClick}
+        title={saved ? 'Retiré de mes guides' : 'Sauvegarder ce guide'}
+        style={{
+          display: 'flex', alignItems: 'center', gap: 6,
+          padding: '8px 14px',
+          borderRadius: 20,
+          background: saved ? 'rgba(90,173,165,0.12)' : '#fff',
+          border: `1.5px solid ${saved ? 'var(--vert)' : 'var(--gris)'}`,
+          cursor: 'pointer',
+          transition: 'all 0.18s',
+          transform: burst ? 'scale(1.12)' : 'scale(1)',
+        }}
+      >
+        {/* Icône signet SVG — claire et universelle */}
+        <svg width="14" height="16" viewBox="0 0 14 18" fill="none" style={{ flexShrink: 0 }}>
+          <path
+            d="M1 1h12v16l-6-4-6 4V1z"
+            fill={saved ? 'var(--vert)' : 'none'}
+            stroke={saved ? 'var(--vert)' : 'var(--gris-mid)'}
+            strokeWidth="1.8"
+            strokeLinejoin="round"
+          />
+        </svg>
+        <span style={{
+          fontSize: 12, fontWeight: 700,
+          color: saved ? 'var(--vert)' : 'var(--texte-sec)',
+          fontFamily: 'var(--font-corps)',
+          whiteSpace: 'nowrap',
+        }}>
+          {saved ? 'Sauvegardé' : 'Sauvegarder'}
+        </span>
       </button>
+
       {showTip && (
         <div style={{
           position: 'absolute', bottom: 'calc(100% + 10px)', right: 0,
-          background: 'var(--encre)', color: 'white', fontSize: 13, lineHeight: 1.50,
-          padding: '8px 12px', borderRadius: 10, whiteSpace: 'nowrap',
+          background: '#0F3D35', color: 'white', fontSize: 13, lineHeight: 1.5,
+          padding: '9px 14px', borderRadius: 12, whiteSpace: 'nowrap',
           zIndex: 200, boxShadow: '0 4px 16px rgba(0,0,0,0.18)',
-          animation: 'fadeInUp 0.2s ease',
+          fontFamily: 'var(--font-corps)',
         }}>
-          ✅ Sauvegardé dans <strong>Mon espace</strong>
-          <div style={{ position: 'absolute', bottom: -5, right: 12, width: 10, height: 10, background: 'var(--encre)', transform: 'rotate(45deg)', borderRadius: 2 }} />
+          ✅ Ajouté à <strong>Mes guides</strong> dans Mon espace
+          <div style={{
+            position: 'absolute', bottom: -5, right: 16,
+            width: 10, height: 10,
+            background: '#0F3D35',
+            transform: 'rotate(45deg)', borderRadius: 2,
+          }} />
         </div>
       )}
     </div>
@@ -304,7 +337,7 @@ export default function GuideDetail() {
                   }}>
                     {guide.title}
                   </h1>
-                  {isPremium && <BookmarkButton guide={guide} email={email} />}
+                  <BookmarkButton guide={guide} email={email} />
                 </div>
 
                 {/* Stats pills */}

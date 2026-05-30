@@ -8,11 +8,11 @@ import {
   getSuggestedTools, isEntrepreneurProfile, getProfileLabelFromQuiz,
 } from '../hooks/useQuizData'
 import { useNotionDB, parseCockpit, parseGuide } from '../hooks/useNotion'
+import { useSavedGuides } from '../hooks/useSavedGuides'
 import { NOTION_DB, PROFILS } from '../config'
 import { PaywallModal } from '../components/PaywallModal'
 import QuizProfil from '../components/QuizProfil'
-import ProfilResume from '../components/ProfilResume'
-import { TERRA, VERT } from '../components/WaveTitle'
+import { TERRA, VERT, SectionHead } from '../components/WaveTitle'
 
 const FORET = '#0F3D35'
 
@@ -35,19 +35,6 @@ function useCheckedSteps(profileId) {
 }
 
 /* ── SectionHead ────────────────────────────── */
-function SectionHead({ title, cta, ctaTo, onCta }) {
-  const navigate = useNavigate()
-  const handleCta = () => { if (ctaTo) navigate(ctaTo); else if (onCta) onCta() }
-  return (
-    <div className="section-head">
-      <span className="section-title">{title}</span>
-      {cta && (
-        <button className="section-cta" onClick={handleCta}>{cta}</button>
-      )}
-    </div>
-  )
-}
-
 /* ══════════════════════════════════════════════
    COCKPIT — vue complète
 ══════════════════════════════════════════════ */
@@ -638,6 +625,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const [showQuiz, setShowQuiz] = useState(false)
   const { user } = useUserData()
   const { quiz, saveQuiz, hasQuiz } = useQuizData()
+  const { saved: savedGuides, toggle: toggleSaved } = useSavedGuides(email)
 
   useEffect(() => {
     if (!hasQuiz) {
@@ -791,7 +779,66 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
         </div>
       )}
 
-      {/* ── GUIDES ── */}
+      {/* ── MES GUIDES SAUVEGARDÉS ── */}
+      {savedGuides.length > 0 && (
+        <div style={{ marginBottom: 28 }}>
+          <SectionHead
+            title="Mes guides"
+            cta={savedGuides.length > 3 ? `Voir les ${savedGuides.length} →` : null}
+            ctaTo="/app/guides"
+          />
+          <div style={{
+            background: '#fff',
+            borderRadius: 18,
+            border: 'var(--border)',
+            overflow: 'hidden',
+          }}>
+            {savedGuides.slice(0, 3).map((g, i) => (
+              <div
+                key={g.id}
+                onClick={() => navigate(`/app/guide/${g.id}`)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 12,
+                  padding: '13px 16px',
+                  borderBottom: i < Math.min(savedGuides.length, 3) - 1 ? '1px solid #F0EAE0' : 'none',
+                  cursor: 'pointer',
+                }}
+              >
+                {/* Icône signet plein */}
+                <svg width="13" height="15" viewBox="0 0 14 18" fill="none" style={{ flexShrink: 0 }}>
+                  <path d="M1 1h12v16l-6-4-6 4V1z" fill="var(--vert)" stroke="var(--vert)" strokeWidth="1.5" strokeLinejoin="round"/>
+                </svg>
+                <span style={{
+                  flex: 1, fontSize: 14, color: 'var(--texte)',
+                  fontWeight: 500, lineHeight: 1.35,
+                }}>
+                  {g.title}
+                </span>
+                {g.category && (
+                  <span style={{
+                    fontSize: 11, fontWeight: 700,
+                    color: 'var(--texte-sec)',
+                    background: 'var(--bg)',
+                    padding: '3px 8px', borderRadius: 20,
+                    flexShrink: 0,
+                    fontFamily: 'var(--font-corps)',
+                  }}>
+                    {g.category}
+                  </span>
+                )}
+                <span style={{ color: VERT, fontSize: 18, opacity: 0.7 }}>›</span>
+              </div>
+            ))}
+            {savedGuides.length === 0 && (
+              <div style={{ padding: '20px 16px', textAlign: 'center', color: 'var(--texte-sec)', fontSize: 13 }}>
+                Aucun guide sauvegardé pour l'instant.
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* ── GUIDES SUGGÉRÉS ── */}
       {suggestedGuides.length > 0 && (
         <div style={{ marginBottom: 28 }}>
           <SectionHead
