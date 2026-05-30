@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://vivre-a-majorque.vercel.app/sitemap.xml
