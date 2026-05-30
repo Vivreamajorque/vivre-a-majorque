@@ -4,21 +4,46 @@
   --terra:       #C76E4E;
   --vert:        #5AADA5;
   --encre:       #1C1410;
-  --bg:          #F7F2EB;
+  --foret:       #0F3D35;
+  --gold:        #b07d2a;
+
+  /* Fond légèrement plus chaud — ressort mieux sous les cartes */
+  --bg:          #F0EAE0;
   --bg-card:     #FFFFFF;
-  --gris:        #E8E2D9;
-  --gris-mid:    #D0C8BC;
+  --gris:        #E0D9CF;
+  --gris-mid:    #C8C0B4;
+
   --texte:       #1C1410;
-  --texte-sec:   #8A7F74;
-  --vert-light:  rgba(90,173,165,0.10);
+  --texte-sec:   #7A7068;
+
+  --vert-light:  rgba(90,173,165,0.12);
   --terra-light: rgba(199,110,78,0.10);
-  --radius:      14px;
-  --radius-sm:   10px;
-  --shadow:      0 1px 8px rgba(28,20,16,0.07);
+
+  /* Bordures plus marquées */
+  --border:      1.5px solid #D4CCC2;
+  --border-soft: 1px solid #E0D9CF;
+
+  --radius:      18px;
+  --radius-sm:   12px;
+  --radius-xs:   8px;
+
+  --shadow:      0 2px 12px rgba(28,20,16,0.08);
+  --shadow-sm:   0 1px 6px rgba(28,20,16,0.06);
+
   --font-display:'Playfair Display', Georgia, serif;
   --font-titre:  'Cormorant Garamond', Georgia, serif;
   --font-accent: 'Caveat', cursive;
   --font-corps:  'Inter', system-ui, sans-serif;
+
+  /* Échelle typographique */
+  --fs-xs:   11px;
+  --fs-sm:   13px;
+  --fs-base: 14px;
+  --fs-md:   16px;
+  --fs-lg:   18px;
+  --fs-xl:   20px;
+  --fs-2xl:  24px;
+  --fs-3xl:  32px;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -44,43 +69,52 @@ a:hover { opacity: 0.82; }
 button { font-family: var(--font-corps); cursor: pointer; border: none; background: none; }
 input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
 
+/* ── CARTES ── */
 .card {
   background: var(--bg-card);
   border-radius: var(--radius);
-  border: 1px solid var(--gris);
+  border: var(--border);
   padding: 1rem 1.25rem;
-  box-shadow: var(--shadow);
+  box-shadow: var(--shadow-sm);
 }
 
+/* ── BADGES ── */
 .badge {
-  display: inline-block;
-  font-family: var(--font-accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-corps);
   font-weight: 700;
   font-size: 12px;
-  padding: 2px 10px;
+  padding: 5px 12px;
   border-radius: 20px;
+  letter-spacing: 0.02em;
 }
-.badge-vert  { background: var(--vert-light);  color: var(--vert); }
-.badge-ocre  { background: var(--terra-light); color: var(--terra); }
-.badge-miel  { background: rgba(176,125,42,0.10); color: #b07d2a; }
+.badge-vert  { background: rgba(90,173,165,0.18);  color: #3D8F88; border: 1.5px solid rgba(90,173,165,0.35); }
+.badge-terra { background: rgba(199,110,78,0.15);  color: #A0512E; border: 1.5px solid rgba(199,110,78,0.3); }
+.badge-miel  { background: rgba(176,125,42,0.12);  color: #7A5A1A; border: 1.5px solid rgba(176,125,42,0.25); }
 .badge-gris  { background: var(--gris); color: var(--texte-sec); }
 
+/* ── BOUTONS ── */
 .btn {
   display: inline-flex; align-items: center; justify-content: center;
-  gap: 6px; padding: 11px 22px;
+  gap: 6px; padding: 12px 22px;
   border-radius: var(--radius-sm);
-  font-size: 14px; font-weight: 600;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: 0.01em;
   transition: opacity 0.15s, transform 0.1s;
 }
 .btn:hover { opacity: 0.88; transform: translateY(-1px); }
 .btn-vert    { background: var(--vert);  color: #fff; }
 .btn-terra   { background: var(--terra); color: #fff; box-shadow: 0 4px 14px rgba(199,110,78,0.28); }
+.btn-foret   { background: var(--foret); color: #fff; }
 .btn-outline { background: transparent; border: 1.5px solid var(--vert); color: var(--vert); }
 
+/* ── LAYOUT ── */
 .page {
   max-width: 420px;
   margin: 0 auto;
-  padding: 0 20px 100px;
+  padding: 0 16px 100px;
   min-height: 100vh;
 }
 
@@ -91,25 +125,44 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
   z-index: 10;
 }
 
+/* ── TITRES DE SECTION — cœur du changement ── */
+.section-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 12px;
+}
 .section-title {
-  font-family: var(--font-titre);
+  font-family: var(--font-display);
   font-style: italic;
-  font-size: 11px; font-weight: 400;
-  letter-spacing: 0.06em;
-  color: var(--texte-sec);
-  text-transform: uppercase;
-  margin-bottom: 10px;
+  font-weight: 400;
+  font-size: 20px;
+  color: var(--foret);
+  line-height: 1;
+}
+.section-cta {
+  font-family: var(--font-corps);
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--vert);
+  letter-spacing: 0.02em;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
+/* ── DIVIDER ── */
 .divider { height: 1px; background: var(--gris); margin: 16px 0; }
 
+/* ── UTILITAIRES ── */
 .spinner { display: flex; align-items: center; justify-content: center; padding: 40px; color: var(--texte-sec); font-size: 14px; }
 .empty { text-align: center; padding: 40px 20px; color: var(--texte-sec); font-size: 14px; }
 
 .search-input {
-  width: 100%; padding: 10px 16px;
+  width: 100%; padding: 11px 16px;
   border-radius: var(--radius-sm);
-  border: 1.5px solid var(--gris);
+  border: var(--border);
   background: var(--bg-card);
   font-size: 14px; color: var(--texte);
   outline: none; transition: border-color 0.15s;
@@ -119,99 +172,17 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
 .filter-pills { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
 .filter-pills::-webkit-scrollbar { display: none; }
 .pill {
-  flex-shrink: 0; padding: 5px 14px;
-  border-radius: 20px; font-size: 12px; font-weight: 500;
+  flex-shrink: 0; padding: 6px 15px;
+  border-radius: 20px; font-size: 13px; font-weight: 500;
   border: 1.5px solid var(--gris-mid);
   color: var(--texte-sec); background: var(--bg-card);
   cursor: pointer; transition: all 0.15s;
 }
 .pill.active { background: var(--vert); border-color: var(--vert); color: #fff; font-weight: 700; }
 
-.progress-bar { height: 4px; background: var(--gris); border-radius: 2px; overflow: hidden; }
+.progress-bar { height: 5px; background: var(--gris); border-radius: 3px; overflow: hidden; }
 .progress-fill {
   height: 100%;
   background: linear-gradient(90deg, var(--vert), #7EC8C0);
-  border-radius: 2px; transition: width 0.4s ease;
+  border-radius: 3px; transition: width 0.4s ease;
 }
-
-/* ═══════════════════════════════════════════
-   CLASSES UTILITAIRES — Typographie
-═══════════════════════════════════════════ */
-
-/* Titres de page (h1 principal) */
-.t-page {
-  font-family: var(--font-titre);
-  font-style: italic;
-  font-weight: 300;
-  font-size: var(--fs-2xl);
-  color: var(--foret);
-  line-height: 1.25;
-}
-
-/* Titre de section */
-.t-section {
-  font-family: var(--font-titre);
-  font-weight: 600;
-  font-size: var(--fs-xl);
-  color: var(--foret);
-  line-height: 1.3;
-}
-
-/* Titre de carte */
-.t-card {
-  font-family: var(--font-titre);
-  font-weight: 600;
-  font-size: var(--fs-lg);
-  color: var(--foret);
-  line-height: 1.3;
-}
-
-/* Corps principal */
-.t-body {
-  font-family: var(--font-corps);
-  font-size: var(--fs-md);
-  line-height: 1.75;
-  color: var(--texte);
-}
-
-/* Texte secondaire */
-.t-meta {
-  font-family: var(--font-corps);
-  font-size: var(--fs-sm);
-  color: var(--texte-sec);
-  line-height: 1.5;
-}
-
-/* Label / badge texte */
-.t-label {
-  font-family: var(--font-corps);
-  font-size: var(--fs-xs);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-}
-
-/* Variable CSS de vert-dark si manquante */
-:root { --foret: #2D5016; --gold: #b07d2a; --vert-dark: #3D8F88; }
-
-/* ═══════════════════════════════════════════
-   ÉCHELLE TYPOGRAPHIQUE — variables globales
-   (mobile-first, définies ici pour tout le projet)
-═══════════════════════════════════════════ */
-:root {
-  --fs-xs:   12px;   /* micro-labels, ticks décoratifs          */
-  --fs-sm:   13px;   /* métadonnées, compteurs, timestamps       */
-  --fs-base: 14px;   /* descriptions, texte secondaire lisible   */
-  --fs-md:   16px;   /* corps principal — standard mobile iOS    */
-  --fs-lg:   17px;   /* titres de cartes, étapes cockpit         */
-  --fs-xl:   20px;   /* titres de sections                       */
-  --fs-2xl:  24px;   /* titres de pages Cormorant                */
-  --fs-3xl:  30px;   /* display Playfair hero                    */
-
-  --lh-titre: 1.25;  /* headings                                 */
-  --lh-card:  1.40;  /* cartes et items de liste                 */
-  --lh-body:  1.65;  /* corps de texte lisible                   */
-}
-
-/* Body global → 16px baseline */
-html, body { font-size: 16px; }
-input, select, textarea { font-size: 16px; } /* évite le zoom auto iOS */

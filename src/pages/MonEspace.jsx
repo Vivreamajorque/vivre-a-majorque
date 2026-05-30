@@ -8,14 +8,13 @@ import {
   getSuggestedTools, isEntrepreneurProfile, getProfileLabelFromQuiz,
 } from '../hooks/useQuizData'
 import { useNotionDB, parseCockpit, parseGuide } from '../hooks/useNotion'
-import { useSavedGuides } from '../hooks/useSavedGuides'
 import { NOTION_DB, PROFILS } from '../config'
 import { PaywallModal } from '../components/PaywallModal'
 import QuizProfil from '../components/QuizProfil'
 import ProfilResume from '../components/ProfilResume'
-import { TERRA, VERT, DisplayTitle, ContextLabel, Trait } from '../components/WaveTitle'
+import { TERRA, VERT } from '../components/WaveTitle'
 
-const CONTACT_EMAIL = 'lalignemallorca@gmail.com'
+const FORET = '#0F3D35'
 
 /* ── Checked steps ─────────────────────────── */
 function useCheckedSteps(profileId) {
@@ -35,32 +34,44 @@ function useCheckedSteps(profileId) {
   return [checked, toggle]
 }
 
-/* ═══════════════════════════════════════════════
-   COCKPIT REFONDU — ultra-ludique
-═══════════════════════════════════════════════ */
-
-const PHASE_META = {
-  'Avant départ':  { emoji: '✈️', color: '#5AADA5', badge: 'bg-vert' },
-  'Arrivée':       { emoji: '🏠', color: '#C76E4E', badge: 'bg-terra' },
-  'Administratif': { emoji: '📋', color: '#7BA05B', badge: 'bg-foret' },
-  'Vie pratique':  { emoji: '🌿', color: '#b07d2a', badge: 'bg-gold' },
-  'Travail':       { emoji: '💼', color: '#5AADA5', badge: 'bg-vert' },
-  'Général':       { emoji: '📌', color: '#8A7F74', badge: '' },
+/* ── SectionHead ────────────────────────────── */
+function SectionHead({ title, cta, ctaTo, onCta }) {
+  const navigate = useNavigate()
+  const handleCta = () => { if (ctaTo) navigate(ctaTo); else if (onCta) onCta() }
+  return (
+    <div className="section-head">
+      <span className="section-title">{title}</span>
+      {cta && (
+        <button className="section-cta" onClick={handleCta}>{cta}</button>
+      )}
+    </div>
+  )
 }
 
-/* ── Carte tâche compacte ───────────────────── */
+/* ══════════════════════════════════════════════
+   COCKPIT — vue complète
+══════════════════════════════════════════════ */
+
+const PHASE_META = {
+  'Avant départ':  { emoji: '✈️', color: VERT },
+  'Arrivée':       { emoji: '🏠', color: TERRA },
+  'Administratif': { emoji: '📋', color: '#7BA05B' },
+  'Vie pratique':  { emoji: '🌿', color: '#b07d2a' },
+  'Travail':       { emoji: '💼', color: VERT },
+  'Général':       { emoji: '📌', color: '#8A7F74' },
+}
+
 function TaskRow({ step, isDone, onToggle, navigate }) {
   const meta = PHASE_META[step.phase] || PHASE_META['Général']
   const isUrgent = step.priorite === '🔴 Urgent' && !isDone
-
   return (
     <div
       style={{
         display: 'flex', alignItems: 'center', gap: 12,
-        padding: '11px 14px',
-        background: isDone ? `${meta.color}08` : '#fff',
+        padding: '12px 14px',
+        background: isDone ? 'rgba(90,173,165,0.04)' : '#fff',
         borderRadius: 12,
-        border: `1.5px solid ${isDone ? `${meta.color}22` : isUrgent ? '#C74E4E33' : '#E8E2D9'}`,
+        border: `1.5px solid ${isDone ? 'rgba(90,173,165,0.2)' : isUrgent ? 'rgba(199,110,78,0.3)' : '#E0D9CF'}`,
         marginBottom: 6,
         cursor: 'pointer',
         transition: 'all 0.15s',
@@ -69,56 +80,47 @@ function TaskRow({ step, isDone, onToggle, navigate }) {
       }}
       onClick={() => step.guideId ? navigate(`/app/guide/${step.guideId}`) : onToggle(step.id)}
     >
-      {/* Indicateur urgent */}
       {isUrgent && (
         <div style={{
           position: 'absolute', left: 0, top: 0, bottom: 0,
-          width: 3, background: '#C74E4E', borderRadius: '12px 0 0 12px',
+          width: 3, background: TERRA, borderRadius: '12px 0 0 12px',
         }} />
       )}
-
-      {/* Checkbox cliquable */}
       <div
         onClick={e => { e.stopPropagation(); onToggle(step.id) }}
         style={{
           width: 24, height: 24, flexShrink: 0,
           borderRadius: 7,
-          border: `2px solid ${isDone ? VERT : '#D0C8BC'}`,
+          border: `2px solid ${isDone ? VERT : '#C8C0B4'}`,
           background: isDone ? VERT : 'transparent',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          transition: 'all 0.2s',
-          cursor: 'pointer',
+          transition: 'all 0.2s', cursor: 'pointer',
         }}
       >
         {isDone && (
           <svg width="11" height="8" viewBox="0 0 11 8" fill="none">
-            <path d="M1 4L4 7L10 1" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            <path d="M1 4L4 7L10 1" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
           </svg>
         )}
       </div>
-
-      {/* Texte */}
       <div style={{ flex: 1, minWidth: 0 }}>
         <p style={{
-          fontSize: 13, fontWeight: isDone ? 400 : 500,
+          fontSize: 14, fontWeight: isDone ? 400 : 500,
           color: isDone ? 'var(--texte-sec)' : 'var(--texte)',
-          lineHeight: 1.3,
+          lineHeight: 1.35,
           textDecoration: isDone ? 'line-through' : 'none',
-          textDecorationColor: '#aaa',
+          textDecorationColor: '#bbb',
         }}>
           {step.etape}
         </p>
       </div>
-
-      {/* Flèche guide */}
       {step.guideId && !isDone && (
-        <span style={{ color: VERT, fontSize: 16, flexShrink: 0, opacity: 0.7 }}>›</span>
+        <span style={{ color: VERT, fontSize: 18, flexShrink: 0, opacity: 0.8 }}>›</span>
       )}
     </div>
   )
 }
 
-/* ── Bloc phase accordéon ───────────────────── */
 function PhaseAccordion({ phase, steps, checked, toggle, navigate, isPremium, onPaywall, defaultOpen }) {
   const meta = PHASE_META[phase] || PHASE_META['Général']
   const done = steps.filter(s => checked.has(s.id)).length
@@ -129,103 +131,88 @@ function PhaseAccordion({ phase, steps, checked, toggle, navigate, isPremium, on
 
   return (
     <div style={{
-      borderRadius: 14,
-      border: `1.5px solid ${allDone ? `${VERT}30` : '#E8E2D9'}`,
+      borderRadius: 16,
+      border: `1.5px solid ${allDone ? 'rgba(90,173,165,0.3)' : '#D4CCC2'}`,
       overflow: 'hidden',
       marginBottom: 10,
-      background: allDone ? `${VERT}05` : '#fff',
-      transition: 'all 0.2s',
+      background: allDone ? 'rgba(90,173,165,0.04)' : '#fff',
     }}>
-      {/* Header accordéon */}
       <div
         onClick={() => setOpen(v => !v)}
         style={{
-          display: 'flex', alignItems: 'center', gap: 10,
-          padding: '13px 14px',
-          cursor: 'pointer',
-          userSelect: 'none',
+          display: 'flex', alignItems: 'center', gap: 12,
+          padding: '14px 16px',
+          cursor: 'pointer', userSelect: 'none',
         }}
       >
-        {/* Icône phase */}
         <div style={{
-          width: 34, height: 34, flexShrink: 0,
-          borderRadius: 9,
+          width: 36, height: 36, flexShrink: 0,
+          borderRadius: 10,
           background: allDone ? VERT : `${meta.color}18`,
           display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 16,
-          transition: 'background 0.3s',
+          fontSize: 17, transition: 'background 0.3s',
         }}>
           {allDone ? (
-            <svg width="14" height="11" viewBox="0 0 14 11" fill="none">
-              <path d="M1.5 5.5L5.5 9.5L12.5 1.5" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
+            <svg width="14" height="10" viewBox="0 0 14 10" fill="none">
+              <path d="M1.5 5L5.5 9L12.5 1" stroke="white" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
           ) : meta.emoji}
         </div>
-
-        {/* Nom + mini-barre */}
         <div style={{ flex: 1, minWidth: 0 }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 5 }}>
             <p style={{
-              fontSize: 13, fontWeight: 700,
-              color: allDone ? VERT : 'var(--texte)',
-              fontFamily: 'var(--font-display)',
+              fontSize: 15, fontWeight: 700,
+              color: allDone ? VERT : FORET,
+              fontFamily: 'var(--font-corps)',
             }}>
               {phase}
             </p>
             <span style={{
-              fontSize: 11, fontWeight: 700,
+              fontSize: 12, fontWeight: 700,
               color: allDone ? VERT : done > 0 ? meta.color : 'var(--texte-sec)',
-              fontFamily: 'var(--font-corps)',
             }}>
               {done}/{total}
             </span>
           </div>
-          {/* Barre */}
-          <div style={{
-            height: 4, background: '#E8E2D9',
-            borderRadius: 4, overflow: 'hidden',
-          }}>
+          <div style={{ height: 4, background: '#E0D9CF', borderRadius: 3, overflow: 'hidden' }}>
             <div style={{
               height: '100%', width: `${pct}%`,
               background: allDone ? VERT : meta.color,
-              borderRadius: 4, transition: 'width 0.4s',
+              borderRadius: 3, transition: 'width 0.4s',
             }} />
           </div>
         </div>
-
-        {/* Chevron */}
         <span style={{
-          fontSize: 12, color: 'var(--texte-sec)',
+          fontSize: 11, color: 'var(--texte-sec)',
           transform: open ? 'rotate(180deg)' : 'rotate(0)',
-          transition: 'transform 0.2s',
-          marginLeft: 4,
+          transition: 'transform 0.2s', marginLeft: 2,
         }}>▼</span>
       </div>
 
-      {/* Étapes (accordéon) */}
       {open && (
-        <div style={{ padding: '0 10px 10px' }}>
+        <div style={{ padding: '2px 10px 10px' }}>
           {steps.map(step => {
             if (!step.accessible) {
               return (
                 <div key={step.id} onClick={onPaywall} style={{
                   display: 'flex', alignItems: 'center', gap: 12,
-                  padding: '10px 14px', marginBottom: 6,
-                  background: '#F7F2EB', borderRadius: 10,
-                  border: '1.5px dashed #D0C8BC',
+                  padding: '11px 14px', marginBottom: 6,
+                  background: 'var(--bg)', borderRadius: 10,
+                  border: '1.5px dashed #C8C0B4',
                   cursor: 'pointer', opacity: 0.7,
                 }}>
                   <div style={{
                     width: 24, height: 24, borderRadius: 7,
-                    border: '2px solid #D0C8BC',
+                    border: '2px solid #C8C0B4',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
                     fontSize: 11,
                   }}>🔒</div>
-                  <span style={{ fontSize: 12, color: 'var(--texte-sec)', flex: 1 }}>{step.etape}</span>
+                  <span style={{ fontSize: 13, color: 'var(--texte-sec)', flex: 1 }}>{step.etape}</span>
                   <span style={{
-                    fontSize: 10, color: '#b07d2a', fontWeight: 700,
-                    background: 'rgba(176,125,42,0.10)', padding: '2px 7px', borderRadius: 20,
-                  }}>Premium</span>
+                    fontSize: 10, color: '#b07d2a', fontWeight: 800,
+                    background: 'rgba(176,125,42,0.12)', padding: '3px 8px', borderRadius: 20,
+                    letterSpacing: '0.04em',
+                  }}>PREMIUM</span>
                 </div>
               )
             }
@@ -245,86 +232,69 @@ function PhaseAccordion({ phase, steps, checked, toggle, navigate, isPremium, on
   )
 }
 
-/* ── Progression globale hero ───────────────── */
 function CockpitHero({ pct, done, total, onBack }) {
-  const radius = 44
-  const circumference = 2 * Math.PI * radius
-  const strokeDash = (pct / 100) * circumference
+  const r = 38
+  const circ = 2 * Math.PI * r
+  const dash = (pct / 100) * circ
 
   return (
     <div style={{
-      background: 'linear-gradient(135deg, #0F3D35 0%, #1a5c50 100%)',
+      background: FORET,
       borderRadius: 20,
-      padding: '20px 20px 22px',
-      marginBottom: 22,
+      padding: '24px 20px 22px',
+      marginBottom: 24,
       position: 'relative',
       overflow: 'hidden',
     }}>
-      {/* Deco cercle flou */}
       <div style={{
-        position: 'absolute', top: -30, right: -30,
-        width: 120, height: 120, borderRadius: '50%',
-        background: 'rgba(90,173,165,0.12)',
+        position: 'absolute', top: -40, right: -40,
+        width: 160, height: 160, borderRadius: '50%',
+        background: 'rgba(90,173,165,0.08)',
         pointerEvents: 'none',
       }} />
-
       <button onClick={onBack} style={{
-        display: 'flex', alignItems: 'center', gap: 5,
-        color: 'rgba(247,242,235,0.7)', fontSize: 12, fontWeight: 600,
+        display: 'flex', alignItems: 'center', gap: 6,
+        color: 'rgba(247,242,235,0.6)', fontSize: 12, fontWeight: 600,
         background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-        marginBottom: 16, fontFamily: 'var(--font-corps)',
+        marginBottom: 20, fontFamily: 'var(--font-corps)',
       }}>
         ← Mon espace
       </button>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: 20 }}>
-        {/* Donut SVG */}
-        <div style={{ flexShrink: 0, position: 'relative' }}>
-          <svg width={100} height={100} style={{ transform: 'rotate(-90deg)' }}>
-            {/* Fond */}
-            <circle cx="50" cy="50" r={radius} fill="none"
-              stroke="rgba(255,255,255,0.12)" strokeWidth="10" />
-            {/* Progression */}
-            <circle cx="50" cy="50" r={radius} fill="none"
-              stroke={VERT} strokeWidth="10"
+        <div style={{ flexShrink: 0, position: 'relative', width: 88, height: 88 }}>
+          <svg width="88" height="88" style={{ transform: 'rotate(-90deg)' }}>
+            <circle cx="44" cy="44" r={r} fill="none" stroke="rgba(255,255,255,0.12)" strokeWidth="9"/>
+            <circle cx="44" cy="44" r={r} fill="none" stroke={VERT} strokeWidth="9"
               strokeLinecap="round"
-              strokeDasharray={`${strokeDash} ${circumference}`}
+              strokeDasharray={`${dash} ${circ}`}
               style={{ transition: 'stroke-dasharray 0.6s ease' }}
             />
           </svg>
-          {/* Pourcentage centré */}
           <div style={{
             position: 'absolute', inset: 0,
             display: 'flex', alignItems: 'center', justifyContent: 'center',
           }}>
             <span style={{
               fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: pct === 100 ? 22 : 26, color: '#F7F2EB',
-              lineHeight: 1,
+              fontSize: pct === 100 ? 22 : 24, color: '#F7F2EB',
             }}>
               {pct === 100 ? '🎉' : `${pct}%`}
             </span>
           </div>
         </div>
-
-        {/* Texte */}
         <div>
           <p style={{
             fontFamily: 'var(--font-accent)',
-            fontSize: 13, color: 'rgba(90,173,165,0.9)',
-            marginBottom: 4,
+            fontSize: 16, color: 'rgba(90,173,165,0.9)',
+            marginBottom: 2,
           }}>mon</p>
           <h1 style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 26, color: '#F7F2EB', lineHeight: 1.1,
-            marginBottom: 8,
+            fontSize: 30, color: '#F7F2EB', lineHeight: 1.05, marginBottom: 8,
           }}>Cockpit</h1>
-          <p style={{
-            fontSize: 12, color: 'rgba(247,242,235,0.6)',
-            fontFamily: 'var(--font-corps)',
-          }}>
-            {done} sur {total} étapes{'\n'}
-            {pct === 100 ? 'Installation complète !' : 'validées'}
+          <p style={{ fontSize: 13, color: 'rgba(247,242,235,0.55)', fontFamily: 'var(--font-corps)' }}>
+            {done} sur {total} étapes validées
           </p>
         </div>
       </div>
@@ -332,8 +302,7 @@ function CockpitHero({ pct, done, total, onBack }) {
   )
 }
 
-/* ── Vue cockpit complète ───────────────────── */
-function CockpitView({ profileNotion, profileId, onBack, onUpgrade }) {
+function CockpitView({ profileNotion, profileId, onBack }) {
   const { data, loading } = useNotionDB(NOTION_DB.cockpit)
   const { isPremium } = usePremium()
   const navigate = useNavigate()
@@ -365,11 +334,9 @@ function CockpitView({ profileNotion, profileId, onBack, onUpgrade }) {
   const total = steps.length
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
 
-  // Trouver la première phase non complète pour l'ouvrir par défaut
   const firstOpenPhase = useMemo(() => {
     for (const [phase, phaseSteps] of Object.entries(byPhase)) {
-      const phaseDone = phaseSteps.filter(s => checked.has(s.id)).length
-      if (phaseDone < phaseSteps.length) return phase
+      if (phaseSteps.filter(s => checked.has(s.id)).length < phaseSteps.length) return phase
     }
     return Object.keys(byPhase)[0]
   }, [byPhase, checked])
@@ -387,7 +354,6 @@ function CockpitView({ profileNotion, profileId, onBack, onUpgrade }) {
     <div className="page" style={{ paddingBottom: 100 }}>
       <div style={{ paddingTop: 48 }}>
         <CockpitHero pct={pct} done={done} total={total} onBack={onBack} />
-
         {Object.entries(byPhase).map(([phase, phaseSteps]) => (
           <PhaseAccordion
             key={phase}
@@ -401,21 +367,19 @@ function CockpitView({ profileNotion, profileId, onBack, onUpgrade }) {
             defaultOpen={phase === firstOpenPhase}
           />
         ))}
-
-        {/* Encouragement si tout fait */}
         {pct === 100 && (
           <div style={{
-            textAlign: 'center', padding: '24px 20px',
-            background: `${VERT}08`,
-            border: `1px solid ${VERT}25`,
-            borderRadius: 16, marginTop: 8,
+            textAlign: 'center', padding: '28px 20px',
+            background: 'rgba(90,173,165,0.08)',
+            border: `1.5px solid rgba(90,173,165,0.25)`,
+            borderRadius: 18, marginTop: 8,
           }}>
-            <p style={{ fontSize: 28, marginBottom: 8 }}>🌿</p>
+            <p style={{ fontSize: 32, marginBottom: 10 }}>🌿</p>
             <p style={{
-              fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-              fontSize: 16, color: VERT, fontWeight: 600,
+              fontFamily: 'var(--font-display)', fontStyle: 'italic',
+              fontSize: 18, color: VERT,
             }}>
-              Félicitations ! Votre installation est complète.
+              Félicitations ! Installation complète.
             </p>
           </div>
         )}
@@ -425,133 +389,37 @@ function CockpitView({ profileNotion, profileId, onBack, onUpgrade }) {
   )
 }
 
-/* ═══════════════════════════════════════════════
-   DASHBOARD MON ESPACE
-═══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════
+   DASHBOARD — Mon Espace
+══════════════════════════════════════════════ */
 
-function GuideChip({ guide, isPremium, onPaywall }) {
-  const navigate = useNavigate()
-  const locked = guide.access === '💎 Premium' && !isPremium
+/* Aperçu cockpit compact */
+function CockpitPreview({ steps, checked, pct, done, total, onOpen }) {
+  const r = 26
+  const circ = 2 * Math.PI * r
+  const dash = (pct / 100) * circ
 
-  return (
-    <div
-      onClick={() => locked ? onPaywall() : navigate(`/app/guide/${guide.id}`)}
-      style={{
-        display: 'flex', alignItems: 'center', gap: 10,
-        padding: '11px 14px',
-        background: '#fff',
-        border: '1px solid #E8E2D9',
-        borderRadius: 12,
-        cursor: 'pointer',
-        marginBottom: 7,
-        transition: 'opacity 0.15s',
-      }}
-      onMouseEnter={e => e.currentTarget.style.opacity = '0.8'}
-      onMouseLeave={e => e.currentTarget.style.opacity = '1'}
-    >
-      {guide.isPiege && <span style={{ fontSize: 13 }}>⚠️</span>}
-      <span style={{
-        flex: 1, fontSize: 13, lineHeight: 1.35,
-        color: locked ? 'var(--texte-sec)' : 'var(--texte)',
-        fontWeight: 500,
-      }}>
-        {guide.title}
-      </span>
-      {locked
-        ? <span style={{ fontSize: 11, color: '#b07d2a', fontWeight: 700 }}>💎</span>
-        : <span style={{ color: VERT, fontSize: 16 }}>›</span>}
-    </div>
-  )
-}
-
-function SectionTitle({ children, cta, ctaTo }) {
-  const navigate = useNavigate()
-  return (
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline', marginBottom: 10 }}>
-      <p style={{
-        fontSize: 11, fontWeight: 700,
-        color: 'var(--texte-sec)', textTransform: 'uppercase',
-        letterSpacing: '0.07em', fontFamily: 'var(--font-corps)',
-      }}>
-        {children}
-      </p>
-      {cta && ctaTo && (
-        <button onClick={() => navigate(ctaTo)} style={{
-          background: 'none', border: 'none', cursor: 'pointer',
-          fontSize: 12, color: VERT, fontWeight: 600,
-          fontFamily: 'var(--font-corps)', textDecoration: 'underline',
-        }}>
-          {cta}
-        </button>
-      )}
-    </div>
-  )
-}
-
-function OffreRecommandeeStrip({ quiz }) {
-  const recommended = getRecommendedOffer(quiz)
-  const OFFRES_MAP = {
-    eclaireur: { titre: 'Audit Éclaireur', prix: '290€', emoji: '🏢', url: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L', desc: 'Analysez votre projet pro à Majorque' },
-    integrale:  { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', url: 'https://buy.stripe.com/eVq00i95q9G16tq6jz6AM0M', desc: 'Vie + activité réunies' },
-    cap:        { titre: 'Cap Majorque', prix: '249€', emoji: '🧭', url: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K', desc: "L'accompagnement complet" },
-    visio:      { titre: 'Visio conseil', prix: '99€', emoji: '💬', url: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J', desc: 'Une session pour y voir clair' },
-  }
-  const o = OFFRES_MAP[recommended]
-  if (!o) return null
-
-  return (
-    <div
-      onClick={() => window.open(o.url, '_blank', 'noopener,noreferrer')}
-      style={{
-        display: 'flex', alignItems: 'center', gap: 12,
-        padding: '14px 16px',
-        background: 'linear-gradient(135deg, #0F3D35, #1a5c50)',
-        borderRadius: 14, marginBottom: 7,
-        cursor: 'pointer',
-      }}
-    >
-      <span style={{ fontSize: 24, flexShrink: 0 }}>{o.emoji}</span>
-      <div style={{ flex: 1 }}>
-        <p style={{ fontSize: 14, fontWeight: 700, color: '#F7F2EB', marginBottom: 2 }}>{o.titre}</p>
-        <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.65)' }}>{o.desc}</p>
-      </div>
-      <span style={{ fontSize: 14, fontWeight: 700, color: VERT, flexShrink: 0 }}>
-        {o.prix}
-      </span>
-    </div>
-  )
-}
-
-/* ── Cockpit aperçu dans dashboard ──────────── */
-function CockpitPreview({ profile, quiz, checked, steps, pct, done, total, onOpen }) {
   const nextStep = useMemo(() =>
     steps.find(s => !checked.has(s.id) && (s.priorite === '🔴 Urgent' || s.priorite === '🟠 Important'))
     || steps.find(s => !checked.has(s.id))
   , [steps, checked])
 
-  const radius = 28
-  const circumference = 2 * Math.PI * radius
-  const strokeDash = (pct / 100) * circumference
-
   return (
-    <div
-      onClick={onOpen}
-      style={{
-        background: '#fff', border: '1px solid #E8E2D9',
-        borderRadius: 16, padding: '16px',
-        cursor: 'pointer',
-        display: 'flex', gap: 16, alignItems: 'center',
-      }}
-    >
+    <div onClick={onOpen} style={{
+      background: '#fff',
+      borderRadius: 18,
+      border: 'var(--border)',
+      display: 'flex', alignItems: 'center', gap: 16,
+      padding: '18px',
+      cursor: 'pointer',
+    }}>
       {/* Mini donut */}
-      <div style={{ flexShrink: 0, position: 'relative', width: 64, height: 64 }}>
-        <svg width={64} height={64} style={{ transform: 'rotate(-90deg)' }}>
-          <circle cx="32" cy="32" r={radius} fill="none"
-            stroke="#E8E2D9" strokeWidth="7" />
-          <circle cx="32" cy="32" r={radius} fill="none"
-            stroke={VERT} strokeWidth="7"
+      <div style={{ flexShrink: 0, position: 'relative', width: 68, height: 68 }}>
+        <svg width="68" height="68" style={{ transform: 'rotate(-90deg)' }}>
+          <circle cx="34" cy="34" r={r} fill="none" stroke="#E0D9CF" strokeWidth="7"/>
+          <circle cx="34" cy="34" r={r} fill="none" stroke={VERT} strokeWidth="7"
             strokeLinecap="round"
-            strokeDasharray={`${strokeDash} ${circumference}`}
+            strokeDasharray={`${dash} ${circ}`}
             style={{ transition: 'stroke-dasharray 0.5s' }}
           />
         </svg>
@@ -561,54 +429,213 @@ function CockpitPreview({ profile, quiz, checked, steps, pct, done, total, onOpe
         }}>
           <span style={{
             fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: pct === 100 ? 14 : 16, color: 'var(--texte)',
+            fontSize: pct === 100 ? 13 : 16, color: FORET,
           }}>
             {pct === 100 ? '🎉' : `${pct}%`}
           </span>
         </div>
       </div>
 
-      {/* Texte */}
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 14, fontWeight: 700, color: 'var(--texte)', marginBottom: 4 }}>
+        <p style={{ fontSize: 15, fontWeight: 700, color: FORET, marginBottom: 3 }}>
           Mon installation
         </p>
-        <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginBottom: 8 }}>
-          {done}/{total} étapes
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: nextStep ? 10 : 0 }}>
+          {done} / {total} étapes
         </p>
         {nextStep && (
           <div style={{
-            display: 'flex', alignItems: 'center', gap: 6,
-            padding: '6px 10px',
-            background: 'rgba(199,110,78,0.07)',
-            borderRadius: 8,
+            background: '#FDF0EA',
+            borderLeft: `3px solid ${TERRA}`,
+            borderRadius: '0 9px 9px 0',
+            padding: '8px 10px',
           }}>
-            <span style={{ fontSize: 10, color: TERRA, fontWeight: 700, flexShrink: 0 }}>→ Prochaine</span>
-            <span style={{
-              fontSize: 11, color: 'var(--texte)',
-              lineHeight: 1.3, overflow: 'hidden',
-              display: '-webkit-box',
-              WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-            }}>
+            <p style={{ fontSize: 10, fontWeight: 800, color: TERRA, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 2 }}>
+              → Prochaine étape
+            </p>
+            <p style={{ fontSize: 12, color: 'var(--texte)', fontWeight: 500, lineHeight: 1.35 }}>
               {nextStep.etape}
-            </span>
+            </p>
           </div>
         )}
       </div>
 
-      <span style={{ color: VERT, fontSize: 18, flexShrink: 0 }}>›</span>
+      <span style={{ color: VERT, fontSize: 20, flexShrink: 0 }}>›</span>
     </div>
   )
 }
 
-/* ── Dashboard principal ────────────────────── */
+/* Ligne guide */
+function GuideRow({ guide, isPremium, onPaywall }) {
+  const navigate = useNavigate()
+  const locked = guide.access === '💎 Premium' && !isPremium
+  const dotColor = locked ? '#C8C0B4' : (guide.category === 'Travail' || guide.category === 'Argent' ? VERT : TERRA)
+
+  return (
+    <div
+      onClick={() => locked ? onPaywall() : navigate(`/app/guide/${guide.id}`)}
+      style={{
+        display: 'flex', alignItems: 'center', gap: 12,
+        padding: '13px 16px',
+        borderBottom: '1px solid #F0EAE0',
+        cursor: 'pointer',
+      }}
+    >
+      <div style={{
+        width: 8, height: 8, borderRadius: '50%',
+        background: dotColor, flexShrink: 0,
+      }} />
+      <span style={{
+        flex: 1, fontSize: 14, color: locked ? 'var(--texte-sec)' : 'var(--texte)',
+        fontWeight: 500, lineHeight: 1.35,
+      }}>
+        {guide.title}
+      </span>
+      {locked
+        ? <span style={{ fontSize: 11, color: '#b07d2a', fontWeight: 800, letterSpacing: '0.04em' }}>💎</span>
+        : <span style={{ color: VERT, fontSize: 18, opacity: 0.8 }}>›</span>
+      }
+    </div>
+  )
+}
+
+/* Offre recommandée */
+function OffreStrip({ quiz }) {
+  const recommended = getRecommendedOffer(quiz)
+  const OFFRES = {
+    eclaireur: { titre: 'Audit Éclaireur',        prix: '290€', emoji: '🏢', url: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L', desc: 'Votre projet pro à Majorque' },
+    integrale: { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', url: 'https://buy.stripe.com/eVq00i95q9G16tq6jz6AM0M', desc: 'Vie + activité réunies' },
+    cap:       { titre: 'Cap Majorque',           prix: '249€', emoji: '🧭', url: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K', desc: "L'accompagnement complet" },
+    visio:     { titre: 'Visio conseil',          prix: '99€',  emoji: '💬', url: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J', desc: 'Une session pour y voir clair' },
+  }
+  const o = OFFRES[recommended]
+  if (!o) return null
+
+  return (
+    <div
+      onClick={() => window.open(o.url, '_blank', 'noopener,noreferrer')}
+      style={{
+        background: FORET,
+        borderRadius: 18,
+        padding: '18px 18px',
+        display: 'flex', alignItems: 'center', gap: 14,
+        cursor: 'pointer',
+      }}
+    >
+      <span style={{ fontSize: 30, flexShrink: 0 }}>{o.emoji}</span>
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <p style={{
+          fontFamily: 'var(--font-display)', fontStyle: 'italic',
+          fontSize: 17, color: '#F7F2EB', marginBottom: 3,
+        }}>{o.titre}</p>
+        <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.55)', lineHeight: 1.4 }}>{o.desc}</p>
+      </div>
+      <span style={{
+        fontFamily: 'var(--font-display)', fontWeight: 900,
+        fontSize: 22, color: VERT, flexShrink: 0,
+      }}>{o.prix}</span>
+    </div>
+  )
+}
+
+/* Accès Premium */
+function AccesCard({ isPremium, email, logout, onUpgrade }) {
+  const [deleteConfirm, setDeleteConfirm] = useState(false)
+  return (
+    <div style={{
+      background: isPremium ? 'rgba(90,173,165,0.06)' : '#fff',
+      borderRadius: 18,
+      border: `1.5px solid ${isPremium ? 'rgba(90,173,165,0.3)' : '#D4CCC2'}`,
+      overflow: 'hidden',
+    }}>
+      <div style={{ padding: '18px' }}>
+        <p style={{ fontSize: 16, fontWeight: 700, color: FORET, marginBottom: 5 }}>
+          {isPremium ? '💎 Premium actif' : '🟢 Accès gratuit'}
+        </p>
+        {isPremium ? (
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            {email && <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{email}</p>}
+            <button onClick={logout} style={{
+              fontSize: 12, color: 'var(--texte-sec)', textDecoration: 'underline',
+              fontFamily: 'var(--font-corps)', cursor: 'pointer',
+            }}>Déconnecter</button>
+          </div>
+        ) : (
+          <>
+            <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 14, lineHeight: 1.5 }}>
+              Débloquez 100% des guides et tous les outils.
+            </p>
+            <button onClick={onUpgrade} style={{
+              background: FORET, color: '#fff',
+              padding: '12px 22px', borderRadius: 12,
+              fontSize: 14, fontWeight: 700,
+              border: 'none', cursor: 'pointer',
+              fontFamily: 'var(--font-corps)',
+              letterSpacing: '0.01em',
+            }}>
+              Découvrir Premium →
+            </button>
+          </>
+        )}
+      </div>
+
+      <div style={{ borderTop: '1px solid var(--gris)', padding: '12px 18px' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {isPremium && (
+            <a href="mailto:vivre@vivre-a-majorque.es?subject=Résiliation%20abonnement%20Premium"
+              style={{ fontSize: 13, color: 'var(--texte-sec)', textDecoration: 'none', display: 'flex', justifyContent: 'space-between' }}>
+              <span>Résilier mon abonnement</span><span>›</span>
+            </a>
+          )}
+          {!deleteConfirm ? (
+            <button onClick={() => setDeleteConfirm(true)} style={{
+              background: 'none', border: 'none', padding: 0, cursor: 'pointer',
+              fontSize: 13, color: 'var(--texte-sec)', textAlign: 'left',
+              display: 'flex', justifyContent: 'space-between', width: '100%',
+              fontFamily: 'var(--font-corps)',
+            }}>
+              <span>Supprimer mes données</span><span style={{ fontSize: 12 }}>›</span>
+            </button>
+          ) : (
+            <div style={{ background: 'rgba(199,78,78,0.05)', border: '1px solid rgba(199,78,78,0.2)', borderRadius: 10, padding: '12px' }}>
+              <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginBottom: 10, lineHeight: 1.5 }}>
+                Vos données locales seront supprimées. Compte Premium : confirmation sous 72h.
+              </p>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <a href={`mailto:vivre@vivre-a-majorque.es?subject=Suppression%20données%20RGPD${email ? `&body=Adresse%20%3A%20${encodeURIComponent(email)}` : ''}`}
+                  onClick={() => { localStorage.clear(); setDeleteConfirm(false) }}
+                  style={{ background: '#C74E4E', color: 'white', padding: '6px 12px', borderRadius: 8, fontSize: 12, fontWeight: 700, textDecoration: 'none' }}>
+                  Confirmer
+                </a>
+                <button onClick={() => setDeleteConfirm(false)} style={{
+                  background: 'none', border: '1px solid var(--gris)',
+                  padding: '6px 12px', borderRadius: 8, fontSize: 12, cursor: 'pointer',
+                  fontFamily: 'var(--font-corps)',
+                }}>
+                  Annuler
+                </button>
+              </div>
+            </div>
+          )}
+          <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer"
+            style={{ fontSize: 13, color: 'var(--texte-sec)', textDecoration: 'none', display: 'flex', justifyContent: 'space-between' }}>
+            <span>Politique de confidentialité</span><span>↗</span>
+          </a>
+        </div>
+        <p style={{ fontSize: 10, color: '#C8C0B4', marginTop: 12, lineHeight: 1.5 }}>
+          RGPD · LOPDGDD · LSSI — Amely Attias · vivre@vivre-a-majorque.es
+        </p>
+      </div>
+    </div>
+  )
+}
+
+/* Dashboard principal */
 function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const { profile } = useProfile()
   const { isPremium, email, logout } = usePremium()
   const navigate = useNavigate()
   const [showQuiz, setShowQuiz] = useState(false)
-  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { user } = useUserData()
   const { quiz, saveQuiz, hasQuiz } = useQuizData()
 
@@ -630,9 +657,9 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const { data: rawGuides } = useNotionDB(NOTION_DB.guides, filterGuides)
   const suggestedGuides = useMemo(() => rawGuides.map(parseGuide).slice(0, 4), [rawGuides])
 
-  /* Cockpit résumé */
+  /* Cockpit */
   const { data: cockpitData } = useNotionDB(NOTION_DB.cockpit)
-  const [checked, toggle] = useCheckedSteps(profile?.id || 'guest')
+  const [checked] = useCheckedSteps(profile?.id || 'guest')
   const steps = useMemo(() =>
     cockpitData.map(parseCockpit)
       .filter(s => !profile?.notion || s.profilCible === profile.notion)
@@ -642,239 +669,191 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const total = steps.length
   const pct = total > 0 ? Math.round((done / total) * 100) : 0
 
-  /* Outils suggérés */
   const suggestedTools = getSuggestedTools(quiz)
-
-  /* Label profil issu du quiz */
   const profileQuizLabel = getProfileLabelFromQuiz(quiz)
-
-  /* Salutation */
   const greeting = useMemo(() => new Date().getHours() < 18 ? 'Bonjour' : 'Bonsoir', [])
 
   return (
     <div className="page" style={{ paddingBottom: 100 }}>
-      <div style={{ paddingTop: 48 }}>
 
-        {/* ── En-tête ── */}
-        <div style={{ marginBottom: 24 }}>
-          <p style={{ fontFamily: 'var(--font-accent)', fontSize: 20, color: TERRA, marginBottom: 2 }}>
-            {greeting}{user?.prenom ? ` ${user.prenom}` : ''} 👋
-          </p>
-          <h1 style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 30, color: 'var(--texte)', lineHeight: 1.2, marginBottom: 4,
-          }}>
-            Mon espace
-          </h1>
-          <Trait color={VERT} width={32} />
-        </div>
+      {/* ── HERO ── */}
+      <div style={{
+        background: FORET,
+        margin: '0 -16px',
+        padding: '52px 20px 28px',
+        position: 'relative',
+        overflow: 'hidden',
+        marginBottom: 24,
+      }}>
+        {/* Cercle déco */}
+        <div style={{
+          position: 'absolute', bottom: -60, right: -60,
+          width: 200, height: 200, borderRadius: '50%',
+          background: 'rgba(90,173,165,0.08)', pointerEvents: 'none',
+        }} />
+        <div style={{
+          position: 'absolute', top: -30, left: -50,
+          width: 140, height: 140, borderRadius: '50%',
+          background: 'rgba(199,110,78,0.06)', pointerEvents: 'none',
+        }} />
 
-        {/* ── Badge profil (dérivé du quiz) ── */}
+        <p style={{
+          fontFamily: 'var(--font-accent)',
+          fontSize: 24, color: 'rgba(199,110,78,0.9)',
+          lineHeight: 1, marginBottom: 4,
+        }}>
+          {greeting}{user?.prenom ? ` ${user.prenom}` : ''} 👋
+        </p>
+        <h1 style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: 40, color: '#F7F2EB',
+          lineHeight: 1, marginBottom: 18,
+          letterSpacing: '-0.5px',
+        }}>
+          Mon espace
+        </h1>
+
+        {/* Badges profil */}
         {hasQuiz && profileQuizLabel && (
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 6,
-            padding: '5px 12px',
-            background: `${VERT}12`,
-            border: `1px solid ${VERT}25`,
-            borderRadius: 20, marginBottom: 20,
-          }}>
-            <span style={{ fontSize: 14 }}>{profileQuizLabel.emoji}</span>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
             <span style={{
-              fontSize: 12, fontWeight: 600, color: '#0F3D35',
+              display: 'inline-flex', alignItems: 'center', gap: 5,
+              padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700,
+              background: 'rgba(90,173,165,0.2)', color: '#7EC8C0',
+              border: '1.5px solid rgba(90,173,165,0.35)',
               fontFamily: 'var(--font-corps)',
             }}>
-              {profileQuizLabel.label}
+              {profileQuizLabel.emoji} {profileQuizLabel.label}
             </span>
-            <button
-              onClick={() => setShowQuiz(true)}
-              style={{
-                background: 'none', border: 'none', cursor: 'pointer',
-                fontSize: 10, color: 'var(--texte-sec)', padding: 0, marginLeft: 2,
+            {isEntrepreneurProfile(quiz) && (
+              <span style={{
+                display: 'inline-flex', alignItems: 'center', gap: 5,
+                padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 700,
+                background: 'rgba(199,110,78,0.2)', color: '#E8956E',
+                border: '1.5px solid rgba(199,110,78,0.35)',
                 fontFamily: 'var(--font-corps)',
-              }}
-            >
+              }}>
+                🏢 Entrepreneur
+              </span>
+            )}
+            <button onClick={() => setShowQuiz(true)} style={{
+              display: 'inline-flex', alignItems: 'center',
+              padding: '6px 12px', borderRadius: 20, fontSize: 12, fontWeight: 700,
+              background: 'rgba(255,255,255,0.1)', color: 'rgba(247,242,235,0.6)',
+              border: '1.5px solid rgba(255,255,255,0.15)',
+              fontFamily: 'var(--font-corps)', cursor: 'pointer',
+            }}>
               ✏️
             </button>
           </div>
         )}
 
-        {/* ── CTA quiz si pas encore fait ── */}
+        {/* CTA quiz si pas fait */}
         {!hasQuiz && (
-          <button
-            onClick={() => setShowQuiz(true)}
-            style={{
-              width: '100%', padding: '14px 16px',
-              background: 'var(--vert-light)',
-              border: `1.5px dashed ${VERT}`,
-              borderRadius: 14, fontSize: 14, fontWeight: 600,
-              color: '#0F3D35', cursor: 'pointer',
-              fontFamily: 'var(--font-corps)',
-              marginBottom: 24,
-              display: 'flex', alignItems: 'center', gap: 10,
-            }}
-          >
-            <span style={{ fontSize: 22 }}>✨</span>
+          <button onClick={() => setShowQuiz(true)} style={{
+            display: 'flex', alignItems: 'center', gap: 10,
+            padding: '12px 16px',
+            background: 'rgba(255,255,255,0.1)',
+            border: '1.5px dashed rgba(255,255,255,0.25)',
+            borderRadius: 14, cursor: 'pointer',
+            fontFamily: 'var(--font-corps)',
+          }}>
+            <span style={{ fontSize: 20 }}>✨</span>
             <div style={{ textAlign: 'left' }}>
-              <div>Personnaliser mon espace</div>
-              <div style={{ fontSize: 12, fontWeight: 400, color: 'var(--texte-sec)', marginTop: 2 }}>
-                4 questions pour tout adapter à votre situation
-              </div>
+              <p style={{ fontSize: 14, fontWeight: 700, color: '#F7F2EB', marginBottom: 1 }}>
+                Personnaliser mon espace
+              </p>
+              <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.55)' }}>
+                4 questions pour tout adapter
+              </p>
             </div>
-            <span style={{ marginLeft: 'auto', fontSize: 18 }}>→</span>
+            <span style={{ marginLeft: 'auto', fontSize: 18, color: 'rgba(247,242,235,0.7)' }}>→</span>
           </button>
         )}
+      </div>
 
-        {/* ── Profil résumé ── */}
-        {hasQuiz && (
+      {/* ── PROFIL RÉSUMÉ ── */}
+      {hasQuiz && (
+        <div style={{ marginBottom: 28 }}>
+          <SectionHead title="Mon profil" cta="Modifier ✏️" onCta={() => setShowQuiz(true)} />
           <ProfilResume quiz={quiz} onEdit={() => setShowQuiz(true)} />
-        )}
+        </div>
+      )}
 
-        {/* ── Cockpit aperçu ── */}
-        {profile && total > 0 && (
-          <div style={{ marginBottom: 24 }}>
-            <SectionTitle>Mon installation</SectionTitle>
-            <CockpitPreview
-              profile={profile}
-              quiz={quiz}
-              checked={checked}
-              steps={steps}
-              pct={pct}
-              done={done}
-              total={total}
-              onOpen={onShowCockpit}
-            />
-          </div>
-        )}
+      {/* ── COCKPIT ── */}
+      {profile && total > 0 && (
+        <div style={{ marginBottom: 28 }}>
+          <SectionHead title="Mon installation" cta="Tout voir →" onCta={onShowCockpit} />
+          <CockpitPreview
+            steps={steps}
+            checked={checked}
+            pct={pct} done={done} total={total}
+            onOpen={onShowCockpit}
+          />
+        </div>
+      )}
 
-        {/* ── Guides recommandés ── */}
-        {suggestedGuides.length > 0 && (
-          <div style={{ marginBottom: 24 }}>
-            <SectionTitle cta="Tous les guides →" ctaTo="/app/guides">
-              {quiz ? 'Guides pour vous' : 'Guides populaires'}
-            </SectionTitle>
-            {suggestedGuides.map(g => (
-              <GuideChip key={g.id} guide={g} isPremium={isPremium} onPaywall={() => setShowPaywall(true)} />
+      {/* ── GUIDES ── */}
+      {suggestedGuides.length > 0 && (
+        <div style={{ marginBottom: 28 }}>
+          <SectionHead
+            title={quiz ? 'Guides pour vous' : 'Guides populaires'}
+            cta="Tous les guides →"
+            ctaTo="/app/guides"
+          />
+          <div style={{
+            background: '#fff',
+            borderRadius: 18,
+            border: 'var(--border)',
+            overflow: 'hidden',
+          }}>
+            {suggestedGuides.map((g, i) => (
+              <div key={g.id} style={{ borderBottom: i < suggestedGuides.length - 1 ? '1px solid #F0EAE0' : 'none' }}>
+                <GuideRow guide={g} isPremium={isPremium} onPaywall={() => setShowPaywall(true)} />
+              </div>
             ))}
           </div>
-        )}
+        </div>
+      )}
 
-        {/* ── Offre recommandée ── */}
-        {quiz && (
-          <div style={{ marginBottom: 24 }}>
-            <SectionTitle cta="Voir tout →" ctaTo="/app/explorer/accompagnements">
-              Accompagnement recommandé
-            </SectionTitle>
-            <OffreRecommandeeStrip quiz={quiz} />
-          </div>
-        )}
+      {/* ── ACCOMPAGNEMENT ── */}
+      {quiz && (
+        <div style={{ marginBottom: 28 }}>
+          <SectionHead title="Accompagnement" cta="Voir tout →" ctaTo="/app/explorer/accompagnements" />
+          <OffreStrip quiz={quiz} />
+        </div>
+      )}
 
-        {/* ── Outils suggérés ── */}
-        {suggestedTools.length > 0 && (
-          <div style={{ marginBottom: 24 }}>
-            <SectionTitle cta="Tous →" ctaTo="/app/explorer/outils">Simulateurs utiles</SectionTitle>
-            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
-              {suggestedTools.map(t => (
-                <Link key={t.id} to={t.href} style={{ textDecoration: 'none' }}>
-                  <div style={{
-                    display: 'flex', alignItems: 'center', gap: 7,
-                    padding: '9px 14px',
-                    background: '#fff', border: '1px solid #E8E2D9',
-                    borderRadius: 12, fontSize: 13, fontWeight: 600,
-                    color: 'var(--texte)',
-                  }}>
-                    <span>{t.emoji}</span>
-                    <span>{t.label}</span>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* ── Mon accès ── */}
-        <div style={{ marginBottom: 20 }}>
-          <SectionTitle>Mon accès</SectionTitle>
-          <div style={{
-            background: isPremium ? 'var(--vert-light)' : '#fff',
-            border: `1px solid ${isPremium ? 'rgba(90,122,64,0.2)' : '#E8E2D9'}`,
-            borderRadius: 14, padding: '16px',
-          }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-              <div>
-                <p style={{ fontSize: 15, fontWeight: 700, color: 'var(--foret)', marginBottom: 4 }}>
-                  {isPremium ? '💎 Premium actif' : '🟢 Accès gratuit'}
-                </p>
-                {isPremium ? (
-                  email && <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{email}</p>
-                ) : (
-                  <>
-                    <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 10 }}>
-                      Débloquez 100% des guides et tous les outils.
-                    </p>
-                    <button onClick={onUpgrade} style={{
-                      background: '#0F3D35', color: 'white',
-                      padding: '10px 18px', borderRadius: 10,
-                      fontSize: 13, fontWeight: 700, border: 'none', cursor: 'pointer',
-                    }}>
-                      Découvrir Premium →
-                    </button>
-                  </>
-                )}
-              </div>
-              {isPremium && (
-                <button onClick={logout} style={{
-                  background: 'none', border: 'none', cursor: 'pointer',
-                  fontSize: 11, color: 'var(--texte-sec)', textDecoration: 'underline',
+      {/* ── SIMULATEURS ── */}
+      {suggestedTools.length > 0 && (
+        <div style={{ marginBottom: 28 }}>
+          <SectionHead title="Simulateurs" cta="Tous →" ctaTo="/app/explorer/outils" />
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {suggestedTools.map(t => (
+              <Link key={t.id} to={t.href} style={{ textDecoration: 'none' }}>
+                <div style={{
+                  display: 'flex', alignItems: 'center', gap: 7,
+                  padding: '10px 15px',
+                  background: '#fff',
+                  border: 'var(--border)',
+                  borderRadius: 12,
+                  fontSize: 13, fontWeight: 600, color: FORET,
                 }}>
-                  Déconnecter
-                </button>
-              )}
-            </div>
-          </div>
-
-          <div style={{ borderTop: '1px solid #E8E2D9', marginTop: 12, paddingTop: 12 }}>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-              {isPremium && (
-                <a href="mailto:vivre@vivre-a-majorque.es?subject=Résiliation%20abonnement%20Premium"
-                  style={{ fontSize: 13, color: 'var(--texte-sec)', textDecoration: 'none', display: 'flex', justifyContent: 'space-between' }}>
-                  <span>Résilier mon abonnement</span><span>›</span>
-                </a>
-              )}
-              {!showDeleteConfirm ? (
-                <button onClick={() => setShowDeleteConfirm(true)} style={{
-                  background: 'none', border: 'none', padding: 0, cursor: 'pointer',
-                  fontSize: 13, color: 'var(--texte-sec)', textAlign: 'left',
-                  display: 'flex', justifyContent: 'space-between', width: '100%',
-                }}>
-                  <span>Supprimer mes données</span><span style={{ fontSize: 12 }}>›</span>
-                </button>
-              ) : (
-                <div style={{ background: 'rgba(199,78,78,0.05)', border: '1px solid rgba(199,78,78,0.2)', borderRadius: 10, padding: '12px' }}>
-                  <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginBottom: 10, lineHeight: 1.5 }}>
-                    Vos données locales seront supprimées. Pour votre compte Premium, confirmation sous 72h.
-                  </p>
-                  <div style={{ display: 'flex', gap: 8 }}>
-                    <a href={`mailto:vivre@vivre-a-majorque.es?subject=Suppression%20données%20RGPD${email ? `&body=Adresse%20%3A%20${encodeURIComponent(email)}` : ''}`}
-                      onClick={() => { localStorage.clear(); setShowDeleteConfirm(false) }}
-                      style={{ background: '#C74E4E', color: 'white', padding: '6px 12px', borderRadius: 6, fontSize: 12, fontWeight: 600, textDecoration: 'none' }}>
-                      Confirmer
-                    </a>
-                    <button onClick={() => setShowDeleteConfirm(false)} style={{ background: 'none', border: '1px solid #E8E2D9', padding: '6px 12px', borderRadius: 6, fontSize: 12, cursor: 'pointer' }}>
-                      Annuler
-                    </button>
-                  </div>
+                  <span>{t.emoji}</span>
+                  <span>{t.label}</span>
                 </div>
-              )}
-              <a href="/politique-de-confidentialite" target="_blank" rel="noopener noreferrer"
-                style={{ fontSize: 13, color: 'var(--texte-sec)', textDecoration: 'none', display: 'flex', justifyContent: 'space-between' }}>
-                <span>Politique de confidentialité</span><span>↗</span>
-              </a>
-            </div>
-            <p style={{ fontSize: 10, color: '#D0C8BC', marginTop: 10, lineHeight: 1.5 }}>
-              RGPD · LOPDGDD · LSSI · AEPD — Amely Attias · vivre@vivre-a-majorque.es
-            </p>
+              </Link>
+            ))}
           </div>
         </div>
+      )}
+
+      {/* ── ACCÈS ── */}
+      <div style={{ marginBottom: 12 }}>
+        <SectionHead title="Mon accès" />
+        <AccesCard
+          isPremium={isPremium} email={email} logout={logout} onUpgrade={onUpgrade}
+        />
       </div>
 
       {showQuiz && (
@@ -887,9 +866,9 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   )
 }
 
-/* ═══════════════════════════════════════════════
+/* ══════════════════════════════════════════════
    Composant principal
-═══════════════════════════════════════════════ */
+══════════════════════════════════════════════ */
 export default function MonEspace() {
   const { profile } = useProfile()
   const { isPremium } = usePremium()
@@ -903,7 +882,6 @@ export default function MonEspace() {
           profileNotion={profile.notion}
           profileId={profile.id}
           onBack={() => setView('dashboard')}
-          onUpgrade={() => { setView('dashboard'); setShowPaywall(true) }}
         />
         <PaywallModal isOpen={showPaywall} onClose={() => setShowPaywall(false)} />
       </>
