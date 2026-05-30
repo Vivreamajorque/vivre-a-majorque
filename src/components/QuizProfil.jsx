@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { track } from '@vercel/analytics'
 
 /*
  * QuizProfil — 4 questions de personnalisation
@@ -191,7 +192,11 @@ export default function QuizProfil({
 
   const goNext = () => {
     if (!selected) return
-    if (isLast) { onComplete(answers); return }
+    if (isLast) {
+      track('quiz_completed', { horizon: answers.horizon || '', intention: answers.intention || '' })
+      onComplete(answers)
+      return
+    }
     setAnimDir('out')
     setTimeout(() => { setStep(s => s + 1); setAnimDir('in') }, 150)
   }

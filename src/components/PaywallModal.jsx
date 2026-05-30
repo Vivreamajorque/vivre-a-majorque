@@ -1,13 +1,19 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { usePremium } from '../context/PremiumContext'
+import { track } from '@vercel/analytics'
 
 // Stripe payment link avec allow_promotion_codes: true
 const STRIPE_LINK = 'https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I'
 
 export function PaywallModal({ isOpen, onClose }) {
   const { activatePremium } = usePremium()
-  const [view, setView] = useState('main') // 'main' | 'login' | 'loading' | 'success' | 'error'
+  const [view, setView] = useState('main')
   const [emailInput, setEmailInput] = useState('')
+
+  // Track à chaque ouverture de la modale
+  useEffect(() => {
+    if (isOpen) track('paywall_opened')
+  }, [isOpen])
   const [errorMsg, setErrorMsg] = useState('')
 
   if (!isOpen) return null
@@ -125,6 +131,7 @@ export function PaywallModal({ isOpen, onClose }) {
               href={STRIPE_LINK}
               target="_blank"
               rel="noreferrer"
+              onClick={() => track('premium_stripe_opened')}
               style={{
                 display: 'block', width: '100%', textAlign: 'center',
                 background: 'var(--foret)', color: 'white',

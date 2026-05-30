@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { track } from '@vercel/analytics'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 import { useQuizData, getRecommendedOffer } from '../hooks/useQuizData'
 
@@ -96,6 +97,7 @@ function OffreCard({ offre }) {
 
   const handleReserver = () => {
     if (offre.stripeUrl) {
+      track('accompagnement_clicked', { offre: offre.titre, prix: offre.prix })
       window.open(offre.stripeUrl, '_blank', 'noopener,noreferrer')
     } else {
       const body = encodeURIComponent(
