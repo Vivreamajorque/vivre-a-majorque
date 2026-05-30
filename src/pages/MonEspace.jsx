@@ -304,7 +304,9 @@ function CockpitView({ profileNotion, profileId, onBack }) {
       .sort((a, b) => a.ordre - b.ordre)
   , [data, profileNotion])
 
-  const freeCount = useMemo(() => Math.max(1, Math.ceil(steps.length * 0.30)), [steps])
+  // 60% des étapes accessibles gratuitement — assez pour que l'utilisateur
+  // comprenne la valeur avant de voir le cadenas sur les étapes avancées
+  const freeCount = useMemo(() => Math.max(3, Math.ceil(steps.length * 0.60)), [steps])
   const stepsWithAccess = useMemo(() =>
     steps.map((s, i) => ({ ...s, accessible: isPremium || i < freeCount }))
   , [steps, isPremium, freeCount])

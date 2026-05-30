@@ -72,7 +72,7 @@ function SortPill({ active, onClick, label }) {
 }
 
 function applyFreemiumRule(guides) {
-  const freeCount = Math.max(1, Math.ceil(guides.length * 0.30))
+  const freeCount = Math.max(2, Math.ceil(guides.length * 0.40))
   return guides.map((g, i) => ({ ...g, freemiumFree: i < freeCount }))
 }
 
@@ -204,7 +204,7 @@ export default function Guides() {
       if (byCategory[cat]) {
         const all = byCategory[cat]
         const total = all.length
-        const freeCount = Math.max(1, Math.ceil(total * 0.30))
+        const freeCount = Math.max(2, Math.ceil(total * 0.40))
         const forMeCount = activeProfile
           ? all.filter(g => matchesProfile(g, activeProfile)).length
           : 0
@@ -214,7 +214,7 @@ export default function Guides() {
     if (byCategory['Autres']) {
       const all = byCategory['Autres']
       const total = all.length
-      const freeCount = Math.max(1, Math.ceil(total * 0.30))
+      const freeCount = Math.max(2, Math.ceil(total * 0.40))
       const forMeCount = activeProfile
         ? all.filter(g => matchesProfile(g, activeProfile)).length
         : 0
