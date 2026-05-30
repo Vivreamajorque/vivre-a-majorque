@@ -20,6 +20,7 @@ import Accompagnements from './pages/Accompagnements'
 import Actualites from './pages/Actualites'
 import Entreprendre from './pages/Entreprendre'
 import AutonomaSimulator from './pages/AutonomaSimulator'
+import CalendrierFiscal from './pages/CalendrierFiscal'
 import CircuitsMajorque from './pages/CircuitsMajorque'
 
 function AppShell() {
@@ -40,6 +41,7 @@ function AppShell() {
         <Route path="app/outils/cout" element={<CoutInstallation />} />
         <Route path="app/outils/budget" element={<BudgetSimulator />} />
         <Route path="app/outils/autonoma" element={<AutonomaSimulator />} />
+        <Route path="app/outils/fiscal" element={<CalendrierFiscal />} />
         <Route path="app/actus" element={<Actualites />} />
         <Route path="app/explorer/actus" element={<Actualites />} />
         <Route path="app/explorer/accompagnements" element={<Accompagnements />} />

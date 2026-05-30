@@ -453,35 +453,82 @@ function CockpitPreview({ steps, checked, pct, done, total, onOpen }) {
 }
 
 /* Ligne guide */
-function GuideRow({ guide, isPremium, onPaywall }) {
+const CAT_EMOJIS = {
+  'Administratif': '📋', 'Logement': '🏠', 'Travail': '💼',
+  'Santé': '🏥', 'Famille': '👨‍👩‍👧', 'Argent': '💶',
+  'Voiture': '🚗', 'Animaux': '🐾', 'Déménagement': '📦', 'Vie pratique': '🌿',
+}
+
+const CAT_COLORS = {
+  'Administratif': '#5AADA5', 'Logement': '#C76E4E', 'Travail': '#5AADA5',
+  'Santé': '#C74E4E', 'Famille': '#7BA05B', 'Argent': '#b07d2a',
+  'Voiture': '#5A7A40', 'Animaux': '#8B6E4E', 'Déménagement': '#C76E4E', 'Vie pratique': '#7BA05B',
+}
+
+function GuideCard({ guide, isPremium, onPaywall }) {
   const navigate = useNavigate()
   const locked = guide.access === '💎 Premium' && !isPremium
-  const dotColor = locked ? '#C8C0B4' : (guide.category === 'Travail' || guide.category === 'Argent' ? VERT : TERRA)
+  const color = CAT_COLORS[guide.category] || VERT
+  const emoji = CAT_EMOJIS[guide.category] || '📄'
 
   return (
     <div
       onClick={() => locked ? onPaywall() : navigate(`/app/guide/${guide.id}`)}
       style={{
-        display: 'flex', alignItems: 'center', gap: 12,
-        padding: '13px 16px',
-        borderBottom: '1px solid #F0EAE0',
+        background: locked ? '#F7F2EB' : '#fff',
+        borderRadius: 14,
+        border: `1.5px solid ${locked ? '#D4CCC2' : `${color}25`}`,
+        padding: '14px 12px',
         cursor: 'pointer',
+        display: 'flex', flexDirection: 'column',
+        justifyContent: 'space-between',
+        minHeight: 110,
+        position: 'relative', overflow: 'hidden',
+        transition: 'transform 0.12s',
       }}
+      onMouseEnter={e => { if (!locked) e.currentTarget.style.transform = 'translateY(-1px)' }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
     >
+      {/* Trait coloré haut */}
       <div style={{
-        width: 8, height: 8, borderRadius: '50%',
-        background: dotColor, flexShrink: 0,
+        position: 'absolute', top: 0, left: 0, right: 0, height: 3,
+        background: locked ? '#D4CCC2' : color,
+        borderRadius: '14px 14px 0 0',
       }} />
-      <span style={{
-        flex: 1, fontSize: 14, color: locked ? 'var(--texte-sec)' : 'var(--texte)',
-        fontWeight: 500, lineHeight: 1.35,
-      }}>
-        {guide.title}
-      </span>
-      {locked
-        ? <span style={{ fontSize: 11, color: '#b07d2a', fontWeight: 800, letterSpacing: '0.04em' }}>💎</span>
-        : <span style={{ color: VERT, fontSize: 18, opacity: 0.8 }}>›</span>
-      }
+
+      {locked && (
+        <span style={{
+          position: 'absolute', top: 8, right: 8,
+          fontSize: 10, fontWeight: 800, color: '#b07d2a',
+          background: 'rgba(176,125,42,0.12)',
+          padding: '2px 6px', borderRadius: 20,
+          fontFamily: 'var(--font-corps)',
+        }}>💎</span>
+      )}
+
+      <div>
+        <div style={{ fontSize: 22, marginBottom: 7, marginTop: 6 }}>{emoji}</div>
+        <p style={{
+          fontSize: 13, fontWeight: 500,
+          color: locked ? 'var(--texte-sec)' : FORET,
+          lineHeight: 1.35, marginBottom: 6,
+        }}>
+          {guide.title}
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{
+          fontSize: 11, fontWeight: 600,
+          color: locked ? '#C8C0B4' : color,
+          background: locked ? '#E8E2D9' : `${color}15`,
+          padding: '2px 7px', borderRadius: 20,
+          fontFamily: 'var(--font-corps)',
+        }}>
+          {guide.category}
+        </span>
+        <span style={{ color: locked ? '#C8C0B4' : color, fontSize: 14 }}>›</span>
+      </div>
     </div>
   )
 }
@@ -634,16 +681,41 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
     }
   }, [hasQuiz])
 
-  /* Guides suggérés */
+  /* Guides suggérés — mélange de catégories */
   const suggestedCats = getSuggestedGuideCategories(quiz)
+  // On charge TOUS les guides publiés (sans filtre catégorie) pour pouvoir mélanger
   const filterGuides = {
-    and: [
-      { or: suggestedCats.map(c => ({ property: 'Catégorie', select: { equals: c } })) },
-      { property: 'Statut_contenu', select: { equals: 'Publié' } },
-    ],
+    property: 'Statut_contenu', select: { equals: 'Publié' },
   }
   const { data: rawGuides } = useNotionDB(NOTION_DB.guides, filterGuides)
-  const suggestedGuides = useMemo(() => rawGuides.map(parseGuide).slice(0, 4), [rawGuides])
+  const suggestedGuides = useMemo(() => {
+    const parsed = rawGuides.map(parseGuide)
+    // Séparer : guides des catégories recommandées VS autres
+    const priority = parsed.filter(g => suggestedCats.includes(g.category))
+    const others   = parsed.filter(g => !suggestedCats.includes(g.category))
+    // Mélange : 1 de chaque catégorie recommandée (max 2), puis compléter avec autres catégories
+    const seen = new Set()
+    const mixed = []
+    // 1 guide par catégorie recommandée en premier
+    for (const cat of suggestedCats) {
+      const g = priority.find(g => g.category === cat && !seen.has(g.id))
+      if (g) { seen.add(g.id); mixed.push(g) }
+      if (mixed.length >= 4) break
+    }
+    // Compléter avec d'autres catégories non encore représentées
+    for (const g of others) {
+      if (mixed.length >= 6) break
+      if (!seen.has(g.id) && !mixed.find(m => m.category === g.category)) {
+        seen.add(g.id); mixed.push(g)
+      }
+    }
+    // Compléter jusqu'à 6 si besoin
+    for (const g of [...priority, ...others]) {
+      if (mixed.length >= 6) break
+      if (!seen.has(g.id)) { seen.add(g.id); mixed.push(g) }
+    }
+    return mixed
+  }, [rawGuides, suggestedCats])
 
   /* Cockpit */
   const { data: cockpitData } = useNotionDB(NOTION_DB.cockpit)
@@ -847,15 +919,12 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
             ctaTo="/app/guides"
           />
           <div style={{
-            background: '#fff',
-            borderRadius: 18,
-            border: 'var(--border)',
-            overflow: 'hidden',
+            display: 'grid',
+            gridTemplateColumns: '1fr 1fr',
+            gap: 10,
           }}>
-            {suggestedGuides.map((g, i) => (
-              <div key={g.id} style={{ borderBottom: i < suggestedGuides.length - 1 ? '1px solid #F0EAE0' : 'none' }}>
-                <GuideRow guide={g} isPremium={isPremium} onPaywall={() => setShowPaywall(true)} />
-              </div>
+            {suggestedGuides.map(g => (
+              <GuideCard key={g.id} guide={g} isPremium={isPremium} onPaywall={() => setShowPaywall(true)} />
             ))}
           </div>
         </div>
