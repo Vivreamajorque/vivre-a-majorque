@@ -3,9 +3,33 @@ import { useNavigate } from 'react-router-dom'
 import { useProfile } from '../context/ProfileContext'
 import { PROFILS } from '../config'
 import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait } from '../components/WaveTitle'
+import { useQuizData } from '../hooks/useQuizData'
+
+/*
+ * Onboarding — 3 étapes :
+ *   1. Prénom
+ *   2. Email (optionnel)
+ *   3. Profil → sélection d'un profil PRE-REMPLIT l'horizon du quiz et lance le quiz inline
+ *
+ * Le quiz (QuizProfil inline) devient la source unique du fléchage.
+ * Le profil sélectionné en étape 3 = point d'entrée qui pré-remplit "horizon"
+ * pour éviter de reposer la question plus tard dans Mon Espace.
+ */
+
+/* Mapping profil onboarding → valeur horizon quiz */
+const PROFIL_TO_HORIZON = {
+  reve:      'plus1an',
+  installe:  'entre6et12',
+  premiere:  'deja',
+  confirme:  'deja',
+}
+
+/* ─── Composant quiz inline (allégé) ─────────── */
+import QuizProfil from '../components/QuizProfil'
 
 export default function Onboarding() {
   const { chooseProfile, savePrenom } = useProfile()
+  const { saveQuiz } = useQuizData()
   const navigate = useNavigate()
   const [step, setStep]               = useState(1)
   const [inputPrenom, setInputPrenom] = useState('')
@@ -13,6 +37,8 @@ export default function Onboarding() {
   const [newsletter, setNewsletter]   = useState(false)
   const [emailError, setEmailError]   = useState('')
   const [submitting, setSubmitting]   = useState(false)
+  const [selectedProfil, setSelectedProfil] = useState(null) // profil cliqué → pré-remplit quiz
+  const [showQuiz, setShowQuiz] = useState(false)
 
   const handlePrenom = () => {
     if (!inputPrenom.trim()) return
@@ -24,11 +50,10 @@ export default function Onboarding() {
 
   const handleEmail = async () => {
     const email = inputEmail.trim()
-    if (!email) { setEmailError('Ton adresse email est requise') ; return }
-    if (!isValidEmail(email)) { setEmailError('Adresse email invalide') ; return }
+    if (!email) { setEmailError('Ton adresse email est requise'); return }
+    if (!isValidEmail(email)) { setEmailError('Adresse email invalide'); return }
     setEmailError('')
     setSubmitting(true)
-    // Sauvegarde locale immédiate — évite la modale redondante dans Mon Espace
     localStorage.setItem('vmaq_user', JSON.stringify({
       prenom: inputPrenom.trim(),
       email: email.toLowerCase(),
@@ -42,21 +67,78 @@ export default function Onboarding() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ prenom: inputPrenom.trim(), email, newsletter, welcome: true }),
       })
-    } catch (_) { /* silencieux — on continue même si l'API échoue */ }
+    } catch (_) { /* silencieux */ }
     setSubmitting(false)
     setStep(3)
   }
 
-  const skipEmail = () => {
-    setStep(3)
+  const skipEmail = () => setStep(3)
+
+  /* Clic sur un profil = pré-remplit horizon + lance quiz */
+  const handleSelectProfil = (profil) => {
+    setSelectedProfil(profil)
+    // Sauver le profil de base immédiatement (fallback si quiz skippé)
+    chooseProfile(profil.id)
+    setShowQuiz(true)
   }
 
-  const handleSelect = (p) => {
-    chooseProfile(p.id)
+  /* Quiz complété → sauver + naviguer */
+  const handleQuizComplete = (answers) => {
+    const horizonFromProfil = PROFIL_TO_HORIZON[selectedProfil?.id] || answers.horizon || 'plus1an'
+    // Fusionner : on garde l'horizon du profil sélectionné sauf si le quiz a une réponse explicite
+    const merged = {
+      horizon: answers.horizon || horizonFromProfil,
+      ...answers,
+    }
+    saveQuiz(merged)
+    navigate('/app')
+  }
+
+  /* Quiz skipé → naviguer directement */
+  const handleQuizSkip = () => {
+    // Sauver un profil minimal basé sur la sélection
+    if (selectedProfil) {
+      const horizon = PROFIL_TO_HORIZON[selectedProfil.id] || 'plus1an'
+      saveQuiz({ horizon })
+    }
     navigate('/app')
   }
 
   const dots = [1, 2, 3]
+
+  if (showQuiz) {
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg)', position: 'relative' }}>
+        {/* Header discret avec le profil choisi */}
+        <div style={{
+          position: 'fixed', top: 0, left: 0, right: 0,
+          background: 'var(--bg)',
+          padding: '16px 24px 12px',
+          zIndex: 10,
+          borderBottom: '1px solid var(--gris)',
+          display: 'flex', alignItems: 'center', gap: 10,
+        }}>
+          <span style={{ fontSize: 20 }}>{selectedProfil?.emoji}</span>
+          <div>
+            <p style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
+              Profil : <strong style={{ color: 'var(--texte)' }}>{selectedProfil?.label}</strong>
+            </p>
+            <p style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
+              Quelques questions pour personnaliser votre espace
+            </p>
+          </div>
+        </div>
+        <div style={{ paddingTop: 80 }}>
+          <QuizProfil
+            onComplete={handleQuizComplete}
+            onSkip={handleQuizSkip}
+            prefill={{ horizon: PROFIL_TO_HORIZON[selectedProfil?.id] }}
+            inline
+          />
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div style={{
@@ -160,7 +242,6 @@ export default function Onboarding() {
                 )}
               </div>
 
-              {/* Opt-in newsletter */}
               <label
                 onClick={() => setNewsletter(v => !v)}
                 style={{
@@ -216,7 +297,7 @@ export default function Onboarding() {
           </>
         )}
 
-        {/* ── Step 3 : Profil ── */}
+        {/* ── Step 3 : Profil → entrée dans le quiz ── */}
         {step === 3 && (
           <>
             <div style={{ marginBottom: 32 }}>
@@ -227,7 +308,7 @@ export default function Onboarding() {
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
                 fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.50,
               }}>
-                L'appli s'adapte à ta situation.
+                L'appli s'adapte entièrement à ta situation.
               </p>
             </div>
 
@@ -235,7 +316,7 @@ export default function Onboarding() {
               {PROFILS.map((p, i) => {
                 const color = i % 2 === 0 ? TERRA : VERT
                 return (
-                  <button key={p.id} onClick={() => handleSelect(p)} style={{
+                  <button key={p.id} onClick={() => handleSelectProfil(p)} style={{
                     background: '#fff',
                     border: `1px solid ${color}30`,
                     borderRadius: 14, padding: '16px 18px',
@@ -262,7 +343,7 @@ export default function Onboarding() {
                         fontFamily: 'var(--font-titre)', fontStyle: 'italic',
                         fontSize: 14, color: 'var(--texte-sec)',
                       }}>
-                        {p.description}
+                        {p.desc}
                       </span>
                     </div>
                     <span style={{ color, fontSize: 16, opacity: 0.5 }}>→</span>
