@@ -1,6 +1,9 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import OnboardingModal from '../components/OnboardingModal'
+import QuizProfil from '../components/QuizProfil'
+import ProfilResume from '../components/ProfilResume'
 import { useUserData } from '../hooks/useUserData'
+import { useQuizData, getRecommendedOffer, isEntrepreneurProfile, getPainLabel } from '../hooks/useQuizData'
 import { useProfile } from '../context/ProfileContext'
 import { usePremium } from '../context/PremiumContext'
 import { useSavedGuides } from '../hooks/useSavedGuides'
@@ -169,7 +172,9 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const [showProfilPicker, setShowProfilPicker] = useState(false)
   const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
   const { user, saveUser, dismiss, hasData } = useUserData()
+  const { quiz, saveQuiz, resetQuiz, hasQuiz } = useQuizData()
   const [showOnboarding, setShowOnboarding] = useState(false)
+  const [showQuiz, setShowQuiz] = useState(false)
 
   /* Afficher le modal si : pas encore de données ET premier passage sur Mon Espace */
   useEffect(() => {
@@ -178,6 +183,14 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
       return () => clearTimeout(timer)
     }
   }, [hasData, isPremium])
+
+  /* Déclencher le quiz si onboarding fait mais quiz pas encore complété */
+  useEffect(() => {
+    if (hasData && !hasQuiz) {
+      const timer = setTimeout(() => setShowQuiz(true), 600)
+      return () => clearTimeout(timer)
+    }
+  }, [hasData, hasQuiz])
 
   const handleOnboardingSubmit = async ({ prenom, email: userEmail, newsletter }) => {
     // 1. Sauvegarde locale immédiate (UX réactive)
@@ -232,6 +245,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   }, [])
 
   return (
+    <>
     <div className="page" style={{ paddingBottom: 100 }}>
       <div style={{ paddingTop: 48 }}>
 
@@ -246,8 +260,30 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
           }}>
             Mon espace
           </h1>
+          {/* Message contextuel selon le profil quiz */}
+          {quiz?.douleur && (
+            <p style={{
+              fontSize: 13, color: 'var(--texte-sec)',
+              lineHeight: 1.55,
+              fontStyle: 'italic',
+              padding: '8px 12px',
+              background: 'var(--terra-light)',
+              borderRadius: 10,
+              borderLeft: '3px solid var(--terra)',
+            }}>
+              {quiz.douleur === 'clients'
+                ? `Votre priorité : trouver des clients à Majorque. La section Entreprendre est faite pour vous.`
+                : quiz.douleur === 'fiscal'
+                ? `Votre priorité : comprendre la fiscalité. Les guides Travail et Argent vous attendent.`
+                : quiz.douleur === 'admin'
+                ? `Votre priorité : les démarches. Votre Cockpit liste tout dans l'ordre.`
+                : quiz.douleur === 'logement'
+                ? `Votre priorité : trouver un logement. Les guides Logement sont vos premiers alliés.`
+                : `Tout avancer pas à pas — votre Cockpit vous guide dans l'ordre.`}
+            </p>
+          )}
           {profile && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 10 }}>
               <span style={{ fontSize: 16 }}>{profile.emoji}</span>
               <span style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{profile.label}</span>
               <button onClick={() => setShowProfilPicker(v => !v)} style={{
@@ -257,6 +293,35 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
             </div>
           )}
         </div>
+
+        {/* ── Profil quiz résumé ── */}
+        {hasQuiz && (
+          <ProfilResume quiz={quiz} onEdit={() => setShowQuiz(true)} />
+        )}
+
+        {/* ── CTA quiz si pas encore fait ── */}
+        {hasData && !hasQuiz && (
+          <button
+            onClick={() => setShowQuiz(true)}
+            style={{
+              width: '100%',
+              padding: '13px 16px',
+              background: 'var(--vert-light)',
+              border: '1.5px dashed var(--vert)',
+              borderRadius: 12,
+              fontSize: 14, fontWeight: 600,
+              color: 'var(--foret, #0F3D35)',
+              cursor: 'pointer',
+              fontFamily: 'var(--font-corps)',
+              marginBottom: 20,
+              display: 'flex', alignItems: 'center', gap: 10,
+            }}
+          >
+            <span style={{ fontSize: 20 }}>✨</span>
+            <span>Personnaliser mon espace — 5 questions</span>
+            <span style={{ marginLeft: 'auto', fontSize: 16 }}>→</span>
+          </button>
+        )}
 
         {/* ── Sélecteur de profil ── */}
         {showProfilPicker && (
@@ -506,6 +571,15 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
 
       </div>
     </div>
+
+    {/* Quiz profil */}
+    {showQuiz && (
+      <QuizProfil
+        onComplete={(answers) => { saveQuiz(answers); setShowQuiz(false) }}
+        onSkip={() => setShowQuiz(false)}
+      />
+    )}
+  </>
   )
 }
 

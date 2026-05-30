@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
+import { useQuizData, getRecommendedOffer } from '../hooks/useQuizData'
 
 const CONTACT_EMAIL = 'lalignemallorca@gmail.com'
 
@@ -213,6 +214,21 @@ function OffreCard({ offre }) {
 
 export default function Accompagnements() {
   const navigate = useNavigate()
+  const { quiz } = useQuizData()
+
+  // Réordonner les offres selon le profil quiz
+  const offres = useMemo(() => {
+    const recommended = getRecommendedOffer(quiz)
+    return [...OFFRES].sort((a, b) => {
+      if (a.id === recommended) return -1
+      if (b.id === recommended) return 1
+      return 0
+    }).map(o => ({
+      ...o,
+      highlight: o.id === recommended,
+      label: o.id === recommended ? '⭐ Recommandé pour vous' : o.label,
+    }))
+  }, [quiz])
 
   return (
     <div className="page">
@@ -230,7 +246,7 @@ export default function Accompagnements() {
         </p>
       </div>
 
-      {OFFRES.map(offre => (
+      {offres.map(offre => (
         <OffreCard key={offre.id} offre={offre} />
       ))}
 

@@ -5,6 +5,7 @@ import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import { NOTION_DB } from '../config'
 import { PageHeading, AccentWord, TERRA, VERT } from '../components/WaveTitle'
+import { useQuizData, isEntrepreneurProfile } from '../hooks/useQuizData'
 
 /* ─── Données statiques ────────────────────────── */
 
@@ -396,6 +397,8 @@ export default function Entreprendre() {
   const navigate = useNavigate()
   const { isPremium } = usePremium()
   const [showPaywall, setShowPaywall] = useState(false)
+  const { quiz } = useQuizData()
+  const isEntrepreneur = isEntrepreneurProfile(quiz)
 
   // Tous les guides catégorie Travail + Argent filtrés Entrepreneur
   const filterEntrepreneur = {
@@ -453,10 +456,24 @@ export default function Entreprendre() {
           Majorque
         </h1>
         <div style={{ width: 36, height: 3, background: 'var(--vert)', borderRadius: 2, marginBottom: 14 }} />
-        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.55, marginBottom: 4 }}>
-          Guides juridiques et fiscaux vérifiés, sources officielles uniquement —
-          pour créer votre activité à Majorque en connaissance de cause.
-        </p>
+        {isEntrepreneur ? (
+          <p style={{
+            fontSize: 13, lineHeight: 1.55,
+            padding: '10px 14px',
+            background: 'rgba(90,173,165,0.12)',
+            borderRadius: 10,
+            borderLeft: '3px solid var(--vert)',
+            color: 'var(--foret, #0F3D35)',
+            marginBottom: 4,
+          }}>
+            ✦ Votre profil correspond à cette section — les guides et l'Audit Éclaireur sont prioritaires pour vous.
+          </p>
+        ) : (
+          <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.55, marginBottom: 4 }}>
+            Guides juridiques et fiscaux vérifiés, sources officielles uniquement —
+            pour créer votre activité à Majorque en connaissance de cause.
+          </p>
+        )}
       </div>
 
       {/* Bloc accompagnement — en premier */}
