@@ -1,34 +1,43 @@
 import { useState, useCallback } from 'react'
 
-function storageKey(email) {
-  return `vmaq_saved_${(email || 'guest').toLowerCase().trim()}`
-}
+/*
+ * Les guides sauvegardés sont stockés localement.
+ * On utilise une clé FIXE indépendante de l'email Premium —
+ * l'email est null pour les utilisateurs gratuits, ce qui cassait
+ * la persistance entre sessions.
+ */
+const STORAGE_KEY = 'vmaq_saved_guides'
 
-function load(email) {
+function load() {
   try {
-    return JSON.parse(localStorage.getItem(storageKey(email)) || '[]')
+    return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]')
   } catch {
     return []
   }
 }
 
-function save(email, guides) {
-  localStorage.setItem(storageKey(email), JSON.stringify(guides))
+function persist(guides) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(guides))
 }
 
-export function useSavedGuides(email) {
-  const [saved, setSaved] = useState(() => load(email))
+export function useSavedGuides() {
+  const [saved, setSaved] = useState(() => load())
 
   const toggle = useCallback((guide) => {
     setSaved(prev => {
       const exists = prev.some(g => g.id === guide.id)
       const next = exists
         ? prev.filter(g => g.id !== guide.id)
-        : [...prev, { id: guide.id, title: guide.title, category: guide.category, savedAt: Date.now() }]
-      save(email, next)
+        : [...prev, {
+            id: guide.id,
+            title: guide.title,
+            category: guide.category || '',
+            savedAt: Date.now(),
+          }]
+      persist(next)
       return next
     })
-  }, [email])
+  }, [])
 
   const isSaved = useCallback((id) => saved.some(g => g.id === id), [saved])
 

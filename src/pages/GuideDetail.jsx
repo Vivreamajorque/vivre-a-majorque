@@ -100,8 +100,8 @@ function TableOfContents({ headings }) {
 }
 
 /* ── Bouton bookmark — accessible à tous ── */
-function BookmarkButton({ guide, email }) {
-  const { isSaved, toggle } = useSavedGuides(email)
+function BookmarkButton({ guide }) {
+  const { isSaved, toggle } = useSavedGuides()
   const saved = isSaved(guide.id)
   const [burst, setBurst] = useState(false)
   const [showTip, setShowTip] = useState(false)
@@ -337,7 +337,7 @@ export default function GuideDetail() {
                   }}>
                     {guide.title}
                   </h1>
-                  <BookmarkButton guide={guide} email={email} />
+                  <BookmarkButton guide={guide} />
                 </div>
 
                 {/* Stats pills */}

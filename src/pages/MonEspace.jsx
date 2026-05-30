@@ -625,7 +625,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
   const [showQuiz, setShowQuiz] = useState(false)
   const { user } = useUserData()
   const { quiz, saveQuiz, hasQuiz } = useQuizData()
-  const { saved: savedGuides, toggle: toggleSaved } = useSavedGuides(email)
+  const { saved: savedGuides, toggle: toggleSaved } = useSavedGuides()
 
   useEffect(() => {
     if (!hasQuiz) {

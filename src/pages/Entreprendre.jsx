@@ -416,9 +416,7 @@ export default function Entreprendre() {
   const { data: raw, loading } = useNotionDB(NOTION_DB.guides, filterEntrepreneur)
 
   const guides = useMemo(() => {
-    return raw
-      .map(parseGuide)
-      .filter(isEntrepreneur)
+    return raw.map(parseGuide)
   }, [raw])
 
   return (
@@ -518,7 +516,7 @@ export default function Entreprendre() {
           textAlign: 'center', padding: '32px 16px',
           color: 'var(--texte-sec)', fontSize: 14,
         }}>
-          Guides en cours de chargement…
+          Aucun guide disponible pour le moment — revenez bientôt.
         </div>
       )}
 
