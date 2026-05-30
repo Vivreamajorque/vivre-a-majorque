@@ -4,65 +4,261 @@ import { SectionHead, TERRA, VERT } from '../components/WaveTitle'
 
 const FORET = '#0F3D35'
 
+/* ── Nouveauté mise en avant ──────────────────
+   Mettre isNew: true sur UN SEUL élément à la fois.
+   La nouveauté s'affiche dans le bandeau du haut.
+────────────────────────────────────────────── */
 const CATEGORIES = [
   {
     id: 'guides',
     emoji: '📖',
-    titre: 'Mini guides thématiques',
-    desc: 'Calas secrètes, gastronomie locale, Tramuntana, bien-être… Des guides interactifs pour vivre Majorque comme un initié.',
+    titre: 'Mini guides',
+    desc: 'Calas, gastronomie, Tramuntana, bien-être…',
     badge: null,
     badgePremium: true,
     color: VERT,
     bg: 'rgba(90,173,165,0.08)',
     border: 'rgba(90,173,165,0.3)',
     to: '/app/explorer/lifestyle',
+    isNew: false,
   },
   {
     id: 'circuits',
     emoji: '🗺️',
-    titre: 'Circuits Majorque',
-    desc: 'Itinéraires personnalisés par Adeline (@mallorcacherie) — française installée depuis 8 ans, elle connaît l\'île comme sa poche.',
+    titre: 'Circuits',
+    desc: 'Itinéraires personnalisés par Adeline',
     badge: null,
     badgePremium: false,
     color: TERRA,
     bg: 'rgba(199,110,78,0.08)',
     border: 'rgba(199,110,78,0.3)',
     to: '/app/explorer/circuits',
+    isNew: true,
   },
   {
     id: 'livres',
     emoji: '📚',
     titre: 'Livres',
-    desc: 'Guides de voyage, livres pratiques et carnets d\'expat sélectionnés pour votre installation à Majorque.',
-    badge: 'Bientôt !',
+    desc: 'Guides de voyage, carnets d\'expat…',
+    badge: 'Bientôt',
     badgePremium: false,
     color: '#7BA05B',
     bg: 'rgba(123,160,91,0.08)',
     border: 'rgba(123,160,91,0.25)',
     to: null,
+    isNew: false,
   },
   {
     id: 'produits',
     emoji: '🧴',
     titre: 'Produits',
-    desc: 'Sélection de produits locaux majorquins — épicerie fine, artisanat, care. Un coin boutique curatée.',
-    badge: 'Bientôt !',
+    desc: 'Épicerie fine, artisanat, care local',
+    badge: 'Bientôt',
     badgePremium: false,
     color: '#b07d2a',
     bg: 'rgba(176,125,42,0.08)',
     border: 'rgba(176,125,42,0.25)',
     to: null,
+    isNew: false,
   },
 ]
 
+/* ── Encart Nouveauté ───────────────────────── */
+function NouveauteCard({ cat, navigate }) {
+  return (
+    <div
+      onClick={() => cat.to && navigate(cat.to)}
+      style={{
+        background: FORET,
+        borderRadius: 18,
+        overflow: 'hidden',
+        cursor: 'pointer',
+        marginBottom: 28,
+        position: 'relative',
+      }}
+    >
+      {/* Deco cercle */}
+      <div style={{
+        position: 'absolute', top: -30, right: -30,
+        width: 140, height: 140, borderRadius: '50%',
+        background: 'rgba(90,173,165,0.12)', pointerEvents: 'none',
+      }} />
+
+      <div style={{ padding: '20px 20px 18px', position: 'relative' }}>
+        {/* Badge nouveauté */}
+        <div style={{
+          display: 'inline-flex', alignItems: 'center', gap: 5,
+          background: 'rgba(90,173,165,0.2)',
+          border: '1px solid rgba(90,173,165,0.35)',
+          borderRadius: 20, padding: '4px 12px',
+          marginBottom: 14,
+        }}>
+          <span style={{ fontSize: 10, fontWeight: 800, color: '#7EC8C0', letterSpacing: '0.08em', fontFamily: 'var(--font-corps)', textTransform: 'uppercase' }}>
+            ✦ Nouveauté
+          </span>
+        </div>
+
+        {/* Emoji + titre */}
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, marginBottom: 10 }}>
+          <div style={{
+            width: 52, height: 52, borderRadius: 14, flexShrink: 0,
+            background: `${cat.color}22`,
+            display: 'flex', alignItems: 'center', justifyContent: 'center',
+            fontSize: 26,
+          }}>
+            {cat.emoji}
+          </div>
+          <div style={{ flex: 1 }}>
+            <p style={{
+              fontFamily: 'var(--font-display)', fontStyle: 'italic',
+              fontSize: 22, color: '#F7F2EB', fontWeight: 400,
+              lineHeight: 1.1, marginBottom: 5,
+            }}>
+              {cat.titre}
+            </p>
+            <p style={{
+              fontSize: 13, color: 'rgba(247,242,235,0.65)',
+              lineHeight: 1.5,
+            }}>
+              {cat.desc}
+            </p>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginTop: 14, paddingTop: 14,
+          borderTop: '1px solid rgba(255,255,255,0.1)',
+        }}>
+          <span style={{
+            fontSize: 13, fontWeight: 700, color: '#7EC8C0',
+            fontFamily: 'var(--font-corps)',
+          }}>
+            Découvrir →
+          </span>
+          {cat.badgePremium && (
+            <span style={{
+              fontSize: 11, fontWeight: 700,
+              color: '#F7F2EB', background: 'rgba(176,125,42,0.35)',
+              border: '1px solid rgba(176,125,42,0.5)',
+              padding: '3px 10px', borderRadius: 20,
+              fontFamily: 'var(--font-corps)',
+            }}>
+              💎 Premium
+            </span>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Carte catégorie 2×2 ────────────────────── */
+function CategoryCard({ cat, navigate }) {
+  const isComingSoon = !!cat.badge
+  const handleClick = () => {
+    if (!isComingSoon && cat.to) navigate(cat.to)
+  }
+
+  return (
+    <div
+      onClick={handleClick}
+      style={{
+        background: '#fff',
+        borderRadius: 16,
+        border: `1.5px solid ${cat.border}`,
+        overflow: 'hidden',
+        cursor: isComingSoon ? 'default' : 'pointer',
+        opacity: isComingSoon ? 0.72 : 1,
+        transition: 'transform 0.15s',
+        display: 'flex', flexDirection: 'column',
+      }}
+      onMouseEnter={e => { if (!isComingSoon) e.currentTarget.style.transform = 'translateY(-2px)' }}
+      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
+    >
+      {/* Trait coloré haut */}
+      <div style={{
+        height: 4,
+        background: `linear-gradient(90deg, ${cat.color}, ${cat.color}66)`,
+      }} />
+
+      <div style={{ padding: '16px 14px 14px', flex: 1, display: 'flex', flexDirection: 'column' }}>
+        {/* Emoji */}
+        <div style={{
+          width: 42, height: 42, borderRadius: 11,
+          background: cat.bg,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontSize: 22, marginBottom: 10,
+        }}>
+          {cat.emoji}
+        </div>
+
+        {/* Titre */}
+        <p style={{
+          fontFamily: 'var(--font-display)', fontStyle: 'italic',
+          fontSize: 16, color: FORET, fontWeight: 400,
+          lineHeight: 1.2, marginBottom: 5,
+        }}>
+          {cat.titre}
+        </p>
+
+        {/* Description */}
+        <p style={{
+          fontSize: 12, color: 'var(--texte-sec)',
+          lineHeight: 1.5, flex: 1, marginBottom: 10,
+        }}>
+          {cat.desc}
+        </p>
+
+        {/* Footer badges + flèche */}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+          <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
+            {cat.badge && (
+              <span style={{
+                fontSize: 10, fontWeight: 800,
+                color: cat.color, background: cat.bg,
+                border: `1px solid ${cat.border}`,
+                padding: '2px 7px', borderRadius: 20,
+                fontFamily: 'var(--font-corps)',
+              }}>
+                {cat.badge}
+              </span>
+            )}
+            {cat.badgePremium && (
+              <span style={{
+                fontSize: 10, fontWeight: 700,
+                color: '#b07d2a',
+                background: 'rgba(176,125,42,0.1)',
+                border: '1px solid rgba(176,125,42,0.25)',
+                padding: '2px 7px', borderRadius: 20,
+                fontFamily: 'var(--font-corps)',
+              }}>
+                💎
+              </span>
+            )}
+          </div>
+          {!isComingSoon && (
+            <span style={{ color: cat.color, fontSize: 16, opacity: 0.7 }}>›</span>
+          )}
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Page principale ────────────────────────── */
 export default function Boutiques() {
   const navigate = useNavigate()
+
+  const nouveaute = CATEGORIES.find(c => c.isNew)
+  const autresCats = CATEGORIES.filter(c => !c.isNew)
 
   return (
     <div className="page" style={{ paddingBottom: 100 }}>
 
       {/* ── Header ── */}
-      <div style={{ paddingTop: 52, marginBottom: 28 }}>
+      <div style={{ paddingTop: 52, marginBottom: 24 }}>
         <button onClick={() => navigate('/app/explorer')} style={{
           display: 'flex', alignItems: 'center', gap: 6,
           color: VERT, fontSize: 13, fontWeight: 600,
@@ -88,117 +284,25 @@ export default function Boutiques() {
           Boutique
         </h1>
         <div style={{ width: 36, height: 3, background: TERRA, borderRadius: 2, marginBottom: 14 }} />
-        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.55 }}>
-          Guides interactifs, circuits personnalisés et ressources sélectionnées pour vivre Majorque autrement.
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.55 }}>
+          Guides interactifs, circuits personnalisés et ressources sélectionnées.
         </p>
       </div>
 
-      {/* ── Catégories ── */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: 14 }}>
+      {/* ── Nouveauté ── */}
+      {nouveaute && (
+        <>
+          <SectionHead title="Nouveauté" />
+          <NouveauteCard cat={nouveaute} navigate={navigate} />
+        </>
+      )}
+
+      {/* ── Toutes les catégories en 2×2 ── */}
+      <SectionHead title="Toutes les catégories" />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
         {CATEGORIES.map(cat => (
           <CategoryCard key={cat.id} cat={cat} navigate={navigate} />
         ))}
-      </div>
-    </div>
-  )
-}
-
-function CategoryCard({ cat, navigate }) {
-  const isComingSoon = !!cat.badge
-  const handleClick = () => {
-    if (!isComingSoon && cat.to) navigate(cat.to)
-  }
-
-  return (
-    <div
-      onClick={handleClick}
-      style={{
-        background: '#fff',
-        borderRadius: 18,
-        border: `1.5px solid ${cat.border}`,
-        overflow: 'hidden',
-        cursor: isComingSoon ? 'default' : 'pointer',
-        opacity: isComingSoon ? 0.75 : 1,
-        transition: 'transform 0.15s, box-shadow 0.15s',
-      }}
-      onMouseEnter={e => { if (!isComingSoon) { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.boxShadow = '0 6px 20px rgba(0,0,0,0.08)' }}}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)'; e.currentTarget.style.boxShadow = 'none' }}
-    >
-      {/* Bandeau coloré en haut */}
-      <div style={{
-        height: 5,
-        background: `linear-gradient(90deg, ${cat.color}, ${cat.color}88)`,
-      }} />
-
-      <div style={{
-        display: 'flex', alignItems: 'flex-start',
-        gap: 16, padding: '18px 18px 16px',
-      }}>
-        {/* Icône */}
-        <div style={{
-          width: 52, height: 52, borderRadius: 14,
-          background: cat.bg,
-          display: 'flex', alignItems: 'center', justifyContent: 'center',
-          fontSize: 26, flexShrink: 0,
-        }}>
-          {cat.emoji}
-        </div>
-
-        {/* Texte */}
-        <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 6, flexWrap: 'wrap' }}>
-            <p style={{
-              fontFamily: 'var(--font-display)', fontStyle: 'italic',
-              fontSize: 18, color: FORET, fontWeight: 400,
-              lineHeight: 1,
-            }}>
-              {cat.titre}
-            </p>
-            {cat.badge && (
-              <span style={{
-                fontSize: 11, fontWeight: 800,
-                color: cat.color,
-                background: cat.bg,
-                border: `1px solid ${cat.border}`,
-                padding: '3px 9px', borderRadius: 20,
-                fontFamily: 'var(--font-corps)',
-                letterSpacing: '0.03em',
-                flexShrink: 0,
-              }}>
-                {cat.badge}
-              </span>
-            )}
-            {cat.badgePremium && (
-              <span style={{
-                fontSize: 11, fontWeight: 700,
-                color: '#b07d2a',
-                background: 'rgba(176,125,42,0.1)',
-                border: '1px solid rgba(176,125,42,0.25)',
-                padding: '3px 9px', borderRadius: 20,
-                fontFamily: 'var(--font-corps)',
-                flexShrink: 0,
-              }}>
-                💎 Premium
-              </span>
-            )}
-          </div>
-          <p style={{
-            fontSize: 13, color: 'var(--texte-sec)',
-            lineHeight: 1.55,
-          }}>
-            {cat.desc}
-          </p>
-        </div>
-
-        {/* Flèche */}
-        {!isComingSoon && (
-          <span style={{
-            color: cat.color, fontSize: 20,
-            flexShrink: 0, marginTop: 4, opacity: 0.8,
-          }}>
-            ›
-          </span>
-        )}
       </div>
     </div>
   )

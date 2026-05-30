@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useProfile } from '../context/ProfileContext'
 import { useUserData } from '../hooks/useUserData'
 import { useQuizData, isEntrepreneurProfile } from '../hooks/useQuizData'
-import { useNotionDB, parseCockpit, parseActu } from '../hooks/useNotion'
+import { useNotionDB, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait, SectionHead } from '../components/WaveTitle'
 import QuizProfil from '../components/QuizProfil'
@@ -11,99 +11,84 @@ import QuizProfil from '../components/QuizProfil'
 /* ── Mon Espace personnalisé ───────────────────────────── */
 function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
   const isEntrepreneur = isEntrepreneurProfile(quiz)
-
-  /* Jauge Cockpit inline */
-  const { data } = useNotionDB(NOTION_DB.cockpit)
-  const [checked] = React.useState(() => {
-    try { return new Set(JSON.parse(localStorage.getItem(`vmaq_done_${profile?.id}`) || '[]')) }
-    catch { return new Set() }
-  })
-  const steps = useMemo(() =>
-    data.map(parseCockpit).filter(s => !profile?.notion || s.profilCible === profile.notion),
-    [data, profile]
-  )
-  const total = steps.length
-  const done  = steps.filter(s => checked.has(s.id)).length
-  const pct   = total ? Math.round((done / total) * 100) : 0
+  const greeting = new Date().getHours() < 18 ? 'Bonjour' : 'Bonsoir'
+  const prenom = user?.prenom
 
   return (
     <Link to="/app/moi" style={{ textDecoration: 'none', display: 'block', marginBottom: 20 }}>
       <div style={{
-        background: '#fff',
+        background: '#0F3D35',
         borderRadius: 18,
-        border: `1.5px solid ${VERT}30`,
-        padding: '18px 18px 16px',
-        boxShadow: `0 2px 14px ${VERT}0D`,
-        position: 'relative',
-        overflow: 'hidden',
+        padding: '16px 18px',
+        display: 'flex', alignItems: 'center', gap: 14,
+        position: 'relative', overflow: 'hidden',
       }}>
-        {/* Deco fond */}
+        {/* Deco */}
         <div style={{
           position: 'absolute', top: -20, right: -20,
-          width: 80, height: 80, borderRadius: '50%',
-          background: `${VERT}0A`, pointerEvents: 'none',
+          width: 100, height: 100, borderRadius: '50%',
+          background: 'rgba(90,173,165,0.10)', pointerEvents: 'none',
         }} />
 
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-          <div>
-            <ContextLabel color={VERT} size={12}>
-              {quiz ? 'mon espace' : 'personnaliser'}
-            </ContextLabel>
-            <DisplayTitle size={22}>
-              {user?.prenom ? user.prenom : 'Mon espace'}
-            </DisplayTitle>
-            {quiz && (
-              <span style={{
-                display: 'inline-block', marginTop: 4,
-                fontFamily: 'var(--font-accent)', fontStyle: 'italic',
-                fontSize: 13, color: TERRA,
-              }}>
-                {isEntrepreneur ? '🏢 Entrepreneur' : profile?.label || ''}
-              </span>
-            )}
-          </div>
-          {quiz && total > 0 ? (
-            <span style={{
-              fontFamily: 'var(--font-display)', fontWeight: 900,
-              fontSize: 26, color: VERT, lineHeight: 1,
-            }}>
-              {pct}%
-            </span>
+        {/* Avatar initial */}
+        <div style={{
+          width: 42, height: 42, borderRadius: 12, flexShrink: 0,
+          background: 'rgba(90,173,165,0.2)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: 18, color: '#7EC8C0',
+        }}>
+          {prenom ? prenom[0].toUpperCase() : '👤'}
+        </div>
+
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{
+            fontFamily: 'var(--font-accent)',
+            fontSize: 14, color: 'rgba(199,110,78,0.9)',
+            lineHeight: 1, marginBottom: 3,
+          }}>
+            {greeting}{prenom ? ` ${prenom}` : ''} 👋
+          </p>
+          <p style={{
+            fontFamily: 'var(--font-display)', fontStyle: 'italic',
+            fontSize: 16, color: '#F7F2EB', fontWeight: 400,
+            lineHeight: 1, marginBottom: quiz ? 5 : 0,
+          }}>
+            Mon espace
+          </p>
+          {quiz ? (
+            <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
+              {isEntrepreneur && (
+                <span style={{
+                  fontSize: 10, fontWeight: 700,
+                  color: '#E8956E', background: 'rgba(199,110,78,0.2)',
+                  border: '1px solid rgba(199,110,78,0.3)',
+                  padding: '2px 8px', borderRadius: 20,
+                  fontFamily: 'var(--font-corps)',
+                }}>
+                  🏢 Entrepreneur
+                </span>
+              )}
+              {profile?.label && !isEntrepreneur && (
+                <span style={{
+                  fontSize: 10, fontWeight: 700,
+                  color: '#7EC8C0', background: 'rgba(90,173,165,0.2)',
+                  border: '1px solid rgba(90,173,165,0.3)',
+                  padding: '2px 8px', borderRadius: 20,
+                  fontFamily: 'var(--font-corps)',
+                }}>
+                  {profile.emoji} {profile.label}
+                </span>
+              )}
+            </div>
           ) : (
-            <span style={{
-              fontSize: 11, fontWeight: 700,
-              color: TERRA,
-              background: `${TERRA}15`,
-              border: `1px solid ${TERRA}30`,
-              padding: '4px 10px', borderRadius: 20,
-              fontFamily: 'var(--font-corps)',
-            }}>
-              ✦ Personnaliser →
-            </span>
+            <p style={{ fontSize: 11, color: 'rgba(247,242,235,0.5)', fontFamily: 'var(--font-corps)' }}>
+              Personnaliser mon espace →
+            </p>
           )}
         </div>
 
-        {/* Barre progression si quiz fait */}
-        {quiz && total > 0 && (
-          <>
-            <div style={{ height: 5, background: '#E8E2D9', borderRadius: 4, overflow: 'hidden', marginBottom: 8 }}>
-              <div style={{ height: '100%', width: `${pct}%`, background: VERT, borderRadius: 4, transition: 'width 0.5s' }} />
-            </div>
-            <span style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-titre)', fontStyle: 'italic' }}>
-              {done}/{total} étapes validées
-            </span>
-          </>
-        )}
-
-        {/* Message si pas de quiz */}
-        {!quiz && (
-          <p style={{
-            fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5,
-            fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-          }}>
-            5 questions pour un espace adapté à votre situation →
-          </p>
-        )}
+        <span style={{ color: 'rgba(90,173,165,0.7)', fontSize: 18, flexShrink: 0 }}>›</span>
       </div>
     </Link>
   )
