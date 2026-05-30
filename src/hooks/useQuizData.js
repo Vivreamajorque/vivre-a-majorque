@@ -45,9 +45,29 @@ export function isUrgent(quiz) {
 
 export function getRecommendedOffer(quiz) {
   if (!quiz) return 'cap'
-  if (quiz.intention === 'creer') return 'eclaireur'
-  if (quiz.intention === 'creer' && (quiz.horizon === 'moins6' || quiz.horizon === 'deja')) return 'integrale'
-  if (quiz.famille === 'enfants') return 'cap'
+
+  const { intention, famille, horizon, douleur } = quiz
+  const urgent = horizon === 'moins6' || horizon === 'deja'
+
+  // Entrepreneur → Éclaireur (ou Intégrale si aussi installation vie)
+  if (intention === 'creer') {
+    if (urgent && famille !== 'seul') return 'integrale'
+    return 'eclaireur'
+  }
+
+  // Télétravailleur salarié → Cap Majorque (questions admin + fiscal)
+  if (intention === 'remote') return 'cap'
+
+  // Retraite → Visio conseil suffit souvent (situation plus simple)
+  if (intention === 'retraite') return 'visio'
+
+  // Famille avec enfants → Cap Majorque (complexité logistique)
+  if (famille === 'enfants') return 'cap'
+
+  // Urgence forte + anxiété globale → Intégrale
+  if (urgent && douleur === 'tout') return 'integrale'
+
+  // Par défaut
   return 'cap'
 }
 

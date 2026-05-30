@@ -184,13 +184,13 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
     }
   }, [hasData, isPremium])
 
-  /* Déclencher le quiz si onboarding fait mais quiz pas encore complété */
+  /* Déclencher le quiz si pas encore complété — pour tout le monde */
   useEffect(() => {
-    if (hasData && !hasQuiz) {
-      const timer = setTimeout(() => setShowQuiz(true), 600)
+    if (!hasQuiz) {
+      const timer = setTimeout(() => setShowQuiz(true), 900)
       return () => clearTimeout(timer)
     }
-  }, [hasData, hasQuiz])
+  }, [hasQuiz])
 
   const handleOnboardingSubmit = async ({ prenom, email: userEmail, newsletter }) => {
     // 1. Sauvegarde locale immédiate (UX réactive)

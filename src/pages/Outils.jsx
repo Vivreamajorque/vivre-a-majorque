@@ -23,6 +23,7 @@ const OUTILS = [
     desc: "Calculez votre budget d'installation",
     href: '/app/outils/cout',
     active: true,
+    freeAccess: true,
     bg: 'var(--ocre-light)',
     border: '1px solid rgba(196,122,90,0.15)',
   },
@@ -57,7 +58,8 @@ const OUTILS = [
 
 function ToolCard({ o, isPremium, onPaywall }) {
   if (o.active) {
-    if (!isPremium) {
+    // Accès libre si freeAccess ou Premium
+    if (!isPremium && !o.freeAccess) {
       // Active but paywall
       return (
         <div
@@ -156,7 +158,7 @@ export default function Outils() {
           }}>
             <span>🔒</span>
             <span>
-              Les outils sont réservés aux membres Premium.{' '}
+              Le simulateur Budget est réservé aux membres Premium — le Coût d'installation est gratuit.{' '}
               <span
                 onClick={() => setShowPaywall(true)}
                 style={{ textDecoration: 'underline', cursor: 'pointer', fontWeight: 600 }}

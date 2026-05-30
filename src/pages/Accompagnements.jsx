@@ -230,6 +230,17 @@ export default function Accompagnements() {
     }))
   }, [quiz])
 
+  const recommended = getRecommendedOffer(quiz)
+
+  const PROFIL_MESSAGES = {
+    eclaireur: { icon: '🏢', text: 'Votre profil entrepreneur — l\'Audit Éclaireur analyse votre projet pro, votre statut et votre fiscalité à Majorque.' },
+    integrale:  { icon: '💎', text: 'Votre situation (urgence + projet pro) — L\'Installation Intégrale couvre votre vie et votre activité en un seul accompagnement.' },
+    cap:        { icon: '🧭', text: 'L\'accompagnement Cap Majorque est adapté à votre situation — dossier personnalisé et suivi sur 30 jours.' },
+    visio:      { icon: '💬', text: 'Une visio conseil suffit souvent pour valider votre projet de retraite à Majorque avant de s\'engager plus loin.' },
+  }
+
+  const msg = quiz ? PROFIL_MESSAGES[recommended] : null
+
   return (
     <div className="page">
       <div className="page-header">
@@ -245,6 +256,25 @@ export default function Accompagnements() {
           Vous ne voulez pas avancer seul ? Je vous accompagne personnellement dans votre installation à Majorque — de l'analyse de votre situation à la prise de route.
         </p>
       </div>
+
+      {/* Bandeau personnalisé si profil quiz renseigné */}
+      {msg && (
+        <div style={{
+          display: 'flex', alignItems: 'flex-start', gap: 10,
+          background: 'rgba(90,173,165,0.10)',
+          border: '1.5px solid rgba(90,173,165,0.25)',
+          borderRadius: 12, padding: '12px 14px',
+          marginBottom: 16,
+        }}>
+          <span style={{ fontSize: 22, flexShrink: 0 }}>{msg.icon}</span>
+          <p style={{
+            fontSize: 13, color: 'var(--foret, #0F3D35)',
+            lineHeight: 1.55, fontFamily: 'var(--font-corps)',
+          }}>
+            {msg.text}
+          </p>
+        </div>
+      )}
 
       {offres.map(offre => (
         <OffreCard key={offre.id} offre={offre} />
