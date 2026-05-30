@@ -1,5 +1,6 @@
 import React, { useMemo, useState, useCallback, useEffect } from 'react'
 import { useNavigate, Link } from 'react-router-dom'
+import { track } from '@vercel/analytics'
 import { useProfile } from '../context/ProfileContext'
 import { usePremium } from '../context/PremiumContext'
 import { useUserData } from '../hooks/useUserData'
@@ -550,37 +551,62 @@ function GuideCard({ guide, isPremium, onPaywall }) {
 function OffreStrip({ quiz }) {
   const recommended = getRecommendedOffer(quiz)
   const OFFRES = {
-    eclaireur: { titre: 'Audit Éclaireur',        prix: '290€', emoji: '🏢', url: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L', desc: 'Votre projet pro à Majorque' },
-    integrale: { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', url: 'https://buy.stripe.com/eVq00i95q9G16tq6jz6AM0M', desc: 'Vie + activité réunies' },
-    cap:       { titre: 'Cap Majorque',           prix: '249€', emoji: '🧭', url: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K', desc: "L'accompagnement complet" },
-    visio:     { titre: 'Visio conseil',          prix: '99€',  emoji: '💬', url: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J', desc: 'Une session pour y voir clair' },
+    eclaireur: { titre: 'Audit Éclaireur',        prix: '290€', emoji: '🏢', url: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L', desc: 'Votre projet pro à Majorque', places: 2 },
+    integrale: { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', url: 'https://buy.stripe.com/eVq00i95q9G16tq6jz6AM0M', desc: 'Vie + activité réunies', places: 1 },
+    cap:       { titre: 'Cap Majorque',           prix: '249€', emoji: '🧭', url: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K', desc: "L'accompagnement complet", places: 3 },
+    visio:     { titre: 'Visio conseil',          prix: '99€',  emoji: '💬', url: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J', desc: 'Une session pour y voir clair', places: 0 },
   }
   const o = OFFRES[recommended]
   if (!o) return null
 
   return (
-    <div
-      onClick={() => window.open(o.url, '_blank', 'noopener,noreferrer')}
-      style={{
-        background: FORET,
-        borderRadius: 18,
-        padding: '18px 18px',
-        display: 'flex', alignItems: 'center', gap: 14,
-        cursor: 'pointer',
-      }}
-    >
-      <span style={{ fontSize: 30, flexShrink: 0 }}>{o.emoji}</span>
-      <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{
-          fontFamily: 'var(--font-display)', fontStyle: 'italic',
-          fontSize: 17, color: '#F7F2EB', marginBottom: 3,
-        }}>{o.titre}</p>
-        <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.55)', lineHeight: 1.4 }}>{o.desc}</p>
+    <div style={{ overflow: 'hidden', borderRadius: 18 }}>
+      <div
+        onClick={() => {
+          track('accompagnement_clicked', { offre: o.titre, source: 'mon_espace' })
+          window.open(o.url, '_blank', 'noopener,noreferrer')
+        }}
+        style={{
+          background: FORET,
+          padding: '18px 18px',
+          display: 'flex', alignItems: 'center', gap: 14,
+          cursor: 'pointer',
+        }}
+      >
+        <span style={{ fontSize: 30, flexShrink: 0 }}>{o.emoji}</span>
+        <div style={{ flex: 1, minWidth: 0 }}>
+          <p style={{
+            fontFamily: 'var(--font-display)', fontStyle: 'italic',
+            fontSize: 17, color: '#F7F2EB', marginBottom: 3,
+          }}>{o.titre}</p>
+          <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.55)', lineHeight: 1.4 }}>{o.desc}</p>
+        </div>
+        <span style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: 22, color: VERT, flexShrink: 0,
+        }}>{o.prix}</span>
       </div>
-      <span style={{
-        fontFamily: 'var(--font-display)', fontWeight: 900,
-        fontSize: 22, color: VERT, flexShrink: 0,
-      }}>{o.prix}</span>
+      {/* Urgence sous la carte */}
+      {o.places > 0 && (
+        <div style={{
+          background: o.places === 1 ? 'rgba(199,78,78,0.08)' : 'rgba(176,125,42,0.08)',
+          border: `1px solid ${o.places === 1 ? 'rgba(199,78,78,0.2)' : 'rgba(176,125,42,0.2)'}`,
+          borderTop: 'none',
+          borderRadius: '0 0 18px 18px',
+          padding: '8px 18px',
+          textAlign: 'center',
+        }}>
+          <p style={{
+            fontSize: 12, fontWeight: 700,
+            color: o.places === 1 ? '#C74E4E' : '#7A5A1A',
+            fontFamily: 'var(--font-corps)',
+          }}>
+            {o.places === 1
+              ? '🔴 Dernière place disponible ce mois-ci'
+              : `⚡ Plus que ${o.places} places disponibles en juin`}
+          </p>
+        </div>
+      )}
     </div>
   )
 }

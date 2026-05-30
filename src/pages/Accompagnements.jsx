@@ -3,8 +3,20 @@ import { useNavigate } from 'react-router-dom'
 import { track } from '@vercel/analytics'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 import { useQuizData, getRecommendedOffer } from '../hooks/useQuizData'
+import Temoignages from '../components/Temoignages'
 
 const CONTACT_EMAIL = 'lalignemallorca@gmail.com'
+
+/*
+ * PLACES DISPONIBLES — à mettre à jour manuellement chaque mois.
+ * Met 0 pour masquer le badge sur une offre.
+ */
+const PLACES_DISPO = {
+  visio:      0,  // illimité → pas de badge
+  cap:        3,  // 3 places ce mois
+  eclaireur:  2,  // 2 places ce mois
+  integrale:  1,  // 1 place ce mois
+}
 
 const OFFRES = [
   {
@@ -110,6 +122,8 @@ function OffreCard({ offre }) {
     }
   }
 
+  const places = PLACES_DISPO[offre.id] || 0
+
   return (
     <div style={{
       background: offre.couleur,
@@ -122,14 +136,29 @@ function OffreCard({ offre }) {
       {/* Header */}
       <div style={{ padding: '18px 18px 14px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
-          <span style={{
-            fontSize: 12, fontWeight: 700,
-            color: offre.textAccent,
-            background: offre.highlight ? 'rgba(126,200,192,0.25)' : 'rgba(0,0,0,0.07)',
-            padding: '3px 10px', borderRadius: 20,
-          }}>
-            {offre.label}
-          </span>
+          <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
+            <span style={{
+              fontSize: 12, fontWeight: 700,
+              color: offre.textAccent,
+              background: offre.highlight ? 'rgba(126,200,192,0.25)' : 'rgba(0,0,0,0.07)',
+              padding: '3px 10px', borderRadius: 20,
+            }}>
+              {offre.label}
+            </span>
+            {/* Badge urgence — places disponibles */}
+            {places > 0 && (
+              <span style={{
+                fontSize: 11, fontWeight: 800,
+                color: places === 1 ? '#C74E4E' : '#b07d2a',
+                background: places === 1 ? 'rgba(199,78,78,0.10)' : 'rgba(176,125,42,0.10)',
+                border: `1px solid ${places === 1 ? 'rgba(199,78,78,0.25)' : 'rgba(176,125,42,0.25)'}`,
+                padding: '3px 9px', borderRadius: 20,
+                fontFamily: 'var(--font-corps)',
+              }}>
+                {places === 1 ? '🔴 Dernière place' : `⚡ ${places} places ce mois`}
+              </span>
+            )}
+          </div>
           <div style={{ textAlign: 'right' }}>
             <span style={{
               fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-2xl)',
@@ -209,6 +238,20 @@ function OffreCard({ offre }) {
         >
           Réserver cette offre →
         </button>
+
+        {/* Message urgence sous le bouton */}
+        {places > 0 && (
+          <p style={{
+            fontSize: 12, textAlign: 'center',
+            color: places === 1 ? '#C74E4E' : '#7A5A1A',
+            fontWeight: 600, marginTop: 8,
+            fontFamily: 'var(--font-corps)',
+          }}>
+            {places === 1
+              ? '🔴 Dernière place disponible ce mois-ci'
+              : `⚡ Plus que ${places} places disponibles en juin`}
+          </p>
+        )}
       </div>
     </div>
   )
@@ -281,6 +324,9 @@ export default function Accompagnements() {
       {offres.map(offre => (
         <OffreCard key={offre.id} offre={offre} />
       ))}
+
+      {/* Preuve sociale — témoignages */}
+      <Temoignages style={{ marginTop: 8, marginBottom: 16 }} />
 
       <div style={{
         textAlign: 'center', padding: '16px 0 8px',
