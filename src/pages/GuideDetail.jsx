@@ -3,6 +3,7 @@ import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
 import { useNotionBlocks, useNotionPage, parseGuide } from '../hooks/useNotion'
 import { usePremium } from '../context/PremiumContext'
 import { useSavedGuides } from '../hooks/useSavedGuides'
+import { useSEO } from '../hooks/useSEO'
 import NotionBlocks, { extractHeadings, estimateReadingTime } from '../components/NotionBlocks'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import PremiumGate from '../components/PremiumGate'
@@ -284,6 +285,25 @@ export default function GuideDetail() {
   const headings = extractHeadings(blocks)
   const readingTime = estimateReadingTime(blocks)
   const sectionCount = headings.filter(h => h.level === 1).length
+
+  /* ── SEO dynamique — métas spécifiques à chaque guide ── */
+  const CAT_DESCRIPTIONS = {
+    'Administratif': `Démarche administrative pour les Français à Majorque — ${guide?.title || ''}. NIE, empadronamiento, résidence. Guide officiel sourcé.`,
+    'Logement':      `Trouver un logement à Majorque — ${guide?.title || ''}. Conseils et étapes pour les expats français.`,
+    'Travail':       `Travail et activité professionnelle à Majorque — ${guide?.title || ''}. Autónomo, contrat, fiscalité pro.`,
+    'Argent':        `Finances et fiscalité à Majorque — ${guide?.title || ''}. IRPF, IVA, convention franco-espagnole.`,
+    'Santé':         `Santé et couverture médicale à Majorque — ${guide?.title || ''}. Seguridad Social, carte SIP.`,
+    'Famille':       `Installation en famille à Majorque — ${guide?.title || ''}. Scolarité, démarches pour les enfants.`,
+    'Voiture':       `Voiture et transport à Majorque — ${guide?.title || ''}. Immatriculation, permis de conduire.`,
+  }
+  useSEO({
+    title: guide?.title || 'Guide pratique',
+    description: guide?.title
+      ? (CAT_DESCRIPTIONS[guide.category] || `Guide pratique — ${guide.title}. Tout ce que les Français doivent savoir pour s'installer à Majorque.`)
+      : null,
+    url: `https://vivre-a-majorque.vercel.app/app/guide/${id}`,
+    type: 'article',
+  })
 
   return (
     <div className="page" style={{ padding: 0 }}>

@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSEO } from '../hooks/useSEO'
 
 /* ═══════════════════════════════════════════════════════════════
    MOTEUR DE CALCUL — Sources officielles 2024/2025
@@ -343,6 +344,12 @@ function DiffBadge({ esVal, frVal, label }) {
 
 export default function AutonomaSimulator() {
   const navigate = useNavigate()
+
+  useSEO({
+    title: 'Simulateur autónomo Espagne vs auto-entrepreneur France',
+    description: 'Calculez et comparez votre net en poche : autónomo Espagne vs auto-entrepreneur France. Barèmes 2025 : RETA, IRPF, cotisations sociales. Simulation gratuite et instantanée.',
+    url: 'https://vivre-a-majorque.vercel.app/app/outils/autonoma',
+  })
 
   // ── Paramètres communs ──
   const [caTTC, setCaTTC] = useState(40000)

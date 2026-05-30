@@ -4,6 +4,7 @@ import { track } from '@vercel/analytics'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 import { useQuizData, getRecommendedOffer } from '../hooks/useQuizData'
 import Temoignages from '../components/Temoignages'
+import { useSEO } from '../hooks/useSEO'
 
 const CONTACT_EMAIL = 'lalignemallorca@gmail.com'
 
@@ -260,6 +261,12 @@ function OffreCard({ offre }) {
 export default function Accompagnements() {
   const navigate = useNavigate()
   const { quiz } = useQuizData()
+
+  useSEO({
+    title: 'Accompagnement installation à Majorque',
+    description: 'Audit personnalisé, visio conseil et accompagnement complet pour votre installation à Majorque. Analyses chiffrées et sourcées par Amely, française installée sur l\'île. À partir de 99€.',
+    url: 'https://vivre-a-majorque.vercel.app/app/explorer/accompagnements',
+  })
 
   // Réordonner les offres selon le profil quiz
   const offres = useMemo(() => {

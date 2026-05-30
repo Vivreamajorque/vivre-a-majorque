@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SectionHead, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const FORET = '#0F3D35'
 const GOLD  = '#b07d2a'
@@ -527,6 +528,12 @@ export default function CalendrierFiscal() {
   const navigate = useNavigate()
   const moisActuel = new Date().getMonth()
   const [profil, setProfil] = useState('autonomo')
+
+  useSEO({
+    title: 'Calendrier fiscal Espagne 2025 — Particuliers, Autónomos, Sociétés',
+    description: 'Toutes les échéances fiscales espagnoles 2025 : IRPF, IVA, RETA, IS. Classées par profil : particuliers résidents, travailleurs indépendants autónomos, sociétés SL. Sources AEAT et BOE.',
+    url: 'https://vivre-a-majorque.vercel.app/app/outils/fiscal',
+  })
 
   const currentProfil = PROFILS_CONFIG.find(p => p.id === profil)
 

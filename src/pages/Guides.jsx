@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseGuide } from '../hooks/useNotion'
 import { useProfile } from '../context/ProfileContext'
 import { usePremium } from '../context/PremiumContext'
+import { useSEO } from '../hooks/useSEO'
 import { PaywallModal } from '../components/PaywallModal'
 import { NOTION_DB, GUIDE_CATEGORIES, PROFILS } from '../config'
 import AccompagnementBanner from '../components/AccompagnementBanner'
@@ -173,6 +174,12 @@ export default function Guides() {
   const [selectedCat, setSelectedCat] = useState(null)
   const [showPaywall, setShowPaywall] = useState(false)
   const [search, setSearch] = useState('')
+
+  useSEO({
+    title: 'Guides pour s\'installer à Majorque — NIE, logement, autónomo, fiscalité',
+    description: '50+ guides pratiques et vérifiés pour les Français qui s\'installent à Majorque : démarches administratives, logement, travail, santé, famille. Sourcés sur les textes officiels espagnols.',
+    url: 'https://vivre-a-majorque.vercel.app/app/guides',
+  })
   const [sortForMe, setSortForMe] = useState(false)
 
   /* Profil actif enrichi avec couleur */
