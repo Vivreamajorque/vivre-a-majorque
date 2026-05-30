@@ -162,7 +162,7 @@ export default function Onboarding() {
                 fontFamily: 'var(--font-titre)', fontStyle: 'italic',
                 fontSize: 16, color: 'var(--texte-sec)', marginTop: 14, lineHeight: 1.55,
               }}>
-                L'app des Français qui s'installent à Majorque. Commençons par votre prénom.
+                L'app des francophones qui s'installent à Majorque. Commençons par votre prénom.
               </p>
             </div>
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>

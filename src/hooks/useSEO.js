@@ -10,7 +10,7 @@ export function useSEO({ title, description, url, type = 'article' }) {
     if (!title) return
 
     const fullTitle = `${title} — Vivre à Majorque`
-    const desc = description || `Guide pratique pour les Français qui s'installent à Majorque. ${title}.`
+    const desc = description || `Guide pratique pour les francophones qui s'installent à Majorque. ${title}.`
     const canonical = url || window.location.href
 
     /* ── title ── */
@@ -40,12 +40,12 @@ export function useSEO({ title, description, url, type = 'article' }) {
 
     /* Nettoyage — restaurer les valeurs par défaut quand on quitte la page */
     return () => {
-      document.title = 'Vivre à Majorque — L\'app des Français qui s\'installent à Majorque'
-      setMeta('name', 'description', 'Guides administratifs, simulateurs fiscaux, cockpit d\'installation et accompagnement personnalisé pour les Francophones qui s\'installent à Majorque.')
-      setMeta('property', 'og:title', 'Vivre à Majorque — L\'app des Français qui s\'installent')
-      setMeta('property', 'og:description', 'Guides, simulateurs et accompagnement pour les Francophones qui s\'installent à Majorque.')
-      setMeta('name', 'twitter:title', 'Vivre à Majorque — L\'app des Français qui s\'installent')
-      setMeta('name', 'twitter:description', 'Guides, simulateurs et accompagnement pour les Francophones qui s\'installent à Majorque.')
+      document.title = "Vivre à Majorque — L'app des francophones qui s'installent à Majorque"
+      setMeta('name', 'description', "Guides administratifs, simulateurs fiscaux, cockpit d'installation et accompagnement personnalisé pour les francophones qui s'installent à Majorque.")
+      setMeta('property', 'og:title', "Vivre à Majorque — L'app des francophones qui s'installent")
+      setMeta('property', 'og:description', "Guides, simulateurs et accompagnement pour les francophones qui s'installent à Majorque.")
+      setMeta('name', 'twitter:title', "Vivre à Majorque — L'app des francophones qui s'installent")
+      setMeta('name', 'twitter:description', "Guides, simulateurs et accompagnement pour les francophones qui s'installent à Majorque.")
     }
   }, [title, description, url])
 }

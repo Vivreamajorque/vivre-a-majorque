@@ -112,7 +112,7 @@ export default function Temoignages({ style = {} }) {
         textAlign: 'center', marginTop: 10,
         fontStyle: 'italic',
       }}>
-        Français installés à Majorque ou en chemin — ils nous font confiance 🌿
+        Francophones installés à Majorque ou en chemin — ils nous font confiance 🌿
       </p>
     </div>
   )
