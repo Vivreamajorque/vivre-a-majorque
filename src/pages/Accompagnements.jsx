@@ -4,19 +4,21 @@ import { track } from '@vercel/analytics'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 import { useQuizData, getRecommendedOffer } from '../hooks/useQuizData'
 import Temoignages from '../components/Temoignages'
+import PrequalificationModal from '../components/PrequalificationModal'
 import { useSEO } from '../hooks/useSEO'
 
+const FORET = '#0F3D35'
 const CONTACT_EMAIL = 'lalignemallorca@gmail.com'
 
 /*
- * PLACES DISPONIBLES — à mettre à jour manuellement chaque mois.
- * Met 0 pour masquer le badge sur une offre.
+ * PLACES DISPONIBLES — mettre à jour manuellement chaque mois.
+ * 0 = pas de badge urgence sur cette offre.
  */
 const PLACES_DISPO = {
-  visio:      0,  // illimité → pas de badge
-  cap:        3,  // 3 places ce mois
-  eclaireur:  2,  // 2 places ce mois
-  integrale:  1,  // 1 place ce mois
+  visio:      0,
+  cap:        3,
+  eclaireur:  2,
+  integrale:  1,
 }
 
 const OFFRES = [
@@ -39,6 +41,7 @@ const OFFRES = [
     pour: 'Pour les indécis qui veulent tester avant de s\'engager',
     sujet: 'Demande Visio Conseil — 99€',
     stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J',
+    prequalification: false,
   },
   {
     id: 'cap',
@@ -60,6 +63,7 @@ const OFFRES = [
     pour: 'Familles, salariés en remote, retraités — ceux qui ne veulent pas avancer seuls',
     sujet: 'Demande Cap Majorque — 249€',
     stripeUrl: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K',
+    prequalification: false,
   },
   {
     id: 'eclaireur',
@@ -79,7 +83,8 @@ const OFFRES = [
     ],
     pour: 'Entrepreneurs, indépendants, créateurs d\'activité à Majorque',
     sujet: 'Demande Audit Éclaireur — 290€',
-    stripeUrl: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L',
+    stripeUrl: null,
+    prequalification: true, // ← formulaire à la place de Stripe
   },
   {
     id: 'integrale',
@@ -101,41 +106,47 @@ const OFFRES = [
     ],
     pour: 'Entrepreneurs qui déménagent leur vie ET leur activité à Majorque',
     sujet: 'Demande Installation Intégrale — 449€',
-    stripeUrl: 'https://buy.stripe.com/eVq00i95q9G16tq6jz6AM0M',
+    stripeUrl: null,
+    prequalification: true, // ← formulaire à la place de Stripe
   },
 ]
 
-function OffreCard({ offre }) {
-  const [ouvert, setOuvert] = useState(false)
+function OffreCard({ offre, onPrequalify }) {
+  const places = PLACES_DISPO[offre.id] || 0
 
   const handleReserver = () => {
-    if (offre.stripeUrl) {
-      track('accompagnement_clicked', { offre: offre.titre, prix: offre.prix })
+    track('accompagnement_clicked', { offre: offre.titre, prix: offre.prix })
+    if (offre.prequalification) {
+      onPrequalify(offre)
+    } else if (offre.stripeUrl) {
       window.open(offre.stripeUrl, '_blank', 'noopener,noreferrer')
     } else {
       const body = encodeURIComponent(
         `Bonjour Amely,\n\nJe souhaite réserver "${offre.titre}" à ${offre.prix}.\n\nMon projet : \n\nMa situation actuelle : \n\nMa timeline envisagée : \n\nMerci !`
       )
-      window.open(
-        `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(offre.sujet)}&body=${body}`,
-        '_blank'
-      )
+      window.open(`mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(offre.sujet)}&body=${body}`, '_blank')
     }
   }
 
-  const places = PLACES_DISPO[offre.id] || 0
+  /* Libellé du bouton selon le type */
+  const btnLabel = offre.prequalification
+    ? 'Envoyer ma demande →'
+    : 'Réserver directement →'
 
   return (
-    <div style={{
+    /* id pour le scroll depuis les CTAs dans les guides */
+    <div id={offre.id} style={{
       background: offre.couleur,
       border: `1.5px solid ${offre.border}`,
       borderRadius: 16,
       overflow: 'hidden',
       marginBottom: 14,
       boxShadow: offre.highlight ? '0 4px 20px rgba(126,200,192,0.18)' : 'none',
+      scrollMarginTop: 80,
     }}>
-      {/* Header */}
+
       <div style={{ padding: '18px 18px 14px' }}>
+        {/* Header badges + prix */}
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 10 }}>
           <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap' }}>
             <span style={{
@@ -146,7 +157,6 @@ function OffreCard({ offre }) {
             }}>
               {offre.label}
             </span>
-            {/* Badge urgence — places disponibles */}
             {places > 0 && (
               <span style={{
                 fontSize: 11, fontWeight: 800,
@@ -159,11 +169,24 @@ function OffreCard({ offre }) {
                 {places === 1 ? '🔴 Dernière place' : `⚡ ${places} places ce mois`}
               </span>
             )}
+            {/* Badge "sur demande" pour les offres avec pré-qualification */}
+            {offre.prequalification && (
+              <span style={{
+                fontSize: 11, fontWeight: 700,
+                color: '#7a3e22',
+                background: 'rgba(199,110,78,0.10)',
+                border: '1px solid rgba(199,110,78,0.25)',
+                padding: '3px 9px', borderRadius: 20,
+                fontFamily: 'var(--font-corps)',
+              }}>
+                Sur demande
+              </span>
+            )}
           </div>
           <div style={{ textAlign: 'right' }}>
             <span style={{
               fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-2xl)',
-              fontWeight: 700, color: 'var(--foret)',
+              fontWeight: 700, color: FORET,
             }}>
               {offre.prix}
             </span>
@@ -180,7 +203,7 @@ function OffreCard({ offre }) {
 
         <p style={{
           fontFamily: 'var(--font-titre)', fontSize: 'var(--fs-xl)',
-          fontWeight: 700, color: 'var(--foret)', marginBottom: 6, lineHeight: 1.30,
+          fontWeight: 700, color: FORET, marginBottom: 6, lineHeight: 1.30,
         }}>
           {offre.titre}
         </p>
@@ -189,7 +212,7 @@ function OffreCard({ offre }) {
           {offre.accroche}
         </p>
 
-        {/* Inclus */}
+        {/* Ce qui est inclus */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: 7, marginBottom: 14 }}>
           {offre.inclus.map((item, i) => (
             <div key={i} style={{ display: 'flex', gap: 9, alignItems: 'flex-start' }}>
@@ -202,7 +225,7 @@ function OffreCard({ offre }) {
               </span>
               <span style={{
                 fontSize: 14, lineHeight: 1.40,
-                color: item.ok ? 'var(--foret)' : 'var(--texte-sec)',
+                color: item.ok ? FORET : 'var(--texte-sec)',
                 opacity: item.ok ? 1 : 0.5,
               }}>
                 {item.texte}
@@ -221,15 +244,30 @@ function OffreCard({ offre }) {
           {offre.pour}
         </p>
 
+        {/* Explication pré-qualification si applicable */}
+        {offre.prequalification && (
+          <div style={{
+            background: `${FORET}06`, borderRadius: 10,
+            border: `1px solid ${FORET}15`,
+            padding: '10px 12px', marginBottom: 12,
+            display: 'flex', gap: 8, alignItems: 'flex-start',
+          }}>
+            <span style={{ fontSize: 16, flexShrink: 0 }}>📋</span>
+            <p style={{ fontSize: 12, color: FORET, lineHeight: 1.55 }}>
+              Pas de paiement immédiat — vous remplissez un court formulaire, Amely valide votre demande et vous envoie le lien de paiement sous 24h.
+            </p>
+          </div>
+        )}
+
         {/* CTA */}
         <button
           onClick={handleReserver}
           style={{
             width: '100%',
             padding: '13px 0',
-            background: offre.highlight ? 'var(--foret)' : 'transparent',
-            color: offre.highlight ? '#fff' : 'var(--foret)',
-            border: `1.5px solid var(--foret)`,
+            background: offre.highlight ? FORET : 'transparent',
+            color: offre.highlight ? '#fff' : FORET,
+            border: `1.5px solid ${FORET}`,
             borderRadius: 10,
             fontSize: 16,
             fontWeight: 700,
@@ -237,10 +275,10 @@ function OffreCard({ offre }) {
             fontFamily: 'var(--font-corps)',
           }}
         >
-          Réserver cette offre →
+          {btnLabel}
         </button>
 
-        {/* Message urgence sous le bouton */}
+        {/* Urgence sous le bouton */}
         {places > 0 && (
           <p style={{
             fontSize: 12, textAlign: 'center',
@@ -261,6 +299,7 @@ function OffreCard({ offre }) {
 export default function Accompagnements() {
   const navigate = useNavigate()
   const { quiz } = useQuizData()
+  const [prequalOffre, setPrequalOffre] = useState(null)
 
   useSEO({
     title: 'Accompagnement installation à Majorque',
@@ -268,71 +307,73 @@ export default function Accompagnements() {
     url: 'https://vivre-a-majorque.vercel.app/app/explorer/accompagnements',
   })
 
-  // Réordonner les offres selon le profil quiz
+  const recommended = quiz ? getRecommendedOffer(quiz) : null
+
+  const MSG = {
+    eclaireur: { icon: '🏢', text: 'Votre profil entrepreneur correspond à l\'Audit Éclaireur — analyse complète de votre activité à Majorque.' },
+    integrale:  { icon: '💎', text: 'Votre situation (urgence + projet pro) — L\'Installation Intégrale couvre votre vie et votre activité en un seul accompagnement.' },
+    cap:       { icon: '🧭', text: 'Le Cap Majorque correspond à votre projet — un accompagnement complet de A à Z.' },
+    visio:     { icon: '💬', text: 'Pour commencer sans engagement, la Visio conseil est faite pour vous.' },
+  }
+  const msg = recommended ? MSG[recommended] : null
+
   const offres = useMemo(() => {
-    const recommended = getRecommendedOffer(quiz)
+    if (!recommended) return OFFRES
     return [...OFFRES].sort((a, b) => {
       if (a.id === recommended) return -1
       if (b.id === recommended) return 1
       return 0
-    }).map(o => ({
-      ...o,
-      highlight: o.id === recommended,
-      label: o.id === recommended ? '⭐ Recommandé pour vous' : o.label,
-    }))
-  }, [quiz])
-
-  const recommended = getRecommendedOffer(quiz)
-
-  const PROFIL_MESSAGES = {
-    eclaireur: { icon: '🏢', text: 'Votre profil entrepreneur — l\'Audit Éclaireur analyse votre projet pro, votre statut et votre fiscalité à Majorque.' },
-    integrale:  { icon: '💎', text: 'Votre situation (urgence + projet pro) — L\'Installation Intégrale couvre votre vie et votre activité en un seul accompagnement.' },
-    cap:        { icon: '🧭', text: 'L\'accompagnement Cap Majorque est adapté à votre situation — dossier personnalisé et suivi sur 30 jours.' },
-    visio:      { icon: '💬', text: 'Une visio conseil suffit souvent pour valider votre projet de retraite à Majorque avant de s\'engager plus loin.' },
-  }
-
-  const msg = quiz ? PROFIL_MESSAGES[recommended] : null
+    })
+  }, [recommended])
 
   return (
-    <div className="page">
+    <div className="page" style={{ paddingBottom: 100 }}>
       <div className="page-header">
         <button onClick={() => navigate('/app/explorer')} style={{
-          background: 'none', border: 'none', fontSize: 20, cursor: 'pointer',
-          color: 'var(--foret)', padding: 0, marginBottom: 8,
+          background: 'none', border: 'none', cursor: 'pointer',
+          color: VERT, fontSize: 13, fontWeight: 600,
+          padding: 0, marginBottom: 16,
           display: 'flex', alignItems: 'center', gap: 6,
+          fontFamily: 'var(--font-corps)',
         }}>
-          ← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span>
+          ← Explorer
         </button>
-        <PageHeading label="nos" title="Accompagnements" accentColor={VERT} traitColor={VERT} />
-        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.50, marginBottom: 4 }}>
-          Vous ne voulez pas avancer seul ? Je vous accompagne personnellement dans votre installation à Majorque — de l'analyse de votre situation à la prise de route.
+        <p style={{ fontFamily: 'var(--font-accent)', fontSize: 18, color: TERRA, marginBottom: 2 }}>
+          votre projet
+        </p>
+        <h1 style={{
+          fontFamily: 'var(--font-display)', fontWeight: 900,
+          fontSize: 30, color: FORET, lineHeight: 1.1, marginBottom: 6,
+        }}>
+          Accompagnements
+        </h1>
+        <div style={{ width: 36, height: 3, background: VERT, borderRadius: 2, marginBottom: 14 }} />
+        <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.6 }}>
+          Analyses personnalisées et accompagnement sur-mesure pour votre installation à Majorque. Par Amely — française installée à Campos depuis 2024.
         </p>
       </div>
 
-      {/* Bandeau personnalisé si profil quiz renseigné */}
+      {/* Message personnalisé selon quiz */}
       {msg && (
         <div style={{
-          display: 'flex', alignItems: 'flex-start', gap: 10,
-          background: 'rgba(90,173,165,0.10)',
-          border: '1.5px solid rgba(90,173,165,0.25)',
+          display: 'flex', gap: 10, alignItems: 'flex-start',
+          background: 'rgba(90,173,165,0.08)',
+          border: '1px solid rgba(90,173,165,0.25)',
           borderRadius: 12, padding: '12px 14px',
           marginBottom: 16,
         }}>
           <span style={{ fontSize: 22, flexShrink: 0 }}>{msg.icon}</span>
-          <p style={{
-            fontSize: 13, color: 'var(--foret, #0F3D35)',
-            lineHeight: 1.55, fontFamily: 'var(--font-corps)',
-          }}>
+          <p style={{ fontSize: 13, color: FORET, lineHeight: 1.55, fontFamily: 'var(--font-corps)' }}>
             {msg.text}
           </p>
         </div>
       )}
 
       {offres.map(offre => (
-        <OffreCard key={offre.id} offre={offre} />
+        <OffreCard key={offre.id} offre={offre} onPrequalify={setPrequalOffre} />
       ))}
 
-      {/* Preuve sociale — témoignages */}
+      {/* Preuve sociale */}
       <Temoignages style={{ marginTop: 8, marginBottom: 16 }} />
 
       <div style={{
@@ -341,10 +382,17 @@ export default function Accompagnements() {
         fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.65,
       }}>
         Une question avant de vous décider ?{' '}
-        <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: 'var(--foret)', fontWeight: 600 }}>
+        <a href={`mailto:${CONTACT_EMAIL}`} style={{ color: FORET, fontWeight: 600 }}>
           Écrivez-moi →
         </a>
       </div>
+
+      {/* Modal pré-qualification */}
+      <PrequalificationModal
+        offre={prequalOffre}
+        isOpen={!!prequalOffre}
+        onClose={() => setPrequalOffre(null)}
+      />
     </div>
   )
 }

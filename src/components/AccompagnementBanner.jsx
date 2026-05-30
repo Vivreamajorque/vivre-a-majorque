@@ -1,54 +1,38 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { track } from '@vercel/analytics'
 
 const FORET = '#0F3D35'
 const VERT  = '#5AADA5'
-const TERRA = '#C76E4E'
 
-/*
- * AccompagnementBanner — deux modes :
- *
- * mode="soft"  (défaut) : encart discret → page accompagnements
- * mode="hard"           : carte Éclaireur directement vers Stripe
- *
- * Le mode "hard" est utilisé dans les guides admin/fiscal/travail
- * où l'intent d'achat est le plus fort.
- *
- * Props :
- *   texte    — phrase principale contextuelle
- *   cta      — texte du bouton
- *   style    — surcharge conteneur
- *   mode     — "soft" | "hard"
- *   offre    — "eclaireur" | "cap" | "integrale" (mode hard uniquement)
- *   category — catégorie du guide pour adapter le message
- */
-
-const OFFRES = {
+const OFFRES_INFO = {
   eclaireur: {
     titre: 'Audit Éclaireur',
     prix: '290€',
-    desc: 'Analyse complète de votre situation + 2 visios + dossier sous 5 jours',
-    stripe: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L',
+    desc: 'Analyse complète de votre projet pro à Majorque — statut, fiscalité, viabilité',
     emoji: '🧭',
-    event: 'eclaireur_stripe_opened',
+    id: 'eclaireur',
   },
   cap: {
     titre: 'Cap Majorque',
     prix: '249€',
-    desc: 'L\'accompagnement complet pour votre installation',
-    stripe: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K',
+    desc: "L'accompagnement complet pour votre installation",
     emoji: '📦',
-    event: 'cap_stripe_opened',
+    id: 'cap',
   },
 }
 
-/* Sélection de l'offre selon la catégorie du guide */
 function getOffreForCategory(category) {
-  const proCategories = ['Travail', 'Argent']
-  return proCategories.includes(category) ? 'eclaireur' : 'cap'
+  return ['Travail', 'Argent'].includes(category) ? 'eclaireur' : 'cap'
 }
 
+/*
+ * AccompagnementBanner — deux modes :
+ *
+ * mode="soft" (défaut) : encart discret → page accompagnements
+ * mode="hard"          : carte foncée → page accompagnements scrollée sur l'offre
+ *                        PAS de Stripe direct — le prospect lit avant de s'engager
+ */
 export default function AccompagnementBanner({
   texte,
   cta = 'Voir les accompagnements →',
@@ -58,9 +42,8 @@ export default function AccompagnementBanner({
   category = '',
 }) {
   const navigate = useNavigate()
-  const [expanded, setExpanded] = useState(false)
 
-  /* ── Mode soft — encart discret ── */
+  /* ── Mode soft ── */
   if (mode === 'soft') {
     return (
       <div
@@ -94,21 +77,26 @@ export default function AccompagnementBanner({
     )
   }
 
-  /* ── Mode hard — carte offre avec CTA direct Stripe ── */
+  /* ── Mode hard — carte sombre → page Accompagnements + scroll ancre ── */
   const id = offreId || getOffreForCategory(category)
-  const o  = OFFRES[id] || OFFRES.eclaireur
+  const o  = OFFRES_INFO[id] || OFFRES_INFO.eclaireur
+
+  const goToOffre = () => {
+    track('accompagnement_banner_clicked', { mode: 'hard', offre: id, category })
+    navigate('/app/explorer/accompagnements')
+    setTimeout(() => {
+      const el = document.getElementById(o.id)
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    }, 350)
+  }
 
   return (
     <div style={{
-      background: FORET,
-      borderRadius: 18,
-      overflow: 'hidden',
-      marginTop: 24, marginBottom: 8,
-      ...style,
+      background: FORET, borderRadius: 18, overflow: 'hidden',
+      marginTop: 24, marginBottom: 8, ...style,
     }}>
-      {/* En-tête toujours visible */}
       <div style={{ padding: '18px 18px 14px' }}>
-        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 10 }}>
+        <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12, marginBottom: 12 }}>
           <div style={{ flex: 1 }}>
             <p style={{
               fontFamily: 'var(--font-display)', fontStyle: 'italic',
@@ -131,23 +119,18 @@ export default function AccompagnementBanner({
           </div>
         </div>
 
-        {/* CTAs */}
         <div style={{ display: 'flex', gap: 8 }}>
-          <a
-            href={o.stripe}
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={() => track(o.event, { source: 'guide_banner', category })}
+          <button
+            onClick={goToOffre}
             style={{
-              flex: 1, display: 'block', textAlign: 'center',
-              background: VERT, color: '#fff',
-              padding: '12px 0', borderRadius: 12,
+              flex: 1, background: VERT, color: '#fff',
+              border: 'none', padding: '12px 0', borderRadius: 12,
               fontSize: 14, fontWeight: 700,
-              textDecoration: 'none', fontFamily: 'var(--font-corps)',
+              cursor: 'pointer', fontFamily: 'var(--font-corps)',
             }}
           >
-            Réserver →
-          </a>
+            Voir cette offre →
+          </button>
           <button
             onClick={() => {
               track('accompagnement_banner_clicked', { mode: 'hard', action: 'see_all' })
@@ -165,6 +148,14 @@ export default function AccompagnementBanner({
             Voir tout
           </button>
         </div>
+
+        <p style={{
+          fontSize: 11, color: 'rgba(247,242,235,0.45)',
+          textAlign: 'center', marginTop: 10,
+          fontFamily: 'var(--font-corps)',
+        }}>
+          Pas de paiement immédiat · Réponse personnelle d'Amely sous 24h
+        </p>
       </div>
     </div>
   )
