@@ -297,7 +297,8 @@ export default function GuideDetail() {
     'Voiture':       `Voiture et transport à Majorque — ${guide?.title || ''}. Immatriculation, permis de conduire.`,
   }
   useSEO({
-    title: guide?.title || 'Guide pratique',
+    // Passer null tant que le guide n'est pas chargé → le hook ne fait rien
+    title: guide?.title || null,
     description: guide?.title
       ? (CAT_DESCRIPTIONS[guide.category] || `Guide pratique — ${guide.title}. Tout ce que les Français doivent savoir pour s'installer à Majorque.`)
       : null,

@@ -549,23 +549,38 @@ function GuideCard({ guide, isPremium, onPaywall }) {
 
 /* Offre recommandée */
 function OffreStrip({ quiz }) {
+  const navigate = useNavigate()
   const recommended = getRecommendedOffer(quiz)
+
+  /* Offres avec pré-qualification → page Accompagnements + scroll sur l'ancre
+     Offres Stripe direct → Visio et Cap uniquement */
   const OFFRES = {
-    eclaireur: { titre: 'Audit Éclaireur',        prix: '290€', emoji: '🏢', url: 'https://buy.stripe.com/dRmcN4gxS4lH196fU96AM0L', desc: 'Votre projet pro à Majorque', places: 2 },
-    integrale: { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', url: 'https://buy.stripe.com/eVq00i95q9G16tq6jz6AM0M', desc: 'Vie + activité réunies', places: 1 },
-    cap:       { titre: 'Cap Majorque',           prix: '249€', emoji: '🧭', url: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K', desc: "L'accompagnement complet", places: 3 },
-    visio:     { titre: 'Visio conseil',          prix: '99€',  emoji: '💬', url: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J', desc: 'Une session pour y voir clair', places: 0 },
+    eclaireur: { titre: 'Audit Éclaireur',        prix: '290€', emoji: '🏢', desc: 'Votre projet pro à Majorque', places: 2, prequalification: true,  stripeUrl: null },
+    integrale: { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', desc: 'Vie + activité réunies',       places: 1, prequalification: true,  stripeUrl: null },
+    cap:       { titre: 'Cap Majorque',           prix: '249€', emoji: '🧭', desc: "L'accompagnement complet",     places: 3, prequalification: false, stripeUrl: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K' },
+    visio:     { titre: 'Visio conseil',          prix: '99€',  emoji: '💬', desc: 'Une session pour y voir clair',places: 0, prequalification: false, stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J' },
   }
   const o = OFFRES[recommended]
   if (!o) return null
 
+  const handleClick = () => {
+    track('accompagnement_clicked', { offre: o.titre, source: 'mon_espace' })
+    if (o.prequalification) {
+      // → page Accompagnements scrollée sur l'offre concernée
+      navigate('/app/explorer/accompagnements')
+      setTimeout(() => {
+        const el = document.getElementById(recommended)
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      }, 350)
+    } else {
+      window.open(o.stripeUrl, '_blank', 'noopener,noreferrer')
+    }
+  }
+
   return (
     <div style={{ overflow: 'hidden', borderRadius: 18 }}>
       <div
-        onClick={() => {
-          track('accompagnement_clicked', { offre: o.titre, source: 'mon_espace' })
-          window.open(o.url, '_blank', 'noopener,noreferrer')
-        }}
+        onClick={handleClick}
         style={{
           background: FORET,
           padding: '18px 18px',
@@ -580,30 +595,30 @@ function OffreStrip({ quiz }) {
             fontSize: 17, color: '#F7F2EB', marginBottom: 3,
           }}>{o.titre}</p>
           <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.55)', lineHeight: 1.4 }}>{o.desc}</p>
+          {o.prequalification && (
+            <p style={{ fontSize: 11, color: 'rgba(90,173,165,0.8)', marginTop: 4, fontFamily: 'var(--font-corps)' }}>
+              Sur demande · réponse sous 24h
+            </p>
+          )}
         </div>
         <span style={{
           fontFamily: 'var(--font-display)', fontWeight: 900,
           fontSize: 22, color: VERT, flexShrink: 0,
         }}>{o.prix}</span>
       </div>
-      {/* Urgence sous la carte */}
       {o.places > 0 && (
         <div style={{
           background: o.places === 1 ? 'rgba(199,78,78,0.08)' : 'rgba(176,125,42,0.08)',
           border: `1px solid ${o.places === 1 ? 'rgba(199,78,78,0.2)' : 'rgba(176,125,42,0.2)'}`,
-          borderTop: 'none',
-          borderRadius: '0 0 18px 18px',
-          padding: '8px 18px',
-          textAlign: 'center',
+          borderTop: 'none', borderRadius: '0 0 18px 18px',
+          padding: '8px 18px', textAlign: 'center',
         }}>
           <p style={{
             fontSize: 12, fontWeight: 700,
             color: o.places === 1 ? '#C74E4E' : '#7A5A1A',
             fontFamily: 'var(--font-corps)',
           }}>
-            {o.places === 1
-              ? '🔴 Dernière place disponible ce mois-ci'
-              : `⚡ Plus que ${o.places} places disponibles en juin`}
+            {o.places === 1 ? '🔴 Dernière place disponible ce mois-ci' : `⚡ Plus que ${o.places} places disponibles en juin`}
           </p>
         </div>
       )}
