@@ -49,6 +49,15 @@ const CARDS = [
     coming: false,
   },
   {
+    to: '/app/explorer/entreprendre',
+    emoji: '🏢',
+    title: 'Entreprendre',
+    desc: 'Créer son activité à Majorque',
+    bg: 'var(--vert-light)',
+    border: 'rgba(90,122,64,0.15)',
+    coming: false,
+  },
+  {
     to: '/app/explorer/accompagnements',
     emoji: '🤝',
     title: 'Accompagnement',

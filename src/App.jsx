@@ -18,6 +18,7 @@ import Medias from './pages/Medias'
 import BudgetSimulator from './pages/BudgetSimulator'
 import Accompagnements from './pages/Accompagnements'
 import Actualites from './pages/Actualites'
+import Entreprendre from './pages/Entreprendre'
 
 function AppShell() {
   return (
@@ -39,6 +40,7 @@ function AppShell() {
         <Route path="app/actus" element={<Actualites />} />
         <Route path="app/explorer/actus" element={<Actualites />} />
         <Route path="app/explorer/accompagnements" element={<Accompagnements />} />
+        <Route path="app/explorer/entreprendre" element={<Entreprendre />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       <Nav />
