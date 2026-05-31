@@ -306,6 +306,42 @@ export default function GuideDetail() {
     type: 'article',
   })
 
+
+  /* ── Schema FAQPage — extrait les H2 + paragraphe suivant pour Google ── */
+  useEffect(() => {
+    if (!blocks || blocks.length === 0 || blocksLoading) return
+    const faqs = []
+    blocks.forEach((block, i) => {
+      const isH2 = block.type === 'heading_2'
+      if (isH2) {
+        const question = block.heading_2?.rich_text?.map(t => t.plain_text).join('') || ''
+        const next = blocks[i + 1]
+        const answer = next?.paragraph?.rich_text?.map(t => t.plain_text).join('') || ''
+        if (question && answer) {
+          faqs.push({
+            '@type': 'Question',
+            'name': question,
+            'acceptedAnswer': { '@type': 'Answer', 'text': answer }
+          })
+        }
+      }
+    })
+    if (faqs.length === 0) return
+    const script = document.createElement('script')
+    script.type = 'application/ld+json'
+    script.setAttribute('data-schema', 'faqpage')
+    script.text = JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'FAQPage',
+      'mainEntity': faqs
+    })
+    document.head.appendChild(script)
+    return () => {
+      const el = document.querySelector('script[data-schema="faqpage"]')
+      if (el) document.head.removeChild(el)
+    }
+  }, [blocks, blocksLoading])
+
   return (
     <div className="page" style={{ padding: 0 }}>
       <style>{`@keyframes fadeInUp { from { opacity:0; transform:translateY(4px) } to { opacity:1; transform:translateY(0) } }`}</style>

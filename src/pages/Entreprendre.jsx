@@ -6,6 +6,7 @@ import { PaywallModal } from '../components/PaywallModal'
 import { NOTION_DB } from '../config'
 import { PageHeading, AccentWord, TERRA, VERT } from '../components/WaveTitle'
 import { useQuizData, isEntrepreneurProfile } from '../hooks/useQuizData'
+import { useSEO } from '../hooks/useSEO'
 
 /* ─── Données statiques ────────────────────────── */
 
@@ -394,6 +395,11 @@ function BlocTheme({ bloc, guides, isPremium, onPaywall }) {
 /* ─── Page principale ─────────────────────────── */
 
 export default function Entreprendre() {
+  useSEO({
+    title: "Entreprendre à Majorque en tant que Français — guide complet",
+    description: "Statut autónomo, SL, télétravailleur — tout ce qu'il faut savoir pour lancer une activité à Majorque en tant que Français.",
+    url: 'https://vivre-a-majorque.vercel.app/app/explorer/entreprendre',
+  })
   const navigate = useNavigate()
   const { isPremium } = usePremium()
   const [showPaywall, setShowPaywall] = useState(false)

@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 /* ──────────────────────────────────────────────
    DONNÉES OFFICIELLES — Sources primaires uniquement
@@ -160,6 +161,11 @@ function SubTotal({ label, amount, recoverable }) {
 }
 
 export default function CoutInstallation() {
+  useSEO({
+    title: "Coût installation à Majorque — budget réel pour s'installer",
+    description: "Combien coûte vraiment une installation à Majorque ? NIE, caution logement, frais déménagement, premiers mois. Estimations sourcées.",
+    url: 'https://vivre-a-majorque.vercel.app/app/outils/cout',
+  })
   const navigate = useNavigate()
 
   // ── Section 1 : Logement ──

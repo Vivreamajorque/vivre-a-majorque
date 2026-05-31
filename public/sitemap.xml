@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://vivre-a-majorque.vercel.app/</loc><lastmod>2025-05-30</lastmod><priority>1.0</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/app</loc><lastmod>2025-05-30</lastmod><priority>0.9</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/app/guides</loc><lastmod>2025-05-30</lastmod><priority>0.8</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/app/explorer/accompagnements</loc><lastmod>2025-05-30</lastmod><priority>0.9</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/app/outils/autonoma</loc><lastmod>2025-05-30</lastmod><priority>0.8</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/app/outils/fiscal</loc><lastmod>2025-05-30</lastmod><priority>0.7</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/guide/sinstaller-majorque-francais.html</loc><lastmod>2025-05-30</lastmod><priority>0.9</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/guide/autonomo-france-espagne.html</loc><lastmod>2025-05-30</lastmod><priority>0.8</priority></url>
-  <url><loc>https://vivre-a-majorque.vercel.app/guide/nie-majorque-francais.html</loc><lastmod>2025-05-30</lastmod><priority>0.8</priority></url>
+  <!-- Page racine -->
+  <url><loc>https://vivre-a-majorque.vercel.app/</loc><lastmod>2026-05-31</lastmod><priority>1.0</priority></url>
+
+  <!-- App principale -->
+  <url><loc>https://vivre-a-majorque.vercel.app/app</loc><lastmod>2026-05-31</lastmod><priority>0.9</priority></url>
+
+  <!-- Accompagnements — page de vente principale -->
+  <url><loc>https://vivre-a-majorque.vercel.app/app/explorer/accompagnements</loc><lastmod>2026-05-31</lastmod><priority>1.0</priority></url>
+
+  <!-- Guides -->
+  <url><loc>https://vivre-a-majorque.vercel.app/app/guides</loc><lastmod>2026-05-31</lastmod><priority>0.8</priority></url>
+
+  <!-- Outils & simulateurs -->
+  <url><loc>https://vivre-a-majorque.vercel.app/app/explorer/outils</loc><lastmod>2026-05-31</lastmod><priority>0.8</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/app/outils/budget</loc><lastmod>2026-05-31</lastmod><priority>0.9</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/app/outils/autonoma</loc><lastmod>2026-05-31</lastmod><priority>0.8</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/app/outils/fiscal</loc><lastmod>2026-05-31</lastmod><priority>0.7</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/app/outils/cout</loc><lastmod>2026-05-31</lastmod><priority>0.8</priority></url>
+
+  <!-- Explorer -->
+  <url><loc>https://vivre-a-majorque.vercel.app/app/explorer</loc><lastmod>2026-05-31</lastmod><priority>0.7</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/app/explorer/annuaire</loc><lastmod>2026-05-31</lastmod><priority>0.8</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/app/explorer/entreprendre</loc><lastmod>2026-05-31</lastmod><priority>0.8</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/app/explorer/circuits</loc><lastmod>2026-05-31</lastmod><priority>0.6</priority></url>
+
+  <!-- Pages statiques HTML — indexation directe sans JS -->
+  <url><loc>https://vivre-a-majorque.vercel.app/guide/sinstaller-majorque-francais.html</loc><lastmod>2026-05-31</lastmod><priority>0.9</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/guide/autonomo-france-espagne.html</loc><lastmod>2026-05-31</lastmod><priority>0.9</priority></url>
+  <url><loc>https://vivre-a-majorque.vercel.app/guide/nie-majorque-francais.html</loc><lastmod>2026-05-31</lastmod><priority>0.8</priority></url>
 </urlset>

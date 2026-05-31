@@ -7,6 +7,7 @@ import { useNotionDB, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait, SectionHead } from '../components/WaveTitle'
 import QuizProfil from '../components/QuizProfil'
+import { useSEO } from '../hooks/useSEO'
 
 /* ── Mon Espace personnalisé ───────────────────────────── */
 function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
@@ -242,6 +243,11 @@ const NAV_CARDS = [
 
 /* ── Page Home ──────────────────────────────────────────── */
 export default function Home() {
+  useSEO({
+    title: "Vivre à Majorque — Guides et accompagnement pour s'installer",
+    description: "L'app des francophones qui s'installent à Majorque. Guides administratifs, simulateur budget, cockpit installation. Par Amely, française à Campos.",
+    url: 'https://vivre-a-majorque.vercel.app/app',
+  })
   const { profile, prenom } = useProfile()
   const { user } = useUserData()
   const { quiz, saveQuiz, hasQuiz } = useQuizData()

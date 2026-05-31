@@ -4,6 +4,7 @@ import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import { PageHeading, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const FORET = '#0F3D35'
 
@@ -157,6 +158,11 @@ function ToolCard({ o, isPremium, onPaywall }) {
 }
 
 export default function Outils() {
+  useSEO({
+    title: "Outils et simulateurs pour s'installer à Majorque",
+    description: "Simulateurs gratuits : budget mensuel, coût installation, autónomo vs auto-entrepreneur, calendrier fiscal. Pour les Français à Majorque.",
+    url: 'https://vivre-a-majorque.vercel.app/app/explorer/outils',
+  })
   const navigate = useNavigate()
   const { isPremium } = usePremium()
   const [showPaywall, setShowPaywall] = useState(false)

@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseAnnuaire } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 import { AccentWord, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 /* ── Badge Nouveau — fiche < 30 jours ── */
 const isNew = (createdAt) => {
@@ -285,6 +286,11 @@ function FilterPills({ zoneFilter, setZoneFilter, langFilter, setLangFilter, ava
    Page principale
 ───────────────────────────────────────────── */
 export default function Annuaire() {
+  useSEO({
+    title: "Annuaire professionnels francophones Majorque",
+    description: "Trouvez un médecin, avocat, gestor ou comptable francophone à Majorque. Annuaire vérifié par Amely Attias, française installée à Campos.",
+    url: 'https://vivre-a-majorque.vercel.app/app/explorer/annuaire',
+  })
   const navigate = useNavigate()
   const { data, loading } = useNotionDB(NOTION_DB.annuaire)
   const [selectedCat, setSelectedCat] = useState(null)

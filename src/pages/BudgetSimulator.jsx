@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import { useNavigate } from 'react-router-dom'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 /* ─────────────────────────────────────────────────────────────────
    DONNÉES DE RÉFÉRENCE
@@ -110,6 +111,11 @@ function calcDefaults(adultes, enfants, mode, ecoleType) {
 const fmt = n => `${Math.round(n).toLocaleString('fr-FR')} €`
 
 export default function BudgetSimulator() {
+  useSEO({
+    title: "Simulateur budget vivre à Majorque — calcul réaliste par profil",
+    description: "Calculez votre budget mensuel réaliste pour vivre à Majorque : loyer, alimentation, transport, santé. 3 modes de vie. Sources INE officielles.",
+    url: 'https://vivre-a-majorque.vercel.app/app/outils/budget',
+  })
   const navigate = useNavigate()
   const [step, setStep]       = useState(1)
   const [adultes, setAdultes] = useState(2)
