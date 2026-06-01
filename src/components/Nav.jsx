@@ -33,8 +33,9 @@ export default function Nav() {
         return (
           <NavLink key={tab.to} to={tab.to} style={{
             flex: 1, display: 'flex', flexDirection: 'column',
-            alignItems: 'center', padding: '10px 0 8px',
-            textDecoration: 'none', gap: 2, position: 'relative',
+            alignItems: 'center', padding: '10px 0 10px',
+            textDecoration: 'none', gap: 4, position: 'relative',
+            minHeight: 62,
           }}
             aria-current={isActive ? 'page' : undefined}
           >
@@ -42,17 +43,17 @@ export default function Nav() {
               <div style={{
                 position: 'absolute', top: 0, left: '50%',
                 transform: 'translateX(-50%)',
-                width: 28, height: 2.5,
+                width: 32, height: 3,
                 background: color,
-                borderRadius: '0 0 2px 2px',
+                borderRadius: '0 0 3px 3px',
               }} />
             )}
-            <span style={{ fontSize: 18 }} aria-hidden="true">{tab.icon}</span>
+            <span style={{ fontSize: 22, lineHeight: 1 }} aria-hidden="true">{tab.icon}</span>
             <span style={{
               fontFamily: isActive ? 'var(--font-display)' : 'var(--font-titre)',
               fontStyle: isActive ? 'normal' : 'italic',
               fontWeight: isActive ? 900 : 400,
-              fontSize: 10,
+              fontSize: 12,
               color: isActive ? color : 'var(--texte-sec)',
               letterSpacing: isActive ? '-0.01em' : '0',
               lineHeight: 1.2,

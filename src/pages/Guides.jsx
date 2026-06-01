@@ -9,6 +9,7 @@ import { NOTION_DB, GUIDE_CATEGORIES, PROFILS } from '../config'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import NotionError from '../components/NotionError'
 import { PageHeading, AccentWord, SectionHead } from '../components/WaveTitle'
+import { fuzzyFilter } from '../hooks/useFuzzySearch'
 
 const CAT_EMOJIS = {
   'Administratif': '📋', 'Logement': '🏠', 'Travail': '💼',
@@ -194,8 +195,12 @@ export default function Guides() {
   /* Résultats de recherche */
   const searchResults = useMemo(() => {
     if (!search.trim()) return []
-    const q = search.toLowerCase()
-    return guides.filter(g => g.title.toLowerCase().includes(q)).slice(0, 20)
+    return fuzzyFilter(
+      search,
+      guides,
+      g => [g.title, g.category, ...(g.tags || [])],
+      0.35
+    ).slice(0, 20)
   }, [guides, search])
 
   /* Catégories avec compteur "pour vous" */
