@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SectionHead, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const FORET = '#0F3D35'
 
@@ -249,6 +250,11 @@ function CategoryCard({ cat, navigate }) {
 
 /* ── Page principale ────────────────────────── */
 export default function Boutiques() {
+  useSEO({
+    title: "Boutique — Guides et ressources Majorque",
+    description: "Mini guides lifestyle, circuits personnalisés et ressources pratiques pour vivre à Majorque. Calas hors-piste, gastronomie locale, fêtes de village, Tramuntana.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/boutiques",
+  })
   const navigate = useNavigate()
 
   const nouveaute = CATEGORIES.find(c => c.isNew)

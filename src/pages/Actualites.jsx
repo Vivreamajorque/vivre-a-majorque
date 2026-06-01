@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseActu } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const CAT_COLORS = {
   'Admin':       { bg: '#EBF3E4', border: 'rgba(90,122,64,0.25)',   text: '#2D5016' },
@@ -138,6 +139,11 @@ function ActuCard({ actu }) {
 }
 
 export default function Actualites() {
+  useSEO({
+    title: "Actualités Majorque — Infos pour les francophones",
+    description: "Dernières actualités pour les Français à Majorque : changements administratifs, fiscalité, logement, vie pratique. Mis à jour en continu par Amely, française installée à Campos.",
+    url: "https://vivre-a-majorque.vercel.app/app/actus",
+  })
   const navigate = useNavigate()
   const { data, loading } = useNotionDB(NOTION_DB.actus)
   const [activeCat, setActiveCat] = useState('Toutes')

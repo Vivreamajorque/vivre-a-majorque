@@ -396,9 +396,9 @@ function BlocTheme({ bloc, guides, isPremium, onPaywall }) {
 
 export default function Entreprendre() {
   useSEO({
-    title: "Entreprendre à Majorque en tant que Français — guide complet",
-    description: "Statut autónomo, SL, télétravailleur — tout ce qu'il faut savoir pour lancer une activité à Majorque en tant que Français.",
-    url: 'https://vivre-a-majorque.vercel.app/app/explorer/entreprendre',
+    title: "Entreprendre à Majorque — créer son activité",
+    description: "Créer son activité à Majorque : autónoma, SL, fiscalité, IVA, IRPF, facturation UE. Guide complet pour entrepreneurs francophones à Majorque.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/entreprendre",
   })
   const navigate = useNavigate()
   const { isPremium } = usePremium()

@@ -346,9 +346,9 @@ export default function AutonomaSimulator() {
   const navigate = useNavigate()
 
   useSEO({
-    title: 'Simulateur autónomo Espagne vs auto-entrepreneur France',
-    description: 'Calculez et comparez votre net en poche : autónomo Espagne vs auto-entrepreneur France. Barèmes 2025 : RETA, IRPF, cotisations sociales. Simulation gratuite et instantanée.',
-    url: 'https://vivre-a-majorque.vercel.app/app/outils/autonoma',
+    title: "Simulateur autónomo Espagne — net en poche",
+    description: "Comparez auto-entrepreneur France vs autónomo Espagne. Calculez vos cotisations, IRPF, IVA et votre revenu net mensuel. Tarifa plana 80€/mois incluse.",
+    url: "https://vivre-a-majorque.vercel.app/app/outils/autonoma",
   })
 
   // ── Paramètres communs ──

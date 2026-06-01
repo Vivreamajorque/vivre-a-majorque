@@ -6,6 +6,7 @@ import { TERRA, VERT, AccentWord, DisplayTitle, ContextLabel, Trait } from '../c
 import { useQuizData } from '../hooks/useQuizData'
 import { track } from '@vercel/analytics'
 import QuizProfil from '../components/QuizProfil'
+import { useSEO } from '../hooks/useSEO'
 
 const FORET = '#0F3D35'
 
@@ -25,6 +26,12 @@ const PROFIL_PROMESSES = {
 }
 
 export default function Onboarding() {
+  useSEO({
+    title: "Bienvenue — Vivre à Majorque",
+    description: "Créez votre profil pour accéder aux guides et outils personnalisés pour votre installation à Majorque.",
+    url: "https://vivre-a-majorque.vercel.app/onboarding",
+    robots: "noindex, nofollow",
+  })
   const { chooseProfile, savePrenom } = useProfile()
   const { saveQuiz } = useQuizData()
   const navigate = useNavigate()

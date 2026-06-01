@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const YOUTUBE_CHANNEL_URL = 'https://www.youtube.com/@majorquelileenvrai'
 const INSTAGRAM_URL = 'https://www.instagram.com/amely_mallorca_raw'
@@ -129,6 +130,11 @@ function YoutubeEmbed() {
 }
 
 export default function Medias() {
+  useSEO({
+    title: "Médias — YouTube, Instagram, TikTok",
+    description: "Retrouvez Amely sur YouTube (Majorque l'île en vrai), Instagram @amely_mallorca_raw et TikTok @amelymallorcaraw. Contenu authentique sur la vie à Majorque.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/medias",
+  })
   const navigate = useNavigate()
 
   return (

@@ -1,10 +1,17 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { TERRA, VERT, DisplayTitle, AccentWord, Trait } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const FORET = '#0F3D35'
 
 export default function MerciVisio() {
+  useSEO({
+    title: "Merci — Votre Visio Conseil est confirmée",
+    description: "Votre Visio Conseil avec Amely est confirmée. Vous recevrez votre questionnaire de préparation sous 24h. À très bientôt !",
+    url: "https://vivre-a-majorque.vercel.app/app/merci-visio",
+    robots: "noindex, nofollow",
+  })
   const navigate = useNavigate()
   const [form, setForm] = useState({ prenom: '', email: '', whatsapp: '', projet: '' })
   const [sent, setSent] = useState(false)

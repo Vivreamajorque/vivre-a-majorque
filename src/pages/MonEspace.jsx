@@ -10,6 +10,7 @@ import {
 } from '../hooks/useQuizData'
 import { useNotionDB, parseCockpit, parseGuide } from '../hooks/useNotion'
 import { useSavedGuides } from '../hooks/useSavedGuides'
+import { useSEO } from '../hooks/useSEO'
 import { NOTION_DB } from '../config'
 import { PaywallModal } from '../components/PaywallModal'
 import QuizProfil from '../components/QuizProfil'
@@ -1044,6 +1045,12 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
    Composant principal
 ══════════════════════════════════════════════ */
 export default function MonEspace() {
+  useSEO({
+    title: "Mon espace — tableau de bord installation Majorque",
+    description: "Votre espace personnel : cockpit d'installation, guides sauvegardés, progression et recommandations personnalisées pour votre projet à Majorque.",
+    url: "https://vivre-a-majorque.vercel.app/app/moi",
+    robots: "noindex, nofollow",
+  })
   const { profile } = useProfile()
   const { isPremium } = usePremium()
   const [view, setView] = useState('dashboard')

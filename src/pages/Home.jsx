@@ -15,6 +15,16 @@ function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
   const greeting = new Date().getHours() < 18 ? 'Bonjour' : 'Bonsoir'
   const prenom = user?.prenom
 
+  // Calcul progression cockpit depuis localStorage
+  const profileId = profile?.id
+  const progress = React.useMemo(() => {
+    if (!profileId) return null
+    try {
+      const done = JSON.parse(localStorage.getItem(`vmaq_done_${profileId}`) || '[]')
+      return done.length
+    } catch { return 0 }
+  }, [profileId])
+
   return (
     <Link to="/app/moi" style={{ textDecoration: 'none', display: 'block', marginBottom: 20 }}>
       <div style={{
@@ -86,6 +96,23 @@ function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
             <p style={{ fontSize: 11, color: 'rgba(247,242,235,0.5)', fontFamily: 'var(--font-corps)' }}>
               Personnaliser mon espace →
             </p>
+          )}
+          {/* Barre de progression cockpit */}
+          {progress !== null && progress > 0 && (
+            <div style={{ marginTop: 8 }}>
+              <div style={{ height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.12)', overflow: 'hidden', marginBottom: 4 }}>
+                <div style={{
+                  height: '100%',
+                  width: `${Math.min(100, progress * 10)}%`,
+                  background: 'rgba(90,173,165,0.8)',
+                  borderRadius: 2,
+                  transition: 'width 0.5s',
+                }} />
+              </div>
+              <p style={{ fontSize: 10, color: 'rgba(90,173,165,0.7)', fontFamily: 'var(--font-corps)' }}>
+                {progress} étape{progress > 1 ? 's' : ''} cochée{progress > 1 ? 's' : ''} dans votre cockpit
+              </p>
+            </div>
           )}
         </div>
 
@@ -247,7 +274,7 @@ export default function Home() {
   useSEO({
     title: "Vivre à Majorque — Guides et accompagnement pour s'installer",
     description: "L'app des francophones qui s'installent à Majorque. Guides administratifs, simulateur budget, cockpit installation. Par Amely, française à Campos.",
-    url: 'https://vivre-a-majorque.vercel.app/app',
+    url: "https://vivre-a-majorque.vercel.app/app",
   })
   const { profile, prenom } = useProfile()
   const { user } = useUserData()

@@ -112,9 +112,9 @@ const fmt = n => `${Math.round(n).toLocaleString('fr-FR')} €`
 
 export default function BudgetSimulator() {
   useSEO({
-    title: "Simulateur budget vivre à Majorque — calcul réaliste par profil",
-    description: "Calculez votre budget mensuel réaliste pour vivre à Majorque : loyer, alimentation, transport, santé. 3 modes de vie. Sources INE officielles.",
-    url: 'https://vivre-a-majorque.vercel.app/app/outils/budget',
+    title: "Simulateur budget vie à Majorque",
+    description: "Calculez votre budget mensuel réaliste pour vivre à Majorque : loyer, alimentation, transport, santé. Simulateur gratuit par Amely, française à Campos.",
+    url: "https://vivre-a-majorque.vercel.app/app/outils/budget",
   })
   const navigate = useNavigate()
   const [step, setStep]       = useState(1)

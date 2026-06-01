@@ -177,9 +177,9 @@ export default function Guides() {
   const [search, setSearch] = useState('')
 
   useSEO({
-    title: 'Guides pour s\'installer à Majorque — NIE, logement, autónomo, fiscalité',
-    description: '50+ guides pratiques et vérifiés pour les francophones qui s\'installent à Majorque : démarches administratives, logement, travail, santé, famille. Sourcés sur les textes officiels espagnols.',
-    url: 'https://vivre-a-majorque.vercel.app/app/guides',
+    title: "Guides pour s'installer à Majorque — NIE, logement, autónomo",
+    description: "100+ guides pratiques pour les francophones qui s'installent à Majorque : démarches administratives, logement, travail, santé, famille. Sourcés sur les textes officiels espagnols.",
+    url: "https://vivre-a-majorque.vercel.app/app/guides",
   })
   const [sortForMe, setSortForMe] = useState(false)
 

@@ -530,9 +530,9 @@ export default function CalendrierFiscal() {
   const [profil, setProfil] = useState('autonomo')
 
   useSEO({
-    title: 'Calendrier fiscal Espagne 2025 — Particuliers, Autónomos, Sociétés',
-    description: 'Toutes les échéances fiscales espagnoles 2025 : IRPF, IVA, RETA, IS. Classées par profil : particuliers résidents, travailleurs indépendants autónomos, sociétés SL. Sources AEAT et BOE.',
-    url: 'https://vivre-a-majorque.vercel.app/app/outils/fiscal',
+    title: "Calendrier fiscal Majorque — Échéances autónomo",
+    description: "Toutes les échéances fiscales en Espagne : IRPF modelo 130, IVA modelo 303, renta annuelle. Calendrier pour particuliers, autónomos et sociétés.",
+    url: "https://vivre-a-majorque.vercel.app/app/outils/fiscal",
   })
 
   const currentProfil = PROFILS_CONFIG.find(p => p.id === profil)

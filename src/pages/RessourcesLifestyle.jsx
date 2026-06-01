@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { usePremium } from '../context/PremiumContext'
 import { PaywallModal } from '../components/PaywallModal'
 import { SectionHead, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const FORET = '#0F3D35'
 const PACK_3_LINK = 'https://buy.stripe.com/3cIeVc0yU8BX19623j6AM0O'
@@ -18,6 +19,7 @@ const DOSSIERS = [
     couleur: '#5AADA5',
     bg: '#E8F5F5',
     premium: true,
+    ready: false,
     buyLink: 'https://buy.stripe.com/5kQ3cu2H2aK58By23j6AM0P',
     pages: '32 pages',
   },
@@ -31,6 +33,7 @@ const DOSSIERS = [
     couleur: '#2D7BA5',
     bg: '#E6F3FA',
     premium: true,
+    ready: false,
     buyLink: 'https://buy.stripe.com/14AcN46Xi4lHcRO23j6AM0Q',
     pages: '28 pages',
   },
@@ -44,6 +47,7 @@ const DOSSIERS = [
     couleur: '#C76E4E',
     bg: '#FAEEE9',
     premium: false,
+    ready: true,
     buyLink: null,
     pages: '24 pages',
   },
@@ -57,6 +61,7 @@ const DOSSIERS = [
     couleur: '#5A7A40',
     bg: '#EDF4E6',
     premium: true,
+    ready: false,
     buyLink: 'https://buy.stripe.com/28E14ma9u7xT6tq9vL6AM0R',
     pages: '36 pages',
   },
@@ -70,6 +75,7 @@ const DOSSIERS = [
     couleur: '#8B4513',
     bg: '#F9EDE5',
     premium: true,
+    ready: false,
     buyLink: 'https://buy.stripe.com/28E4gy3L6dWheZW0Zf6AM0S',
     pages: '30 pages',
   },
@@ -83,6 +89,7 @@ const DOSSIERS = [
     couleur: '#7BA05B',
     bg: '#EEF5E8',
     premium: true,
+    ready: false,
     buyLink: 'https://buy.stripe.com/dRm14m81maK5dVS9vL6AM0V',
     pages: '26 pages',
   },
@@ -96,6 +103,7 @@ const DOSSIERS = [
     couleur: '#7B68AA',
     bg: '#F0EEF8',
     premium: true,
+    ready: false,
     buyLink: 'https://buy.stripe.com/aFaaEW95q5pL3hefU96AM0T',
     pages: '28 pages',
   },
@@ -109,6 +117,7 @@ const DOSSIERS = [
     couleur: '#A0785A',
     bg: '#F5EDE8',
     premium: true,
+    ready: false,
     buyLink: 'https://buy.stripe.com/6oU6oGftO4lHg40azP6AM0U',
     pages: '34 pages',
   },
@@ -276,7 +285,7 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
         </div>
 
         {/* Option 1 — achat unitaire */}
-        {dossier.buyLink && (
+        {dossier.buyLink && dossier.ready && (
           <a href={dossier.buyLink} target="_blank" rel="noreferrer" style={{
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             background: '#fff', border: `1.5px solid ${dossier.couleur}40`,
@@ -291,6 +300,21 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
             </div>
             <span style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontWeight: 900, fontSize: 20, color: dossier.couleur }}>4,90€</span>
           </a>
+        )}
+        {dossier.buyLink && !dossier.ready && (
+          <div style={{
+            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+            background: 'var(--gris)', border: '1.5px solid #D4CCC2',
+            borderRadius: 14, padding: '14px 18px', marginBottom: 10,
+          }}>
+            <div>
+              <p style={{ fontWeight: 700, color: 'var(--texte-sec)', fontSize: 15, marginBottom: 2 }}>
+                Ce guide
+              </p>
+              <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>Disponible prochainement</p>
+            </div>
+            <span style={{ fontSize: 12, fontWeight: 700, color: '#8A7F74', background: '#E0D9CF', padding: '4px 12px', borderRadius: 20 }}>Bientôt</span>
+          </div>
         )}
 
         {/* Option 2 — pack 3 */}
@@ -346,6 +370,11 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
 
 /* ── Page principale ────────────────────────── */
 export default function RessourcesLifestyle() {
+  useSEO({
+    title: "Mini guides lifestyle Majorque",
+    description: "Guides pratiques pour profiter de Majorque : 20 calas hors-piste, expériences nautiques, agenda des fêtes locales, restaurants des locaux, Tramuntana secrète.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/lifestyle",
+  })
   const navigate = useNavigate()
   const { isPremium } = usePremium()
   const [selectedDossier, setSelectedDossier] = useState(null)

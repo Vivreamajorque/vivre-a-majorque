@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const RAISONS = [
   { id: 'question', label: '❓ J\'ai une question' },
@@ -9,6 +10,11 @@ const RAISONS = [
 ]
 
 export default function Contact() {
+  useSEO({
+    title: "Contact — Vivre à Majorque",
+    description: "Une question sur votre installation à Majorque ? Contactez Amely — question, partenariat, demande d'inscription à l'annuaire des pros francophones.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/contact",
+  })
   const navigate = useNavigate()
   const [raison, setRaison] = useState('')
   const [nom, setNom] = useState('')

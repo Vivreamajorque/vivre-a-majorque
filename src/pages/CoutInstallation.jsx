@@ -162,9 +162,9 @@ function SubTotal({ label, amount, recoverable }) {
 
 export default function CoutInstallation() {
   useSEO({
-    title: "Coût installation à Majorque — budget réel pour s'installer",
-    description: "Combien coûte vraiment une installation à Majorque ? NIE, caution logement, frais déménagement, premiers mois. Estimations sourcées.",
-    url: 'https://vivre-a-majorque.vercel.app/app/outils/cout',
+    title: "Coût installation à Majorque — frais réels sourcés",
+    description: "Calculez votre budget d'installation à Majorque : dépôt location, NIE, TIE, réimmatriculation véhicule. Données sourcées sur le BOE espagnol.",
+    url: "https://vivre-a-majorque.vercel.app/app/outils/cout",
   })
   const navigate = useNavigate()
 

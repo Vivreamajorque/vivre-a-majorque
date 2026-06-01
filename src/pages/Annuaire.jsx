@@ -288,8 +288,8 @@ function FilterPills({ zoneFilter, setZoneFilter, langFilter, setLangFilter, ava
 export default function Annuaire() {
   useSEO({
     title: "Annuaire professionnels francophones Majorque",
-    description: "Trouvez un médecin, avocat, gestor ou comptable francophone à Majorque. Annuaire vérifié par Amely Attias, française installée à Campos.",
-    url: 'https://vivre-a-majorque.vercel.app/app/explorer/annuaire',
+    description: "Professionnels francophones à Majorque : médecins, gestors, avocats, architectes, traducteurs. Annuaire vérifié par Amely, française à Campos.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/annuaire",
   })
   const navigate = useNavigate()
   const { data, loading } = useNotionDB(NOTION_DB.annuaire)

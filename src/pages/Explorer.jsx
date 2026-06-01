@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { useNotionDB, parseGuide } from '../hooks/useNotion'
 import { NOTION_DB } from '../config'
 import { PageHeading, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 import { fuzzyFilter } from '../hooks/useFuzzySearch'
 
 const CARDS = [
@@ -14,10 +15,16 @@ const CARDS = [
   { to: '/app/explorer/entreprendre',   emoji: '🏢', title: 'Entreprendre',   desc: 'Créer son activité à Majorque',         bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
   { to: '/app/guides',                  emoji: '📚', title: 'Guides',          desc: '100+ fiches administratives',           bg: 'var(--vert-light)',  border: 'rgba(90,122,64,0.15)' },
   { to: '/app/explorer/accompagnements',emoji: '🤝', title: 'Accompagnement', desc: 'Suivi personnalisé par Amely',          bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
-  { to: '/app/explorer/contact',        emoji: '✉️', title: 'Contact',         desc: 'Question, partenariat, annuaire',       bg: 'var(--vert-light)',  border: 'rgba(90,122,64,0.15)' },
+  { to: '/app/famille',                 emoji: '👨‍👩‍👧', title: 'En famille',    desc: 'Guide installation avec enfants',      bg: 'var(--vert-light)',  border: 'rgba(90,122,64,0.15)' },
+  { to: '/app/explorer/contact',        emoji: '✉️', title: 'Contact',         desc: 'Question, partenariat, annuaire',       bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
 ]
 
 export default function Explorer() {
+  useSEO({
+    title: "Explorer — Ressources pour vivre à Majorque",
+    description: "Tous les outils, guides, annuaires et ressources pour votre installation à Majorque : simulateurs, annuaire de pros francophones, circuits, actualités.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer",
+  })
   const [search, setSearch] = useState('')
   const navigate = useNavigate()
 

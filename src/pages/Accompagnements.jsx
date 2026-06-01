@@ -113,6 +113,90 @@ const OFFRES = [
   },
 ]
 
+const FAQS = [
+  {
+    q: "C'est quoi exactement ce que vous faites pendant la visio ?",
+    a: "Je lis votre questionnaire avant l'appel. Je n'arrive pas les mains vides. Pendant 45 minutes on travaille votre situation spécifique : ordre des démarches, points de vigilance selon votre profil, budget réaliste, questions qu'on vous posera à la préfecture ou chez le banquier. À la fin vous avez une note de route livrée sous 48h avec vos 3 priorités dans l'ordre et la première action à faire dans les 7 jours.",
+  },
+  {
+    q: "Je peux pas trouver les mêmes infos gratuitement sur internet ?",
+    a: "Vous pouvez. Il vous faudra environ 40h à éplucher des forums, des blogs datés de 2019, des sites en espagnol et des groupes Facebook où tout le monde se contredit. Ce que je fais c'est vous sortir les informations qui s'appliquent à votre situation, dans votre langue, avec les sources officielles vérifiées. Certains préfèrent chercher seuls — c'est tout à fait valable. D'autres préfèrent 45 minutes et une réponse claire.",
+  },
+  {
+    q: "Ma situation est trop particulière / complexe pour une visio de 45 minutes.",
+    a: "C'est souvent ce que pensent les gens avant d'appeler. Dans 80% des cas, une situation qui semble complexe a une logique claire une fois qu'on la décompose. Si votre situation est vraiment hors-norme, je vous le dirai honnêtement pendant la visio — et je vous orienterai vers les bons interlocuteurs (gestor, avocat spécialisé). Vous ne payez pas pour une réponse que je n'ai pas.",
+  },
+  {
+    q: "Je ne suis pas encore sûr(e) de vouloir m'installer à Majorque.",
+    a: "C'est exactement pour ça que la Visio existe. Vous repartez avec une image réaliste de ce que représente votre projet — budget, délais, obstacles. Ça aide autant à décider d'y aller qu'à décider que c'est pas le bon moment. Hervé, un de mes clients, a attendu 3 ans avant d'appeler. Après la visio, il savait exactement dans quel sens aller.",
+  },
+  {
+    q: "Pourquoi vous et pas un cabinet de conseil en expatriation ?",
+    a: "Parce que je vis ici. Pas dans un bureau à Paris avec des clients en Espagne. J'ai fait les démarches il y a un an. J'ai un compte bancaire espagnol, un statut autónoma, une fille à l'école espagnole. Je connais les délais réels, les bonnes adresses, ce qui a changé depuis la loi de 2023. Un cabinet peut vous vendre un dossier générique. Moi je vous réponds depuis l'intérieur.",
+  },
+  {
+    q: "Et si j'ai encore des questions après la visio ?",
+    a: "La note de route livrée sous 48h répond à 90% des questions qui émergent juste après. Si vous souhaitez un suivi plus long — 30 jours d'email inclus, deux visios, dossier complet — c'est le Cap Majorque à 249€. Si votre projet est professionnel, l'Audit Éclaireur à 290€ couvre la partie activité.",
+  },
+]
+
+function FaqItem({ q, a }) {
+  const [open, setOpen] = React.useState(false)
+  return (
+    <div style={{
+      borderBottom: '0.5px solid var(--gris)',
+      paddingBottom: open ? 14 : 0,
+      marginBottom: open ? 4 : 0,
+    }}>
+      <button
+        onClick={() => setOpen(v => !v)}
+        style={{
+          width: '100%', background: 'none', border: 'none',
+          cursor: 'pointer', padding: '14px 0',
+          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start',
+          gap: 12, textAlign: 'left',
+        }}
+      >
+        <span style={{
+          fontFamily: 'var(--font-corps)', fontSize: 14,
+          fontWeight: 600, color: FORET, lineHeight: 1.45, flex: 1,
+        }}>{q}</span>
+        <span style={{
+          fontSize: 18, color: 'var(--texte-sec)', flexShrink: 0,
+          transition: 'transform 0.2s',
+          transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+          display: 'inline-block',
+        }}>+</span>
+      </button>
+      {open && (
+        <p style={{
+          fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.65,
+          fontFamily: 'var(--font-corps)', paddingRight: 24,
+        }}>{a}</p>
+      )}
+    </div>
+  )
+}
+
+function FaqSection() {
+  return (
+    <div style={{ marginTop: 24, marginBottom: 8 }}>
+      <p style={{
+        fontFamily: 'var(--font-accent)', fontSize: 16,
+        color: TERRA, marginBottom: 4,
+      }}>vos questions</p>
+      <h2 style={{
+        fontFamily: 'var(--font-display)', fontWeight: 900,
+        fontSize: 22, color: FORET, lineHeight: 1.1, marginBottom: 4,
+      }}>Ce que tout le monde se demande</h2>
+      <div style={{ width: 30, height: 3, background: VERT, borderRadius: 2, marginBottom: 16 }} />
+      <div style={{ background: '#fff', borderRadius: 14, border: '1px solid var(--gris)', padding: '0 16px' }}>
+        {FAQS.map((faq, i) => <FaqItem key={i} q={faq.q} a={faq.a} />)}
+      </div>
+    </div>
+  )
+}
+
 function OffreCard({ offre, onPrequalify }) {
   const places = PLACES_DISPO[offre.id] || 0
 
@@ -304,9 +388,9 @@ export default function Accompagnements() {
   const [prequalOffre, setPrequalOffre] = useState(null)
 
   useSEO({
-    title: 'Accompagnement installation à Majorque',
-    description: 'Audit personnalisé, visio conseil et accompagnement complet pour votre installation à Majorque. Analyses chiffrées et sourcées par Amely, française installée sur l\'île. À partir de 99€.',
-    url: 'https://vivre-a-majorque.vercel.app/app/explorer/accompagnements',
+    title: "Accompagnement installation à Majorque",
+    description: "Audit personnalisé, visio conseil et accompagnement complet pour votre installation à Majorque. Analyses chiffrées et sourcées par Amely, française installée sur l'île. À partir de 79€.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/accompagnements",
   })
 
   const recommended = quiz ? getRecommendedOffer(quiz) : null
@@ -377,6 +461,9 @@ export default function Accompagnements() {
 
       {/* Preuve sociale */}
       <Temoignages style={{ marginTop: 8, marginBottom: 16 }} />
+
+      {/* FAQ objections */}
+      <FaqSection />
 
       <div style={{
         textAlign: 'center', padding: '16px 0 8px',

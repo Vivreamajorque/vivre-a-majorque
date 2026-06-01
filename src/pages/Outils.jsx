@@ -24,7 +24,7 @@ const OUTILS = [
     id: 'cout',
     emoji: '🏠',
     title: "Coût d'installation",
-    desc: "Calculez votre budget de départ",
+    desc: 'Calculez votre budget de départ',
     href: '/app/outils/cout',
     active: true,
     freeAccess: true,
@@ -55,6 +55,18 @@ const OUTILS = [
     color: '#b07d2a',
     bg: 'rgba(176,125,42,0.10)',
     border: `1.5px solid rgba(176,125,42,0.25)`,
+  },
+  {
+    id: 'retraite',
+    emoji: '🏖️',
+    title: 'Simulateur retraite',
+    desc: 'Pension nette · IRPF · S1 · budget',
+    href: '/app/outils/retraite',
+    active: true,
+    freeAccess: true,
+    color: VERT,
+    bg: 'rgba(90,173,165,0.10)',
+    border: `1.5px solid rgba(90,173,165,0.25)`,
   },
 ]
 
@@ -161,7 +173,7 @@ export default function Outils() {
   useSEO({
     title: "Outils et simulateurs pour s'installer à Majorque",
     description: "Simulateurs gratuits : budget mensuel, coût installation, autónomo vs auto-entrepreneur, calendrier fiscal. Pour les Français à Majorque.",
-    url: 'https://vivre-a-majorque.vercel.app/app/explorer/outils',
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/outils",
   })
   const navigate = useNavigate()
   const { isPremium } = usePremium()

@@ -23,6 +23,8 @@ import AutonomaSimulator from './pages/AutonomaSimulator'
 import CalendrierFiscal from './pages/CalendrierFiscal'
 import CircuitsMajorque from './pages/CircuitsMajorque'
 import MerciVisio from './pages/MerciVisio'
+import FamilleInstallation from './pages/FamilleInstallation'
+import RetraiteSimulator from './pages/RetraiteSimulator'
 
 function AppShell() {
   return (
@@ -49,6 +51,8 @@ function AppShell() {
         <Route path="app/explorer/entreprendre" element={<Entreprendre />} />
         <Route path="app/explorer/circuits" element={<CircuitsMajorque />} />
         <Route path="app/merci-visio" element={<MerciVisio />} />
+        <Route path="app/famille" element={<FamilleInstallation />} />
+        <Route path="app/outils/retraite" element={<RetraiteSimulator />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       <Nav />

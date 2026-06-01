@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { SectionHead, TERRA, VERT } from '../components/WaveTitle'
+import { useSEO } from '../hooks/useSEO'
 
 const FORET = '#0F3D35'
 
@@ -188,6 +189,11 @@ function CircuitCard({ circuit }) {
 }
 
 export default function CircuitsMajorque() {
+  useSEO({
+    title: "Circuits Majorque — Itinéraires pour francophones",
+    description: "Circuits personnalisés à Majorque par Adeline de mallorcacherie : le Sud authentique, Tramuntana secrète, Palma comme une initiée. Itinéraires pour résidents et visiteurs francophones.",
+    url: "https://vivre-a-majorque.vercel.app/app/explorer/circuits",
+  })
   const navigate = useNavigate()
 
   return (
