@@ -239,6 +239,7 @@ const NAV_CARDS = [
   { to: '/app/explorer',             icon: '🌴', context: 'ressources & adresses', title: 'Explorer',     color: VERT  },
   { to: '/app/explorer/entreprendre',icon: '🏢', context: 'créer son activité',    title: 'Entreprendre', color: TERRA },
   { to: '/app/explorer/outils',      icon: '🧮', context: 'budget, autónoma…',     title: 'Simulateurs',  color: VERT  },
+  { to: '/app/explorer/accompagnements', icon: '🤝', context: 'Visio · Cap · Éclaireur', title: 'Accompagnement', color: TERRA },
 ]
 
 /* ── Page Home ──────────────────────────────────────────── */
