@@ -288,6 +288,75 @@ export default function Home() {
         )}
       </div>
 
+      {/* ── Bannière Accompagnement ─────────────────────── */}
+      <Link to="/app/explorer/accompagnements" style={{ textDecoration: 'none', display: 'block', marginBottom: 20 }}>
+        <div style={{
+          background: `linear-gradient(135deg, #0F3D35 0%, #1a5c50 100%)`,
+          borderRadius: 18,
+          padding: '18px 20px',
+          position: 'relative',
+          overflow: 'hidden',
+        }}>
+          {/* Deco cercles */}
+          <div style={{
+            position: 'absolute', top: -30, right: -30,
+            width: 120, height: 120, borderRadius: '50%',
+            background: 'rgba(90,173,165,0.12)', pointerEvents: 'none',
+          }} />
+          <div style={{
+            position: 'absolute', bottom: -20, right: 40,
+            width: 70, height: 70, borderRadius: '50%',
+            background: 'rgba(199,110,78,0.10)', pointerEvents: 'none',
+          }} />
+
+          {/* Badge */}
+          <div style={{
+            display: 'inline-block',
+            background: 'rgba(199,110,78,0.25)',
+            border: '1px solid rgba(199,110,78,0.4)',
+            borderRadius: 20, padding: '3px 10px',
+            marginBottom: 10,
+          }}>
+            <span style={{
+              fontFamily: 'var(--font-corps)', fontSize: 11, fontWeight: 700,
+              color: '#E8956E', letterSpacing: '0.04em',
+            }}>
+              TRAVAILLE AVEC MOI
+            </span>
+          </div>
+
+          <p style={{
+            fontFamily: 'var(--font-display)', fontWeight: 900,
+            fontSize: 22, color: '#F7F2EB',
+            lineHeight: 1.2, marginBottom: 6,
+          }}>
+            Tu veux t'installer<br />à Majorque ?
+          </p>
+
+          <p style={{
+            fontFamily: 'var(--font-titre)', fontStyle: 'italic',
+            fontSize: 14, color: 'rgba(247,242,235,0.7)',
+            lineHeight: 1.45, marginBottom: 14,
+          }}>
+            Visio conseil · Cap Majorque · Éclaireur
+          </p>
+
+          <div style={{
+            display: 'inline-flex', alignItems: 'center', gap: 8,
+            background: '#C76E4E',
+            borderRadius: 30, padding: '8px 18px',
+          }}>
+            <span style={{
+              fontFamily: 'var(--font-corps)', fontWeight: 700,
+              fontSize: 14, color: '#fff',
+            }}>
+              Voir les accompagnements
+            </span>
+            <span style={{ color: '#fff', fontSize: 16 }}>→</span>
+          </div>
+        </div>
+      </Link>
+
       {/* ── Actus défilantes ───────────────────────────── */}
       <ActuCarousel actus={actus} loading={actusLoading} />
 
