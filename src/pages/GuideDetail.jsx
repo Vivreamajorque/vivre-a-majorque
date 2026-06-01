@@ -22,6 +22,66 @@ const GUIDE_SIMULATEURS = {
   },
 }
 
+/* Correspondance par mots-clés du titre — fonctionne même sans ID Notion connu */
+const GUIDE_SIMULATEURS_KEYWORDS = [
+  {
+    keywords: ['retraite', 'pension', 'IRPF retraité', 'S1'],
+    sim: {
+      label: '🏖️ Simulateur retraite',
+      desc: 'Ma pension change-t-elle si je pars en Espagne ? Convention fiscale, fonctionnaire vs privé, formulaire S1 — résultat en 3 étapes.',
+      path: '/app/outils/retraite',
+    },
+  },
+  {
+    keywords: ['budget', 'dépenses', 'coût de la vie', 'combien'],
+    sim: {
+      label: '🧮 Simulateur Budget mensuel',
+      desc: 'Calculez votre budget personnalisé selon votre composition familiale et votre mode de vie.',
+      path: '/app/outils/budget',
+    },
+  },
+  {
+    keywords: ['autónomo', 'autónoma', 'auto-entrepreneur', 'cotisation', 'tarifa plana'],
+    sim: {
+      label: '📊 Simulateur autónomo',
+      desc: 'Comparez auto-entrepreneur France vs autónomo Espagne. Calculez votre net en poche.',
+      path: '/app/outils/autonoma',
+    },
+  },
+  {
+    keywords: ['NIE', 'TIE', 'installation', 'frais', 'dépôt', 'bail'],
+    sim: {
+      label: '🏠 Simulateur Coût d\'installation',
+      desc: 'Estimez précisément le capital de départ nécessaire selon votre situation.',
+      path: '/app/outils/cout',
+    },
+  },
+  {
+    keywords: ['fiscal', 'modelo', 'déclaration', 'IRPF', 'IVA', 'échéance'],
+    sim: {
+      label: '📅 Calendrier fiscal',
+      desc: 'Toutes vos échéances fiscales en Espagne : IRPF, IVA, renta annuelle.',
+      path: '/app/outils/fiscal',
+    },
+  },
+]
+
+function findSimulateur(guide) {
+  if (!guide) return null
+  // 1. Lookup exact par ID
+  const byId = GUIDE_SIMULATEURS[guide.id] || GUIDE_SIMULATEURS[guide.id?.replace(/-/g,'')]
+  if (byId) return byId
+  // 2. Fallback par mots-clés dans le titre
+  if (!guide.title) return null
+  const titleLower = guide.title.toLowerCase()
+  for (const entry of GUIDE_SIMULATEURS_KEYWORDS) {
+    if (entry.keywords.some(kw => titleLower.includes(kw.toLowerCase()))) {
+      return entry.sim
+    }
+  }
+  return null
+}
+
 /* ── Coche une étape Cockpit dans localStorage ── */
 function useCockpitStep(stepId, profileId) {
   const [done, setDone] = useState(() => {
@@ -441,7 +501,7 @@ export default function GuideDetail() {
 
             {/* CTA simulateur si guide lié à un outil */}
             {guide && (() => {
-              const sim = GUIDE_SIMULATEURS[guide.id] || GUIDE_SIMULATEURS[guide.id?.replace(/-/g,'')]
+              const sim = findSimulateur(guide)
               if (!sim) return null
               return (
                 <div style={{

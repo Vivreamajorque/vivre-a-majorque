@@ -520,6 +520,31 @@ export default function RetraiteSimulator() {
               color: 'var(--texte-sec)', cursor: 'pointer', fontFamily: 'var(--font-corps)',
             }}
           >← Modifier mes paramètres</button>
+
+          {/* Lien vers le guide complet */}
+          <a
+            href="/guide/retraite-majorque-francais.html"
+            target="_blank"
+            rel="noreferrer"
+            style={{
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              marginTop: 12,
+              background: 'rgba(90,173,165,0.06)',
+              border: '1px solid rgba(90,173,165,0.2)',
+              borderRadius: 12, padding: '14px 16px',
+              textDecoration: 'none',
+            }}
+          >
+            <div>
+              <p style={{ fontSize: 13, fontWeight: 700, color: FORET, marginBottom: 2, fontFamily: 'var(--font-corps)' }}>
+                📖 Guide complet — Retraite à Majorque
+              </p>
+              <p style={{ fontSize: 12, color: 'var(--texte-sec)' }}>
+                Fiscalité détaillée, santé, démarches, budget — tout en un
+              </p>
+            </div>
+            <span style={{ color: VERT, fontSize: 16, flexShrink: 0 }}>→</span>
+          </a>
         </div>
       )}
     </div>
