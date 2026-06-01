@@ -15,7 +15,7 @@ const CONTACT_EMAIL = 'lalignemallorca@gmail.com'
  * 0 = pas de badge urgence sur cette offre.
  */
 const PLACES_DISPO = {
-  visio:      0,
+  visio:      5,
   cap:        3,
   eclaireur:  2,
   integrale:  1,
@@ -24,14 +24,16 @@ const PLACES_DISPO = {
 const OFFRES = [
   {
     id: 'visio',
-    label: 'Entrée',
+    label: '🚀 Lancement',
     titre: 'Visio conseil',
-    prix: '99 €',
+    prix: '79 €',
+    prixBarre: '99 €',
     accroche: 'Un diagnostic personnalisé pour savoir exactement par où commencer',
-    couleur: 'var(--gris)',
-    border: 'rgba(0,0,0,0.08)',
-    textAccent: 'var(--foret)',
+    couleur: '#FDF6EE',
+    border: 'rgba(199,110,78,0.25)',
+    textAccent: '#C76E4E',
     highlight: false,
+    lancement: true,
     inclus: [
       { ok: true,  texte: 'Questionnaire de préparation envoyé sous 24h après paiement' },
       { ok: true,  texte: 'Visio 45 min — diagnostic complet de votre situation' },
@@ -39,7 +41,7 @@ const OFFRES = [
       { ok: true,  texte: 'Accès à l\'app Vivre à Majorque — 1 mois inclus' },
     ],
     pour: 'Tu as un projet mais tu ne sais pas par où commencer ni si c\'est réaliste pour toi',
-    sujet: 'Demande Visio Conseil — 99€',
+    sujet: 'Demande Visio Conseil — 79€ lancement',
     stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J',
     prequalification: false,
   },
