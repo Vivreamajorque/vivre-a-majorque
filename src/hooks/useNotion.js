@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react'
 
 /* ── Cache avec TTL 5 minutes ────────────────── */
 const cache = {}
-const CACHE_TTL = 5 * 60 * 1000
+const CACHE_TTL = 30 * 60 * 1000
 
 function getCached(key) {
   const entry = cache[key]
@@ -81,12 +81,15 @@ export function useNotionDB(dbId, filter = null) {
 
 /* ── Hook page ───────────────────────────────── */
 export function useNotionPage(pageId) {
-  const [page, setPage]       = useState(null)
-  const [loading, setLoading] = useState(true)
+  const cached = pageId ? getCached(`get_page:${pageId}`) : null
+  const [page, setPage]       = useState(cached || null)
+  const [loading, setLoading] = useState(!cached)
   const [error, setError]     = useState(null)
 
   useEffect(() => {
     if (!pageId) { setLoading(false); return }
+    const hit = getCached(`get_page:${pageId}`)
+    if (hit) { setPage(hit); setLoading(false); return }
     setLoading(true)
     notionFetch('get_page', pageId)
       .then(res => setPage(res))
@@ -99,12 +102,15 @@ export function useNotionPage(pageId) {
 
 /* ── Hook blocs ──────────────────────────────── */
 export function useNotionBlocks(pageId) {
-  const [blocks, setBlocks]   = useState([])
-  const [loading, setLoading] = useState(true)
+  const cached = pageId ? getCached(`get_blocks:${pageId}`) : null
+  const [blocks, setBlocks]   = useState(cached ? (cached.results || []) : [])
+  const [loading, setLoading] = useState(!cached)
   const [error, setError]     = useState(null)
 
   useEffect(() => {
     if (!pageId) { setLoading(false); return }
+    const hit = getCached(`get_blocks:${pageId}`)
+    if (hit) { setBlocks(hit.results || []); setLoading(false); return }
     setLoading(true)
     notionFetch('get_blocks', pageId)
       .then(res => setBlocks(res.results || []))
