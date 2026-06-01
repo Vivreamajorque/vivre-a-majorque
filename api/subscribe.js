@@ -1,5 +1,22 @@
 const BREVO_API = 'https://api.brevo.com/v3'
 
+// IDs des 5 templates créés — J0 bienvenue, J2 histoire, J4 questions, J7 visio, J10 cap
+const SEQUENCE = [
+  { templateId: 3, delayDays: 0  },  // J0  — Bienvenue (immédiat)
+  { templateId: 4, delayDays: 2  },  // J2  — Mon histoire
+  { templateId: 5, delayDays: 4  },  // J4  — Les 3 questions
+  { templateId: 6, delayDays: 7  },  // J7  — Visio 99€
+  { templateId: 7, delayDays: 10 },  // J10 — Cap Majorque 249€
+]
+
+function scheduledAt(delayDays) {
+  if (delayDays === 0) return undefined // immédiat
+  const d = new Date()
+  d.setDate(d.getDate() + delayDays)
+  d.setHours(9, 0, 0, 0) // 9h du matin
+  return d.toISOString().replace('.000Z', '+00:00')
+}
+
 export default async function handler(req, res) {
   res.setHeader('Access-Control-Allow-Origin', '*')
   res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS')
@@ -12,10 +29,7 @@ export default async function handler(req, res) {
   if (!key) return res.status(500).json({ error: 'BREVO_API_KEY not set' })
 
   const { prenom, email, newsletter, profil } = req.body
-
-  if (!email || !prenom) {
-    return res.status(400).json({ error: 'Prénom et email requis' })
-  }
+  if (!email || !prenom) return res.status(400).json({ error: 'Prénom et email requis' })
 
   const headers = {
     'api-key': key,
@@ -24,11 +38,12 @@ export default async function handler(req, res) {
   }
 
   try {
-    /* ── 1. Créer / mettre à jour le contact ── */
+    // ── 1. Créer / mettre à jour le contact dans la liste ──
     const listIds = []
     if (process.env.BREVO_LIST_ID) listIds.push(Number(process.env.BREVO_LIST_ID))
     if (newsletter && process.env.BREVO_LIST_NEWSLETTER_ID) {
-      listIds.push(Number(process.env.BREVO_LIST_NEWSLETTER_ID))
+      const nlId = Number(process.env.BREVO_LIST_NEWSLETTER_ID)
+      if (!listIds.includes(nlId)) listIds.push(nlId)
     }
 
     const contactRes = await fetch(`${BREVO_API}/contacts`, {
@@ -36,43 +51,41 @@ export default async function handler(req, res) {
       headers,
       body: JSON.stringify({
         email,
-        attributes: {
-          PRENOM: prenom,
-          PROFIL: profil || '',
-          NEWSLETTER: newsletter ? 'OUI' : 'NON',
-        },
+        attributes: { PRENOM: prenom, PROFIL: profil || '', NEWSLETTER: newsletter ? 'OUI' : 'NON' },
         listIds: listIds.length ? listIds : undefined,
-        updateEnabled: true,   // met à jour si contact existe déjà
+        updateEnabled: true,
       }),
     })
 
-    // 204 = déjà existant et mis à jour, 201 = créé
     if (!contactRes.ok && contactRes.status !== 204) {
       const err = await contactRes.json()
-      // Code 300 = contact déjà dans la liste — pas une vraie erreur
       if (err.code !== 'duplicate_parameter') {
         console.error('Brevo contact error:', err)
         return res.status(502).json({ error: 'Brevo contact error', detail: err })
       }
     }
 
-    /* ── 2. Email de bienvenue transactionnel ── */
-    if (process.env.BREVO_WELCOME_TEMPLATE_ID) {
-      const mailRes = await fetch(`${BREVO_API}/smtp/email`, {
+    // ── 2. Envoyer les 5 emails de la séquence ──
+    const params = { PRENOM: prenom, PROFIL: profil || '' }
+    const emailPromises = SEQUENCE.map(({ templateId, delayDays }) => {
+      const body = {
+        to: [{ email, name: prenom }],
+        templateId,
+        params,
+      }
+      const scheduled = scheduledAt(delayDays)
+      if (scheduled) body.scheduledAt = scheduled
+
+      return fetch(`${BREVO_API}/smtp/email`, {
         method: 'POST',
         headers,
-        body: JSON.stringify({
-          to: [{ email, name: prenom }],
-          templateId: Number(process.env.BREVO_WELCOME_TEMPLATE_ID),
-          params: { PRENOM: prenom, PROFIL: profil || '' },
-        }),
-      })
-      if (!mailRes.ok) {
-        const err = await mailRes.json()
-        console.error('Brevo welcome email error:', err)
-        // On ne bloque pas — contact créé quand même
-      }
-    }
+        body: JSON.stringify(body),
+      }).then(r => r.json()).catch(e => ({ error: e.message }))
+    })
+
+    // J0 en priorité immédiate, les suivants en fire-and-forget
+    await emailPromises[0]         // J0 attend la réponse
+    emailPromises.slice(1).forEach(p => p.catch(console.error)) // J2-J10 en async
 
     return res.status(200).json({ success: true })
 
