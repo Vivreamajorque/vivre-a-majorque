@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/((?!api/|sitemap\\.xml|robots\\.txt|google[^/]+\\.html|guide/.*\\.html).*)", "destination": "/index.html" }
+    { "source": "/((?!api/|sitemap\\.xml|robots\\.txt|google[^/]+\\.html|guide/.*\\.html|visio\\.html|ressources/.*\\.html).*)", "destination": "/index.html" }
   ]
 }
