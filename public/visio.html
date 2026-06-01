@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Visio Conseil Majorque — 45 min pour y voir clair · Amely</title>
+  <meta name="description" content="Une visio de 45 min avec Amely, française installée à Majorque depuis 2025. 3 priorités concrètes, un plan d'action. 79€.">
+  <meta name="robots" content="noindex">
+  <meta property="og:title" content="Visio Conseil Majorque — 45 min pour y voir clair">
+  <meta property="og:description" content="Tu as un projet à Majorque mais tu ne sais pas par où commencer ? 45 min avec Amely. 79€.">
+  <meta property="og:image" content="https://vivre-a-majorque.vercel.app/og-image.jpg">
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Georgia', serif; background: #F7F2EB; color: #1A1A1A; line-height: 1.7; }
+    .hero { background: #0F3D35; color: #F7F2EB; padding: 48px 24px 40px; text-align: center; }
+    .hero .badge { display: inline-block; background: rgba(199,110,78,0.25); color: #E8956A; font-size: 0.78rem; font-weight: 700; padding: 5px 14px; border-radius: 20px; margin-bottom: 20px; font-family: system-ui, sans-serif; letter-spacing: 0.05em; text-transform: uppercase; }
+    .hero h1 { font-size: clamp(1.7rem, 5vw, 2.4rem); line-height: 1.2; margin-bottom: 16px; font-weight: 900; }
+    .hero h1 em { font-style: italic; color: #C76E4E; }
+    .hero .sous-titre { font-size: 1rem; color: rgba(247,242,235,0.75); max-width: 480px; margin: 0 auto 28px; font-family: system-ui, sans-serif; line-height: 1.6; }
+    .prix-bloc { display: inline-flex; align-items: center; gap: 12px; margin-bottom: 28px; }
+    .prix-main { font-size: 2.6rem; font-weight: 900; color: #C76E4E; font-family: system-ui, sans-serif; }
+    .prix-barre { font-size: 1.2rem; color: rgba(247,242,235,0.4); text-decoration: line-through; font-family: system-ui, sans-serif; }
+    .prix-label { font-size: 0.8rem; color: rgba(247,242,235,0.5); font-family: system-ui, sans-serif; }
+    .btn-stripe { display: block; background: #C76E4E; color: #fff; text-align: center; padding: 18px 28px; border-radius: 14px; text-decoration: none; font-family: system-ui, sans-serif; font-weight: 800; font-size: 1.1rem; max-width: 420px; margin: 0 auto; transition: background 0.2s; letter-spacing: 0.01em; }
+    .btn-stripe:hover { background: #b05c3e; }
+    .btn-stripe small { display: block; font-weight: 400; font-size: 0.78rem; opacity: 0.85; margin-top: 4px; }
+    .container { max-width: 560px; margin: 0 auto; padding: 40px 20px 80px; }
+    .section-titre { font-size: 1.25rem; color: #0F3D35; font-weight: 900; margin: 36px 0 16px; }
+    .ce-que-tu-reçois { background: #fff; border-radius: 16px; padding: 24px; border: 1px solid #E0D8CE; margin-bottom: 32px; }
+    .item { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 16px; }
+    .item:last-child { margin-bottom: 0; }
+    .item .icone { font-size: 1.3rem; flex-shrink: 0; margin-top: 2px; }
+    .item strong { display: block; font-size: 0.95rem; color: #1A1A1A; margin-bottom: 2px; font-family: system-ui, sans-serif; }
+    .item span { font-size: 0.88rem; color: #6B6058; font-family: system-ui, sans-serif; line-height: 1.5; }
+    .amely { background: #0F3D35; border-radius: 16px; padding: 24px; margin-bottom: 32px; color: #F7F2EB; display: flex; gap: 16px; align-items: flex-start; }
+    .amely-initiale { background: rgba(199,110,78,0.3); color: #C76E4E; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; flex-shrink: 0; font-family: system-ui, sans-serif; }
+    .amely p { font-size: 0.92rem; line-height: 1.65; color: rgba(247,242,235,0.85); font-family: system-ui, sans-serif; }
+    .amely strong { color: #F7F2EB; }
+    .objections { margin-bottom: 36px; }
+    .objection { border-bottom: 1px solid #E0D8CE; padding: 16px 0; }
+    .objection:last-child { border-bottom: none; }
+    .objection .q { font-size: 0.92rem; font-weight: 700; color: #1A1A1A; margin-bottom: 6px; font-family: system-ui, sans-serif; }
+    .objection .r { font-size: 0.88rem; color: #6B6058; font-family: system-ui, sans-serif; line-height: 1.6; }
+    .cta-bas { background: #F0EAE0; border-radius: 16px; padding: 28px 24px; text-align: center; margin-bottom: 32px; }
+    .cta-bas p { font-size: 0.9rem; color: #6B6058; margin-bottom: 16px; font-family: system-ui, sans-serif; }
+    .places { display: inline-flex; align-items: center; gap: 6px; background: rgba(199,110,78,0.1); color: #C76E4E; font-size: 0.78rem; font-weight: 700; padding: 4px 12px; border-radius: 20px; margin-bottom: 16px; font-family: system-ui, sans-serif; border: 1px solid rgba(199,110,78,0.2); }
+    .footer { text-align: center; font-size: 0.82rem; color: #9A8F84; font-family: system-ui, sans-serif; }
+    .footer a { color: #5AADA5; text-decoration: none; }
+    @media (max-width: 480px) {
+      .hero { padding: 36px 20px 32px; }
+      .prix-main { font-size: 2.2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="badge">⚡ Prix de lancement · Juin 2025</div>
+  <h1>Tu veux t'installer à Majorque.<br><em>Par où tu commences ?</em></h1>
+  <p class="sous-titre">45 minutes avec moi pour mettre à plat ton projet, identifier tes 3 priorités et repartir avec un plan d'action concret.</p>
+  <div class="prix-bloc">
+    <div>
+      <div class="prix-main">79€</div>
+      <div class="prix-label">paiement sécurisé · 1 place = 1 visio</div>
+    </div>
+    <div class="prix-barre">99€</div>
+  </div>
+  <a href="https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J" class="btn-stripe">
+    Réserver ma Visio →
+    <small>Confirmation immédiate · Créneau sous 48-72h</small>
+  </a>
+</div>
+
+<!-- CONTENU -->
+<div class="container">
+
+  <!-- CE QUE TU REÇOIS -->
+  <div class="section-titre">Ce que tu reçois</div>
+  <div class="ce-que-tu-reçois">
+    <div class="item">
+      <div class="icone">🎯</div>
+      <div>
+        <strong>45 min de visio individuelle</strong>
+        <span>On parle de ton projet précis — pas de généralités. Ta situation, ton calendrier, tes contraintes.</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="icone">📋</div>
+      <div>
+        <strong>3 priorités concrètes identifiées</strong>
+        <span>On repart avec une liste d'actions dans l'ordre. Pas 15 choses à faire — les 3 qui comptent vraiment.</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="icone">📩</div>
+      <div>
+        <strong>Compte-rendu écrit sous 48h</strong>
+        <span>Tout ce qu'on a dit, résumé par écrit. Tu n'as pas à tout noter pendant l'appel.</span>
+      </div>
+    </div>
+    <div class="item">
+      <div class="icone">💬</div>
+      <div>
+        <strong>Réponses directes à tes questions</strong>
+        <span>Logement, budget, statut, démarches, timing — tu poses, je réponds sans détour.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- QUI JE SUIS -->
+  <div class="amely">
+    <div class="amely-initiale">A</div>
+    <div>
+      <p><strong>Je suis Amely.</strong> Française installée à Campos (Majorque) depuis 2025, autónoma, maman d'une petite Lenny.</p>
+      <p style="margin-top: 10px;">J'ai fait les erreurs que tu veux éviter. Le logement raté, les démarches dans le mauvais ordre, le budget sous-estimé. Aujourd'hui j'accompagne les Français qui veulent vivre à Majorque — pour qu'ils aillent plus vite et avec moins de stress.</p>
+    </div>
+  </div>
+
+  <!-- OBJECTIONS -->
+  <div class="section-titre">Questions fréquentes</div>
+  <div class="objections">
+    <div class="objection">
+      <div class="q">🤔 Je ne suis pas encore sûr(e) de vouloir partir — est-ce utile pour moi ?</div>
+      <div class="r">Oui. C'est souvent là qu'une visio est la plus utile. On regarde ta situation réelle, les chiffres concrets, et tu ressors avec une vision claire plutôt qu'un doute permanent.</div>
+    </div>
+    <div class="objection">
+      <div class="q">📅 Comment ça se passe après le paiement ?</div>
+      <div class="r">Tu reçois un email de confirmation immédiat. Je te contacte sous 48h pour trouver un créneau qui te convient. La visio se fait sur Google Meet ou Zoom.</div>
+    </div>
+    <div class="objection">
+      <div class="q">💳 Et si ça ne m'apporte rien ?</div>
+      <div class="r">Si après la visio tu estimes n'avoir rien appris d'utile, je te rembourse. Ça ne m'est encore jamais arrivé — mais la garantie existe.</div>
+    </div>
+    <div class="objection">
+      <div class="q">🔁 Et si je veux continuer après ?</div>
+      <div class="r">Les 79€ de la Visio sont déductibles du Cap Majorque (249€) dans les 30 jours suivants. Tu ne paies pas deux fois.</div>
+    </div>
+  </div>
+
+  <!-- CTA BAS -->
+  <div class="cta-bas">
+    <div class="places">⚡ Places limitées ce mois</div>
+    <p>Je prends un nombre limité de visios par mois pour rester disponible et utile à chacun.</p>
+    <a href="https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J" class="btn-stripe">
+      Réserver ma Visio — 79€ →
+      <small>Paiement sécurisé Stripe · Remboursé si insatisfait</small>
+    </a>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <p>© 2025 Amely Attias · <a href="https://vivre-a-majorque.vercel.app/app">Vivre à Majorque</a></p>
+    <p style="margin-top: 6px;"><a href="https://vivre-a-majorque.vercel.app/app/explorer/accompagnements">Voir tous les accompagnements</a></p>
+  </div>
+
+</div>
+</body>
+</html>
