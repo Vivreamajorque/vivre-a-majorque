@@ -61,6 +61,7 @@ const OFFRES = [
       { ok: true, texte: 'Visio 2 — prise de route 45 min' },
       { ok: true, texte: 'Suivi email 30 jours' },
       { ok: true, texte: 'Checklist imprimable + calendrier des démarches' },
+      { ok: true, texte: '79€ de la Visio Conseil déduits si réservé dans les 30 jours — vous ne payez que 170€' },
     ],
     pour: 'Familles, salariés en remote, retraités — ceux qui ne veulent pas avancer seuls',
     sujet: 'Demande Cap Majorque — 249€',
@@ -82,6 +83,7 @@ const OFFRES = [
       { ok: true, texte: 'Statut optimal (autónoma, SL, télétravailleur)' },
       { ok: true, texte: 'Fiscalité pro + obligations IRPF/IVA' },
       { ok: true, texte: 'Audit visibilité SEO marché francophone' },
+      { ok: true, texte: '79€ de la Visio Conseil déduits si réservé dans les 30 jours — vous ne payez que 211€' },
     ],
     pour: 'Entrepreneurs, indépendants, créateurs d\'activité à Majorque',
     sujet: 'Demande Audit Éclaireur — 290€',
@@ -105,6 +107,7 @@ const OFFRES = [
       { ok: true, texte: 'Dossier unique fusionné — vie perso + projet pro' },
       { ok: true, texte: 'Suivi email 60 jours (au lieu de 30)' },
       { ok: true, texte: 'Économie de 90 € vs achats séparés' },
+      { ok: true, texte: '79€ de la Visio Conseil déduits si réservé dans les 30 jours — vous ne payez que 370€' },
     ],
     pour: 'Entrepreneurs qui déménagent leur vie ET leur activité à Majorque',
     sujet: 'Demande Installation Intégrale — 449€',
@@ -448,6 +451,59 @@ export default function Accompagnements() {
         <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.6 }}>
           Analyses personnalisées et accompagnement sur-mesure pour votre installation à Majorque. Par Amely — française installée à Campos depuis 2024.
         </p>
+      </div>
+
+      {/* Parcours client — tunnel visuel */}
+      <div style={{
+        background: '#0F3D35', borderRadius: 16,
+        padding: '18px 16px', marginBottom: 16,
+      }}>
+        <p style={{
+          fontSize: 11, fontWeight: 700, color: 'rgba(247,242,235,0.5)',
+          fontFamily: 'var(--font-corps)', textTransform: 'uppercase',
+          letterSpacing: '0.08em', marginBottom: 14,
+        }}>
+          Comment ça fonctionne
+        </p>
+        {[
+          { num: '1', titre: 'Vous laissez votre email', detail: 'Accès gratuit à l\'app — guides, simulateurs, cockpit d\'installation', couleur: 'rgba(90,173,165,0.3)' },
+          { num: '2', titre: 'Abonnement app (optionnel)', detail: '9,90€ le 1er mois — accès à tous les guides premium et l\'annuaire pro', couleur: 'rgba(90,173,165,0.2)' },
+          { num: '3', titre: 'Visio Conseil — 79€', detail: '45 min pour clarifier votre projet, 3 priorités concrètes + compte-rendu écrit', couleur: 'rgba(199,110,78,0.35)' },
+          { num: '4', titre: 'Accompagnement — si vous continuez', detail: 'Dans les 30 jours : les 79€ de la Visio sont déduits de votre accompagnement', couleur: 'rgba(199,110,78,0.2)' },
+        ].map((step, i, arr) => (
+          <div key={i}>
+            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
+              <div style={{
+                background: step.couleur, width: 28, height: 28, borderRadius: 8,
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 13, fontWeight: 800, color: '#F7F2EB',
+                fontFamily: 'var(--font-corps)', flexShrink: 0,
+              }}>
+                {step.num}
+              </div>
+              <div>
+                <p style={{ fontSize: 13, fontWeight: 700, color: '#F7F2EB', fontFamily: 'var(--font-corps)', marginBottom: 2 }}>
+                  {step.titre}
+                </p>
+                <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.65)', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
+                  {step.detail}
+                </p>
+              </div>
+            </div>
+            {i < arr.length - 1 && (
+              <div style={{ width: 1, height: 10, background: 'rgba(247,242,235,0.15)', margin: '6px 0 6px 13px' }} />
+            )}
+          </div>
+        ))}
+        <div style={{
+          marginTop: 14, padding: '10px 12px',
+          background: 'rgba(199,110,78,0.15)',
+          borderRadius: 8, border: '1px solid rgba(199,110,78,0.3)',
+        }}>
+          <p style={{ fontSize: 12, color: '#E8956A', fontFamily: 'var(--font-corps)', lineHeight: 1.55, fontWeight: 600 }}>
+            💡 Pas d'engagement à l'étape 3 — la Visio est un achat indépendant. Si vous décidez de continuer dans les 30 jours, les 79€ sont intégralement déduits de votre accompagnement.
+          </p>
+        </div>
       </div>
 
       {/* Message personnalisé selon quiz */}
