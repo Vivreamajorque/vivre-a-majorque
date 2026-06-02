@@ -453,61 +453,8 @@ export default function Accompagnements() {
         </h1>
         <div style={{ width: 36, height: 3, background: VERT, borderRadius: 2, marginBottom: 14 }} />
         <p style={{ fontSize: 14, color: 'var(--texte-sec)', lineHeight: 1.6 }}>
-          Analyses personnalisées et accompagnement sur-mesure pour votre installation à Majorque. Par Amely — française installée à Campos depuis 2024.
+          Commencez par le <strong style={{ color: FORET }}>Conseil 45 min</strong> — votre situation analysée, en visio ou à Campos. La suite, si vous voulez aller plus loin.
         </p>
-      </div>
-
-      {/* Parcours client — tunnel visuel */}
-      <div style={{
-        background: '#0F3D35', borderRadius: 16,
-        padding: '18px 16px', marginBottom: 16,
-      }}>
-        <p style={{
-          fontSize: 11, fontWeight: 700, color: 'rgba(247,242,235,0.5)',
-          fontFamily: 'var(--font-corps)', textTransform: 'uppercase',
-          letterSpacing: '0.08em', marginBottom: 14,
-        }}>
-          Comment ça fonctionne
-        </p>
-        {[
-          { num: '1', titre: 'Vous laissez votre email', detail: 'Accès gratuit à l\'app — guides, simulateurs, cockpit d\'installation', couleur: 'rgba(90,173,165,0.3)' },
-          { num: '2', titre: 'Abonnement app (optionnel)', detail: '9,90€ le 1er mois — accès à tous les guides premium et l\'annuaire pro', couleur: 'rgba(90,173,165,0.2)' },
-          { num: '3', titre: 'Conseil 45 min — 79€', detail: 'En visio ou à Campos en vrai — votre situation analysée, 3 priorités + compte-rendu écrit', couleur: 'rgba(199,110,78,0.35)' },
-          { num: '4', titre: 'Accompagnement — si vous continuez', detail: 'Dans les 30 jours : les 79€ du Conseil sont déduits de votre accompagnement', couleur: 'rgba(199,110,78,0.2)' },
-        ].map((step, i, arr) => (
-          <div key={i}>
-            <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-              <div style={{
-                background: step.couleur, width: 28, height: 28, borderRadius: 8,
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 13, fontWeight: 800, color: '#F7F2EB',
-                fontFamily: 'var(--font-corps)', flexShrink: 0,
-              }}>
-                {step.num}
-              </div>
-              <div>
-                <p style={{ fontSize: 13, fontWeight: 700, color: '#F7F2EB', fontFamily: 'var(--font-corps)', marginBottom: 2 }}>
-                  {step.titre}
-                </p>
-                <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.65)', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
-                  {step.detail}
-                </p>
-              </div>
-            </div>
-            {i < arr.length - 1 && (
-              <div style={{ width: 1, height: 10, background: 'rgba(247,242,235,0.15)', margin: '6px 0 6px 13px' }} />
-            )}
-          </div>
-        ))}
-        <div style={{
-          marginTop: 14, padding: '10px 12px',
-          background: 'rgba(199,110,78,0.15)',
-          borderRadius: 8, border: '1px solid rgba(199,110,78,0.3)',
-        }}>
-          <p style={{ fontSize: 12, color: '#E8956A', fontFamily: 'var(--font-corps)', lineHeight: 1.55, fontWeight: 600 }}>
-            💡 Pas d'engagement à l'étape 3 — la Visio est un achat indépendant. Si vous décidez de continuer dans les 30 jours, les 79€ sont intégralement déduits de votre accompagnement.
-          </p>
-        </div>
       </div>
 
       {/* Message personnalisé selon quiz */}
@@ -526,7 +473,44 @@ export default function Accompagnements() {
         </div>
       )}
 
-      {offres.map(offre => (
+      {/* Conseil 45 min — premier pas obligatoire */}
+      <OffreCard
+        offre={offres.find(o => o.id === 'visio')}
+        onPrequalify={setPrequalOffre}
+      />
+
+      {/* Séparateur — suite si vous continuez */}
+      <div style={{
+        display: 'flex', alignItems: 'center', gap: 10,
+        margin: '8px 0 12px',
+      }}>
+        <div style={{ flex: 1, height: '0.5px', background: 'var(--gris)' }} />
+        <p style={{
+          fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)',
+          fontFamily: 'var(--font-corps)', textTransform: 'uppercase',
+          letterSpacing: '0.07em', whiteSpace: 'nowrap',
+        }}>
+          Pour aller plus loin — dans les 30 jours
+        </p>
+        <div style={{ flex: 1, height: '0.5px', background: 'var(--gris)' }} />
+      </div>
+
+      {/* Encart déduction */}
+      <div style={{
+        background: 'rgba(15,110,86,0.06)',
+        border: '1px solid rgba(15,110,86,0.15)',
+        borderRadius: 12, padding: '11px 14px',
+        marginBottom: 12,
+        display: 'flex', gap: 10, alignItems: 'flex-start',
+      }}>
+        <span style={{ fontSize: 16, flexShrink: 0 }}>💡</span>
+        <p style={{ fontSize: 12, color: FORET, lineHeight: 1.6, fontFamily: 'var(--font-corps)' }}>
+          Les <strong>79€ du Conseil sont déduits</strong> de tout accompagnement pris dans les 30 jours — vous ne payez que la différence.
+        </p>
+      </div>
+
+      {/* Cap, Éclaireur, Intégrale */}
+      {offres.filter(o => o.id !== 'visio').map(offre => (
         <OffreCard key={offre.id} offre={offre} onPrequalify={setPrequalOffre} />
       ))}
 
