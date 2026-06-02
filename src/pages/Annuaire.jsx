@@ -55,7 +55,7 @@ const zoneShort = z => ({ 'Toute l\'île': 'Île', 'Distance': '💻' }[z] || z)
    Carte professionnel
 ───────────────────────────────────────────── */
 function ProCard({ pro }) {
-  const hasContact = !!(pro.email || pro.maps || pro.site || pro.instagram)
+  const hasContact = !!pro.maps
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -135,53 +135,20 @@ function ProCard({ pro }) {
         )}
       </div>
 
-      {/* Actions — visibles si expanded */}
-      {hasContact && expanded && (
+      {/* Actions — uniquement Google Maps */}
+      {pro.maps && expanded && (
         <div style={{
           borderTop: '1px solid var(--gris)',
           padding: '10px 14px',
-          display: 'flex', gap: 8, flexWrap: 'wrap',
         }}>
-          {pro.maps && (
-            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'var(--foret)', color: 'white',
-              borderRadius: 20, padding: '8px 14px',
-              fontSize: 13, fontWeight: 600, textDecoration: 'none',
-            }}>
-              📍 Voir sur Google Maps
-            </a>
-          )}
-          {pro.site && (
-            <a href={pro.site} target="_blank" rel="noopener noreferrer" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'var(--gris)', color: 'var(--texte)',
-              borderRadius: 20, padding: '8px 14px',
-              fontSize: 13, fontWeight: 600, textDecoration: 'none',
-            }}>
-              🌐 Site officiel
-            </a>
-          )}
-          {pro.instagram && (
-            <a href={pro.instagram} target="_blank" rel="noopener noreferrer" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'var(--gris)', color: 'var(--texte)',
-              borderRadius: 20, padding: '8px 14px',
-              fontSize: 13, fontWeight: 600, textDecoration: 'none',
-            }}>
-              📸 Instagram
-            </a>
-          )}
-          {pro.email && (
-            <a href={`mailto:${pro.email}`} style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'var(--gris)', color: 'var(--texte)',
-              borderRadius: 20, padding: '8px 14px',
-              fontSize: 13, fontWeight: 600, textDecoration: 'none',
-            }}>
-              ✉️ Email
-            </a>
-          )}
+          <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            background: 'var(--foret)', color: 'white',
+            borderRadius: 20, padding: '8px 16px',
+            fontSize: 13, fontWeight: 600, textDecoration: 'none',
+          }}>
+            📍 Voir sur Google Maps
+          </a>
         </div>
       )}
     </div>
@@ -495,7 +462,7 @@ export default function Annuaire() {
           {catsAvenir.length > 0 && (
             <div style={{
               background: 'var(--gris)', borderRadius: 'var(--radius)',
-              padding: '14px 16px',
+              padding: '14px 16px', marginBottom: 12,
             }}>
               <p style={{ fontSize: 13, color: 'var(--texte-sec)', fontWeight: 600, marginBottom: 4 }}>
                 🔜 D'autres professions arrivent bientôt
@@ -505,6 +472,33 @@ export default function Annuaire() {
               </p>
             </div>
           )}
+
+          {/* Encart — rejoindre l'annuaire */}
+          <div
+            onClick={() => navigate('/app/explorer/contact', { state: { sujet: 'annuaire' } })}
+            style={{
+              background: 'var(--foret)', borderRadius: 'var(--radius)',
+              padding: '16px 18px', marginTop: 4, cursor: 'pointer',
+              display: 'flex', gap: 14, alignItems: 'center',
+            }}
+          >
+            <span style={{ fontSize: 28, flexShrink: 0 }}>📋</span>
+            <div>
+              <p style={{
+                fontSize: 14, fontWeight: 700, color: '#F7F2EB',
+                fontFamily: 'var(--font-titre)', marginBottom: 3, lineHeight: 1.3,
+              }}>
+                Vous voulez figurer dans l'annuaire ?
+              </p>
+              <p style={{
+                fontSize: 13, color: 'rgba(247,242,235,0.7)',
+                fontFamily: 'var(--font-corps)', lineHeight: 1.5,
+              }}>
+                Envoyez-moi un message — je référence les professionnels francophones et les organismes utiles à Majorque.
+              </p>
+            </div>
+            <span style={{ color: 'rgba(247,242,235,0.5)', fontSize: 18, flexShrink: 0 }}>›</span>
+          </div>
         </>
       )}
     </div>
