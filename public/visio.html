@@ -24,6 +24,9 @@
     .btn-stripe { display: block; background: #C76E4E; color: #fff; text-align: center; padding: 18px 28px; border-radius: 14px; text-decoration: none; font-family: system-ui, sans-serif; font-weight: 800; font-size: 1.1rem; max-width: 420px; margin: 0 auto; transition: background 0.2s; letter-spacing: 0.01em; }
     .btn-stripe:hover { background: #b05c3e; }
     .btn-stripe small { display: block; font-weight: 400; font-size: 0.78rem; opacity: 0.85; margin-top: 4px; }
+    .btn-rdv { display: block; background: #fff; color: #0F3D35; text-align: center; padding: 16px 28px; border-radius: 14px; text-decoration: none; font-family: system-ui, sans-serif; font-weight: 700; font-size: 1rem; max-width: 420px; margin: 12px auto 0; transition: all 0.2s; letter-spacing: 0.01em; border: 2px solid rgba(90,173,165,0.4); }
+    .btn-rdv:hover { background: #f0fafa; border-color: #5AADA5; }
+    .btn-rdv small { display: block; font-weight: 400; font-size: 0.76rem; color: #5AADA5; margin-top: 3px; }
     .container { max-width: 560px; margin: 0 auto; padding: 40px 20px 80px; }
     .section-titre { font-size: 1.25rem; color: #0F3D35; font-weight: 900; margin: 36px 0 16px; }
     .ce-que-tu-reçois { background: #fff; border-radius: 16px; padding: 24px; border: 1px solid #E0D8CE; margin-bottom: 32px; }
@@ -36,6 +39,14 @@
     .amely-initiale { background: rgba(199,110,78,0.3); color: #C76E4E; width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 900; flex-shrink: 0; font-family: system-ui, sans-serif; }
     .amely p { font-size: 0.92rem; line-height: 1.65; color: rgba(247,242,235,0.85); font-family: system-ui, sans-serif; }
     .amely strong { color: #F7F2EB; }
+    /* Étapes après paiement */
+    .etapes { background: #fff; border-radius: 16px; padding: 24px; border: 1px solid #E0D8CE; margin-bottom: 32px; }
+    .etape { display: flex; gap: 14px; align-items: flex-start; margin-bottom: 18px; }
+    .etape:last-child { margin-bottom: 0; }
+    .etape-num { background: #0F3D35; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 800; flex-shrink: 0; font-family: system-ui, sans-serif; }
+    .etape-txt strong { display: block; font-size: 0.92rem; font-family: system-ui, sans-serif; color: #1A1A1A; margin-bottom: 2px; }
+    .etape-txt span { font-size: 0.85rem; color: #6B6058; font-family: system-ui, sans-serif; }
+    .etape-sep { width: 1px; height: 14px; background: #E0D8CE; margin: 2px 0 2px 13px; }
     .objections { margin-bottom: 36px; }
     .objection { border-bottom: 1px solid #E0D8CE; padding: 16px 0; }
     .objection:last-child { border-bottom: none; }
@@ -67,13 +78,53 @@
     <div class="prix-barre">99€</div>
   </div>
   <a href="https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J" class="btn-stripe">
-    Réserver ma Visio →
-    <small>Confirmation immédiate · Créneau sous 48-72h</small>
+    Payer ma Visio — 79€ →
+    <small>Étape 1 sur 2 · Stripe sécurisé</small>
+  </a>
+  <a href="https://calendar.app.google/nWiTtHfC6rWEptok7" target="_blank" rel="noopener" class="btn-rdv">
+    📅 Choisir mon créneau directement →
+    <small>Étape 2 — après le paiement</small>
   </a>
 </div>
 
 <!-- CONTENU -->
 <div class="container">
+
+  <!-- COMMENT ÇA MARCHE -->
+  <div class="section-titre">Comment ça marche</div>
+  <div class="etapes">
+    <div class="etape">
+      <div class="etape-num">1</div>
+      <div class="etape-txt">
+        <strong>Tu paies ta Visio en ligne (79€)</strong>
+        <span>Paiement sécurisé par Stripe. Confirmation immédiate par email.</span>
+      </div>
+    </div>
+    <div class="etape-sep"></div>
+    <div class="etape">
+      <div class="etape-num">2</div>
+      <div class="etape-txt">
+        <strong>Tu choisis ton créneau dans mon agenda</strong>
+        <span>Directement en ligne — tu vois mes disponibilités en temps réel et tu réserves le créneau qui t'arrange.</span>
+      </div>
+    </div>
+    <div class="etape-sep"></div>
+    <div class="etape">
+      <div class="etape-num">3</div>
+      <div class="etape-txt">
+        <strong>Tu reçois le lien Google Meet par email</strong>
+        <span>Automatiquement à la confirmation du créneau. Plus besoin d'attendre que je te recontacte.</span>
+      </div>
+    </div>
+    <div class="etape-sep"></div>
+    <div class="etape">
+      <div class="etape-num">4</div>
+      <div class="etape-txt">
+        <strong>La visio — 45 min sur ton projet</strong>
+        <span>Diagnostic complet, 3 priorités concrètes, compte-rendu écrit livré sous 48h.</span>
+      </div>
+    </div>
+  </div>
 
   <!-- CE QUE TU REÇOIS -->
   <div class="section-titre">Ce que tu reçois</div>
@@ -126,9 +177,8 @@
     </div>
     <div class="objection">
       <div class="q">📅 Comment ça se passe après le paiement ?</div>
-      <div class="r">Tu reçois un email de confirmation immédiat. Je te contacte sous 48h pour trouver un créneau qui te convient. La visio se fait sur Google Meet ou Zoom.</div>
+      <div class="r">Tu paies via Stripe, puis tu choisis ton créneau directement dans mon agenda en ligne. Le lien Google Meet t'est envoyé automatiquement à la confirmation — pas besoin d'attendre que je te contacte.</div>
     </div>
-
     <div class="objection">
       <div class="q">🔁 Et si je veux continuer après ?</div>
       <div class="r">Les 79€ de la Visio sont déductibles du Cap Majorque (249€) dans les 30 jours suivants. Tu ne paies pas deux fois.</div>
@@ -140,8 +190,12 @@
     <div class="places">⚡ Places limitées ce mois</div>
     <p>Je prends un nombre limité de visios par mois pour rester disponible et utile à chacun.</p>
     <a href="https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J" class="btn-stripe">
-      Réserver ma Visio — 79€ →
+      Payer ma Visio — 79€ →
       <small>Paiement sécurisé Stripe · Remboursé si insatisfait</small>
+    </a>
+    <a href="https://calendar.app.google/nWiTtHfC6rWEptok7" target="_blank" rel="noopener" class="btn-rdv">
+      📅 Voir les créneaux disponibles →
+      <small>Étape 2 — après le paiement</small>
     </a>
   </div>
 
