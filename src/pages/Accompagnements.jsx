@@ -364,6 +364,17 @@ function OffreCard({ offre, onPrequalify }) {
           {btnLabel}
         </button>
 
+        {/* Mention paiement + créneau pour la Visio */}
+        {offre.id === 'visio' && (
+          <p style={{
+            fontSize: 12, textAlign: 'center',
+            color: '#5AADA5', marginTop: 8, lineHeight: 1.5,
+            fontFamily: 'var(--font-corps)',
+          }}>
+            📅 Après le paiement, vous choisissez votre créneau directement dans l'agenda en ligne — le lien Google Meet est envoyé automatiquement.
+          </p>
+        )}
+
         {/* Urgence sous le bouton */}
         {places > 0 && (
           <p style={{
