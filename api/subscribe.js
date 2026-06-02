@@ -11,12 +11,11 @@ const BREVO_API = 'https://api.brevo.com/v3'
 
 const SEQUENCES = {
   freemium: [
-    { templateId: 10, delayDays: 0  }, // J0  — Bienvenue
-    { templateId: 11, delayDays: 2  }, // J2  — Erreur 80%
-    { templateId: 12, delayDays: 5  }, // J5  — Profil personnalisé
-    { templateId: 13, delayDays: 9  }, // J9  — Conseil 79€ (1ère offre)
-    { templateId: 14, delayDays: 18 }, // J18 — Objection "pas encore sûr"
-    { templateId: 15, delayDays: 35 }, // J35 — Mensuel (puis récurrent)
+    { templateId: 3, delayDays: 0  }, // J0  — Bienvenue
+    { templateId: 4, delayDays: 2  }, // J2  — Mon histoire
+    { templateId: 5, delayDays: 5  }, // J5  — Les 3 questions
+    { templateId: 6, delayDays: 9  }, // J9  — Conseil 79€ (1ère offre)
+    { templateId: 7, delayDays: 12 }, // J12 — Cap Majorque 249€
   ],
   premium: [
     { templateId: 20, delayDays: 0  }, // J0  — Accès activé
