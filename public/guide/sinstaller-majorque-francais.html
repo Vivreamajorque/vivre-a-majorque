@@ -10,6 +10,54 @@
   <meta property="og:title" content="S'installer à Majorque en tant que Français — Guide complet 2025">
   <meta property="og:description" content="NIE, logement, autónomo, fiscalité — le guide des Français qui s'installent à Majorque.">
   <meta property="og:url" content="https://vivre-a-majorque.vercel.app/guide/sinstaller-majorque-francais.html">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Quelles sont les démarches essentielles pour s'installer à Majorque en tant que Français ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Les démarches dans l'ordre sont : 1) Le NIE (Número de Identidad de Extranjero) — indispensable pour tout acte administratif, bancaire ou professionnel. 2) L'empadronamiento — inscription municipale, nécessite un logement confirmé. 3) Le compte bancaire espagnol. 4) L'affiliation à la Seguridad Social pour accéder au système de santé. 5) La gestion de la résidence fiscale — à partir de 183 jours par an en Espagne, vous êtes résident fiscal espagnol selon l'AEAT."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Faut-il déclarer sa résidence fiscale en Espagne quand on s'installe à Majorque ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Selon l'AEAT (Agence fiscale espagnole), vous devenez résident fiscal espagnol à partir de 183 jours par an passés en Espagne. À ce stade, vos revenus mondiaux deviennent imposables en Espagne. La convention fiscale franco-espagnole s'applique pour éviter la double imposition. Il est fortement recommandé de consulter un gestor agréé pour organiser cette transition fiscale, notamment si vous conservez des revenus ou patrimoine en France."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Comment trouver un logement à Majorque en tant qu'expatrié français ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le marché immobilier de Majorque est très tendu, en particulier autour de Palma et dans les zones côtières. Les Français paient souvent 20 à 30% de plus que les locaux. Il faut prévoir 3 à 4 mois de recherche minimum, idéalement hors saison (octobre à février). Les villages de l'intérieur (Campos, Felanitx, Llucmajor, Manacor) offrent de meilleures opportunités et des loyers 30 à 50% moins élevés qu'à Palma. Disposer d'un NIE et d'un compte bancaire espagnol est souvent exigé pour signer un bail."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Peut-on travailler en tant qu'indépendant à Majorque avec le statut autónomo ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Oui. Le statut d'autónomo est l'équivalent espagnol de l'auto-entrepreneur français. Il fonctionne différemment : cotisation SS mensuelle de 200 à 590€ selon vos revenus réels (80€/mois la première année avec la tarifa plana), IRPF trimestriel (Modelo 130), IVA trimestrielle (Modelo 303). Les charges réelles sont déductibles à 100%, ce qui peut être avantageux si vous avez des dépenses professionnelles supérieures à 34% de votre CA."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Combien coûte la vie à Majorque pour une famille française ?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Le budget mensuel pour une famille de 3 personnes à Majorque varie selon la zone : à Palma 3 500 à 5 000€/mois (loyer 1 500-2 500€ pour un appartement 3 pièces), dans les villages de l'intérieur 2 500 à 3 500€/mois (loyer 800-1 300€ pour une maison). L'alimentation est comparable à la France, les loisirs souvent moins chers, mais la voiture est indispensable hors Palma. Le simulateur budget de l'app Vivre à Majorque permet de calculer votre situation précise."
+        }
+      }
+    ]
+  }
+  </script>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body { font-family: 'Georgia', serif; background: #F0EAE0; color: #1C1410; line-height: 1.7; }
@@ -18,21 +66,40 @@
     h2 { font-size: 1.3rem; color: #0F3D35; margin: 32px 0 10px; }
     p { margin-bottom: 14px; font-size: 1rem; }
     .tag { display: inline-block; background: rgba(90,173,165,0.15); color: #2D7A72; font-size: 0.8rem; font-weight: 700; padding: 3px 10px; border-radius: 20px; margin-bottom: 20px; font-family: system-ui, sans-serif; }
+    .resume { background: #0F3D35; color: #fff; border-radius: 14px; padding: 20px 24px; margin: 24px 0; }
+    .resume h3 { font-size: 1rem; margin-bottom: 10px; font-family: system-ui, sans-serif; color: #7EC8C0; }
+    .resume li { font-size: 0.9rem; margin-bottom: 6px; }
+    .resume ul { padding-left: 18px; }
     .cta { display: block; background: #0F3D35; color: #fff; text-align: center; padding: 18px 24px; border-radius: 14px; text-decoration: none; font-family: system-ui, sans-serif; font-weight: 700; font-size: 1.1rem; margin: 32px 0; }
     .cta:hover { background: #1a5c50; }
     .steps { background: #fff; border-radius: 14px; padding: 20px 24px; margin: 20px 0; border: 1px solid #D4CCC2; }
     .step { display: flex; gap: 14px; margin-bottom: 14px; align-items: flex-start; }
     .step-num { background: #0F3D35; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; flex-shrink: 0; font-family: system-ui, sans-serif; }
     .step p { margin: 0; font-size: 0.95rem; }
+    .info { background: rgba(90,173,165,0.1); border-left: 3px solid #5AADA5; border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 16px 0; }
+    .info p { margin: 0; font-size: 0.95rem; }
+    .warning { background: rgba(199,110,78,0.08); border-left: 3px solid #C76E4E; border-radius: 0 10px 10px 0; padding: 14px 16px; margin: 16px 0; }
+    .warning p { margin: 0; font-size: 0.95rem; }
+    .author { font-size: 0.9rem; color: #5A5248; font-style: italic; margin-bottom: 20px; }
     .footer { text-align: center; font-size: 0.85rem; color: #8A7F74; margin-top: 40px; font-family: system-ui, sans-serif; }
     a { color: #5AADA5; }
   </style>
 </head>
 <body>
 <div class="container">
-  <span class="tag">Guide 2025 · Mis à jour mai 2025</span>
+  <span class="tag">Guide 2025 · Mis à jour juin 2025 · Par une expat de Campos</span>
   <h1>S'installer à Majorque en tant que Français — le guide complet</h1>
-  <p>Par <strong>Amely Attias</strong>, française installée à Campos (Majorque) depuis 2024, autónoma, maman d'une petite Lenny née à l'île.</p>
+  <p class="author">Par <strong>Amely Attias</strong>, française installée à Campos (Majorque) depuis 2024, autónoma enregistrée, maman d'une petite Lenny née sur l'île.</p>
+
+  <div class="resume">
+    <h3>L'essentiel en 30 secondes</h3>
+    <ul>
+      <li>5 démarches clés dans l'ordre : NIE → empadronamiento → compte bancaire → Seguridad Social → résidence fiscale</li>
+      <li>Logement : marché tendu, 3-4 mois de recherche, villages de l'intérieur moins chers que Palma</li>
+      <li>Travail indépendant : statut autónomo, cotisation SS 80€/mois la 1ère année (tarifa plana)</li>
+      <li>Résidence fiscale : à partir de 183 jours/an en Espagne, revenus mondiaux imposables ici</li>
+    </ul>
+  </div>
 
   <a href="https://vivre-a-majorque.vercel.app/app" class="cta">
     → Accéder à l'app gratuite : guides, simulateurs, cockpit d'installation
@@ -40,31 +107,44 @@
 
   <h2>Les démarches essentielles dans l'ordre</h2>
   <div class="steps">
-    <div class="step"><div class="step-num">1</div><p><strong>Le NIE</strong> (Número de Identidad de Extranjero) — indispensable pour tout : ouvrir un compte bancaire, signer un bail, travailler. Se demande au Consulat espagnol en France ou à la Policía Nacional à Majorque sur rendez-vous.</p></div>
-    <div class="step"><div class="step-num">2</div><p><strong>L'empadronamiento</strong> — l'inscription sur les listes municipales de votre mairie. Nécessite un logement confirmé. Ouvre l'accès aux services publics locaux.</p></div>
-    <div class="step"><div class="step-num">3</div><p><strong>Le logement</strong> — marché très tendu, surtout en dehors de la haute saison. Prévoyez 3-4 mois de recherche minimum. Les Français paient souvent 20-30% de plus que les locaux.</p></div>
-    <div class="step"><div class="step-num">4</div><p><strong>La Seguridad Social</strong> — affiliation obligatoire pour accéder au système de santé public espagnol. La carte SIP (tarjeta sanitaria) prend 3-6 semaines.</p></div>
-    <div class="step"><div class="step-num">5</div><p><strong>La résidence fiscale</strong> — à partir de 183 jours par an en Espagne, vous êtes résident fiscal espagnol. Vos revenus mondiaux sont imposables en Espagne (convention franco-espagnole applicable).</p></div>
+    <div class="step"><div class="step-num">1</div><p><strong>Le NIE</strong> (Número de Identidad de Extranjero) — indispensable pour tout : ouvrir un compte bancaire, signer un bail, travailler. Se demande au Consulat espagnol en France (2-4 semaines) ou à la Policía Nacional à Majorque sur rendez-vous (3-8 semaines). Documents requis : formulaire EX-15, passeport, justificatif du motif, taxe 790 (~12€).</p></div>
+    <div class="step"><div class="step-num">2</div><p><strong>L'empadronamiento</strong> — l'inscription sur les listes municipales de votre mairie. Nécessite un logement confirmé. Ouvre l'accès aux services publics locaux et est souvent exigé pour les démarches suivantes.</p></div>
+    <div class="step"><div class="step-num">3</div><p><strong>Le compte bancaire espagnol</strong> — nécessite le NIE et l'empadronamiento. CaixaBank, Sabadell et BBVA proposent des offres adaptées aux étrangers résidents. Indispensable pour payer les charges, la cotisation SS et recevoir des virements.</p></div>
+    <div class="step"><div class="step-num">4</div><p><strong>La Seguridad Social</strong> — affiliation obligatoire pour accéder au système de santé public espagnol. La carte SIP (tarjeta sanitaria) prend 3 à 6 semaines. Si vous créez une activité, l'affiliation en tant qu'autónomo est distincte.</p></div>
+    <div class="step"><div class="step-num">5</div><p><strong>La résidence fiscale</strong> — à partir de 183 jours par an en Espagne, vous êtes résident fiscal espagnol (selon l'AEAT, aeat.es). Vos revenus mondiaux sont imposables en Espagne. La convention franco-espagnole s'applique pour éviter la double imposition.</p></div>
+  </div>
+
+  <h2>Le logement à Majorque : la réalité du marché</h2>
+  <p>Le marché immobilier majorquin est sous forte tension depuis 2020. À Palma, un appartement 3 pièces se loue entre 1 500 et 2 500€/mois selon le quartier. Les Français paient souvent 20 à 30% de plus que les locaux par méconnaissance du marché et urgence à se loger.</p>
+  <p>Les villages de l'intérieur — Campos, Felanitx, Llucmajor, Manacor, Sineu — offrent des loyers 30 à 50% moins élevés qu'à Palma, une qualité de vie plus authentique et un accès à l'île complète en moins d'une heure de voiture. Prévoir 3 à 4 mois de recherche minimum, idéalement lancée hors saison (octobre à février).</p>
+
+  <div class="warning">
+    <p>⚠️ <strong>Erreur fréquente :</strong> tenter de trouver un logement sans NIE ni compte bancaire espagnol. La plupart des propriétaires exigent ces deux documents pour signer un bail. Obtenez votre NIE en priorité, même depuis la France.</p>
   </div>
 
   <h2>Si vous créez une activité indépendante</h2>
-  <p>Le statut d'autónomo (équivalent de l'auto-entrepreneur français) fonctionne différemment : cotisation SS mensuelle selon vos revenus réels (de 200€ à 590€/mois), IRPF trimestriel, IVA trimestrielle. La première année, vous bénéficiez de la <em>tarifa plana</em> à 80€/mois.</p>
+  <p>Le statut d'autónomo (équivalent de l'auto-entrepreneur français) fonctionne différemment : cotisation SS mensuelle calculée sur vos revenus réels (de 200€ à 590€/mois), IRPF trimestriel via le Modelo 130, IVA trimestrielle via le Modelo 303. La première année, vous bénéficiez de la <em>tarifa plana</em> à 80€/mois — une économie qui peut atteindre 3 000€ sur l'année.</p>
+  <p>Contrairement à la France, pas de franchise de TVA : l'IVA à 21% s'applique dès le premier euro. En revanche, vos charges réelles sont déductibles à 100%, ce qui peut compenser si votre activité génère des frais significatifs.</p>
+
+  <div class="info">
+    <p>💡 <strong>Bon à savoir :</strong> si vous avez un employeur français et continuez à télétravailler depuis Majorque, votre situation fiscale et sociale est spécifique. La convention franco-espagnole s'applique, mais les règles varient selon que vous êtes salarié détaché, frontalier ou résident. Une Visio Conseil (79€) peut clarifier votre cas précis.</p>
+  </div>
 
   <a href="https://vivre-a-majorque.vercel.app/app/outils/autonoma" class="cta">
     → Simulateur autónomo vs auto-entrepreneur France — calculez votre net en poche
   </a>
 
   <h2>Ce que l'app Vivre à Majorque vous apporte</h2>
-  <p>L'app regroupe 50+ guides administratifs vérifiés sur sources officielles (BOE, AEAT, Seguridad Social), un cockpit d'installation personnalisé selon votre profil, des simulateurs fiscaux et un annuaire de professionnels francophones.</p>
-  <p>Gratuite dans sa version de base, avec un accompagnement personnalisé disponible si vous souhaitez un regard expert sur votre situation.</p>
+  <p>L'app regroupe 100+ guides administratifs vérifiés sur sources officielles (BOE boe.es, AEAT aeat.es, Seguridad Social seg-social.es), un cockpit d'installation personnalisé selon votre profil (salarié, entrepreneur, famille, retraité), des simulateurs fiscaux et un annuaire de professionnels francophones à Majorque (gestors, avocats, médecins, artisans).</p>
+  <p>Gratuite dans sa version de base. Accompagnements personnalisés disponibles pour les projets complexes, à partir de 79€.</p>
 
-  <a href="https://vivre-a-majorque.vercel.app/app" class="cta">
-    → Créer mon espace gratuit sur Vivre à Majorque
+  <a href="https://vivre-a-majorque.vercel.app/app/explorer/accompagnements" class="cta">
+    → Découvrir les accompagnements — Visio Conseil, Cap Majorque, Éclaireur
   </a>
 
   <div class="footer">
     <p>© 2025 Vivre à Majorque · Amely Attias · <a href="https://vivre-a-majorque.vercel.app">vivre-a-majorque.vercel.app</a></p>
-    <p style="margin-top: 6px;">Ces informations sont indicatives. Consultez un gestor agréé pour votre situation personnelle.</p>
+    <p style="margin-top: 6px;">Ces informations sont indicatives. Sources : AEAT (aeat.es), Seguridad Social (seg-social.es), BOE (boe.es). Consultez un gestor agréé pour votre situation personnelle.</p>
   </div>
 </div>
 </body>

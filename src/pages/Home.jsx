@@ -274,7 +274,7 @@ export default function Home() {
   useSEO({
     title: "Vivre à Majorque — Guides et accompagnement pour s'installer",
     description: "L'app des francophones qui s'installent à Majorque. Guides administratifs, simulateur budget, cockpit installation. Par Amely, française à Campos.",
-    url: "https://vivre-a-majorque.vercel.app/app",
+    url: "https://vivre-a-majorque.vercel.app/",
   })
   const { profile, prenom } = useProfile()
   const { user } = useUserData()
