@@ -54,6 +54,10 @@ const LIST_IDS = {
   post_eclaireur: 11,
 }
 
+// Liste "Lettres de l'île" — newsletter hebdo mercredi
+// Ajoutée à TOUS les inscrits, tous segments confondus
+const LETTRE_ILE_LIST_ID = 12
+
 // Heure d'envoi : 9h heure de Majorque (Europe/Madrid = UTC+2 en été)
 function scheduledAt(delayDays) {
   if (delayDays === 0) return undefined // immédiat
@@ -102,7 +106,7 @@ export default async function handler(req, res) {
           PROFIL: profil || '',
           SEGMENT: segment,
         },
-        listIds: [listId],
+        listIds: [listId, LETTRE_ILE_LIST_ID],
         updateEnabled: true,
       }),
     })
