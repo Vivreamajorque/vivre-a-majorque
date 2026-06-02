@@ -5,7 +5,7 @@ const SEQUENCE = [
   { templateId: 3, delayDays: 0  },  // J0  — Bienvenue (immédiat)
   { templateId: 4, delayDays: 2  },  // J2  — Mon histoire
   { templateId: 5, delayDays: 4  },  // J4  — Les 3 questions
-  { templateId: 6, delayDays: 7  },  // J7  — Visio 99€
+  { templateId: 6, delayDays: 7  },  // J7  — Visio 79€ lancement (barré 99€)
   { templateId: 7, delayDays: 10 },  // J10 — Cap Majorque 249€
 ]
 
