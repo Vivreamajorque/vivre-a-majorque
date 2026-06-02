@@ -25,23 +25,23 @@ const OFFRES = [
   {
     id: 'visio',
     label: '🚀 Lancement',
-    titre: 'Visio conseil',
+    titre: 'Conseil 45 min',
     prix: '79 €',
     prixBarre: '99 €',
-    accroche: 'Un diagnostic personnalisé pour savoir exactement par où commencer',
+    accroche: 'Votre situation analysée en 45 min — en visio ou en rencontre physique à Campos',
     couleur: '#FDF6EE',
     border: 'rgba(199,110,78,0.25)',
     textAccent: '#C76E4E',
     highlight: false,
     lancement: true,
     inclus: [
-      { ok: true,  texte: 'Questionnaire de préparation envoyé sous 24h après paiement' },
-      { ok: true,  texte: 'Visio 45 min — diagnostic complet de votre situation' },
-      { ok: true,  texte: 'Note de route livrée sous 48h : 3 priorités dans l\'ordre + prochaine action concrète dans les 7 jours' },
-      { ok: true,  texte: 'Accès à l\'app Vivre à Majorque — 1 mois inclus' },
+      { ok: true,  texte: '45 min de diagnostic individuel — votre situation précise, pas un cas générique' },
+      { ok: true,  texte: 'En visio depuis chez vous, ou en rencontre physique à Campos (Carrer de Santanyi 19)' },
+      { ok: true,  texte: 'L\'ordre exact des démarches pour votre profil — évitez les erreurs coûteuses' },
+      { ok: true,  texte: 'Compte-rendu écrit sous 48h — plan d\'action, contacts, points de vigilance' },
     ],
-    pour: 'Tu as un projet mais tu ne sais pas par où commencer ni si c\'est réaliste pour toi',
-    sujet: 'Demande Visio Conseil — 79€ lancement',
+    pour: 'Vous avez fait vos recherches mais votre situation est particulière — vous avez peur de prendre une mauvaise décision qui va coûter cher',
+    sujet: 'Demande Conseil 45 min — 79€ lancement',
     stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J',
     prequalification: false,
   },
@@ -50,7 +50,7 @@ const OFFRES = [
     label: '⭐ Recommandé',
     titre: 'Cap Majorque',
     prix: '249 €',
-    accroche: 'L\'accompagnement complet pour réussir votre installation',
+    accroche: 'Vous avancez, on reste disponible — WhatsApp, physique, relais sur l\'île',
     couleur: '#E8F5F4',
     border: 'rgba(126,200,192,0.4)',
     textAccent: '#0F6E56',
@@ -59,9 +59,11 @@ const OFFRES = [
       { ok: true, texte: 'Visio 1 — diagnostic complet 60 min' },
       { ok: true, texte: 'Dossier personnalisé livré sous 72h (roadmap, points de vigilance, contacts adaptés)' },
       { ok: true, texte: 'Visio 2 — prise de route 45 min' },
-      { ok: true, texte: 'Suivi email 30 jours' },
-      { ok: true, texte: 'Checklist imprimable + calendrier des démarches' },
-      { ok: true, texte: '79€ de la Visio Conseil déduits si réservé dans les 30 jours — vous ne payez que 170€' },
+      { ok: true, texte: 'Disponible par WhatsApp si vous êtes bloqué — un message suffit, pas d\'attente' },
+      { ok: true, texte: 'Rencontre physique possible à Campos sur RDV — voir l\'île, poser vos questions en vrai' },
+      { ok: true, texte: 'Relais de transition — courrier et colis reçus à notre adresse pendant votre installation' },
+      { ok: true, texte: 'Checklist imprimable + calendrier des démarches dans l\'ordre' },
+      { ok: true, texte: '79€ du Conseil déduits si réservé dans les 30 jours — vous ne payez que 170€' },
     ],
     pour: 'Familles, salariés en remote, retraités — ceux qui ne veulent pas avancer seuls',
     sujet: 'Demande Cap Majorque — 249€',
@@ -79,11 +81,13 @@ const OFFRES = [
     textAccent: '#7a3e22',
     highlight: false,
     inclus: [
-      { ok: true, texte: 'Analyse viabilité du projet pro en Espagne' },
-      { ok: true, texte: 'Statut optimal (autónoma, SL, télétravailleur)' },
-      { ok: true, texte: 'Fiscalité pro + obligations IRPF/IVA' },
-      { ok: true, texte: 'Audit visibilité SEO marché francophone' },
-      { ok: true, texte: '79€ de la Visio Conseil déduits si réservé dans les 30 jours — vous ne payez que 211€' },
+      { ok: true, texte: 'Analyse viabilité du projet professionnel en Espagne — chiffres réels' },
+      { ok: true, texte: 'Statut optimal identifié — autónoma, SL, télétravailleur détaché' },
+      { ok: true, texte: 'Fiscalité pro détaillée — IRPF, IVA, obligations trimestrielles' },
+      { ok: true, texte: 'Disponible par WhatsApp pendant votre lancement — un message si vous bloquez' },
+      { ok: true, texte: 'Rencontre physique possible à Campos — voir l\'île, poser vos questions en vrai' },
+      { ok: true, texte: 'Relais de transition — courrier et colis reçus à notre adresse (Carrer de Santanyi 19, Campos)' },
+      { ok: true, texte: '79€ du Conseil déduits si réservé dans les 30 jours — vous ne payez que 211€' },
     ],
     pour: 'Entrepreneurs, indépendants, créateurs d\'activité à Majorque',
     sujet: 'Demande Audit Éclaireur — 290€',
@@ -105,9 +109,9 @@ const OFFRES = [
       { ok: true, texte: 'Tout le Cap Majorque (2 visios + dossier)' },
       { ok: true, texte: 'Tout l\'Audit Éclaireur (pro + fiscal + SEO)' },
       { ok: true, texte: 'Dossier unique fusionné — vie perso + projet pro' },
-      { ok: true, texte: 'Suivi email 60 jours (au lieu de 30)' },
+      { ok: true, texte: 'Disponible par WhatsApp pendant toute la durée — vie perso + lancement pro' },
       { ok: true, texte: 'Économie de 90 € vs achats séparés' },
-      { ok: true, texte: '79€ de la Visio Conseil déduits si réservé dans les 30 jours — vous ne payez que 370€' },
+      { ok: true, texte: '79€ du Conseil déduits si réservé dans les 30 jours — vous ne payez que 370€' },
     ],
     pour: 'Entrepreneurs qui déménagent leur vie ET leur activité à Majorque',
     sujet: 'Demande Installation Intégrale — 449€',
@@ -139,7 +143,7 @@ const FAQS = [
   },
   {
     q: "Et si j'ai encore des questions après la visio ?",
-    a: "La note de route livrée sous 48h répond à 90% des questions qui émergent juste après. Si vous souhaitez un suivi plus long — 30 jours d'email inclus, deux visios, dossier complet — c'est le Cap Majorque à 249€. Si votre projet est professionnel, l'Audit Éclaireur à 290€ couvre la partie activité.",
+    a: "La note de route livrée sous 48h répond à 90% des questions qui émergent juste après. Si vous souhaitez un suivi plus long — disponibilité WhatsApp + point d'ancrage à Campos, deux sessions, dossier complet — c'est le Cap Majorque à 249€. Si votre projet est professionnel, l'Audit Éclaireur à 290€ couvre la partie activité.",
   },
 ]
 
@@ -374,7 +378,7 @@ function OffreCard({ offre, onPrequalify }) {
             color: '#5AADA5', marginTop: 8, lineHeight: 1.5,
             fontFamily: 'var(--font-corps)',
           }}>
-            📅 Après le paiement, vous choisissez votre créneau directement dans l'agenda en ligne — le lien Google Meet est envoyé automatiquement.
+            📅 Après le paiement, choisissez votre créneau en ligne. En visio depuis chez vous ou en rencontre physique à Campos (Carrer de Santanyi 19) — au choix.
           </p>
         )}
 
@@ -468,8 +472,8 @@ export default function Accompagnements() {
         {[
           { num: '1', titre: 'Vous laissez votre email', detail: 'Accès gratuit à l\'app — guides, simulateurs, cockpit d\'installation', couleur: 'rgba(90,173,165,0.3)' },
           { num: '2', titre: 'Abonnement app (optionnel)', detail: '9,90€ le 1er mois — accès à tous les guides premium et l\'annuaire pro', couleur: 'rgba(90,173,165,0.2)' },
-          { num: '3', titre: 'Visio Conseil — 79€', detail: '45 min pour clarifier votre projet, 3 priorités concrètes + compte-rendu écrit', couleur: 'rgba(199,110,78,0.35)' },
-          { num: '4', titre: 'Accompagnement — si vous continuez', detail: 'Dans les 30 jours : les 79€ de la Visio sont déduits de votre accompagnement', couleur: 'rgba(199,110,78,0.2)' },
+          { num: '3', titre: 'Conseil 45 min — 79€', detail: 'En visio ou à Campos en vrai — votre situation analysée, 3 priorités + compte-rendu écrit', couleur: 'rgba(199,110,78,0.35)' },
+          { num: '4', titre: 'Accompagnement — si vous continuez', detail: 'Dans les 30 jours : les 79€ du Conseil sont déduits de votre accompagnement', couleur: 'rgba(199,110,78,0.2)' },
         ].map((step, i, arr) => (
           <div key={i}>
             <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
