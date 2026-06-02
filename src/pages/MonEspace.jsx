@@ -559,7 +559,7 @@ function OffreStrip({ quiz }) {
     eclaireur: { titre: 'Audit Éclaireur',        prix: '290€', emoji: '🏢', desc: 'Votre projet pro à Majorque', places: 2, prequalification: true,  stripeUrl: null },
     integrale: { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', desc: 'Vie + activité réunies',       places: 1, prequalification: true,  stripeUrl: null },
     cap:       { titre: 'Cap Majorque',           prix: '249€', emoji: '🧭', desc: "L'accompagnement complet",     places: 3, prequalification: false, stripeUrl: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K' },
-    visio:     { titre: 'Visio conseil',          prix: '99€',  emoji: '💬', desc: 'Une session pour y voir clair',places: 0, prequalification: false, stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J' },
+    visio:     { titre: 'Visio conseil',          prix: '79€',  emoji: '💬', desc: 'Une session pour y voir clair — tarif lancement',places: 5, prequalification: false, stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J' },
   }
   const o = OFFRES[recommended]
   if (!o) return null
