@@ -55,7 +55,7 @@ const zoneShort = z => ({ 'Toute l\'île': 'Île', 'Distance': '💻' }[z] || z)
    Carte professionnel
 ───────────────────────────────────────────── */
 function ProCard({ pro }) {
-  const hasContact = !!(pro.tel || pro.email || pro.maps || pro.site || pro.instagram)
+  const hasContact = !!(pro.email || pro.maps || pro.site || pro.instagram)
   const [expanded, setExpanded] = useState(false)
 
   return (
@@ -135,32 +135,21 @@ function ProCard({ pro }) {
         )}
       </div>
 
-      {/* Actions — visibles si expanded OU si peu de contacts */}
+      {/* Actions — visibles si expanded */}
       {hasContact && expanded && (
         <div style={{
           borderTop: '1px solid var(--gris)',
           padding: '10px 14px',
           display: 'flex', gap: 8, flexWrap: 'wrap',
         }}>
-          {pro.tel && (
-            <a href={`tel:${pro.tel}`} style={{
+          {pro.maps && (
+            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{
               display: 'inline-flex', alignItems: 'center', gap: 5,
               background: 'var(--foret)', color: 'white',
               borderRadius: 20, padding: '8px 14px',
               fontSize: 13, fontWeight: 600, textDecoration: 'none',
             }}>
-              📞 Appeler
-            </a>
-          )}
-          {pro.maps && (
-            <a href={pro.maps} target="_blank" rel="noopener noreferrer" style={{
-              display: 'inline-flex', alignItems: 'center', gap: 5,
-              background: 'var(--vert-light)', color: 'var(--vert)',
-              border: '1px solid rgba(90,173,165,0.3)',
-              borderRadius: 20, padding: '8px 14px',
-              fontSize: 13, fontWeight: 600, textDecoration: 'none',
-            }}>
-              🗺️ Maps
+              📍 Voir sur Google Maps
             </a>
           )}
           {pro.site && (
@@ -170,7 +159,7 @@ function ProCard({ pro }) {
               borderRadius: 20, padding: '8px 14px',
               fontSize: 13, fontWeight: 600, textDecoration: 'none',
             }}>
-              🌐 Site
+              🌐 Site officiel
             </a>
           )}
           {pro.instagram && (
@@ -193,20 +182,6 @@ function ProCard({ pro }) {
               ✉️ Email
             </a>
           )}
-        </div>
-      )}
-
-      {/* Si pas expanded mais a un tel → bouton appeler visible */}
-      {hasContact && !expanded && pro.tel && (
-        <div style={{ borderTop: '1px solid var(--gris)', padding: '8px 14px' }}>
-          <a href={`tel:${pro.tel}`} style={{
-            display: 'inline-flex', alignItems: 'center', gap: 5,
-            background: 'var(--foret)', color: 'white',
-            borderRadius: 20, padding: '7px 14px',
-            fontSize: 13, fontWeight: 600, textDecoration: 'none',
-          }}>
-            📞 Appeler
-          </a>
         </div>
       )}
     </div>
