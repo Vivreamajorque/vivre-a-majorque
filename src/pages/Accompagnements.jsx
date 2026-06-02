@@ -42,7 +42,7 @@ const OFFRES = [
     ],
     pour: 'Vous avez fait vos recherches mais votre situation est particulière — vous avez peur de prendre une mauvaise décision qui va coûter cher',
     sujet: 'Demande Conseil 45 min — 79€ lancement',
-    stripeUrl: 'https://buy.stripe.com/bJeaEW1CYcSd8By0Zf6AM0J',
+    stripeUrl: 'https://buy.stripe.com/eVq4gy1CY05r05237n6AM0W',
     prequalification: false,
   },
   {
