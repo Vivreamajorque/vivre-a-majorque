@@ -473,6 +473,36 @@ export default function Accompagnements() {
       {/* Preuve sociale */}
       <Temoignages style={{ marginTop: 8, marginBottom: 16 }} />
 
+      {/* Encart rôle & périmètre */}
+      <div style={{
+        background: '#F7F2EB',
+        border: '1px solid rgba(15,61,53,0.12)',
+        borderLeft: '3px solid #0F3D35',
+        borderRadius: '0 12px 12px 0',
+        padding: '18px 18px 16px',
+        marginBottom: 16,
+      }}>
+        <p style={{
+          fontSize: 12, fontWeight: 700, color: '#0F3D35',
+          fontFamily: 'var(--font-corps)', textTransform: 'uppercase',
+          letterSpacing: '0.06em', marginBottom: 10,
+        }}>
+          📌 Ce que je fais — et ce que je ne fais pas
+        </p>
+        <p style={{ fontSize: 13, color: '#3D3530', lineHeight: 1.65, fontFamily: 'var(--font-corps)', marginBottom: 10 }}>
+          Mon rôle est de <strong>conseiller, guider, analyser et proposer les meilleures solutions</strong> pour votre projet à Majorque. Je vulgarise et simplifie des démarches complexes qui peuvent coûter cher ou générer des erreurs si elles sont mal abordées.
+        </p>
+        <p style={{ fontSize: 13, color: '#3D3530', lineHeight: 1.65, fontFamily: 'var(--font-corps)', marginBottom: 10 }}>
+          Je ne me substitue pas au <strong>gestor, à l'avocat ni au notaire</strong> — et je ne réalise pas les démarches à votre place. Pour les actes juridiques, fiscaux ou notariés, un professionnel agréé reste indispensable.
+        </p>
+        <p style={{ fontSize: 13, color: '#3D3530', lineHeight: 1.65, fontFamily: 'var(--font-corps)', marginBottom: 10 }}>
+          Toutes les informations que je délivre proviennent de <strong>sources officielles vérifiées et vérifiables</strong> : textes de loi, publications officielles (BOE, AEAT, Seguridad Social, Govern Balear). Rien d'inventé, rien de secondaire.
+        </p>
+        <p style={{ fontSize: 12, color: '#7A6E68', lineHeight: 1.60, fontFamily: 'var(--font-corps)', fontStyle: 'italic' }}>
+          ⚠️ Les démarches peuvent varier selon les communes et les institutions. Je vous indique les règles générales applicables et vous signale les points qui méritent une vérification locale.
+        </p>
+      </div>
+
       {/* FAQ objections */}
       <FaqSection />
 
