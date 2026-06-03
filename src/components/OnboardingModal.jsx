@@ -130,15 +130,15 @@ export default function OnboardingModal({ onSubmit, onDismiss }) {
               {newsletter && <span style={{ color: 'white', fontSize: 12, fontWeight: 900 }}>✓</span>}
             </div>
             <span style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>
-              <strong style={{ color: 'var(--texte)' }}>Newsletter mensuelle</strong> — nouveaux guides, alertes utiles
+              <strong style={{ color: 'var(--texte)' }}>Lettres de l'île</strong> — la newsletter du mercredi, vie réelle à Majorque
               <span style={{ display: 'block', fontSize: 11, color: 'var(--gris-mid)', marginTop: 1 }}>
-                Optionnel · 1 email/mois max · désabonnement en 1 clic
+                Optionnel · 1 email/semaine · désabonnement en 1 clic
               </span>
             </span>
           </label>
         </div>
 
-        {/* CTA */}
+        {/* CTA principal */}
         <button
           onClick={handleSubmit}
           disabled={loading}
@@ -147,22 +147,43 @@ export default function OnboardingModal({ onSubmit, onDismiss }) {
             background: loading ? 'var(--gris)' : 'var(--foret)',
             color: 'white', border: 'none', borderRadius: 14,
             fontSize: 16, fontWeight: 700, cursor: loading ? 'default' : 'pointer',
-            marginBottom: 12, transition: 'background 0.2s',
+            marginBottom: 10, transition: 'background 0.2s',
           }}
         >
           {loading ? 'Création en cours…' : 'Créer mon accès gratuit →'}
         </button>
 
-        {/* Continuer sans compte */}
+        {/* CTA Premium */}
+        <a
+          href="https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'block', width: '100%', padding: '13px',
+            background: 'white',
+            border: '1.5px solid var(--terra)',
+            borderRadius: 14,
+            fontSize: 14, fontWeight: 600,
+            color: 'var(--terra)',
+            textAlign: 'center',
+            textDecoration: 'none',
+            marginBottom: 14,
+            boxSizing: 'border-box',
+          }}
+        >
+          Accès Premium — 9,90€ le premier mois ✦
+        </a>
+
+        {/* Continuer sans compte — plus visible */}
         <button
           onClick={onDismiss}
           style={{
             width: '100%', background: 'none', border: 'none',
-            fontSize: 13, color: 'var(--texte-sec)', cursor: 'pointer',
-            textDecoration: 'underline', padding: '4px 0',
+            fontSize: 14, color: 'var(--texte-sec)', cursor: 'pointer',
+            padding: '6px 0', letterSpacing: '0.01em',
           }}
         >
-          Continuer sans créer de compte
+          Continuer sans créer de compte →
         </button>
 
         {/* Mention légale */}
