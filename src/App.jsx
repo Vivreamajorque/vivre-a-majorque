@@ -1,5 +1,6 @@
 import React from 'react'
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useLocation } from 'react-router-dom'
+import { useEffect } from 'react'
 import { useProfile } from './context/ProfileContext'
 import Nav from './components/Nav'
 import Onboarding from './pages/Onboarding'
@@ -18,6 +19,12 @@ import Medias from './pages/Medias'
 import BudgetSimulator from './pages/BudgetSimulator'
 import Accompagnements from './pages/Accompagnements'
 import Actualites from './pages/Actualites'
+
+function ScrollToTop() {
+  const { pathname } = useLocation()
+  useEffect(() => { window.scrollTo(0, 0) }, [pathname])
+  return null
+}
 import Entreprendre from './pages/Entreprendre'
 import AutonomaSimulator from './pages/AutonomaSimulator'
 import CalendrierFiscal from './pages/CalendrierFiscal'
@@ -29,6 +36,7 @@ import RetraiteSimulator from './pages/RetraiteSimulator'
 function AppShell() {
   return (
     <>
+      <ScrollToTop />
       <Routes>
         <Route path="app" element={<Home />} />
         <Route path="app/guides" element={<Guides />} />
