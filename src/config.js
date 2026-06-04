@@ -44,7 +44,7 @@ export const PROFILS = [
 export const OWNER_EMAIL = 'amely.attias@gmail.com'
 
 export const PREMIUM_PRICE = '9,90€/mois'
-export const PREMIUM_STRIPE_LINK = 'https://buy.stripe.com/5kQaEW6Xi6tPbNKdM16AM0X'
+export const PREMIUM_STRIPE_LINK = 'https://buy.stripe.com/bJe4gya9ug4paJG6jz6AM0Y'
 
 export const GUIDE_CATEGORIES = [
   'Administratif','Logement','Travail','Santé','Famille',
