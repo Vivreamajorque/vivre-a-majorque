@@ -18,11 +18,8 @@ const DOSSIERS = [
     tags: ['Résidents', 'Pratique'],
     couleur: '#0F3D35',
     bg: '#E8F0EE',
-    premium: true,
-    ready: false,
-    buyLink: null,
-    pages: '32 pages',
-    profilCible: 'confirme',
+    premium: false,
+    ready: true,
   },
   {
     slug: 'calas-hors-pistes',
