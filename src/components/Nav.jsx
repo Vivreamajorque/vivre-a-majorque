@@ -3,14 +3,14 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { TERRA, VERT } from './WaveTitle'
 
 const TABS = [
-  { to: '/app',                    label: 'Accueil',  icon: '🏠', match: (p) => p === '/app' },
-  { to: '/app/guides',             label: 'Guides',   icon: '📚', match: (p) => p.startsWith('/app/guides') || p.startsWith('/app/guide/') },
-  { to: '/app/explorer',           label: 'Explorer', icon: '🌴', match: (p) => p.startsWith('/app/explorer') && !p.startsWith('/app/explorer/boutiques') },
-  { to: '/app/explorer/boutiques', label: 'Boutique', icon: '🛍️', match: (p) => p.startsWith('/app/explorer/boutiques') || p.startsWith('/app/explorer/lifestyle') || p.startsWith('/app/explorer/circuits') },
-  { to: '/app/moi',                label: 'Moi',      icon: '👤', match: (p) => p.startsWith('/app/moi') },
+  { to: '/app',                         label: 'Accueil',  icon: '🏠', match: (p) => p === '/app' },
+  { to: '/app/guides',                  label: 'Guides',   icon: '📚', match: (p) => p.startsWith('/app/guides') || p.startsWith('/app/guide/') },
+  { to: '/app/explorer',                label: 'Outils',   icon: '🧮', match: (p) => p.startsWith('/app/explorer') || p.startsWith('/app/outils') || p.startsWith('/app/famille') },
+  { to: '/app/moi',                     label: 'Cockpit',  icon: '📋', match: (p) => p.startsWith('/app/moi') },
+  { to: '/app/premium',                 label: 'Premium',  icon: '💎', match: (p) => p.startsWith('/app/premium') },
 ]
 
-const COLORS = [TERRA, VERT, TERRA, VERT, TERRA]
+const COLORS = [TERRA, VERT, TERRA, VERT, '#b07d2a']
 
 export default function Nav() {
   const location = useLocation()

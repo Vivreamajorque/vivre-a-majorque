@@ -32,6 +32,7 @@ import CircuitsMajorque from './pages/CircuitsMajorque'
 import MerciVisio from './pages/MerciVisio'
 import FamilleInstallation from './pages/FamilleInstallation'
 import RetraiteSimulator from './pages/RetraiteSimulator'
+import Premium from './pages/Premium'
 
 function AppShell() {
   return (
@@ -61,6 +62,7 @@ function AppShell() {
         <Route path="app/merci-visio" element={<MerciVisio />} />
         <Route path="app/famille" element={<FamilleInstallation />} />
         <Route path="app/outils/retraite" element={<RetraiteSimulator />} />
+        <Route path="app/premium" element={<Premium />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
       <Nav />

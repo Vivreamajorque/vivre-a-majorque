@@ -262,11 +262,11 @@ function ActuCarousel({ actus, loading }) {
 
 /* ── Grille accès rapide ───────────────────────────────── */
 const NAV_CARDS = [
-  { to: '/app/guides',               icon: '📚', context: '100+ fiches admin',     title: 'Guides',       color: TERRA },
-  { to: '/app/explorer',             icon: '🌴', context: 'ressources & adresses', title: 'Explorer',     color: VERT  },
-  { to: '/app/explorer/entreprendre',icon: '🏢', context: 'créer son activité',    title: 'Entreprendre', color: TERRA },
-  { to: '/app/explorer/outils',      icon: '🧮', context: 'budget, autónoma…',     title: 'Simulateurs',  color: VERT  },
-  { to: '/app/explorer/accompagnements', icon: '🤝', context: 'Visio · Cap · Éclaireur', title: 'Accompagnement', color: TERRA },
+  { to: '/app/guides',               icon: '📚', context: '100+ fiches admin',        title: 'Guides',         color: TERRA },
+  { to: '/app/explorer',             icon: '🧮', context: 'simulateurs & annuaire',   title: 'Outils',         color: VERT  },
+  { to: '/app/explorer/entreprendre',icon: '🏢', context: 'créer son activité',       title: 'Entreprendre',   color: TERRA },
+  { to: '/app/moi',                  icon: '📋', context: 'votre plan d\'installation', title: 'Cockpit',      color: VERT  },
+  { to: '/app/premium',              icon: '💎', context: 'guides · outils · accompagnement', title: 'Premium', color: '#b07d2a' },
 ]
 
 /* ── Page Home ──────────────────────────────────────────── */
@@ -326,75 +326,6 @@ export default function Home() {
         )}
       </div>
 
-      {/* ── Bannière Accompagnement ─────────────────────── */}
-      <Link to="/app/explorer/accompagnements" style={{ textDecoration: 'none', display: 'block', marginBottom: 20 }}>
-        <div style={{
-          background: `linear-gradient(135deg, #0F3D35 0%, #1a5c50 100%)`,
-          borderRadius: 18,
-          padding: '18px 20px',
-          position: 'relative',
-          overflow: 'hidden',
-        }}>
-          {/* Deco cercles */}
-          <div style={{
-            position: 'absolute', top: -30, right: -30,
-            width: 120, height: 120, borderRadius: '50%',
-            background: 'rgba(90,173,165,0.12)', pointerEvents: 'none',
-          }} />
-          <div style={{
-            position: 'absolute', bottom: -20, right: 40,
-            width: 70, height: 70, borderRadius: '50%',
-            background: 'rgba(199,110,78,0.10)', pointerEvents: 'none',
-          }} />
-
-          {/* Badge */}
-          <div style={{
-            display: 'inline-block',
-            background: 'rgba(199,110,78,0.25)',
-            border: '1px solid rgba(199,110,78,0.4)',
-            borderRadius: 20, padding: '3px 10px',
-            marginBottom: 10,
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-corps)', fontSize: 11, fontWeight: 700,
-              color: '#E8956E', letterSpacing: '0.04em',
-            }}>
-              TRAVAILLE AVEC MOI
-            </span>
-          </div>
-
-          <p style={{
-            fontFamily: 'var(--font-display)', fontWeight: 900,
-            fontSize: 22, color: '#F7F2EB',
-            lineHeight: 1.2, marginBottom: 6,
-          }}>
-            Tu veux t'installer<br />à Majorque ?
-          </p>
-
-          <p style={{
-            fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-            fontSize: 14, color: 'rgba(247,242,235,0.7)',
-            lineHeight: 1.45, marginBottom: 14,
-          }}>
-            Visio conseil · Cap Majorque · Éclaireur
-          </p>
-
-          <div style={{
-            display: 'inline-flex', alignItems: 'center', gap: 8,
-            background: '#C76E4E',
-            borderRadius: 30, padding: '8px 18px',
-          }}>
-            <span style={{
-              fontFamily: 'var(--font-corps)', fontWeight: 700,
-              fontSize: 14, color: '#fff',
-            }}>
-              Voir les accompagnements
-            </span>
-            <span style={{ color: '#fff', fontSize: 16 }}>→</span>
-          </div>
-        </div>
-      </Link>
-
       {/* ── Actus défilantes ───────────────────────────── */}
       <ActuCarousel actus={actus} loading={actusLoading} />
 
@@ -442,6 +373,29 @@ export default function Home() {
             <p style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 12, color: 'var(--texte-sec)' }}>{NAV_CARDS[4].context}</p>
           </div>
           <span style={{ color: TERRA, fontSize: 20 }}>›</span>
+        </div>
+      </Link>
+
+      {/* ── Bannière Premium ────────────────────────────── */}
+      <Link to="/app/premium" style={{ textDecoration: 'none', display: 'block', marginBottom: 28 }}>
+        <div style={{
+          background: '#0F3D35', borderRadius: 16, padding: '18px 20px',
+          position: 'relative', overflow: 'hidden',
+        }}>
+          <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: 'rgba(176,125,42,0.12)', pointerEvents: 'none' }} />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+            <span style={{ fontSize: 22 }}>💎</span>
+            <span style={{ fontFamily: 'var(--font-corps)', fontSize: 11, fontWeight: 800, color: '#c9a84c', letterSpacing: '0.06em' }}>PREMIUM — 14,90€/MOIS</span>
+          </div>
+          <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: '#F7F2EB', lineHeight: 1.2, marginBottom: 6 }}>
+            Débloquez tous les guides<br />et le cockpit complet
+          </p>
+          <p style={{ fontSize: 13, color: 'rgba(247,242,235,0.6)', marginBottom: 14, fontFamily: 'var(--font-corps)' }}>
+            100+ guides · simulateurs avancés · alertes · annuaire · accompagnement
+          </p>
+          <div style={{ display: 'inline-flex', alignItems: 'center', gap: 8, background: '#b07d2a', borderRadius: 30, padding: '8px 18px' }}>
+            <span style={{ fontFamily: 'var(--font-corps)', fontWeight: 700, fontSize: 13, color: '#fff' }}>Démarrer maintenant →</span>
+          </div>
         </div>
       </Link>
 
