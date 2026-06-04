@@ -305,9 +305,19 @@ export default function Home() {
         <div style={{ position: 'absolute', bottom: -30, left: -20, width: 120, height: 120, borderRadius: '50%', background: 'rgba(199,110,78,0.07)', pointerEvents: 'none' }} />
 
         {/* Logo */}
+        <style>{`
+          @keyframes spinOnce {
+            0%   { transform: rotateY(0deg); }
+            100% { transform: rotateY(360deg); }
+          }
+          .logo-spin {
+            animation: spinOnce 0.9s cubic-bezier(0.4, 0, 0.2, 1) 0.2s both;
+          }
+        `}</style>
         <img
           src="/logo_vivre_a_majorque.png"
           alt="Vivre à Majorque"
+          className="logo-spin"
           style={{ width: 140, height: 'auto', marginBottom: 16, position: 'relative' }}
         />
 
