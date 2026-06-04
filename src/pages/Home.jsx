@@ -288,6 +288,22 @@ export default function Home() {
   return (
     <div className="page">
 
+      {/* ── Logo ────────────────────────────────────────── */}
+      <div style={{
+        display: 'flex', justifyContent: 'center', alignItems: 'center',
+        paddingTop: 16, paddingBottom: 4,
+      }}>
+        <img
+          src="/logo_vivre_a_majorque.jpg"
+          alt="Vivre à Majorque"
+          style={{
+            width: 160, height: 'auto',
+            borderRadius: 16,
+            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+          }}
+        />
+      </div>
+
       {/* ── Header ─────────────────────────────────────── */}
       <div className="page-header">
         {profile ? (
