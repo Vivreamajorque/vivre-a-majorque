@@ -138,6 +138,7 @@ export function parseGuide(page) {
     lien: p.Lien_formulaire_officiel?.url || '',
     isPiege: p['Piège_fréquent']?.checkbox || false,
     status: p.Statut_contenu?.select?.name || '',
+    createdAt: page.created_time || '',
   }
 }
 

@@ -20,6 +20,27 @@ const CAT_EMOJIS = {
 const TERRA = 'var(--terra)'
 const VERT  = 'var(--vert)'
 
+/* Nouveau si créé dans les 14 derniers jours */
+function isNew(createdAt) {
+  if (!createdAt) return false
+  return (Date.now() - new Date(createdAt).getTime()) < 14 * 24 * 60 * 60 * 1000
+}
+
+function NewBadge() {
+  return (
+    <span style={{
+      display: 'inline-flex', alignItems: 'center',
+      fontSize: 10, fontWeight: 700,
+      color: '#fff',
+      background: 'var(--terra)',
+      borderRadius: 20, padding: '2px 7px',
+      letterSpacing: '0.03em',
+      textTransform: 'uppercase',
+      flexShrink: 0,
+    }}>✦ Nouveau</span>
+  )
+}
+
 /* ─────────────────────────────────────────────
    Matching profil → guide.situation
    Inclusive : "Les deux" / "Tous" matchent tout
@@ -105,6 +126,9 @@ function GuideCard({ guide, onOpen, onPaywall, profile }) {
       {!accessible && (
         <span style={{ position: 'absolute', top: 8, right: 8, fontSize: 14, color: 'var(--texte-sec)' }}>🔒</span>
       )}
+      {isNew(guide.createdAt) && accessible && (
+        <span style={{ position: 'absolute', top: 8, left: 8 }}><NewBadge /></span>
+      )}
       <p style={{
         fontWeight: 500, fontSize: 14,
         color: accessible ? 'var(--foret)' : 'var(--texte-sec)',
@@ -112,6 +136,7 @@ function GuideCard({ guide, onOpen, onPaywall, profile }) {
         display: '-webkit-box', WebkitLineClamp: 4,
         WebkitBoxOrient: 'vertical', overflow: 'hidden',
         marginBottom: 8,
+        marginTop: isNew(guide.createdAt) && accessible ? 18 : 0,
       }}>
         {guide.title}
       </p>
@@ -148,9 +173,12 @@ function SearchResultCard({ guide, onOpen, onPaywall, profile }) {
       }}
     >
       <div style={{ flex: 1, minWidth: 0 }}>
-        <p style={{ fontSize: 14, fontWeight: 500, color: accessible ? 'var(--foret)' : 'var(--texte-sec)', lineHeight: 1.40, marginBottom: 5 }}>
-          {guide.title}
-        </p>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
+          {isNew(guide.createdAt) && <NewBadge />}
+          <p style={{ fontSize: 14, fontWeight: 500, color: accessible ? 'var(--foret)' : 'var(--texte-sec)', lineHeight: 1.40, margin: 0 }}>
+            {guide.title}
+          </p>
+        </div>
         <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap', alignItems: 'center' }}>
           <span style={{ fontSize: 12, color: 'var(--texte-sec)', background: 'var(--gris)', padding: '2px 8px', borderRadius: 20 }}>
             {CAT_EMOJIS[guide.category] || '📄'} {guide.category}
