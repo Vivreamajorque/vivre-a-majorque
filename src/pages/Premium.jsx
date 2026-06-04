@@ -78,7 +78,7 @@ function OffreCard({ offre }) {
 export default function Premium() {
   useSEO({
     title: 'Premium — Vivre à Majorque',
-    description: 'Débloquez tous les guides, le cockpit complet et les simulateurs avancés. 9,90€/mois — puis 14,90€/mois.',
+    description: 'Débloquez tous les guides, le cockpit complet et les simulateurs avancés. 9,90€/mois, résiliation à tout moment.',
     url: 'https://vivre-a-majorque.vercel.app/app/premium',
   })
   const { isPremium } = usePremium()
