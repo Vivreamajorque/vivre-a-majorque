@@ -145,8 +145,9 @@ export function parseGuide(page) {
 export function parseCockpit(page) {
   const p = page.properties || {}
   // Profil_cible est un multi_select dans Notion → tableau de valeurs
-  const profilCible = p.Profil_cible?.multi_select?.map(s => s.name) ||
-                      (p.Profil_cible?.select?.name ? [p.Profil_cible.select.name] : [])
+  // Profil_cible est un select (valeur unique) dans Notion
+  const profilCibleVal = p.Profil_cible?.select?.name || p.Profil_cible?.multi_select?.map(s => s.name)?.[0] || ''
+  const profilCible = profilCibleVal ? [profilCibleVal] : []
   return {
     id: page.id,
     etape: p['Étape']?.title?.[0]?.plain_text || '',

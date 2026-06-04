@@ -260,6 +260,14 @@ a:active, button:active, [role="button"]:active {
     display: none;
   }
 
+  /* Empêcher le débordement horizontal sur desktop */
+  #root,
+  .desktop-content,
+  .page {
+    overflow-x: hidden;
+    max-width: 100%;
+  }
+
   /* Hover sidebar */
   aside a:hover {
     background: #F5F5F5 !important;

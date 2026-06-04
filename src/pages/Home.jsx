@@ -376,7 +376,7 @@ export default function Home() {
       </Link>
 
       {/* ── Bannière Premium ────────────────────────────── */}
-      <Link to="/app/premium" style={{ textDecoration: 'none', display: 'block', marginBottom: 28 }}>
+      <Link to="/app/premium" style={{ textDecoration: 'none', display: 'block', marginBottom: 20 }}>
         <div style={{
           background: '#0F3D35', borderRadius: 16, padding: '18px 20px',
           position: 'relative', overflow: 'hidden',
@@ -397,6 +397,35 @@ export default function Home() {
           </div>
         </div>
       </Link>
+
+      {/* ── Réseaux sociaux ─────────────────────────────── */}
+      <div style={{ marginBottom: 28, padding: '16px 0', borderTop: '1px solid var(--gris)' }}>
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 12, fontFamily: 'var(--font-corps)' }}>
+          Suivez Amely sur les réseaux
+        </p>
+        <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap' }}>
+          {[
+            { href: 'https://www.instagram.com/amely_mallorca_raw/', label: 'Instagram', bg: '#E1306C', emoji: '📸' },
+            { href: 'https://www.tiktok.com/@amelymallorcaraw', label: 'TikTok', bg: '#000000', emoji: '🎵' },
+            { href: 'https://www.facebook.com/vivre.a.majorque', label: 'Facebook', bg: '#1877F2', emoji: '👥' },
+            { href: 'https://wa.me/message/AMELYMAJORQUE', label: 'WhatsApp', bg: '#25D366', emoji: '💬' },
+          ].map(({ href, label, bg, emoji }) => (
+            <a key={label} href={href} target="_blank" rel="noopener noreferrer"
+              style={{
+                display: 'flex', alignItems: 'center', gap: 8,
+                padding: '9px 14px', borderRadius: 10,
+                background: '#fff', border: '1px solid var(--gris)',
+                textDecoration: 'none',
+                fontFamily: 'var(--font-corps)', fontSize: 13, fontWeight: 600,
+                color: 'var(--texte)',
+              }}
+            >
+              <span style={{ fontSize: 16 }}>{emoji}</span>
+              <span>{label}</span>
+            </a>
+          ))}
+        </div>
+      </div>
 
       {/* Quiz profil si déclenché */}
       {showQuiz && (
