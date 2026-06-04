@@ -220,36 +220,33 @@ a:active, button:active, [role="button"]:active {
 /* ── DESKTOP LAYOUT (≥ 769px) ─────────────────── */
 @media (min-width: 769px) {
 
-  /* Fond page global blanc */
+  /* Fond blanc global */
   #root {
     display: flex;
     min-height: 100vh;
-    background: #F7F7F8;
+    background: #fff;
   }
 
-  /* Zone contenu */
+  /* Zone contenu — pleine largeur après la sidebar */
   .desktop-content {
     margin-left: 260px;
     flex: 1;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    display: block;
     min-height: 100vh;
-    padding: 0 48px;
-    background: #F7F7F8;
+    background: #fff;
   }
 
-  /* Page — max 680px, fond blanc, ombre subtile */
+  /* Page — pleine largeur, pas de max-width, padding généreux */
   .page {
-    max-width: 680px;
+    max-width: 100%;
     width: 100%;
     background: #fff;
     min-height: 100vh;
-    padding: 0 40px 80px;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 24px rgba(0,0,0,0.04);
+    padding: 0 56px 80px;
+    box-shadow: none;
   }
 
-  /* Header collant sur desktop */
+  /* Header collant */
   .page-header {
     padding: 48px 0 20px;
     position: sticky;
@@ -263,7 +260,7 @@ a:active, button:active, [role="button"]:active {
     display: none;
   }
 
-  /* Hover sidebar links */
+  /* Hover sidebar */
   aside a:hover {
     background: #F5F5F5 !important;
   }
