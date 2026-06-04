@@ -18,7 +18,6 @@ const PLACES_DISPO = {
   visio:      5,
   cap:        3,
   eclaireur:  2,
-  integrale:  1,
 }
 
 const OFFRES = [
@@ -94,30 +93,7 @@ const OFFRES = [
     stripeUrl: null,
     prequalification: true, // ← formulaire à la place de Stripe
   },
-  {
-    id: 'integrale',
-    label: '💎 Meilleure valeur',
-    titre: 'L\'Installation Intégrale',
-    prix: '449 €',
-    prixBarre: '539 €',
-    accroche: 'Cap Majorque + Audit Éclaireur — vie et activité réunies',
-    couleur: '#FBF5F0',
-    border: 'rgba(199,110,78,0.35)',
-    textAccent: '#7a3e22',
-    highlight: false,
-    inclus: [
-      { ok: true, texte: 'Tout le Cap Majorque (2 visios + dossier)' },
-      { ok: true, texte: 'Tout l\'Audit Éclaireur (pro + fiscal + SEO)' },
-      { ok: true, texte: 'Dossier unique fusionné — vie perso + projet pro' },
-      { ok: true, texte: 'Disponible par WhatsApp pendant toute la durée — vie perso + lancement pro' },
-      { ok: true, texte: 'Économie de 90 € vs achats séparés' },
-      { ok: true, texte: '79€ du Conseil déduits si réservé dans les 30 jours — vous ne payez que 370€' },
-    ],
-    pour: 'Entrepreneurs qui déménagent leur vie ET leur activité à Majorque',
-    sujet: 'Demande Installation Intégrale — 449€',
-    stripeUrl: null,
-    prequalification: true, // ← formulaire à la place de Stripe
-  },
+
 ]
 
 const FAQS = [
@@ -415,7 +391,6 @@ export default function Accompagnements() {
 
   const MSG = {
     eclaireur: { icon: '🏢', text: 'Votre profil entrepreneur correspond à l\'Audit Éclaireur — analyse complète de votre activité à Majorque.' },
-    integrale:  { icon: '💎', text: 'Votre situation (urgence + projet pro) — L\'Installation Intégrale couvre votre vie et votre activité en un seul accompagnement.' },
     cap:       { icon: '🧭', text: 'Le Cap Majorque correspond à votre projet — un accompagnement complet de A à Z.' },
     visio:     { icon: '💬', text: 'Pour commencer sans engagement, la Visio conseil est faite pour vous.' },
   }
@@ -509,7 +484,7 @@ export default function Accompagnements() {
         </p>
       </div>
 
-      {/* Cap, Éclaireur, Intégrale */}
+      {/* Cap, Éclaireur */}
       {offres.filter(o => o.id !== 'visio').map(offre => (
         <OffreCard key={offre.id} offre={offre} onPrequalify={setPrequalOffre} />
       ))}

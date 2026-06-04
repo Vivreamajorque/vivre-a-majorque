@@ -31,7 +31,7 @@ const OFFRES = [
   { id: 'visio',     emoji: '💬', titre: 'Conseil 45 min',        prix: '79 €',  desc: 'Votre situation analysée — visio ou physique à Campos', stripe: 'https://buy.stripe.com/eVq4gy1CY05r05237n6AM0W', highlight: false },
   { id: 'cap',       emoji: '🧭', titre: 'Cap Majorque',           prix: '249 €', desc: 'Accompagnement complet — WhatsApp, physique, relais île', stripe: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K', highlight: true  },
   { id: 'eclaireur', emoji: '🏢', titre: 'Audit Éclaireur',        prix: '290 €', desc: 'Votre projet pro à Majorque — statut, fiscalité, viabilité', stripe: null, highlight: false },
-  { id: 'integrale', emoji: '💎', titre: 'Installation Intégrale', prix: '449 €', desc: 'Cap Majorque + Audit Éclaireur réunis', stripe: null, highlight: false },
+
 ]
 
 function OffreCard({ offre }) {

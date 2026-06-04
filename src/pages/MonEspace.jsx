@@ -557,7 +557,7 @@ function OffreStrip({ quiz }) {
      Offres Stripe direct → Visio et Cap uniquement */
   const OFFRES = {
     eclaireur: { titre: 'Audit Éclaireur',        prix: '290€', emoji: '🏢', desc: 'Votre projet pro à Majorque', places: 2, prequalification: true,  stripeUrl: null },
-    integrale: { titre: 'Installation Intégrale', prix: '449€', emoji: '💎', desc: 'Vie + activité réunies',       places: 1, prequalification: true,  stripeUrl: null },
+
     cap:       { titre: 'Cap Majorque',           prix: '249€', emoji: '🧭', desc: "L'accompagnement complet",     places: 3, prequalification: false, stripeUrl: 'https://buy.stripe.com/8x2fZgftO8BX4licHX6AM0K' },
     visio:     { titre: 'Visio conseil',          prix: '79€',  emoji: '💬', desc: 'Une session pour y voir clair — tarif lancement',places: 5, prequalification: false, stripeUrl: 'https://buy.stripe.com/eVq4gy1CY05r05237n6AM0W' },
   }
