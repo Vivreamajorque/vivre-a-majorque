@@ -216,3 +216,65 @@ a:active, button:active, [role="button"]:active {
 }
 .card-tap:hover  { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(28,20,16,0.10); }
 .card-tap:active { transform: scale(0.98); box-shadow: var(--shadow-sm); }
+
+/* ── DESKTOP LAYOUT (≥ 769px) ─────────────────── */
+@media (min-width: 769px) {
+
+  /* Wrapper global — sidebar + contenu */
+  #root {
+    display: flex;
+    min-height: 100vh;
+    background: #E8E2D8;
+  }
+
+  /* Zone contenu — décalée de la largeur sidebar */
+  .desktop-content {
+    margin-left: 240px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 0 32px;
+    background: #E8E2D8;
+  }
+
+  /* Page — plus large sur desktop, fond crème */
+  .page {
+    max-width: 580px;
+    width: 100%;
+    background: var(--bg);
+    min-height: 100vh;
+    padding: 0 24px 60px;
+    box-shadow: 0 0 60px rgba(28,20,16,0.08);
+  }
+
+  /* Pas de padding bottom énorme sur desktop */
+  .page-header {
+    padding: 40px 0 16px;
+    position: sticky;
+    top: 0;
+    background: linear-gradient(to bottom, var(--bg) 85%, transparent);
+    z-index: 10;
+  }
+
+  /* Nav bottom — cachée sur desktop */
+  nav[aria-label="Navigation principale"]:not(aside nav) {
+    display: none;
+  }
+
+  /* Sidebar hover effect */
+  aside a:hover {
+    background: rgba(247,242,235,0.06) !important;
+  }
+}
+
+/* Mobile — nav bottom visible, sidebar cachée */
+@media (max-width: 768px) {
+  .desktop-content {
+    display: contents;
+  }
+  .desktop-sidebar {
+    display: none;
+  }
+}

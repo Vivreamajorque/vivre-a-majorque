@@ -33,14 +33,21 @@ import MerciVisio from './pages/MerciVisio'
 import FamilleInstallation from './pages/FamilleInstallation'
 import RetraiteSimulator from './pages/RetraiteSimulator'
 import Premium from './pages/Premium'
+import Sidebar from './components/Sidebar'
 
 function AppShell() {
   return (
     <>
       <ScrollToTop />
-      <Routes>
-        <Route path="app" element={<Home />} />
-        <Route path="app/guides" element={<Guides />} />
+      {/* Sidebar desktop — cachée sur mobile via CSS */}
+      <div className="desktop-sidebar">
+        <Sidebar />
+      </div>
+      {/* Contenu — wrapper desktop centré */}
+      <div className="desktop-content">
+        <Routes>
+          <Route path="app" element={<Home />} />
+          <Route path="app/guides" element={<Guides />} />
         <Route path="app/guide/:id" element={<GuideDetail />} />
         <Route path="app/explorer" element={<Explorer />} />
         <Route path="app/explorer/annuaire" element={<Annuaire />} />
@@ -65,7 +72,9 @@ function AppShell() {
         <Route path="app/premium" element={<Premium />} />
         <Route path="*" element={<Navigate to="/app" replace />} />
       </Routes>
+      {/* Nav bottom — visible mobile uniquement via CSS */}
       <Nav />
+      </div>
     </>
   )
 }
