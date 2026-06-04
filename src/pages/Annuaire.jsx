@@ -87,7 +87,7 @@ function ProCard({ pro }) {
                 {expanded ? '▲' : '▼'}
               </span>
             : <span style={{
-                fontSize: 11, fontWeight: 700, background: 'var(--gris)',
+                fontSize: 13, fontWeight: 700, background: 'var(--gris)',
                 color: 'var(--texte-sec)', padding: '2px 8px', borderRadius: 20, whiteSpace: 'nowrap', flexShrink: 0,
               }}>Bientôt</span>
           }
@@ -114,7 +114,7 @@ function ProCard({ pro }) {
           ))}
           {isNew(pro.createdAt) && (
             <span style={{
-              fontSize: 11, fontWeight: 800, letterSpacing: '0.04em',
+              fontSize: 13, fontWeight: 800, letterSpacing: '0.04em',
               background: 'linear-gradient(135deg, var(--terra), #E8834A)',
               color: 'white', padding: '2px 8px', borderRadius: 20,
             }}>🆕 Nouveau</span>
@@ -449,7 +449,7 @@ export default function Annuaire() {
                   </span>
                   {info.hasFr && (
                     <span style={{
-                      fontSize: 11, color: 'var(--vert)', fontWeight: 700,
+                      fontSize: 13, color: 'var(--vert)', fontWeight: 700,
                       background: 'var(--vert-light)', padding: '1px 6px', borderRadius: 20,
                     }}>🇫🇷</span>
                   )}

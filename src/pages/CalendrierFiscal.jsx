@@ -372,7 +372,7 @@ function EcheanceCard({ e, moisActuel }) {
               </p>
               {e.urgent && (
                 <span style={{
-                  fontSize: 10, fontWeight: 800,
+                  fontSize: 12, fontWeight: 800,
                   color: e.couleur, background: `${e.couleur}15`,
                   border: `1px solid ${e.couleur}30`,
                   padding: '2px 7px', borderRadius: 20,
@@ -384,7 +384,7 @@ function EcheanceCard({ e, moisActuel }) {
               )}
               {e.modelo && (
                 <span style={{
-                  fontSize: 10, fontWeight: 800,
+                  fontSize: 12, fontWeight: 800,
                   color: '#fff', background: FORET,
                   padding: '2px 8px', borderRadius: 20,
                   fontFamily: 'var(--font-corps)', flexShrink: 0,
@@ -394,7 +394,7 @@ function EcheanceCard({ e, moisActuel }) {
               )}
             </div>
             <p style={{
-              fontSize: 11, fontWeight: 600,
+              fontSize: 13, fontWeight: 600,
               color: e.couleur, fontFamily: 'var(--font-corps)',
               marginBottom: 6,
             }}>
@@ -403,7 +403,7 @@ function EcheanceCard({ e, moisActuel }) {
           </div>
           {isCurrentMonth && (
             <span style={{
-              fontSize: 10, fontWeight: 800,
+              fontSize: 12, fontWeight: 800,
               color: e.couleur, background: `${e.couleur}15`,
               border: `1px solid ${e.couleur}40`,
               padding: '3px 8px', borderRadius: 20,
@@ -417,7 +417,7 @@ function EcheanceCard({ e, moisActuel }) {
           {e.desc}
         </p>
         {e.source && (
-          <p style={{ fontSize: 10, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic', opacity: 0.7 }}>
+          <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic', opacity: 0.7 }}>
             Source : {e.source}
           </p>
         )}
@@ -640,7 +640,7 @@ export default function CalendrierFiscal() {
               moisActuel={moisActuel}
               couleur={currentProfil.couleur}
             />
-            <p style={{ fontSize: 11, color: 'var(--texte-sec)', fontStyle: 'italic' }}>
+            <p style={{ fontSize: 13, color: 'var(--texte-sec)', fontStyle: 'italic' }}>
               Mois en surbrillance = mois actuel ({MOIS[moisActuel]})
             </p>
           </div>
@@ -655,7 +655,7 @@ export default function CalendrierFiscal() {
             border: '1px solid rgba(176,125,42,0.2)',
             borderRadius: 12,
           }}>
-            <p style={{ fontSize: 11, color: '#7A5A1A', lineHeight: 1.55 }}>
+            <p style={{ fontSize: 13, color: '#7A5A1A', lineHeight: 1.55 }}>
               ⚠️ Ce calendrier est indicatif et basé sur les textes officiels 2025 (BOE, AEAT). Les dates exactes peuvent varier selon votre exercice fiscal, votre domiciliation bancaire et les jours fériés. Consultez votre gestor pour votre situation précise.
             </p>
           </div>

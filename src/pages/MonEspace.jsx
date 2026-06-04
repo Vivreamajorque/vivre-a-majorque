@@ -174,7 +174,7 @@ function PhaseAccordion({ phase, steps, checked, toggle, navigate, isPremium, on
           </div>
         </div>
         <span style={{
-          fontSize: 11, color: 'var(--texte-sec)',
+          fontSize: 13, color: 'var(--texte-sec)',
           transform: open ? 'rotate(180deg)' : 'rotate(0)',
           transition: 'transform 0.2s', marginLeft: 2,
         }}>▼</span>
@@ -196,11 +196,11 @@ function PhaseAccordion({ phase, steps, checked, toggle, navigate, isPremium, on
                     width: 24, height: 24, borderRadius: 7,
                     border: '2px solid #C8C0B4',
                     display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    fontSize: 11,
+                    fontSize: 13,
                   }}>🔒</div>
                   <span style={{ fontSize: 13, color: 'var(--texte-sec)', flex: 1 }}>{step.etape}</span>
                   <span style={{
-                    fontSize: 10, color: '#b07d2a', fontWeight: 800,
+                    fontSize: 12, color: '#b07d2a', fontWeight: 800,
                     background: 'rgba(176,125,42,0.12)', padding: '3px 8px', borderRadius: 20,
                     letterSpacing: '0.04em',
                   }}>PREMIUM</span>
@@ -452,7 +452,7 @@ function CockpitPreview({ steps, checked, pct, done, total, onOpen }) {
             borderRadius: '0 9px 9px 0',
             padding: '8px 10px',
           }}>
-            <p style={{ fontSize: 10, fontWeight: 800, color: TERRA, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 2 }}>
+            <p style={{ fontSize: 12, fontWeight: 800, color: TERRA, letterSpacing: '0.07em', textTransform: 'uppercase', marginBottom: 2 }}>
               → Prochaine étape
             </p>
             <p style={{ fontSize: 12, color: 'var(--texte)', fontWeight: 500, lineHeight: 1.35 }}>
@@ -514,7 +514,7 @@ function GuideCard({ guide, isPremium, onPaywall }) {
       {locked && (
         <span style={{
           position: 'absolute', top: 8, right: 8,
-          fontSize: 10, fontWeight: 800, color: '#b07d2a',
+          fontSize: 12, fontWeight: 800, color: '#b07d2a',
           background: 'rgba(176,125,42,0.12)',
           padding: '2px 6px', borderRadius: 20,
           fontFamily: 'var(--font-corps)',
@@ -534,7 +534,7 @@ function GuideCard({ guide, isPremium, onPaywall }) {
 
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
         <span style={{
-          fontSize: 11, fontWeight: 600,
+          fontSize: 13, fontWeight: 600,
           color: locked ? '#C8C0B4' : color,
           background: locked ? '#E8E2D9' : `${color}15`,
           padding: '2px 7px', borderRadius: 20,
@@ -597,7 +597,7 @@ function OffreStrip({ quiz }) {
           }}>{o.titre}</p>
           <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.55)', lineHeight: 1.4 }}>{o.desc}</p>
           {o.prequalification && (
-            <p style={{ fontSize: 11, color: 'rgba(90,173,165,0.8)', marginTop: 4, fontFamily: 'var(--font-corps)' }}>
+            <p style={{ fontSize: 13, color: 'rgba(90,173,165,0.8)', marginTop: 4, fontFamily: 'var(--font-corps)' }}>
               Sur demande · réponse sous 24h
             </p>
           )}
@@ -711,7 +711,7 @@ function AccesCard({ isPremium, email, logout, onUpgrade }) {
             <span>Politique de confidentialité</span><span>↗</span>
           </a>
         </div>
-        <p style={{ fontSize: 10, color: '#C8C0B4', marginTop: 12, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: '#C8C0B4', marginTop: 12, lineHeight: 1.5 }}>
           RGPD · LOPDGDD · LSSI — Amely Attias · vivre@vivre-a-majorque.es
         </p>
       </div>
@@ -858,7 +858,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
               ))}
               <button onClick={() => setShowQuiz(true)} style={{
                 display: 'inline-flex', alignItems: 'center',
-                padding: '5px 11px', borderRadius: 20, fontSize: 11, fontWeight: 700,
+                padding: '5px 11px', borderRadius: 20, fontSize: 13, fontWeight: 700,
                 background: 'rgba(255,255,255,0.08)', color: 'rgba(247,242,235,0.5)',
                 border: '1.5px solid rgba(255,255,255,0.12)',
                 fontFamily: 'var(--font-corps)', cursor: 'pointer',
@@ -948,7 +948,7 @@ function Dashboard({ onShowCockpit, onUpgrade, setShowPaywall }) {
                 </span>
                 {g.category && (
                   <span style={{
-                    fontSize: 11, fontWeight: 700,
+                    fontSize: 13, fontWeight: 700,
                     color: 'var(--texte-sec)',
                     background: 'var(--bg)',
                     padding: '3px 8px', borderRadius: 20,

@@ -51,7 +51,7 @@ function OffreCard({ offre }) {
         <span style={{
           position: 'absolute', top: -10, left: '50%', transform: 'translateX(-50%)',
           background: GOLD, color: '#fff',
-          fontSize: 10, fontWeight: 800, letterSpacing: '0.06em',
+          fontSize: 12, fontWeight: 800, letterSpacing: '0.06em',
           padding: '3px 12px', borderRadius: 20,
         }}>⭐ RECOMMANDÉ</span>
       )}
@@ -156,7 +156,7 @@ export default function Premium() {
             }}>
               Démarrer maintenant →
             </button>
-            <p style={{ fontSize: 11, color: 'rgba(247,242,235,0.35)', marginTop: 10 }}>Paiement sécurisé via Stripe</p>
+            <p style={{ fontSize: 13, color: 'rgba(247,242,235,0.35)', marginTop: 10 }}>Paiement sécurisé via Stripe</p>
           </div>
 
           {/* Avantages */}
@@ -193,7 +193,7 @@ export default function Premium() {
                 </div>
                 <div>
                   <p style={{ fontSize: 13, fontWeight: 700, color: FORET }}>{t.prenom}</p>
-                  <p style={{ fontSize: 11, color: 'var(--texte-sec)' }}>{t.profil}</p>
+                  <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>{t.profil}</p>
                 </div>
               </div>
             </div>
@@ -208,7 +208,7 @@ export default function Premium() {
           }}>
             Commencer pour 9,90€/mois →
           </button>
-          <p style={{ fontSize: 11, color: 'var(--texte-sec)', textAlign: 'center', marginTop: 8 }}>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', textAlign: 'center', marginTop: 8 }}>
             Résiliable à tout moment · Aucun engagement
           </p>
         </>

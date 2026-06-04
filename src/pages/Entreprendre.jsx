@@ -141,7 +141,7 @@ function EclaireurCard({ onPaywall, isPremium }) {
       {/* Badge */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 14, position: 'relative' }}>
         <span style={{
-          fontSize: 11, fontWeight: 700, letterSpacing: '0.08em',
+          fontSize: 13, fontWeight: 700, letterSpacing: '0.08em',
           color: 'rgba(90,173,165,0.9)',
           background: 'rgba(90,173,165,0.12)',
           border: '1px solid rgba(90,173,165,0.3)',
@@ -267,7 +267,7 @@ function IntegraleStrip() {
           {INTEGRALE.prix}
         </span>
         <br />
-        <span style={{ fontSize: 11, color: 'var(--texte-sec)', textDecoration: 'line-through' }}>
+        <span style={{ fontSize: 13, color: 'var(--texte-sec)', textDecoration: 'line-through' }}>
           {INTEGRALE.prixBarre}
         </span>
       </div>
@@ -340,7 +340,7 @@ function GuideRow({ guide, isPremium, onPaywall }) {
       {/* Badge accès */}
       {isPremiumLocked ? (
         <span style={{
-          fontSize: 11, fontWeight: 700,
+          fontSize: 13, fontWeight: 700,
           color: '#b07d2a',
           background: 'rgba(176,125,42,0.10)',
           padding: '2px 8px', borderRadius: 20,
@@ -372,7 +372,7 @@ function BlocTheme({ bloc, guides, isPremium, onPaywall }) {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 12 }}>
         {bloc.tags.map(t => (
           <span key={t} style={{
-            fontSize: 11, fontWeight: 600,
+            fontSize: 13, fontWeight: 600,
             color: bloc.color,
             background: bloc.bg,
             padding: '3px 9px', borderRadius: 20,

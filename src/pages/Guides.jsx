@@ -31,7 +31,7 @@ function NewBadge() {
   return (
     <span style={{
       display: 'inline-flex', alignItems: 'center',
-      fontSize: 10, fontWeight: 700,
+      fontSize: 12, fontWeight: 700,
       color: '#fff',
       background: 'var(--terra)',
       borderRadius: 20, padding: '2px 7px',

@@ -74,14 +74,14 @@ function TemoignageCard({ t }) {
           <p style={{ fontSize: 13, fontWeight: 700, color: FORET, marginBottom: 1 }}>
             {t.prenom}
           </p>
-          <p style={{ fontSize: 11, color: 'var(--texte-sec)' }}>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)' }}>
             {t.situation}
           </p>
         </div>
         {t.offre && (
           <span style={{
             marginLeft: 'auto',
-            fontSize: 10, fontWeight: 800,
+            fontSize: 12, fontWeight: 800,
             color: t.couleur,
             background: `${t.couleur}12`,
             border: `1px solid ${t.couleur}25`,
@@ -108,7 +108,7 @@ export default function Temoignages({ style = {} }) {
         ))}
       </div>
       <p style={{
-        fontSize: 11, color: 'var(--texte-sec)',
+        fontSize: 13, color: 'var(--texte-sec)',
         textAlign: 'center', marginTop: 10,
         fontStyle: 'italic',
       }}>

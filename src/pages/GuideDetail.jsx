@@ -401,12 +401,12 @@ function GuidesLies({ currentGuide, navigate }) {
               <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
                 {g.category && (
                   <span style={{
-                    fontSize: 11, color: '#5AADA5', fontWeight: 600,
+                    fontSize: 13, color: '#5AADA5', fontWeight: 600,
                     fontFamily: 'var(--font-corps)',
                   }}>{g.category}</span>
                 )}
                 {g.access !== '🟢 Public' && (
-                  <span style={{ fontSize: 10, color: '#b07d2a', fontWeight: 600 }}>💎 Premium</span>
+                  <span style={{ fontSize: 12, color: '#b07d2a', fontWeight: 600 }}>💎 Premium</span>
                 )}
               </div>
             </div>

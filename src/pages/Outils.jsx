@@ -151,7 +151,7 @@ function ToolCard({ o, isPremium, onPaywall }) {
     }}>
       <span style={{
         position: 'absolute', top: 10, right: 10,
-        fontSize: 11, fontWeight: 700,
+        fontSize: 13, fontWeight: 700,
         color: '#8A7F74', background: '#E0D9CF',
         padding: '2px 8px', borderRadius: 20,
         fontFamily: 'var(--font-corps)',

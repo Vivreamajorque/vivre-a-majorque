@@ -38,7 +38,7 @@ export default function Sidebar() {
             <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 14, color: FORET, lineHeight: 1.2 }}>
               Vivre à Majorque
             </p>
-            <p style={{ fontSize: 11, color: '#AAA', fontFamily: 'var(--font-corps)' }}>
+            <p style={{ fontSize: 13, color: '#AAA', fontFamily: 'var(--font-corps)' }}>
               L'app des francophones
             </p>
           </div>
@@ -89,7 +89,7 @@ export default function Sidebar() {
             <span style={{ fontSize: 18 }}>💎</span>
             <div>
               <p style={{ fontSize: 12, fontWeight: 600, color: GOLD, fontFamily: 'var(--font-corps)' }}>Premium actif</p>
-              <p style={{ fontSize: 11, color: '#AAA', fontFamily: 'var(--font-corps)' }}>Accès complet débloqué</p>
+              <p style={{ fontSize: 13, color: '#AAA', fontFamily: 'var(--font-corps)' }}>Accès complet débloqué</p>
             </div>
           </div>
         ) : (
@@ -98,7 +98,7 @@ export default function Sidebar() {
               <p style={{ fontSize: 12, fontWeight: 700, color: GOLD, marginBottom: 4, fontFamily: 'var(--font-corps)' }}>
                 💎 Passer Premium
               </p>
-              <p style={{ fontSize: 11, color: '#999', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
+              <p style={{ fontSize: 13, color: '#999', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
                 9,90€/mois · 100+ guides<br/>simulateurs · cockpit complet
               </p>
             </div>
@@ -108,7 +108,7 @@ export default function Sidebar() {
 
       {/* Footer */}
       <div style={{ padding: '10px 20px 20px', borderTop: '1px solid #F0F0F0' }}>
-        <p style={{ fontSize: 11, color: '#CCC', fontFamily: 'var(--font-corps)', lineHeight: 1.6 }}>
+        <p style={{ fontSize: 13, color: '#CCC', fontFamily: 'var(--font-corps)', lineHeight: 1.6 }}>
           Par Amely · Campos, Majorque<br/>
           <a href="https://www.instagram.com/amely_mallorca_raw/" target="_blank" rel="noopener noreferrer"
             style={{ color: '#CCC', textDecoration: 'none' }}>@amely_mallorca_raw</a>

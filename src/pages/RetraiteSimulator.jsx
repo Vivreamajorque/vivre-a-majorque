@@ -103,7 +103,7 @@ const MINIMO_PERSONAL = 6700
 const BADGE = ({ color, bg, children }) => (
   <span style={{
     display: 'inline-block',
-    fontSize: 11, fontWeight: 700,
+    fontSize: 13, fontWeight: 700,
     color, background: bg,
     padding: '3px 10px', borderRadius: 20,
     fontFamily: 'var(--font-corps)',
@@ -126,7 +126,7 @@ const InfoBox = ({ icon, title, children, color = VERT }) => (
 
 const SourceBadge = ({ text }) => (
   <span style={{
-    fontSize: 10, background: 'var(--gris)', color: 'var(--texte-sec)',
+    fontSize: 12, background: 'var(--gris)', color: 'var(--texte-sec)',
     border: '1px solid #D4CCC2', padding: '1px 7px', borderRadius: 4,
     fontFamily: 'var(--font-corps)', marginLeft: 4, whiteSpace: 'nowrap',
     display: 'inline-block', verticalAlign: 'middle',
@@ -289,7 +289,7 @@ export default function RetraiteSimulator() {
               <span style={{ fontWeight: 700, fontSize: 14, color: FORET }}>{t.label}</span>
               <span style={{ fontSize: 12, color: 'var(--texte-sec)' }}>{t.desc}</span>
               {t.note && (
-                <span style={{ fontSize: 11, color: TERRA, fontWeight: 600, marginTop: 2 }}>
+                <span style={{ fontSize: 13, color: TERRA, fontWeight: 600, marginTop: 2 }}>
                   ⚠️ {t.note}
                 </span>
               )}
@@ -314,7 +314,7 @@ export default function RetraiteSimulator() {
               onChange={e => setPension(+e.target.value)}
               style={{ width: '100%', accentColor: FORET, marginBottom: 4 }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--texte-sec)', marginBottom: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
               <span>500 €</span><span>6 000 €</span>
             </div>
 
@@ -327,7 +327,7 @@ export default function RetraiteSimulator() {
               onChange={e => setAutreRevenu(+e.target.value)}
               style={{ width: '100%', accentColor: FORET, marginBottom: 4 }}
             />
-            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 11, color: 'var(--texte-sec)', marginBottom: 16 }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: 13, color: 'var(--texte-sec)', marginBottom: 16 }}>
               <span>0 €</span><span>3 000 €</span>
             </div>
 
@@ -391,14 +391,14 @@ export default function RetraiteSimulator() {
 
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 16 }}>
                   <div style={{ background: '#F7F2EB', borderRadius: 10, padding: '14px', textAlign: 'center' }}>
-                    <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginBottom: 6 }}>En France</p>
+                    <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 6 }}>En France</p>
                     <p style={{ fontSize: 22, fontWeight: 900, color: FORET, fontFamily: 'var(--font-display)' }}>{fmt(result.netFR)}</p>
-                    <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4 }}>IR ≈ {fmt(result.irFRMensuel)}/mois ({result.txFR}%)</p>
+                    <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4 }}>IR ≈ {fmt(result.irFRMensuel)}/mois ({result.txFR}%)</p>
                   </div>
                   <div style={{ background: `${VERT}10`, border: `1px solid ${VERT}30`, borderRadius: 10, padding: '14px', textAlign: 'center' }}>
-                    <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginBottom: 6 }}>En Espagne</p>
+                    <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginBottom: 6 }}>En Espagne</p>
                     <p style={{ fontSize: 22, fontWeight: 900, color: result.gain ? VERT : TERRA, fontFamily: 'var(--font-display)' }}>{fmt(result.netES)}</p>
-                    <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4 }}>IRPF ≈ {fmt(result.irpfMensuel)}/mois ({result.txEffectif}%)</p>
+                    <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4 }}>IRPF ≈ {fmt(result.irpfMensuel)}/mois ({result.txEffectif}%)</p>
                   </div>
                 </div>
 
@@ -421,7 +421,7 @@ export default function RetraiteSimulator() {
                   </div>
                 </div>
 
-                <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 10, fontStyle: 'italic', lineHeight: 1.5 }}>
+                <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 10, fontStyle: 'italic', lineHeight: 1.5 }}>
                   Estimation indicative. IR France calculé au barème 2024 avec abattement 10%. IRPF Espagne : réductions art. 20 + mínimo personal art. 57 LIRPF. Hors cotisations sociales résiduelles éventuelles. Consultez un gestor pour votre situation exacte.
                 </p>
               </div>

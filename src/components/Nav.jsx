@@ -53,7 +53,7 @@ export default function Nav() {
               fontFamily: isActive ? 'var(--font-display)' : 'var(--font-titre)',
               fontStyle: isActive ? 'normal' : 'italic',
               fontWeight: isActive ? 900 : 400,
-              fontSize: 12,
+              fontSize: 13,
               color: isActive ? color : 'var(--texte-sec)',
               letterSpacing: isActive ? '-0.01em' : '0',
               lineHeight: 1.2,

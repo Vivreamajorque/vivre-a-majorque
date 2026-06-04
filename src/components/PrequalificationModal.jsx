@@ -228,7 +228,7 @@ export default function PrequalificationModal({ offre, isOpen, onClose }) {
                 {loading ? 'Envoi en cours…' : 'Envoyer ma demande →'}
               </button>
 
-              <p style={{ fontSize: 11, color: 'var(--texte-sec)', textAlign: 'center', lineHeight: 1.5 }}>
+              <p style={{ fontSize: 13, color: 'var(--texte-sec)', textAlign: 'center', lineHeight: 1.5 }}>
                 Réponse personnelle d'Amely sous 24h · Aucun paiement maintenant
               </p>
             </div>

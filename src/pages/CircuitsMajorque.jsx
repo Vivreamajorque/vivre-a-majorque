@@ -137,7 +137,7 @@ function CircuitCard({ circuit }) {
               </p>
               {circuit.badge && (
                 <span style={{
-                  fontSize: 10, fontWeight: 800,
+                  fontSize: 12, fontWeight: 800,
                   color: circuit.couleur,
                   background: circuit.bg,
                   border: `1px solid ${circuit.couleur}30`,
@@ -158,7 +158,7 @@ function CircuitCard({ circuit }) {
             {/* Pills */}
             <div style={{ display: 'flex', gap: 6 }}>
               <span style={{
-                fontSize: 11, fontWeight: 600,
+                fontSize: 13, fontWeight: 600,
                 color: circuit.couleur,
                 background: circuit.bg,
                 padding: '3px 9px', borderRadius: 20,
@@ -167,7 +167,7 @@ function CircuitCard({ circuit }) {
                 ⏱ {circuit.duree}
               </span>
               <span style={{
-                fontSize: 11, fontWeight: 600,
+                fontSize: 13, fontWeight: 600,
                 color: 'var(--texte-sec)',
                 background: 'var(--bg)',
                 padding: '3px 9px', borderRadius: 20,

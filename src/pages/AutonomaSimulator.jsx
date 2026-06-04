@@ -202,7 +202,7 @@ function SliderInput({ label, value, onChange, min, max, step = 1, format, hint 
         style={{ width: '100%', accentColor: VERT }}
       />
       {hint && (
-        <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, fontStyle: 'italic' }}>{hint}</p>
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4, fontStyle: 'italic' }}>{hint}</p>
       )}
     </div>
   )
@@ -222,7 +222,7 @@ function Toggle({ label, value, onChange, hint }) {
     >
       <div style={{ flex: 1, paddingRight: 10 }}>
         <p style={{ fontSize: 13, fontWeight: 600, color: FORET, marginBottom: hint ? 2 : 0 }}>{label}</p>
-        {hint && <p style={{ fontSize: 11, color: 'var(--texte-sec)', lineHeight: 1.4 }}>{hint}</p>}
+        {hint && <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.4 }}>{hint}</p>}
       </div>
       <div style={{
         width: 40, height: 22, borderRadius: 11,
@@ -256,7 +256,7 @@ function ResultLine({ label, value, bold, color, source, indent }) {
           fontFamily: 'var(--font-corps)',
         }}>{label}</span>
         {source && (
-          <p style={{ fontSize: 10, color: 'var(--texte-sec)', marginTop: 1, fontStyle: 'italic' }}>{source}</p>
+          <p style={{ fontSize: 12, color: 'var(--texte-sec)', marginTop: 1, fontStyle: 'italic' }}>{source}</p>
         )}
       </div>
       <span style={{
@@ -404,7 +404,7 @@ export default function AutonomaSimulator() {
         <p style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5, marginBottom: 4 }}>
           Comparez votre net en poche : auto-entrepreneur France vs autónomo Espagne, à chiffre d'affaires identique.
         </p>
-        <p style={{ fontSize: 11, color: 'var(--texte-sec)', fontStyle: 'italic' }}>
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', fontStyle: 'italic' }}>
           Sources : RD-ley 13/2022, Ley 35/2006 IRPF, CGI Art. 50-0, Art. L613-7 CSS · Barèmes 2024/2025
         </p>
       </div>
@@ -440,8 +440,8 @@ export default function AutonomaSimulator() {
             style={{ width: '100%', accentColor: VERT }}
           />
           <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 4 }}>
-            <span style={{ fontSize: 11, color: 'rgba(247,242,235,0.4)' }}>5 000 €</span>
-            <span style={{ fontSize: 11, color: 'rgba(247,242,235,0.4)' }}>150 000 €</span>
+            <span style={{ fontSize: 13, color: 'rgba(247,242,235,0.4)' }}>5 000 €</span>
+            <span style={{ fontSize: 13, color: 'rgba(247,242,235,0.4)' }}>150 000 €</span>
           </div>
         </div>
       </div>
@@ -482,26 +482,26 @@ export default function AutonomaSimulator() {
             <div style={{
               background: FORET, borderRadius: 16, padding: '16px 14px', textAlign: 'center',
             }}>
-              <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, fontFamily: 'var(--font-corps)' }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, fontFamily: 'var(--font-corps)' }}>
                 🇪🇸 Net poche
               </p>
               <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: '#F7F2EB', lineHeight: 1, marginBottom: 4 }}>
                 {fmt(es.netPoche)}
               </p>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>
                 {fmtPct(es.txEffectif)} prélevé
               </p>
             </div>
             <div style={{
               background: TERRA, borderRadius: 16, padding: '16px 14px', textAlign: 'center',
             }}>
-              <p style={{ fontSize: 10, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, fontFamily: 'var(--font-corps)' }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,0.6)', textTransform: 'uppercase', letterSpacing: '0.06em', marginBottom: 6, fontFamily: 'var(--font-corps)' }}>
                 🇫🇷 Net poche
               </p>
               <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 22, color: '#F7F2EB', lineHeight: 1, marginBottom: 4 }}>
                 {fmt(fr.netPoche)}
               </p>
-              <p style={{ fontSize: 11, color: 'rgba(255,255,255,0.55)' }}>
+              <p style={{ fontSize: 13, color: 'rgba(255,255,255,0.55)' }}>
                 {fmtPct(fr.txEffectif)} prélevé
               </p>
             </div>
@@ -535,9 +535,9 @@ export default function AutonomaSimulator() {
           <SectionCard title="Comparaison poste par poste" color={FORET}>
             {/* En-tête */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 80px 80px', gap: 8, padding: '8px 0 6px', borderBottom: '2px solid #E0D9CF', marginBottom: 4 }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Poste</span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: FORET, textAlign: 'right' }}>🇪🇸</span>
-              <span style={{ fontSize: 11, fontWeight: 700, color: TERRA, textAlign: 'right' }}>🇫🇷</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: 'var(--texte-sec)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Poste</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: FORET, textAlign: 'right' }}>🇪🇸</span>
+              <span style={{ fontSize: 13, fontWeight: 700, color: TERRA, textAlign: 'right' }}>🇫🇷</span>
             </div>
 
             {[
@@ -558,7 +558,7 @@ export default function AutonomaSimulator() {
               }}>
                 <div>
                   <span style={{ fontSize: row.bold ? 13 : 12, fontWeight: row.bold ? 700 : 400, color: 'var(--texte)' }}>{row.label}</span>
-                  {row.note && <p style={{ fontSize: 10, color: 'var(--texte-sec)', fontStyle: 'italic', marginTop: 1, lineHeight: 1.3 }}>{row.note}</p>}
+                  {row.note && <p style={{ fontSize: 12, color: 'var(--texte-sec)', fontStyle: 'italic', marginTop: 1, lineHeight: 1.3 }}>{row.note}</p>}
                 </div>
                 <span style={{
                   fontSize: row.bold ? 13 : 12, fontWeight: row.bold ? 800 : 600,
@@ -627,7 +627,7 @@ export default function AutonomaSimulator() {
             border: '1px solid rgba(176,125,42,0.2)',
             borderRadius: 12, marginTop: 4,
           }}>
-            <p style={{ fontSize: 11, color: '#7A5A1A', lineHeight: 1.55 }}>
+            <p style={{ fontSize: 13, color: '#7A5A1A', lineHeight: 1.55 }}>
               ⚠️ Simulation indicative basée sur les barèmes officiels 2024/2025. Ne tient pas compte des conventions fiscales franco-espagnoles, des revenus du foyer, des crédits d'impôt ou situations particulières. Pour votre situation précise, consultez un gestor agréé.
             </p>
           </div>
@@ -656,14 +656,14 @@ export default function AutonomaSimulator() {
                       flex: 1, padding: '8px 4px', borderRadius: 10, border: 'none',
                       background: tauxIVA === o.val ? FORET : '#F0EAE0',
                       color: tauxIVA === o.val ? '#fff' : 'var(--texte)',
-                      fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                      fontSize: 13, fontWeight: 700, cursor: 'pointer',
                       fontFamily: 'var(--font-corps)',
                     }}>
                       {o.label}
                     </button>
                   ))}
                 </div>
-                <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic' }}>
+                <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic' }}>
                   Prestations de services intellectuels : 21%. Restauration, hébergement : 10%. Exportations : 0%.
                 </p>
               </div>
@@ -755,11 +755,11 @@ export default function AutonomaSimulator() {
                       textAlign: 'center',
                     }}>
                       <div>{o.label}</div>
-                      <div style={{ fontSize: 10, fontWeight: 400, opacity: 0.8, marginTop: 2 }}>{o.sub}</div>
+                      <div style={{ fontSize: 12, fontWeight: 400, opacity: 0.8, marginTop: 2 }}>{o.sub}</div>
                     </button>
                   ))}
                 </div>
-                <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic' }}>
+                <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic' }}>
                   BNC = prestations intellectuelles, conseil, formation. Vente = achat-revente de marchandises.
                 </p>
               </div>
@@ -861,7 +861,7 @@ export default function AutonomaSimulator() {
                   <span style={{ fontSize: 12, fontWeight: 600, color: FORET }}>{s.label}</span>
                   <span style={{ fontSize: 12, fontWeight: 800, color: '#7A5A1A' }}>{s.val}</span>
                 </div>
-                <p style={{ fontSize: 11, color: 'var(--texte-sec)', fontStyle: 'italic' }}>{s.detail}</p>
+                <p style={{ fontSize: 13, color: 'var(--texte-sec)', fontStyle: 'italic' }}>{s.detail}</p>
               </div>
             ))}
           </div>
@@ -870,7 +870,7 @@ export default function AutonomaSimulator() {
 
       {/* Disclaimer global */}
       <div style={{ marginTop: 24, padding: '12px 14px', background: 'rgba(176,125,42,0.06)', border: '1px solid rgba(176,125,42,0.2)', borderRadius: 12 }}>
-        <p style={{ fontSize: 11, color: '#7A5A1A', lineHeight: 1.55 }}>
+        <p style={{ fontSize: 13, color: '#7A5A1A', lineHeight: 1.55 }}>
           ⚠️ Simulation pédagogique basée sur les barèmes officiels 2024/2025 (célibataire sans enfant, 1 part fiscale). Ne tient pas compte de la convention fiscale franco-espagnole (Art. 24), de la situation familiale, des revenus complémentaires, ni de la résidence fiscale en transition. Consultez un gestor agréé pour votre situation personnelle.
         </p>
       </div>

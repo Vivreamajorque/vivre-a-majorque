@@ -132,7 +132,7 @@ export default function OnboardingModal({ onSubmit, onDismiss }) {
             </div>
             <span style={{ fontSize: 13, color: 'var(--texte-sec)', lineHeight: 1.5 }}>
               <strong style={{ color: 'var(--texte)' }}>Lettres de l'île</strong> — la newsletter du mercredi, vie réelle à Majorque
-              <span style={{ display: 'block', fontSize: 11, color: 'var(--gris-mid)', marginTop: 1 }}>
+              <span style={{ display: 'block', fontSize: 13, color: 'var(--gris-mid)', marginTop: 1 }}>
                 Optionnel · 1 email/semaine · désabonnement en 1 clic
               </span>
             </span>
@@ -188,7 +188,7 @@ export default function OnboardingModal({ onSubmit, onDismiss }) {
         </button>
 
         {/* Mention légale */}
-        <p style={{ fontSize: 10, color: 'var(--gris-mid)', textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
+        <p style={{ fontSize: 12, color: 'var(--gris-mid)', textAlign: 'center', marginTop: 14, lineHeight: 1.5 }}>
           Données protégées · RGPD · LOPDGDD · Aucune vente à des tiers{'\n'}
           Responsable : Amely Attias — vivre@vivre-a-majorque.es
         </p>

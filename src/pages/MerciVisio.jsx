@@ -166,7 +166,7 @@ export default function MerciVisio() {
               boxSizing: 'border-box',
             }}
           />
-          <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 4, fontFamily: 'var(--font-corps)' }}>
+          <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 4, fontFamily: 'var(--font-corps)' }}>
             Pour planifier la visio facilement
           </p>
         </div>

@@ -113,7 +113,7 @@ export default function AccompagnementBanner({
               fontFamily: 'var(--font-display)', fontWeight: 900,
               fontSize: 22, color: VERT, lineHeight: 1,
             }}>{o.prix}</p>
-            <p style={{ fontSize: 10, color: 'rgba(247,242,235,0.5)', marginTop: 2 }}>
+            <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.5)', marginTop: 2 }}>
               {o.emoji} {o.titre}
             </p>
           </div>
@@ -150,7 +150,7 @@ export default function AccompagnementBanner({
         </div>
 
         <p style={{
-          fontSize: 11, color: 'rgba(247,242,235,0.45)',
+          fontSize: 13, color: 'rgba(247,242,235,0.45)',
           textAlign: 'center', marginTop: 10,
           fontFamily: 'var(--font-corps)',
         }}>

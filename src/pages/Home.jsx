@@ -71,7 +71,7 @@ function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
             <div style={{ display: 'flex', gap: 6, flexWrap: 'wrap' }}>
               {isEntrepreneur && (
                 <span style={{
-                  fontSize: 10, fontWeight: 700,
+                  fontSize: 12, fontWeight: 700,
                   color: '#E8956E', background: 'rgba(199,110,78,0.2)',
                   border: '1px solid rgba(199,110,78,0.3)',
                   padding: '2px 8px', borderRadius: 20,
@@ -82,7 +82,7 @@ function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
               )}
               {profile?.label && !isEntrepreneur && (
                 <span style={{
-                  fontSize: 10, fontWeight: 700,
+                  fontSize: 12, fontWeight: 700,
                   color: '#7EC8C0', background: 'rgba(90,173,165,0.2)',
                   border: '1px solid rgba(90,173,165,0.3)',
                   padding: '2px 8px', borderRadius: 20,
@@ -93,7 +93,7 @@ function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
               )}
             </div>
           ) : (
-            <p style={{ fontSize: 11, color: 'rgba(247,242,235,0.5)', fontFamily: 'var(--font-corps)' }}>
+            <p style={{ fontSize: 13, color: 'rgba(247,242,235,0.5)', fontFamily: 'var(--font-corps)' }}>
               Personnaliser mon espace →
             </p>
           )}
@@ -109,7 +109,7 @@ function MonEspaceCard({ profile, quiz, user, onPersonalize }) {
                   transition: 'width 0.5s',
                 }} />
               </div>
-              <p style={{ fontSize: 10, color: 'rgba(90,173,165,0.7)', fontFamily: 'var(--font-corps)' }}>
+              <p style={{ fontSize: 12, color: 'rgba(90,173,165,0.7)', fontFamily: 'var(--font-corps)' }}>
                 {progress} étape{progress > 1 ? 's' : ''} cochée{progress > 1 ? 's' : ''} dans votre cockpit
               </p>
             </div>
@@ -148,7 +148,7 @@ function ActuCard({ actu, index }) {
             </div>
           )}
           {actu.date && (
-            <span style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 11, color: 'var(--texte-sec)' }}>
+            <span style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 13, color: 'var(--texte-sec)' }}>
               {new Date(actu.date).toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}
             </span>
           )}
@@ -174,7 +174,7 @@ function ActuCard({ actu, index }) {
         {actu.sourceDomain && (
           <div style={{ marginTop: 'auto', paddingTop: 6, display: 'flex', alignItems: 'center', gap: 5 }}>
             <div style={{ width: 5, height: 5, borderRadius: '50%', background: color }} />
-            <span style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 11, color: 'var(--texte-sec)' }}>
+            <span style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 13, color: 'var(--texte-sec)' }}>
               {actu.sourceDomain}
             </span>
           </div>
@@ -384,7 +384,7 @@ export default function Home() {
           <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: 'rgba(176,125,42,0.12)', pointerEvents: 'none' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
             <span style={{ fontSize: 22 }}>💎</span>
-            <span style={{ fontFamily: 'var(--font-corps)', fontSize: 11, fontWeight: 800, color: '#c9a84c', letterSpacing: '0.06em' }}>PREMIUM — 9,90€/MOIS PENDANT 3 MOIS</span>
+            <span style={{ fontFamily: 'var(--font-corps)', fontSize: 13, fontWeight: 800, color: '#c9a84c', letterSpacing: '0.06em' }}>PREMIUM — 9,90€/MOIS PENDANT 3 MOIS</span>
           </div>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: '#F7F2EB', lineHeight: 1.2, marginBottom: 6 }}>
             Débloquez tous les guides<br />et le cockpit complet

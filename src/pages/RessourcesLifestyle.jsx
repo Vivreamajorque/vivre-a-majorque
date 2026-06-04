@@ -171,7 +171,7 @@ function GuideCover({ dossier, unlocked, onClick }) {
             {dossier.titre}
           </p>
           <p style={{
-            fontSize: 11, fontWeight: 600,
+            fontSize: 13, fontWeight: 600,
             color: dossier.couleur,
             fontFamily: 'var(--font-corps)',
             marginBottom: 8,
@@ -181,7 +181,7 @@ function GuideCover({ dossier, unlocked, onClick }) {
           <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
             {dossier.tags.map(t => (
               <span key={t} style={{
-                fontSize: 10, fontWeight: 700,
+                fontSize: 12, fontWeight: 700,
                 color: dossier.couleur,
                 background: `${dossier.couleur}18`,
                 padding: '2px 8px', borderRadius: 20,
@@ -202,12 +202,12 @@ function GuideCover({ dossier, unlocked, onClick }) {
         borderTop: 'none',
       }}>
         <div style={{ display: 'flex', gap: 10, alignItems: 'center' }}>
-          <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.75)', fontFamily: 'var(--font-corps)' }}>
+          <span style={{ fontSize: 13, color: 'rgba(255,255,255,0.75)', fontFamily: 'var(--font-corps)' }}>
             {dossier.pages}
           </span>
           {!dossier.premium && (
             <span style={{
-              fontSize: 10, fontWeight: 800,
+              fontSize: 12, fontWeight: 800,
               background: 'rgba(255,255,255,0.2)',
               color: '#fff', padding: '2px 8px', borderRadius: 20,
               fontFamily: 'var(--font-corps)',
@@ -217,7 +217,7 @@ function GuideCover({ dossier, unlocked, onClick }) {
           )}
           {dossier.premium && unlocked && (
             <span style={{
-              fontSize: 10, fontWeight: 800,
+              fontSize: 12, fontWeight: 800,
               background: 'rgba(255,255,255,0.2)',
               color: '#fff', padding: '2px 8px', borderRadius: 20,
               fontFamily: 'var(--font-corps)',
@@ -227,7 +227,7 @@ function GuideCover({ dossier, unlocked, onClick }) {
           )}
           {dossier.premium && !unlocked && (
             <span style={{
-              fontSize: 10, fontWeight: 800,
+              fontSize: 12, fontWeight: 800,
               background: 'rgba(255,255,255,0.2)',
               color: '#fff', padding: '2px 8px', borderRadius: 20,
               fontFamily: 'var(--font-corps)',
@@ -327,7 +327,7 @@ function PurchaseModal({ dossier, onClose, onSubscribe }) {
           <div style={{
             position: 'absolute', top: -8, right: 14,
             background: TERRA, color: 'white',
-            fontSize: 11, fontWeight: 800, padding: '3px 10px', borderRadius: 20,
+            fontSize: 13, fontWeight: 800, padding: '3px 10px', borderRadius: 20,
           }}>
             MEILLEUR PRIX
           </div>

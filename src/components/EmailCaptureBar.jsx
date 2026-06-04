@@ -156,7 +156,7 @@ export default function EmailCaptureBar({ prenom }) {
         </button>
       </div>
       {error && (
-        <p style={{ fontSize: 11, color: '#F0A0A0', marginTop: 6 }}>{error}</p>
+        <p style={{ fontSize: 13, color: '#F0A0A0', marginTop: 6 }}>{error}</p>
       )}
     </div>
   )

@@ -94,7 +94,7 @@ function NouveauteCard({ cat, navigate }) {
           borderRadius: 20, padding: '4px 12px',
           marginBottom: 14,
         }}>
-          <span style={{ fontSize: 10, fontWeight: 800, color: '#7EC8C0', letterSpacing: '0.08em', fontFamily: 'var(--font-corps)', textTransform: 'uppercase' }}>
+          <span style={{ fontSize: 12, fontWeight: 800, color: '#7EC8C0', letterSpacing: '0.08em', fontFamily: 'var(--font-corps)', textTransform: 'uppercase' }}>
             ✦ Nouveauté
           </span>
         </div>
@@ -140,7 +140,7 @@ function NouveauteCard({ cat, navigate }) {
           </span>
           {cat.badgePremium && (
             <span style={{
-              fontSize: 11, fontWeight: 700,
+              fontSize: 13, fontWeight: 700,
               color: '#F7F2EB', background: 'rgba(176,125,42,0.35)',
               border: '1px solid rgba(176,125,42,0.5)',
               padding: '3px 10px', borderRadius: 20,
@@ -215,7 +215,7 @@ function CategoryCard({ cat, navigate }) {
           <div style={{ display: 'flex', gap: 5, flexWrap: 'wrap' }}>
             {cat.badge && (
               <span style={{
-                fontSize: 10, fontWeight: 800,
+                fontSize: 12, fontWeight: 800,
                 color: cat.color, background: cat.bg,
                 border: `1px solid ${cat.border}`,
                 padding: '2px 7px', borderRadius: 20,
@@ -226,7 +226,7 @@ function CategoryCard({ cat, navigate }) {
             )}
             {cat.badgePremium && (
               <span style={{
-                fontSize: 10, fontWeight: 700,
+                fontSize: 12, fontWeight: 700,
                 color: '#b07d2a',
                 background: 'rgba(176,125,42,0.1)',
                 border: '1px solid rgba(176,125,42,0.25)',

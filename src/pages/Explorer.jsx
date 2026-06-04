@@ -117,7 +117,7 @@ export default function Explorer() {
               {results.guides.length > 0 && (
                 <div style={{ marginBottom: 16 }}>
                   <div style={{
-                    fontSize: 11, fontWeight: 700, letterSpacing: '0.08em',
+                    fontSize: 13, fontWeight: 700, letterSpacing: '0.08em',
                     color: 'var(--texte-sec)', marginBottom: 8, textTransform: 'uppercase',
                   }}>Guides ({results.guides.length})</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
@@ -151,7 +151,7 @@ export default function Explorer() {
               {results.sections.length > 0 && (
                 <div>
                   <div style={{
-                    fontSize: 11, fontWeight: 700, letterSpacing: '0.08em',
+                    fontSize: 13, fontWeight: 700, letterSpacing: '0.08em',
                     color: 'var(--texte-sec)', marginBottom: 8, textTransform: 'uppercase',
                   }}>Sections</div>
                   <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>

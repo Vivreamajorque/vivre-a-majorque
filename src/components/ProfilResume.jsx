@@ -61,7 +61,7 @@ export default function ProfilResume({ quiz, onEdit }) {
             padding: '14px 14px 12px',
           }}>
             <p style={{
-              fontSize: 10,
+              fontSize: 12,
               fontWeight: 800,
               color: 'var(--texte-sec)',
               textTransform: 'uppercase',

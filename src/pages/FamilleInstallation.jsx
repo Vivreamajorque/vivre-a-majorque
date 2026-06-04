@@ -144,7 +144,7 @@ export default function FamilleInstallation() {
           <span style={{ fontSize: 14, fontWeight: 700, color: FORET }}>Total mensuel estimé</span>
           <span style={{ fontSize: 16, fontWeight: 900, color: VERT }}>3 395 €</span>
         </div>
-        <p style={{ fontSize: 11, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic' }}>
+        <p style={{ fontSize: 13, color: 'var(--texte-sec)', marginTop: 6, fontStyle: 'italic' }}>
           Source INE — Encuesta de Presupuestos Familiares Illes Balears 2023. Estimations basées sur le mode standard hors Palma.
         </p>
       </div>

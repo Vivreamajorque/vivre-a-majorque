@@ -132,7 +132,7 @@ export default function Onboarding() {
             <p style={{ fontSize: 12, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
               Profil : <strong style={{ color: 'var(--texte)' }}>{selectedProfil?.label}</strong>
             </p>
-            <p style={{ fontSize: 11, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
+            <p style={{ fontSize: 13, color: 'var(--texte-sec)', fontFamily: 'var(--font-corps)' }}>
               Quelques questions pour personnaliser votre espace
             </p>
           </div>
@@ -279,7 +279,7 @@ export default function Onboarding() {
                 {submitting ? 'Envoi…' : `Recevoir mes ressources gratuites →`}
               </button>
 
-              <p style={{ fontSize: 11, color: 'var(--texte-sec)', textAlign: 'center', lineHeight: 1.5 }}>
+              <p style={{ fontSize: 13, color: 'var(--texte-sec)', textAlign: 'center', lineHeight: 1.5 }}>
                 Désabonnement en 1 clic · Aucun spam · RGPD
               </p>
 

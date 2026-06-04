@@ -252,7 +252,7 @@ function OffreCard({ offre, onPrequalify }) {
             </span>
             {places > 0 && (
               <span style={{
-                fontSize: 11, fontWeight: 800,
+                fontSize: 13, fontWeight: 800,
                 color: places === 1 ? '#C74E4E' : '#b07d2a',
                 background: places === 1 ? 'rgba(199,78,78,0.10)' : 'rgba(176,125,42,0.10)',
                 border: `1px solid ${places === 1 ? 'rgba(199,78,78,0.25)' : 'rgba(176,125,42,0.25)'}`,
@@ -265,7 +265,7 @@ function OffreCard({ offre, onPrequalify }) {
             {/* Badge "sur demande" pour les offres avec pré-qualification */}
             {offre.prequalification && (
               <span style={{
-                fontSize: 11, fontWeight: 700,
+                fontSize: 13, fontWeight: 700,
                 color: '#7a3e22',
                 background: 'rgba(199,110,78,0.10)',
                 border: '1px solid rgba(199,110,78,0.25)',
@@ -486,7 +486,7 @@ export default function Accompagnements() {
       }}>
         <div style={{ flex: 1, height: '0.5px', background: 'var(--gris)' }} />
         <p style={{
-          fontSize: 11, fontWeight: 700, color: 'var(--texte-sec)',
+          fontSize: 13, fontWeight: 700, color: 'var(--texte-sec)',
           fontFamily: 'var(--font-corps)', textTransform: 'uppercase',
           letterSpacing: '0.07em', whiteSpace: 'nowrap',
         }}>

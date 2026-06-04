@@ -264,6 +264,25 @@ a:active, button:active, [role="button"]:active {
   aside a:hover {
     background: #F5F5F5 !important;
   }
+
+  /* Typographie desktop — plus lisible sur grand écran */
+  .page {
+    font-size: 17px;
+    line-height: 1.75;
+  }
+
+  .page h1 { font-size: 2.4rem; }
+  .page h2 { font-size: 1.6rem; }
+  .page h3 { font-size: 1.25rem; }
+
+  /* Cards et badges desktop — taille lisible */
+  .badge { font-size: 13px; padding: 4px 10px; }
+
+  /* Nav labels sidebar — légèrement plus grands */
+  .desktop-sidebar aside span { font-size: 15px; }
+
+  /* Boutons desktop — plus grands */
+  .btn { font-size: 15px; padding: 13px 24px; }
 }
 
 /* Mobile — contenu pleine largeur, sidebar cachée */
