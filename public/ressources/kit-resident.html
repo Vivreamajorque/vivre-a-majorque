@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Le Kit du Résident — Vivre à Majorque</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --foret: #0F3D35;
+            --vert: #5AADA5;
+            --terra: #C76E4E;
+            --gold: #b07d2a;
+        }
+        body { font-family: 'Inter', sans-serif; background: #F7F9F8; color: #1C1410; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; }
+        .card { background: #fff; border-radius: 16px; border: 1px solid #E8EDE8; }
+        .badge { display: inline-block; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; letter-spacing: 0.04em; }
+        .badge-vert { background: rgba(90,173,165,0.12); color: #3D8E87; }
+        .badge-terra { background: rgba(199,110,78,0.12); color: #A0512E; }
+        .badge-gold { background: rgba(176,125,42,0.12); color: #7A5A1A; }
+        .step-num { width: 28px; height: 28px; border-radius: 8px; background: var(--foret); color: #fff; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
+        .alert { border-left: 4px solid var(--terra); background: rgba(199,110,78,0.06); border-radius: 0 12px 12px 0; padding: 14px 16px; }
+        .tip { border-left: 4px solid var(--vert); background: rgba(90,173,165,0.06); border-radius: 0 12px 12px 0; padding: 14px 16px; }
+        .section-divider { height: 2px; background: linear-gradient(90deg, var(--foret), transparent); border-radius: 2px; margin: 2rem 0; }
+        a { color: var(--vert); }
+    </style>
+</head>
+<body class="py-10 px-4 md:px-10 lg:px-20">
+<div class="max-w-3xl mx-auto">
+
+    <!-- HEADER -->
+    <header class="mb-12">
+        <div class="flex items-center gap-3 mb-6">
+            <span class="text-4xl">🗝️</span>
+            <div>
+                <span class="badge badge-vert">RÉSIDENTS · GRATUIT</span>
+                <p style="font-size:12px; color:#999; margin-top:4px;">Sources : AEAT, Seg-Social, Policia Nacional, INE — mis à jour juin 2026</p>
+            </div>
+        </div>
+        <h1 class="text-4xl md:text-5xl font-bold leading-tight mb-4" style="color: var(--foret)">
+            Le Kit du Résident
+        </h1>
+        <p class="italic text-xl mb-6" style="color: var(--terra); font-family: 'Playfair Display', serif;">
+            Ce qu'on apprend (trop tard) quand on vit vraiment à Majorque
+        </p>
+        <p class="text-base leading-relaxed" style="color: #555; max-width: 600px;">
+            Vous êtes installé·e depuis plus d'un an. Les grandes cases sont cochées — NIE, empadronamiento, Seguridad Social. 
+            Ce guide couvre la suite : les démarches annuelles à ne pas rater, les outils numériques indispensables, 
+            et les réflexes qui font vraiment la différence au quotidien.
+        </p>
+        <div class="flex gap-3 mt-6 flex-wrap">
+            <span class="badge badge-vert">TIE</span>
+            <span class="badge badge-vert">Renta IRPF</span>
+            <span class="badge badge-vert">Certificat digital</span>
+            <span class="badge badge-vert">Cl@ve</span>
+            <span class="badge badge-vert">Empadronamiento</span>
+            <span class="badge badge-gold">Vie pratique</span>
+        </div>
+    </header>
+
+    <!-- SOMMAIRE -->
+    <div class="card p-6 mb-10">
+        <h2 class="text-lg font-bold mb-4" style="color: var(--foret)">Au programme</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+            <a href="#tie" class="flex items-center gap-2 text-sm py-2 px-3 rounded-lg hover:bg-gray-50 transition">
+                <span>📋</span><span>1. Renouveler sa TIE</span>
+            </a>
+            <a href="#empadronamiento" class="flex items-center gap-2 text-sm py-2 px-3 rounded-lg hover:bg-gray-50 transition">
+                <span>🏛️</span><span>2. Empadronamiento — rester en règle</span>
+            </a>
+            <a href="#renta" class="flex items-center gap-2 text-sm py-2 px-3 rounded-lg hover:bg-gray-50 transition">
+                <span>📊</span><span>3. La déclaration renta (IRPF)</span>
+            </a>
+            <a href="#digital" class="flex items-center gap-2 text-sm py-2 px-3 rounded-lg hover:bg-gray-50 transition">
+                <span>💻</span><span>4. Certificat digital & Cl@ve</span>
+            </a>
+            <a href="#absences" class="flex items-center gap-2 text-sm py-2 px-3 rounded-lg hover:bg-gray-50 transition">
+                <span>✈️</span><span>5. Absences d'Espagne — les règles</span>
+            </a>
+            <a href="#apps" class="flex items-center gap-2 text-sm py-2 px-3 rounded-lg hover:bg-gray-50 transition">
+                <span>📱</span><span>6. Les apps indispensables du résident</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- SECTION 1 : TIE -->
+    <section id="tie" class="mb-12">
+        <div class="section-divider"></div>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📋</span>
+            <h2 class="text-2xl font-bold" style="color: var(--foret)">1. Renouveler sa TIE</h2>
+        </div>
+
+        <p class="text-base leading-relaxed mb-6" style="color: #444">
+            La Tarjeta de Identidad de Extranjero (TIE) est votre carte de résident. 
+            Elle doit être renouvelée avant expiration — le délai légal est précis, pas de marge d'erreur.
+        </p>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-4" style="color: var(--foret)">Les délais officiels</h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-3">
+                    <div class="step-num">1</div>
+                    <div>
+                        <p class="font-semibold text-sm">Fenêtre de dépôt</p>
+                        <p class="text-sm mt-1" style="color: #555">Vous pouvez déposer votre dossier à partir de <strong>60 jours avant</strong> la date d'expiration. Ne le faites pas plus tôt — le dossier sera refusé.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="step-num">2</div>
+                    <div>
+                        <p class="font-semibold text-sm">Après expiration</p>
+                        <p class="text-sm mt-1" style="color: #555">Vous avez <strong>90 jours supplémentaires</strong> après la date d'expiration pour déposer — mais une amende est probable. Ne prenez pas ce risque.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="step-num">3</div>
+                    <div>
+                        <p class="font-semibold text-sm">Délai de résolution</p>
+                        <p class="text-sm mt-1" style="color: #555">La résolution administrative prend jusqu'à <strong>3 mois</strong>. Pendant ce délai, le récépissé de dépôt fait foi de votre situation régulière.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-4" style="color: var(--foret)">La procédure en 4 étapes</h3>
+            <div class="space-y-4">
+                <div class="flex items-start gap-3">
+                    <div class="step-num">1</div>
+                    <div>
+                        <p class="font-semibold text-sm">Générez et payez la tasa</p>
+                        <p class="text-sm mt-1" style="color: #555">Modèle 790 code 012 — payable en ligne ou en banque. Montant 2025 : <strong>19,30 €</strong>. Conservez l'imprimé. Source : <a href="https://sede.policia.gob.es" target="_blank">sede.policia.gob.es</a></p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="step-num">2</div>
+                    <div>
+                        <p class="font-semibold text-sm">Préparez les documents</p>
+                        <p class="text-sm mt-1" style="color: #555">Passeport en cours de validité (original + copie) · TIE actuelle (original + copie) · Formulaire EX-17 complété · Justificatif de ressources (relevés bancaires, fiches de paie, ou déclaration d'activité) · Justificatif de couverture santé · 1 photo d'identité 32×26mm fond blanc.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="step-num">3</div>
+                    <div>
+                        <p class="font-semibold text-sm">Déposez le dossier</p>
+                        <p class="text-sm mt-1" style="color: #555">En ligne via <strong>Plataforma Mercurio</strong> (avec certificat digital) ou en présentiel à la Comisaría de Policía Nacional de Palma sur rendez-vous (cita previa). Les citas partent en quelques minutes chaque semaine — connectez-vous tôt.</p>
+                    </div>
+                </div>
+                <div class="flex items-start gap-3">
+                    <div class="step-num">4</div>
+                    <div>
+                        <p class="font-semibold text-sm">Prenez rendez-vous pour les empreintes</p>
+                        <p class="text-sm mt-1" style="color: #555">Après résolution favorable, nouvelle cita previa pour la prise d'empreintes et la remise de la carte physique.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert mb-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--terra)">⚠️ Erreur fréquente</p>
+            <p class="text-sm" style="color: #555">Ne pas justifier correctement les moyens économiques est la première cause de rejet. Si vous êtes salarié : 3 dernières fiches de paie + contrat. Si autónomo : dernière déclaration IRPF + vida laboral. Si retraité : attestation de pension.</p>
+        </div>
+
+        <div class="tip">
+            <p class="text-sm font-semibold mb-1" style="color: var(--vert)">💡 Astuce</p>
+            <p class="text-sm" style="color: #555">Activez les alertes calendrier 3 mois avant expiration. La cita previa Policía Nacional se libère souvent le lundi matin à 8h00 — ayez l'URL prête : <a href="https://sede.policia.gob.es/portalCiudadano/_es/tramites_ciudadanos_ssp.php" target="_blank">sede.policia.gob.es</a></p>
+        </div>
+    </section>
+
+    <!-- SECTION 2 : EMPADRONAMIENTO -->
+    <section id="empadronamiento" class="mb-12">
+        <div class="section-divider"></div>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">🏛️</span>
+            <h2 class="text-2xl font-bold" style="color: var(--foret)">2. Empadronamiento — rester en règle</h2>
+        </div>
+
+        <p class="text-base leading-relaxed mb-6" style="color: #444">
+            L'empadronamiento est votre inscription au registre municipal. C'est la preuve de votre domicile légal en Espagne — indispensable pour la TIE, la Seguridad Social, les démarches scolaires, et les aides locales.
+        </p>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-4" style="color: var(--foret)">Ce que vous devez savoir quand vous êtes déjà installé·e</h3>
+            <div class="space-y-4">
+                <div>
+                    <p class="font-semibold text-sm mb-1">Vous déménagez dans la même commune</p>
+                    <p class="text-sm" style="color: #555">Déclarez le changement d'adresse auprès de votre mairie (en ligne avec certificat digital ou en présentiel). Ne pas le faire peut entraîner une radiation d'office.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-sm mb-1">Vous changez de commune</p>
+                    <p class="text-sm" style="color: #555">Inscrivez-vous dans la nouvelle commune — l'ancienne inscription est automatiquement annulée. Délai de résolution : jusqu'à 3 mois.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-sm mb-1">Renouvellement périodique (non-UE)</p>
+                    <p class="text-sm" style="color: #555">Les ressortissants <strong>hors UE</strong> sans résidence permanente doivent renouveler leur inscription padronal périodiquement sur demande de la mairie (instruction INE). Si vous recevez un courrier de l'ajuntament, répondez dans le délai indiqué pour ne pas perdre votre inscription. Les citoyens <strong>UE</strong> (Français, Belges, Suisses selon accord) avec résidence permanente n'ont pas cette obligation.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--foret)">Le certificat d'empadronamiento</h3>
+            <p class="text-sm leading-relaxed mb-3" style="color: #555">
+                Ce document vous sera demandé régulièrement : banque, TIE, école, prestataires sociaux. Il est <strong>gratuit</strong> et se demande à votre mairie — en ligne ou en présentiel. Il est valable généralement 3 mois selon l'usage.
+            </p>
+            <p class="text-sm" style="color: #555">
+                À Palma : <a href="https://seuelectronica.palma.cat" target="_blank">seuelectronica.palma.cat</a> → "Certificado de empadronamiento".<br>
+                Autres communes de Mallorca : via la sede electrónica de votre ajuntament.
+            </p>
+        </div>
+
+        <div class="tip">
+            <p class="text-sm font-semibold mb-1" style="color: var(--vert)">💡 À garder toujours</p>
+            <p class="text-sm" style="color: #555">Conservez toujours un certificat récent (moins de 3 mois) dans vos documents numériques. Il est demandé sans préavis dans de nombreuses démarches.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 3 : RENTA IRPF -->
+    <section id="renta" class="mb-12">
+        <div class="section-divider"></div>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📊</span>
+            <h2 class="text-2xl font-bold" style="color: var(--foret)">3. La déclaration renta (IRPF)</h2>
+        </div>
+
+        <p class="text-base leading-relaxed mb-6" style="color: #444">
+            L'IRPF (Impuesto sobre la Renta de las Personas Físicas) est l'équivalent espagnol de l'impôt sur le revenu. 
+            Vous y êtes soumis dès que vous êtes <strong>résident fiscal en Espagne</strong>.
+        </p>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-4" style="color: var(--foret)">Êtes-vous résident fiscal espagnol ?</h3>
+            <p class="text-sm mb-3" style="color: #555">Vous l'êtes si au moins une de ces conditions est remplie :</p>
+            <div class="space-y-2">
+                <div class="flex items-start gap-2">
+                    <span class="text-green-600 text-sm mt-0.5">✓</span>
+                    <p class="text-sm" style="color: #444">Vous avez passé plus de <strong>183 jours en Espagne</strong> durant l'année civile (1er janvier – 31 décembre)</p>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-green-600 text-sm mt-0.5">✓</span>
+                    <p class="text-sm" style="color: #444">Votre activité économique principale se situe en Espagne</p>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span class="text-green-600 text-sm mt-0.5">✓</span>
+                    <p class="text-sm" style="color: #444">Votre conjoint·e et/ou enfants mineurs résident habituellement en Espagne</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-4" style="color: var(--foret)">Qui est obligé de déclarer ?</h3>
+            <div class="space-y-3">
+                <div class="flex items-start gap-2">
+                    <span style="color: var(--terra)">→</span>
+                    <p class="text-sm" style="color: #444"><strong>Autónomos :</strong> toujours obligés, sans seuil minimum de revenus. (Source : AEAT, campagne renta 2025)</p>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span style="color: var(--terra)">→</span>
+                    <p class="text-sm" style="color: #444"><strong>Salariés avec un seul employeur :</strong> obligés si revenus bruts annuels ≥ 22 000 €</p>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span style="color: var(--terra)">→</span>
+                    <p class="text-sm" style="color: #444"><strong>Salariés avec plusieurs employeurs :</strong> obligés si revenus ≥ 15 876 € et que le 2e payeur dépasse 1 500 €/an</p>
+                </div>
+                <div class="flex items-start gap-2">
+                    <span style="color: var(--terra)">→</span>
+                    <p class="text-sm" style="color: #444"><strong>Retraités avec pension étrangère uniquement :</strong> obligés si la pension dépasse 15 876 € (résolution TEAC 28/06/2022)</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--foret)">Les dates à retenir</h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+                <div class="rounded-xl p-4" style="background: rgba(90,173,165,0.08); border: 1px solid rgba(90,173,165,0.2)">
+                    <p class="text-xs font-bold mb-1" style="color: var(--vert)">OUVERTURE</p>
+                    <p class="font-semibold text-sm">Début avril</p>
+                    <p class="text-xs mt-1" style="color: #777">Campagne renta ouverte — début de la période de déclaration</p>
+                </div>
+                <div class="rounded-xl p-4" style="background: rgba(176,125,42,0.08); border: 1px solid rgba(176,125,42,0.2)">
+                    <p class="text-xs font-bold mb-1" style="color: var(--gold)">LIMITE VIREMENT</p>
+                    <p class="font-semibold text-sm">25 juin</p>
+                    <p class="text-xs mt-1" style="color: #777">Dernière date pour la domiciliation bancaire si vous devez payer</p>
+                </div>
+                <div class="rounded-xl p-4" style="background: rgba(199,110,78,0.08); border: 1px solid rgba(199,110,78,0.2)">
+                    <p class="text-xs font-bold mb-1" style="color: var(--terra)">CLÔTURE</p>
+                    <p class="font-semibold text-sm">30 juin</p>
+                    <p class="text-xs mt-1" style="color: #777">Délai absolu. Pas de prorogation — pénalités immédiates hors délai</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--foret)">Comment déclarer</h3>
+            <p class="text-sm mb-3" style="color: #555">Tout se passe en ligne sur <a href="https://sede.agenciatributaria.gob.es" target="_blank">sede.agenciatributaria.gob.es</a> via <strong>Renta Web</strong>. Vous aurez besoin de votre certificat digital ou Cl@ve (voir section 4).</p>
+            <p class="text-sm" style="color: #555">La plateforme génère un <strong>borrador</strong> (brouillon pré-rempli) à partir de vos données connues de l'AEAT. Vérifiez-le attentivement — il peut manquer des revenus étrangers, des déductions, ou des revenus immobiliers.</p>
+        </div>
+
+        <div class="alert mb-4">
+            <p class="text-sm font-semibold mb-1" style="color: var(--terra)">⚠️ Double imposition France–Espagne</p>
+            <p class="text-sm" style="color: #555">La convention fiscale franco-espagnole du 10 octobre 1995 évite la double imposition — mais elle ne supprime pas les obligations déclaratives dans chaque pays. Si vous continuez à percevoir des revenus français (loyers, dividendes, pension), consultez un gestor spécialisé pour éviter de payer deux fois ou de manquer une déclaration.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 4 : CERTIFICAT DIGITAL & CLAVE -->
+    <section id="digital" class="mb-12">
+        <div class="section-divider"></div>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">💻</span>
+            <h2 class="text-2xl font-bold" style="color: var(--foret)">4. Certificat digital & Cl@ve</h2>
+        </div>
+
+        <p class="text-base leading-relaxed mb-6" style="color: #444">
+            Ce sont les deux outils qui vous permettent d'interagir avec l'administration espagnole en ligne. 
+            Sans eux, chaque démarche nécessite un déplacement physique et une cita previa.
+        </p>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="card p-5">
+                <h3 class="font-semibold text-base mb-2" style="color: var(--foret)">🔐 Certificat digital FNMT</h3>
+                <p class="text-sm mb-3" style="color: #555">Signature électronique à valeur légale. Indispensable pour déclarer l'IRPF, renouveler la TIE en ligne, accéder à la Seguridad Social.</p>
+                <div class="space-y-1 text-sm" style="color: #555">
+                    <p>• Gratuit — émis par la FNMT</p>
+                    <p>• Valable 4 ans</p>
+                    <p>• Obtention : en ligne + vérification en présentiel (Hacienda ou SS)</p>
+                    <p>• Site : <a href="https://www.sede.fnmt.gob.es" target="_blank">sede.fnmt.gob.es</a></p>
+                </div>
+            </div>
+            <div class="card p-5">
+                <h3 class="font-semibold text-base mb-2" style="color: var(--foret)">📲 Cl@ve</h3>
+                <p class="text-sm mb-3" style="color: #555">Identifiant numérique simplifié pour les démarches courantes. Trois niveaux : PIN (usage unique), Permanente, Firma (signature).</p>
+                <div class="space-y-1 text-sm" style="color: #555">
+                    <p>• Gratuit — accessible avec NIE valide</p>
+                    <p>• Inscription : en ligne ou sur rendez-vous Hacienda</p>
+                    <p>• Utilisable pour citas, consultation SS, empadronamiento</p>
+                    <p>• Site : <a href="https://clave.gob.es" target="_blank">clave.gob.es</a></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="card p-6 mb-4">
+            <h3 class="text-lg font-semibold mb-3" style="color: var(--foret)">Lequel choisir ?</h3>
+            <div class="space-y-2 text-sm" style="color: #555">
+                <p><strong>Cl@ve</strong> → pour réserver des citas previa, consulter votre dossier SS, obtenir un certificat d'empadronamiento. Simple, rapide.</p>
+                <p><strong>Certificat digital</strong> → pour signer des documents officiels, renouveler la TIE en ligne, déclarer l'IRPF, tout acte avec valeur juridique.</p>
+                <p class="pt-2"><strong>Recommandation :</strong> obtenez les deux. Commencez par Cl@ve (plus rapide) puis demandez le certificat digital dans la foulée, car vous aurez de toute façon besoin des deux.</p>
+            </div>
+        </div>
+
+        <div class="tip">
+            <p class="text-sm font-semibold mb-1" style="color: var(--vert)">💡 Important</p>
+            <p class="text-sm" style="color: #555">Le certificat digital est lié à votre navigateur et ordinateur. Exportez une copie de sauvegarde (format .p12) dès que vous l'obtenez. Si vous changez d'ordinateur sans l'avoir exporté, vous devez tout recommencer.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 5 : ABSENCES -->
+    <section id="absences" class="mb-12">
+        <div class="section-divider"></div>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">✈️</span>
+            <h2 class="text-2xl font-bold" style="color: var(--foret)">5. Absences d'Espagne — les règles</h2>
+        </div>
+
+        <p class="text-base leading-relaxed mb-6" style="color: #444">
+            Vivre à Majorque ne signifie pas ne jamais partir. Mais vos absences ont des conséquences sur votre résidence et votre statut. Voici les règles à connaître.
+        </p>
+
+        <div class="card p-6 mb-4">
+            <div class="space-y-5">
+                <div>
+                    <p class="font-semibold text-sm mb-1">Résidence fiscale — règle des 183 jours</p>
+                    <p class="text-sm" style="color: #555">Si vous passez plus de 183 jours hors d'Espagne sur une année civile, vous perdez votre qualité de résident fiscal espagnol pour cette année. Vous devez alors déclarer comme non-résident (IRNR). Source : Art. 9 Ley 35/2006 IRPF.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-sm mb-1">Résidence administrative — TIE et empadronamiento</p>
+                    <p class="text-sm" style="color: #555">Pour la majorité des permis de résidence temporaire, la règle est de ne pas s'absenter plus de <strong>6 mois consécutifs</strong> par an d'Espagne, et de ne pas dépasser au total 10 mois d'absence sur la durée du permis. Un dépassement peut entraîner le refus de renouvellement. Source : Real Decreto 1155/2024.</p>
+                </div>
+                <div>
+                    <p class="font-semibold text-sm mb-1">Vers la résidence permanente</p>
+                    <p class="text-sm" style="color: #555">Après 5 ans de résidence légale continue, vous pouvez demander la résidence permanente. Les absences sont comptabilisées : ne dépassez pas 10 mois d'absence totale sur les 5 ans, et jamais 6 mois consécutifs. Source : Reglamento Extranjería.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="alert">
+            <p class="text-sm font-semibold mb-1" style="color: var(--terra)">⚠️ Point clé souvent ignoré</p>
+            <p class="text-sm" style="color: #555">L'Espagne peut demander à prouver votre présence sur le territoire (relevés bancaires en Espagne, consommation d'électricité, transactions locales). Gardez des preuves de vie active sur l'île tout au long de l'année si vous vous absentez régulièrement.</p>
+        </div>
+    </section>
+
+    <!-- SECTION 6 : APPS -->
+    <section id="apps" class="mb-12">
+        <div class="section-divider"></div>
+        <div class="flex items-center gap-3 mb-6">
+            <span class="text-2xl">📱</span>
+            <h2 class="text-2xl font-bold" style="color: var(--foret)">6. Les apps indispensables du résident</h2>
+        </div>
+
+        <p class="text-base leading-relaxed mb-6" style="color: #444">
+            Celles qu'on aurait voulu connaître dès le premier jour.
+        </p>
+
+        <div class="space-y-3">
+            <div class="card p-4 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background: rgba(90,173,165,0.1)">💳</div>
+                <div>
+                    <p class="font-semibold text-sm">Bizum</p>
+                    <p class="text-sm" style="color: #555">Le virement instantané entre particuliers espagnols. Intégré dans l'app de votre banque espagnole. Indispensable pour partager des dépenses, payer un artisan, régler une location de vacances.</p>
+                </div>
+            </div>
+            <div class="card p-4 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background: rgba(176,125,42,0.1)">📦</div>
+                <div>
+                    <p class="font-semibold text-sm">Correos app</p>
+                    <p class="text-sm" style="color: #555">L'appli des postes espagnoles. Suivi de colis, gestion des avis de passage. Beaucoup de courriers administratifs passent par Correos — dont certaines notifications officielles.</p>
+                </div>
+            </div>
+            <div class="card p-4 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background: rgba(15,61,53,0.1)">🏛️</div>
+                <div>
+                    <p class="font-semibold text-sm">Cl@ve app</p>
+                    <p class="text-sm" style="color: #555">Pour générer votre PIN Cl@ve depuis votre téléphone. Pratique pour confirmer une cita previa ou accéder à votre dossier SS sans ordinateur.</p>
+                </div>
+            </div>
+            <div class="card p-4 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background: rgba(199,110,78,0.1)">🏥</div>
+                <div>
+                    <p class="font-semibold text-sm">Salut! (IB-Salut)</p>
+                    <p class="text-sm" style="color: #555">L'appli de santé des Illes Balears. Prise de rendez-vous médicaux, accès à vos ordonnances, résultats d'analyses. Disponible sur <a href="https://ib-salut.es" target="_blank">ib-salut.es</a>.</p>
+                </div>
+            </div>
+            <div class="card p-4 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background: rgba(90,173,165,0.1)">🚗</div>
+                <div>
+                    <p class="font-semibold text-sm">MiDGT</p>
+                    <p class="text-sm" style="color: #555">L'appli de la Direction Générale du Trafic. Votre permis de conduire numérique, vos points, vos véhicules. Reconnue comme document officiel en cas de contrôle routier en Espagne.</p>
+                </div>
+            </div>
+            <div class="card p-4 flex items-start gap-4">
+                <div class="w-10 h-10 rounded-xl flex items-center justify-center text-xl flex-shrink-0" style="background: rgba(176,125,42,0.1)">📋</div>
+                <div>
+                    <p class="font-semibold text-sm">AEAT app (Agencia Tributaria)</p>
+                    <p class="text-sm" style="color: #555">Consulter votre dossier fiscal, vérifier votre borrador renta, suivre un remboursement. Pratique pendant la campagne IRPF d'avril à juin.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="mt-16 pt-8" style="border-top: 2px solid #E8EDE8">
+        <div class="card p-6 mb-6" style="background: rgba(15,61,53,0.03); border-color: rgba(15,61,53,0.12)">
+            <p class="text-sm font-semibold mb-2" style="color: var(--foret)">Sources officielles utilisées</p>
+            <div class="text-xs space-y-1" style="color: #777">
+                <p>• AEAT — Agencia Estatal de Administración Tributaria : <a href="https://sede.agenciatributaria.gob.es" target="_blank">sede.agenciatributaria.gob.es</a></p>
+                <p>• Policía Nacional, Sede Electrónica : <a href="https://sede.policia.gob.es" target="_blank">sede.policia.gob.es</a></p>
+                <p>• INE — Instituto Nacional de Estadística (instructions padrón 2020) : <a href="https://www.ine.es" target="_blank">ine.es</a></p>
+                <p>• Real Decreto 1155/2024 du 19 novembre 2024 — Reglamento Extranjería</p>
+                <p>• Ley 35/2006 du 28 novembre 2006 — IRPF (Art. 9, résidence fiscale)</p>
+                <p>• FNMT — Fábrica Nacional de Moneda y Timbre : <a href="https://www.sede.fnmt.gob.es" target="_blank">sede.fnmt.gob.es</a></p>
+                <p>• IB-Salut — Servei de Salut de les Illes Balears : <a href="https://www.ibsalut.es" target="_blank">ibsalut.es</a></p>
+                <p>• Ajuntament de Palma, Sede Electrónica : <a href="https://seuelectronica.palma.cat" target="_blank">seuelectronica.palma.cat</a></p>
+                <p>• DGT — Dirección General de Tráfico : <a href="https://sede.dgt.gob.es" target="_blank">sede.dgt.gob.es</a></p>
+            </div>
+        </div>
+        <p class="text-xs text-center" style="color: #BBB">
+            Rédigé par Amely Attias · Vivre à Majorque · Campos, Majorque · Juin 2026<br>
+            Ce guide est informatif. Pour votre situation personnelle, consultez un gestor ou avocat spécialisé.
+        </p>
+    </footer>
+
+</div>
+</body>
+</html>
