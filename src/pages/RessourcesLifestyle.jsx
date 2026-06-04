@@ -423,10 +423,7 @@ export default function RessourcesLifestyle() {
   }
 
   const freeDossiers = DOSSIERS.filter(d => !d.premium)
-  // Kit du Résident en tête des guides premium
-  const premiumDossiers = DOSSIERS.filter(d => d.premium).sort((a, b) =>
-    a.slug === 'kit-resident' ? -1 : b.slug === 'kit-resident' ? 1 : 0
-  )
+  const premiumDossiers = DOSSIERS.filter(d => d.premium)
 
   return (
     <div className="page" style={{ paddingBottom: 100 }}>
@@ -548,7 +545,7 @@ export default function RessourcesLifestyle() {
         onCta={() => setPaywallOpen(true)}
       />
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-        {premiumDossiers.filter(d => d.slug !== 'kit-resident').map(d => (
+        {premiumDossiers.map(d => (
           <GuideCover key={d.slug} dossier={d} unlocked={isPremium} onClick={() => handleClick(d)} />
         ))}
       </div>
