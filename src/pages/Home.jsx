@@ -294,12 +294,10 @@ export default function Home() {
         paddingTop: 16, paddingBottom: 4,
       }}>
         <img
-          src="/logo_vivre_a_majorque.jpg"
+          src="/logo_vivre_a_majorque.png"
           alt="Vivre à Majorque"
           style={{
-            width: 160, height: 'auto',
-            borderRadius: 16,
-            boxShadow: '0 4px 20px rgba(0,0,0,0.08)',
+            width: 180, height: 'auto',
           }}
         />
       </div>
