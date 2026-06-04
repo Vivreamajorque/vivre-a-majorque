@@ -3,6 +3,9 @@ import { NavLink, useLocation } from 'react-router-dom'
 import { TERRA, VERT } from './WaveTitle'
 import { usePremium } from '../context/PremiumContext'
 
+const FORET = '#0F3D35'
+const GOLD  = '#b07d2a'
+
 const TABS = [
   { to: '/app',          label: 'Accueil',  icon: '🏠', match: (p) => p === '/app' },
   { to: '/app/guides',   label: 'Guides',   icon: '📚', match: (p) => p.startsWith('/app/guides') || p.startsWith('/app/guide/') },
@@ -10,9 +13,7 @@ const TABS = [
   { to: '/app/moi',      label: 'Cockpit',  icon: '📋', match: (p) => p.startsWith('/app/moi') },
   { to: '/app/premium',  label: 'Premium',  icon: '💎', match: (p) => p.startsWith('/app/premium') },
 ]
-
-const COLORS = [TERRA, VERT, TERRA, VERT, '#b07d2a']
-const FORET = '#0F3D35'
+const COLORS = [TERRA, VERT, TERRA, VERT, GOLD]
 
 export default function Sidebar() {
   const location = useLocation()
@@ -20,136 +21,97 @@ export default function Sidebar() {
 
   return (
     <aside style={{
-      width: 240,
-      minHeight: '100vh',
-      background: FORET,
-      display: 'flex',
-      flexDirection: 'column',
-      padding: '32px 0 24px',
-      position: 'fixed',
-      top: 0, left: 0, bottom: 0,
+      width: 260, minHeight: '100vh',
+      background: '#fff',
+      display: 'flex', flexDirection: 'column',
+      position: 'fixed', top: 0, left: 0, bottom: 0,
       zIndex: 100,
-      borderRight: '1px solid rgba(255,255,255,0.06)',
+      borderRight: '1px solid #EBEBEB',
     }}>
 
       {/* Logo */}
-      <div style={{ padding: '0 24px 32px', borderBottom: '1px solid rgba(255,255,255,0.08)' }}>
-        <img
-          src="/logo_vivre_a_majorque.png"
-          alt="Vivre à Majorque"
-          style={{ width: 120, height: 'auto', marginBottom: 10 }}
-        />
-        <p style={{
-          fontFamily: 'var(--font-titre)',
-          fontStyle: 'italic',
-          fontSize: 12,
-          color: 'rgba(247,242,235,0.45)',
-          lineHeight: 1.5,
-        }}>
-          L'app des francophones<br />à Majorque
-        </p>
+      <div style={{ padding: '24px 20px 20px', borderBottom: '1px solid #F0F0F0' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 0 }}>
+          <img src="/logo_vivre_a_majorque.png" alt="Vivre à Majorque"
+            style={{ width: 36, height: 36, borderRadius: 8, objectFit: 'cover', flexShrink: 0 }} />
+          <div>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 14, color: FORET, lineHeight: 1.2 }}>
+              Vivre à Majorque
+            </p>
+            <p style={{ fontSize: 11, color: '#AAA', fontFamily: 'var(--font-corps)' }}>
+              L'app des francophones
+            </p>
+          </div>
+        </div>
       </div>
 
-      {/* Navigation */}
-      <nav style={{ flex: 1, padding: '16px 12px', display: 'flex', flexDirection: 'column', gap: 4 }}
-        role="navigation"
-        aria-label="Navigation principale"
-      >
+      {/* Nav */}
+      <nav role="navigation" aria-label="Navigation principale"
+        style={{ flex: 1, padding: '10px 10px 0', display: 'flex', flexDirection: 'column', gap: 1 }}>
         {TABS.map((tab, i) => {
           const isActive = tab.match(location.pathname)
           const color = COLORS[i]
           return (
-            <NavLink
-              key={tab.to}
-              to={tab.to}
+            <NavLink key={tab.to} to={tab.to}
               aria-current={isActive ? 'page' : undefined}
               style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                padding: '11px 14px',
-                borderRadius: 12,
+                display: 'flex', alignItems: 'center', gap: 10,
+                padding: '9px 10px', borderRadius: 10,
                 textDecoration: 'none',
-                background: isActive ? `${color}18` : 'transparent',
-                border: isActive ? `1px solid ${color}30` : '1px solid transparent',
-                transition: 'all 0.15s',
-              }}
-            >
-              <span style={{ fontSize: 20, lineHeight: 1, flexShrink: 0 }} aria-hidden="true">
-                {tab.icon}
-              </span>
-              <span style={{
-                fontFamily: isActive ? 'var(--font-display)' : 'var(--font-corps)',
-                fontWeight: isActive ? 700 : 400,
-                fontSize: 14,
-                color: isActive ? color : 'rgba(247,242,235,0.6)',
-                letterSpacing: isActive ? '-0.01em' : '0',
-                transition: 'color 0.15s',
+                background: isActive ? `${color}10` : 'transparent',
+                transition: 'background 0.1s',
               }}>
-                {tab.label}
-              </span>
+              <span style={{
+                width: 30, height: 30, borderRadius: 7,
+                background: isActive ? `${color}15` : '#F5F5F5',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 15, flexShrink: 0, transition: 'background 0.1s',
+              }}>{tab.icon}</span>
+              <span style={{
+                fontFamily: 'var(--font-corps)',
+                fontWeight: isActive ? 600 : 400,
+                fontSize: 14, color: isActive ? color : '#555',
+                transition: 'color 0.1s',
+              }}>{tab.label}</span>
               {isActive && (
-                <div style={{
-                  marginLeft: 'auto',
-                  width: 5, height: 5,
-                  borderRadius: '50%',
-                  background: color,
-                  flexShrink: 0,
-                }} />
+                <div style={{ marginLeft: 'auto', width: 5, height: 5, borderRadius: '50%', background: color }} />
               )}
             </NavLink>
           )
         })}
       </nav>
 
-      {/* Badge Premium ou CTA */}
-      <div style={{ padding: '0 12px 16px' }}>
+      {/* CTA Premium */}
+      <div style={{ padding: '16px 10px 10px' }}>
+        <div style={{ height: 1, background: '#F0F0F0', marginBottom: 12 }} />
         {isPremium ? (
-          <div style={{
-            background: 'rgba(176,125,42,0.15)',
-            border: '1px solid rgba(176,125,42,0.3)',
-            borderRadius: 10,
-            padding: '10px 14px',
-            display: 'flex', alignItems: 'center', gap: 8,
-          }}>
-            <span style={{ fontSize: 16 }}>💎</span>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#c9a84c', fontFamily: 'var(--font-corps)' }}>
-              Compte Premium actif
-            </span>
+          <div style={{ background: `${GOLD}0D`, border: `1px solid ${GOLD}25`, borderRadius: 10, padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 8 }}>
+            <span style={{ fontSize: 18 }}>💎</span>
+            <div>
+              <p style={{ fontSize: 12, fontWeight: 600, color: GOLD, fontFamily: 'var(--font-corps)' }}>Premium actif</p>
+              <p style={{ fontSize: 11, color: '#AAA', fontFamily: 'var(--font-corps)' }}>Accès complet débloqué</p>
+            </div>
           </div>
         ) : (
-          <NavLink to="/app/premium" style={{ textDecoration: 'none', display: 'block' }}>
-            <div style={{
-              background: 'rgba(199,110,78,0.15)',
-              border: '1px solid rgba(199,110,78,0.3)',
-              borderRadius: 10,
-              padding: '10px 14px',
-              cursor: 'pointer',
-              transition: 'all 0.15s',
-            }}>
-              <p style={{ fontSize: 11, fontWeight: 800, color: '#E8956E', fontFamily: 'var(--font-corps)', marginBottom: 2, letterSpacing: '0.04em' }}>
-                💎 PASSER PREMIUM
+          <NavLink to="/app/premium" style={{ textDecoration: 'none' }}>
+            <div style={{ background: `${GOLD}0A`, border: `1px solid ${GOLD}20`, borderRadius: 10, padding: '12px', cursor: 'pointer', transition: 'background 0.1s' }}>
+              <p style={{ fontSize: 12, fontWeight: 700, color: GOLD, marginBottom: 4, fontFamily: 'var(--font-corps)' }}>
+                💎 Passer Premium
               </p>
-              <p style={{ fontSize: 11, color: 'rgba(247,242,235,0.5)', fontFamily: 'var(--font-corps)' }}>
-                9,90€/mois · résiliable
+              <p style={{ fontSize: 11, color: '#999', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
+                9,90€/mois · 100+ guides<br/>simulateurs · cockpit complet
               </p>
             </div>
           </NavLink>
         )}
       </div>
 
-      {/* Footer sidebar */}
-      <div style={{
-        padding: '16px 24px 0',
-        borderTop: '1px solid rgba(255,255,255,0.08)',
-      }}>
-        <p style={{
-          fontSize: 11,
-          color: 'rgba(247,242,235,0.25)',
-          fontFamily: 'var(--font-corps)',
-          lineHeight: 1.5,
-        }}>
-          Par Amely — Campos, Majorque
+      {/* Footer */}
+      <div style={{ padding: '10px 20px 20px', borderTop: '1px solid #F0F0F0' }}>
+        <p style={{ fontSize: 11, color: '#CCC', fontFamily: 'var(--font-corps)', lineHeight: 1.6 }}>
+          Par Amely · Campos, Majorque<br/>
+          <a href="https://www.instagram.com/amely_mallorca_raw/" target="_blank" rel="noopener noreferrer"
+            style={{ color: '#CCC', textDecoration: 'none' }}>@amely_mallorca_raw</a>
         </p>
       </div>
     </aside>

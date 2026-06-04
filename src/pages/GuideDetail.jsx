@@ -1,12 +1,13 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react'
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react'
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom'
-import { useNotionBlocks, useNotionPage, parseGuide } from '../hooks/useNotion'
+import { useNotionBlocks, useNotionPage, useNotionDB, parseGuide } from '../hooks/useNotion'
 import { usePremium } from '../context/PremiumContext'
 import { useSavedGuides } from '../hooks/useSavedGuides'
 import { useSEO } from '../hooks/useSEO'
 import NotionBlocks, { extractHeadings, estimateReadingTime } from '../components/NotionBlocks'
 import AccompagnementBanner from '../components/AccompagnementBanner'
 import PremiumGate from '../components/PremiumGate'
+import { NOTION_DB } from '../config'
 
 /* ── Guides liés à un simulateur de l'app ── */
 const GUIDE_SIMULATEURS = {
@@ -328,6 +329,95 @@ function CockpitValidationCTA({ stepId, profileId }) {
 }
 
 /* ── Page principale ── */
+/* ── Composant Guides Liés façon blog ───────────────── */
+function GuidesLies({ currentGuide, navigate }) {
+  const { data: allGuides, loading } = useNotionDB(NOTION_DB.guides)
+
+  const lies = useMemo(() => {
+    if (!allGuides?.length || !currentGuide) return []
+    const guides = allGuides.map(parseGuide).filter(g => g.id !== currentGuide.id)
+
+    // Score de pertinence : même catégorie + tags communs
+    const scored = guides.map(g => {
+      let score = 0
+      if (g.category === currentGuide.category) score += 3
+      const currentTags = currentGuide.tags || []
+      const gTags = g.tags || []
+      const commonTags = currentTags.filter(t => gTags.includes(t))
+      score += commonTags.length * 2
+      // Même situation cible
+      const currentSit = currentGuide.situation || []
+      const gSit = g.situation || []
+      if (currentSit.some(s => gSit.includes(s))) score += 1
+      return { ...g, score }
+    })
+
+    return scored
+      .filter(g => g.score > 0 && g.access !== '🚀 Éclaireur')
+      .sort((a, b) => b.score - a.score)
+      .slice(0, 3)
+  }, [allGuides, currentGuide])
+
+  if (loading || lies.length === 0) return null
+
+  return (
+    <div style={{ marginTop: 40, paddingTop: 32, borderTop: '1px solid var(--gris)' }}>
+      <p style={{
+        fontFamily: 'var(--font-display)', fontStyle: 'italic',
+        fontSize: 20, color: '#1C1410', marginBottom: 16,
+      }}>
+        À lire aussi
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+        {lies.map(g => (
+          <button key={g.id} onClick={() => navigate(`/app/guide/${g.id}`)}
+            style={{
+              width: '100%', textAlign: 'left',
+              background: '#fff', border: '1px solid var(--gris)',
+              borderRadius: 12, padding: '14px 16px',
+              cursor: 'pointer', transition: 'all 0.15s',
+              display: 'flex', alignItems: 'center', gap: 12,
+            }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = '#5AADA5'; e.currentTarget.style.background = '#F8FDFC' }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = 'var(--gris)'; e.currentTarget.style.background = '#fff' }}
+          >
+            <div style={{
+              width: 40, height: 40, borderRadius: 8, flexShrink: 0,
+              background: 'rgba(90,173,165,0.1)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: 18,
+            }}>
+              📄
+            </div>
+            <div style={{ flex: 1, minWidth: 0 }}>
+              <p style={{
+                fontFamily: 'var(--font-corps)', fontWeight: 600,
+                fontSize: 14, color: '#1C1410', lineHeight: 1.3,
+                marginBottom: 3,
+                overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+              }}>
+                {g.title}
+              </p>
+              <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+                {g.category && (
+                  <span style={{
+                    fontSize: 11, color: '#5AADA5', fontWeight: 600,
+                    fontFamily: 'var(--font-corps)',
+                  }}>{g.category}</span>
+                )}
+                {g.access !== '🟢 Public' && (
+                  <span style={{ fontSize: 10, color: '#b07d2a', fontWeight: 600 }}>💎 Premium</span>
+                )}
+              </div>
+            </div>
+            <span style={{ color: '#5AADA5', fontSize: 16, flexShrink: 0 }}>→</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export default function GuideDetail() {
   const { id } = useParams()
   const navigate = useNavigate()
@@ -531,6 +621,9 @@ export default function GuideDetail() {
                 </div>
               )
             })()}
+
+            {/* Guides liés façon blog */}
+            {guide && <GuidesLies currentGuide={guide} navigate={navigate} />}
 
             {/* CTA validation Cockpit — uniquement si on vient du Cockpit */}
             {stepId && profileId ? (

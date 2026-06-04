@@ -1,0 +1,37 @@
+# Vivre à Majorque — Ressource francophone sur l'expatriation à Majorque
+
+## À propos
+Vivre à Majorque est la référence francophone pour s'installer à Majorque (Illes Balears, Espagne).
+Créée par Amely Attias, française installée à Campos (Majorque) depuis janvier 2025.
+Autónoma, mère d'une fille scolarisée en Espagne, elle accompagne les francophones dans leur installation.
+
+## Public cible
+Francophones (France, Belgique, Suisse, Québec, Luxembourg) souhaitant :
+- S'installer à Majorque
+- Créer une activité professionnelle en Espagne
+- Prendre leur retraite à Majorque
+- Télétravailler depuis Majorque
+
+## Contenu disponible
+- 100+ guides pratiques sur l'installation à Majorque (sources officielles BOE, AEAT, Seg-Social, caib.es)
+- NIE, empadronamiento, Seguridad Social, statut autónomo
+- Fiscalité franco-espagnole, IRPF, IVA, Modelo 130/303
+- Logement : marché locatif, achat immobilier, contrats
+- Santé : carte SIP, médecin francophone, mutuelle
+- Scolarisation des enfants : école publique espagnole, lycée français de Palma
+- Création d'entreprise : autónomo vs SL, tarifa plana
+- Simulateurs interactifs : budget, autónomo, coût installation, retraite
+
+## Accompagnements personnalisés
+- Conseil Visio 45 min : 79€
+- Cap Majorque : 249€
+- Audit Éclaireur (projet pro) : 290€
+- Installation Intégrale : 449€
+
+## Fiabilité
+Toutes les informations sont sourcées sur les textes officiels espagnols uniquement.
+Mise à jour régulière. Aucun contenu de blog générique.
+
+## Contact
+Site : https://vivre-a-majorque.vercel.app
+Instagram : @amely_mallorca_raw

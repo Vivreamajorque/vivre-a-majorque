@@ -7,10 +7,10 @@
   --foret:       #0F3D35;
   --gold:        #b07d2a;
 
-  --bg:          #F0EAE0;
-  --bg-card:     #FFFFFF;
-  --gris:        #E0D9CF;
-  --gris-mid:    #C8C0B4;
+  --bg:          #FFFFFF;
+  --bg-card:     #FAFAFA;
+  --gris:        #EBEBEB;
+  --gris-mid:    #BBBBBB;
 
   --texte:       #1C1410;
   --texte-sec:   #7A7068;
@@ -220,56 +220,56 @@ a:active, button:active, [role="button"]:active {
 /* ── DESKTOP LAYOUT (≥ 769px) ─────────────────── */
 @media (min-width: 769px) {
 
-  /* Wrapper global — sidebar + contenu */
+  /* Fond page global blanc */
   #root {
     display: flex;
     min-height: 100vh;
-    background: #E8E2D8;
+    background: #F7F7F8;
   }
 
-  /* Zone contenu — décalée de la largeur sidebar */
+  /* Zone contenu */
   .desktop-content {
-    margin-left: 240px;
+    margin-left: 260px;
     flex: 1;
     display: flex;
     justify-content: center;
     align-items: flex-start;
     min-height: 100vh;
-    padding: 0 32px;
-    background: #E8E2D8;
+    padding: 0 48px;
+    background: #F7F7F8;
   }
 
-  /* Page — plus large sur desktop, fond crème */
+  /* Page — max 680px, fond blanc, ombre subtile */
   .page {
-    max-width: 580px;
+    max-width: 680px;
     width: 100%;
-    background: var(--bg);
+    background: #fff;
     min-height: 100vh;
-    padding: 0 24px 60px;
-    box-shadow: 0 0 60px rgba(28,20,16,0.08);
+    padding: 0 40px 80px;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 4px 24px rgba(0,0,0,0.04);
   }
 
-  /* Pas de padding bottom énorme sur desktop */
+  /* Header collant sur desktop */
   .page-header {
-    padding: 40px 0 16px;
+    padding: 48px 0 20px;
     position: sticky;
     top: 0;
-    background: linear-gradient(to bottom, var(--bg) 85%, transparent);
+    background: linear-gradient(to bottom, #fff 88%, transparent);
     z-index: 10;
   }
 
-  /* Nav bottom — cachée sur desktop */
+  /* Nav bottom cachée sur desktop */
   nav[aria-label="Navigation principale"]:not(aside nav) {
     display: none;
   }
 
-  /* Sidebar hover effect */
+  /* Hover sidebar links */
   aside a:hover {
-    background: rgba(247,242,235,0.06) !important;
+    background: #F5F5F5 !important;
   }
 }
 
-/* Mobile — nav bottom visible, sidebar cachée */
+/* Mobile — contenu pleine largeur, sidebar cachée */
 @media (max-width: 768px) {
   .desktop-content {
     display: contents;
