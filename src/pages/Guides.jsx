@@ -2,6 +2,7 @@ import React, { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useNotionDB, parseGuide } from '../hooks/useNotion'
 import { useProfile } from '../context/ProfileContext'
+import { useQuizData } from '../hooks/useQuizData'
 import { usePremium } from '../context/PremiumContext'
 import { useSEO } from '../hooks/useSEO'
 import { PaywallModal } from '../components/PaywallModal'
@@ -43,20 +44,46 @@ function NewBadge() {
 
 /* ─────────────────────────────────────────────
    Matching profil → guide.situation
-   Inclusive : "Les deux" / "Tous" matchent tout
+   Utilise le profil de base + les sous-sélections du quiz
+   pour un fléchage précis
 ───────────────────────────────────────────── */
-function matchesProfile(guide, profile) {
+function matchesProfile(guide, profile, quiz) {
   if (!profile) return false
   const sits = guide.situation || []
   if (!sits.length) return false
   if (sits.includes('Tous') || sits.includes('Les deux')) return true
-  return sits.some(s => {
+
+  // Matching de base par profil
+  const baseMatch = sits.some(s => {
     if (profile.id === 'reve')     return s === 'Je rêve'
     if (profile.id === 'installe') return s === "Je m'installe" || s === 'En préparation'
     if (profile.id === 'premiere') return s === 'Déjà installé' || s === 'Je vis ici 1ère année'
     if (profile.id === 'confirme') return s === 'Je vis ici confirmé'
     return s === profile.notion
   })
+  if (!baseMatch) return false
+  if (!quiz) return true
+
+  // Affinage par sous-sélections du quiz
+  const tags = guide.tags || []
+  const { intention, famille, douleur, situation } = quiz
+
+  // Si le guide a des tags spécifiques, vérifier la cohérence
+  const tagMatch = [
+    intention === 'creer'    && (tags.includes('Travail') || tags.includes('Autónoma') || tags.includes('Entreprendre')),
+    intention === 'retraite' && (tags.includes('Retraite') || tags.includes('Santé') || tags.includes('Fiscal')),
+    intention === 'remote'   && (tags.includes('Travail') || tags.includes('Télétravail')),
+    famille === 'enfants'    && (tags.includes('École') || tags.includes('Famille')),
+    douleur === 'logement'   && tags.includes('Logement'),
+    douleur === 'fiscal'     && (tags.includes('Fiscal') || tags.includes('IRPF')),
+    douleur === 'admin'      && (tags.includes('NIE') || tags.includes('Admin') || tags.includes('Empadronamiento')),
+    douleur === 'clients'    && (tags.includes('Travail') || tags.includes('Entreprendre')),
+    // Déjà installé depuis longtemps → guides de vie quotidienne
+    situation === 'installe' && (tags.includes('Vie pratique') || tags.includes('Fiscal')),
+  ].some(Boolean)
+
+  // Si le guide n'a pas de tags spécifiques, le match de base suffit
+  return tags.length === 0 || tagMatch || baseMatch
 }
 
 /* Badge "Pour vous" */
@@ -102,10 +129,10 @@ function applyFreemiumRule(guides) {
 /* ─────────────────────────────────────────────
    Carte guide dans la grille catégorie
 ───────────────────────────────────────────── */
-function GuideCard({ guide, onOpen, onPaywall, profile }) {
+function GuideCard({ guide, onOpen, onPaywall, profile, quiz }) {
   const { canAccess } = usePremium()
   const accessible = guide.freemiumFree || canAccess(guide.access)
-  const isForMe = matchesProfile(guide, profile)
+  const isForMe = matchesProfile(guide, profile, quiz)
   const profileColor = profile?.color || 'var(--vert)'
 
   return (
@@ -154,10 +181,10 @@ function GuideCard({ guide, onOpen, onPaywall, profile }) {
 /* ─────────────────────────────────────────────
    Carte résultat de recherche
 ───────────────────────────────────────────── */
-function SearchResultCard({ guide, onOpen, onPaywall, profile }) {
+function SearchResultCard({ guide, onOpen, onPaywall, profile, quiz }) {
   const { canAccess } = usePremium()
   const accessible = canAccess(guide.access)
-  const isForMe = matchesProfile(guide, profile)
+  const isForMe = matchesProfile(guide, profile, quiz)
   const profileColor = profile?.color || 'var(--vert)'
 
   return (
@@ -199,6 +226,7 @@ function SearchResultCard({ guide, onOpen, onPaywall, profile }) {
 export default function Guides() {
   const navigate = useNavigate()
   const { profile } = useProfile()
+  const { quiz } = useQuizData()
   const { data, loading, error } = useNotionDB(NOTION_DB.guides)
   const [selectedCat, setSelectedCat] = useState(null)
   const [showPaywall, setShowPaywall] = useState(false)
@@ -246,7 +274,7 @@ export default function Guides() {
         const total = all.length
         const freeCount = Math.max(2, Math.ceil(total * 0.40))
         const forMeCount = activeProfile
-          ? all.filter(g => matchesProfile(g, activeProfile)).length
+          ? all.filter(g => matchesProfile(g, activeProfile, quiz)).length
           : 0
         result.push({ cat, total, freeCount, forMeCount })
       }
@@ -256,12 +284,12 @@ export default function Guides() {
       const total = all.length
       const freeCount = Math.max(2, Math.ceil(total * 0.40))
       const forMeCount = activeProfile
-        ? all.filter(g => matchesProfile(g, activeProfile)).length
+        ? all.filter(g => matchesProfile(g, activeProfile, quiz)).length
         : 0
       result.push({ cat: 'Autres', total, freeCount, forMeCount })
     }
     return result
-  }, [guides, activeProfile])
+  }, [guides, activeProfile, quiz])
 
   /* Guides d'une catégorie, avec tri optionnel */
   const catGuides = useMemo(() => {
@@ -274,12 +302,12 @@ export default function Guides() {
     const withFreemium = applyFreemiumRule(sorted)
     if (sortForMe && activeProfile) {
       return [
-        ...withFreemium.filter(g => matchesProfile(g, activeProfile)),
-        ...withFreemium.filter(g => !matchesProfile(g, activeProfile)),
+        ...withFreemium.filter(g => matchesProfile(g, activeProfile, quiz)),
+        ...withFreemium.filter(g => !matchesProfile(g, activeProfile, quiz)),
       ]
     }
     return withFreemium
-  }, [guides, selectedCat, sortForMe, activeProfile])
+  }, [guides, selectedCat, sortForMe, activeProfile, quiz])
 
   /* Barre de recherche */
   const SearchBar = (
@@ -342,6 +370,7 @@ export default function Guides() {
             onOpen={id => navigate(`/app/guide/${id}`)}
             onPaywall={() => setShowPaywall(true)}
             profile={activeProfile}
+            quiz={quiz}
           />
         ))
       }
@@ -352,7 +381,7 @@ export default function Guides() {
   /* ── Vue catégorie ── */
   if (selectedCat) {
     const lockedCount = catGuides.filter(g => !g.freemiumFree && g.access !== '🟢 Public').length
-    const forMeInCat = activeProfile ? catGuides.filter(g => matchesProfile(g, activeProfile)).length : 0
+    const forMeInCat = activeProfile ? catGuides.filter(g => matchesProfile(g, activeProfile, quiz)).length : 0
 
     return (
       <div className="page">
@@ -401,6 +430,7 @@ export default function Guides() {
                   onOpen={id => navigate(`/app/guide/${id}`)}
                   onPaywall={() => setShowPaywall(true)}
                   profile={activeProfile}
+                  quiz={quiz}
                 />
               ))}
             </div>
