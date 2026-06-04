@@ -140,41 +140,18 @@ const DOSSIERS = [
 
 /* ── Mockup couverture de guide ─────────────── */
 function GuideCover({ dossier, unlocked, onClick }) {
-  const isKitResident = dossier.slug === 'kit-resident'
   return (
-    <div
-      onClick={onClick}
-      style={{
-        cursor: 'pointer',
-        position: 'relative',
-      }}
-    >
-      {/* Banderole "Nouveau • Pour les résidents" sur le Kit du Résident */}
-      {isKitResident && (
-        <div style={{
-          position: 'absolute', top: -10, left: 12, right: 12,
-          background: '#0F3D35',
-          borderRadius: 6, padding: '4px 10px',
-          textAlign: 'center', zIndex: 2,
-        }}>
-          <span style={{
-            fontSize: 12, fontWeight: 700, color: '#5AADA5',
-            fontFamily: 'var(--font-corps)', letterSpacing: '0.04em',
-          }}>✦ NOUVEAU · POUR LES RÉSIDENTS</span>
-        </div>
-      )}
-
+    <div onClick={onClick} style={{ cursor: 'pointer', position: 'relative' }}>
       {/* Couverture style livret */}
       <div style={{
         background: dossier.bg,
         borderRadius: '12px 12px 0 0',
-        padding: isKitResident ? '28px 16px 16px' : '20px 16px 16px',
+        padding: '20px 16px 16px',
         position: 'relative',
         overflow: 'hidden',
-        border: `1.5px solid ${dossier.couleur}${isKitResident ? '60' : '30'}`,
+        border: `1.5px solid ${dossier.couleur}30`,
         borderBottom: 'none',
         minHeight: 130,
-        boxShadow: isKitResident ? `0 0 0 2px ${dossier.couleur}20` : 'none',
       }}>
         {/* Trait coloré latéral gauche — style reliure */}
         <div style={{
@@ -485,57 +462,6 @@ export default function RessourcesLifestyle() {
         {freeDossiers.map(d => (
           <GuideCover key={d.slug} dossier={d} unlocked={true} onClick={() => handleClick(d)} />
         ))}
-      </div>
-
-      {/* ── Kit du Résident — mis en avant ── */}
-      <div style={{
-        background: 'linear-gradient(135deg, #0F3D35 0%, #1a5c50 100%)',
-        borderRadius: 16, padding: '18px 18px 14px',
-        marginBottom: 24, position: 'relative', overflow: 'hidden',
-      }}>
-        <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: 'rgba(90,173,165,0.1)', pointerEvents: 'none' }} />
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
-          <span style={{ fontSize: 22 }}>🗝️</span>
-          <div>
-            <span style={{ fontSize: 12, fontWeight: 700, color: '#5AADA5', fontFamily: 'var(--font-corps)', letterSpacing: '0.05em' }}>
-              NOUVEAU · POUR LES RÉSIDENTS
-            </span>
-            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 18, color: '#F7F2EB', lineHeight: 1.2, marginTop: 2 }}>
-              Le Kit du Résident
-            </p>
-          </div>
-        </div>
-        <p style={{ fontSize: 13, color: 'rgba(247,242,235,0.7)', lineHeight: 1.55, marginBottom: 14, fontFamily: 'var(--font-corps)' }}>
-          Artisans fiables, médecins qui acceptent les étrangers, renovación TIE, renta annuelle, apps indispensables — tout ce qu'on apprend trop tard quand on s'installe.
-        </p>
-        <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 14 }}>
-          {['Résidents', 'Vie pratique', 'Démarches annuelles', 'Intégration'].map(tag => (
-            <span key={tag} style={{
-              fontSize: 12, color: 'rgba(90,173,165,0.9)',
-              background: 'rgba(90,173,165,0.12)',
-              border: '1px solid rgba(90,173,165,0.2)',
-              borderRadius: 20, padding: '3px 10px',
-              fontFamily: 'var(--font-corps)',
-            }}>{tag}</span>
-          ))}
-        </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <div style={{
-            flex: 1, background: 'rgba(247,242,235,0.08)',
-            border: '1px solid rgba(247,242,235,0.15)',
-            borderRadius: 8, padding: '8px 12px',
-            display: 'flex', alignItems: 'center', gap: 6,
-          }}>
-            <span style={{ fontSize: 13, color: 'rgba(247,242,235,0.5)', fontFamily: 'var(--font-corps)' }}>📄 32 pages · Bientôt disponible</span>
-          </div>
-          <div style={{
-            background: '#C76E4E', borderRadius: 8, padding: '8px 16px',
-            fontSize: 13, fontWeight: 700, color: '#fff',
-            fontFamily: 'var(--font-corps)', whiteSpace: 'nowrap',
-          }}>
-            💎 Inclus Premium
-          </div>
-        </div>
       </div>
 
       {/* ── Guides Premium ── */}
