@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { track } from '@vercel/analytics'
 import { PageHeading, AccentWord, SectionAccent, Wave, TERRA, VERT } from '../components/WaveTitle'
 import { useQuizData, getRecommendedOffer } from '../hooks/useQuizData'
@@ -560,6 +560,16 @@ export default function Accompagnements() {
           Écrivez-moi →
         </a>
       </div>
+
+      {/* Lien cas pratiques */}
+      <Link to="/app/cas-pratiques" style={{
+        display: 'block', textAlign: 'center',
+        padding: '12px 0', marginTop: 4,
+        fontSize: 13, color: 'var(--texte-sec)',
+        textDecoration: 'none', fontFamily: 'var(--font-corps)',
+      }}>
+        🔍 Voir des cas concrets d'accompagnement →
+      </Link>
 
       {/* Modal pré-qualification */}
       <PrequalificationModal

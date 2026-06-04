@@ -14,9 +14,10 @@ const CARDS = [
   { to: '/app/explorer/medias',         emoji: '🎬', title: 'Médias',          desc: 'YouTube, Instagram, TikTok',            bg: 'var(--vert-light)',  border: 'rgba(90,122,64,0.15)' },
   { to: '/app/explorer/entreprendre',   emoji: '🏢', title: 'Entreprendre',   desc: 'Créer son activité à Majorque',         bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
   { to: '/app/guides',                  emoji: '📚', title: 'Guides',          desc: '100+ fiches administratives',           bg: 'var(--vert-light)',  border: 'rgba(90,122,64,0.15)' },
-  { to: '/app/explorer/accompagnements',emoji: '🤝', title: 'Accompagnement', desc: 'Suivi personnalisé par Amely',          bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
-  { to: '/app/famille',                 emoji: '👨‍👩‍👧', title: 'En famille',    desc: 'Guide installation avec enfants',      bg: 'var(--vert-light)',  border: 'rgba(90,122,64,0.15)' },
-  { to: '/app/explorer/contact',        emoji: '✉️', title: 'Contact',         desc: 'Question, partenariat, annuaire',       bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
+  { to: '/app/cas-pratiques',           emoji: '🔍', title: 'Cas pratiques',   desc: '5 profils, 5 situations réelles',       bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
+  { to: '/app/explorer/accompagnements',emoji: '🤝', title: 'Accompagnement', desc: 'Suivi personnalisé par Amely',          bg: 'var(--vert-light)',  border: 'rgba(90,122,64,0.15)' },
+  { to: '/app/famille',                 emoji: '👨‍👩‍👧', title: 'En famille',    desc: 'Guide installation avec enfants',      bg: 'var(--ocre-light)',  border: 'rgba(196,122,90,0.15)' },
+  { to: '/app/explorer/contact',        emoji: '✉️', title: 'Contact',         desc: 'Question, partenariat, annuaire',       bg: 'var(--vert-light)',  border: 'rgba(196,122,90,0.15)' },
 ]
 
 export default function Explorer() {

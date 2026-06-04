@@ -18,6 +18,7 @@ import Contact from './pages/Contact'
 import Medias from './pages/Medias'
 import BudgetSimulator from './pages/BudgetSimulator'
 import Accompagnements from './pages/Accompagnements'
+import CasPratiques from './pages/CasPratiques'
 import Actualites from './pages/Actualites'
 
 function ScrollToTop() {
@@ -64,6 +65,7 @@ function AppShell() {
         <Route path="app/actus" element={<Actualites />} />
         <Route path="app/explorer/actus" element={<Actualites />} />
         <Route path="app/explorer/accompagnements" element={<Accompagnements />} />
+        <Route path="app/cas-pratiques" element={<CasPratiques />} />
         <Route path="app/explorer/entreprendre" element={<Entreprendre />} />
         <Route path="app/explorer/circuits" element={<CircuitsMajorque />} />
         <Route path="app/merci-visio" element={<MerciVisio />} />
