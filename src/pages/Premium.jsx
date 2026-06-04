@@ -78,7 +78,7 @@ function OffreCard({ offre }) {
 export default function Premium() {
   useSEO({
     title: 'Premium — Vivre à Majorque',
-    description: 'Débloquez tous les guides, le cockpit complet et les simulateurs avancés. 9,90€/mois pendant 3 mois — puis 14,90€/mois.',
+    description: 'Débloquez tous les guides, le cockpit complet et les simulateurs avancés. 9,90€/mois — puis 14,90€/mois.',
     url: 'https://vivre-a-majorque.vercel.app/app/premium',
   })
   const { isPremium } = usePremium()
@@ -95,9 +95,6 @@ export default function Premium() {
 
       {/* Header */}
       <div className="page-header">
-        <p style={{ fontFamily: 'var(--font-accent)', fontSize: 16, color: GOLD, marginBottom: 2 }}>
-          accès illimité
-        </p>
         <h1 style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 34, color: FORET, lineHeight: 1.1, marginBottom: 6 }}>
           Vivre à Majorque<br />
           <span style={{ color: TERRA, fontStyle: 'italic', fontWeight: 400 }}>Premium</span>
@@ -149,7 +146,7 @@ export default function Premium() {
               <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 48, color: '#F7F2EB', lineHeight: 1 }}>9,90</span>
               <span style={{ fontSize: 18, color: 'rgba(247,242,235,0.7)', fontFamily: 'var(--font-corps)' }}>€/mois</span>
             </div>
-            <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.45)', marginBottom: 20 }}>pendant 3 mois · puis 14,90€/mois · résiliable à tout moment</p>
+            <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.45)', marginBottom: 20 }}>Résiliable à tout moment · Sans engagement</p>
             <button onClick={handleSubscribe} style={{
               background: TERRA, color: '#fff', border: 'none',
               borderRadius: 30, padding: '14px 32px',

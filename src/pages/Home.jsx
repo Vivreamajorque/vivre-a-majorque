@@ -309,7 +309,6 @@ export default function Home() {
 
         {profile ? (
           <div style={{ textAlign: 'left' }}>
-            <ContextLabel color={VERT} size={14}>bienvenue,</ContextLabel>
             <DisplayTitle size={36}>{user?.prenom || prenom || 'Bonjour'}</DisplayTitle>
             <AccentWord color={TERRA} size={20}>{profile.emoji} {profile.label}</AccentWord>
             <Trait color={TERRA} width={40} />

@@ -31,9 +31,20 @@ const QUESTIONS = [
     ],
   },
   {
+    id: 'situation',
+    emoji: '🏡',
+    question: 'Vous êtes à Majorque depuis…',
+    showIf: (answers) => answers.horizon === 'deja',
+    options: [
+      { value: 'mois3',    label: 'Moins de 3 mois',     desc: 'Tout juste arrivé·e, encore beaucoup à régler' },
+      { value: 'an1',      label: '3 mois à 1 an',       desc: 'En cours de régularisation' },
+      { value: 'installe', label: 'Plus d\'un an',        desc: 'Installé·e, je veux optimiser ma situation' },
+    ],
+  },
+  {
     id: 'intention',
     emoji: '🎯',
-    question: 'Vous venez à Majorque pour…',
+    question: 'Vous êtes à Majorque pour…',
     options: [
       { value: 'vivre',    label: 'Vivre et travailler',    desc: 'Salarié, poste local ou remote' },
       { value: 'retraite', label: 'Prendre ma retraite',    desc: 'Vie tranquille, revenus français' },
@@ -48,13 +59,13 @@ const QUESTIONS = [
     options: [
       { value: 'seul',    label: 'Seul·e',         desc: '' },
       { value: 'couple',  label: 'En couple',      desc: 'Sans enfants' },
-      { value: 'enfants', label: 'Famille',         desc: 'Avec enfant(s) à installer' },
+      { value: 'enfants', label: 'Famille',         desc: 'Avec enfant(s)' },
     ],
   },
   {
     id: 'douleur',
     emoji: '💬',
-    question: 'Votre plus grande inquiétude ?',
+    question: 'Votre priorité du moment ?',
     options: [
       { value: 'admin',    label: 'Les démarches admin',  desc: 'NIE, empadronamiento, SS…' },
       { value: 'fiscal',   label: 'La fiscalité',         desc: 'Impôts, autónoma, cotisations' },
@@ -168,10 +179,16 @@ export default function QuizProfil({
   const isEditMode = !!initialAnswers
 
   const prefilledIds = isEditMode
-    ? []  // édition = on repose tout
+    ? []
     : Object.keys(prefill).filter(k => prefill[k])
 
-  const questionsToAsk = QUESTIONS.filter(q => !prefilledIds.includes(q.id))
+  // Filtre les questions selon prefill ET selon showIf dynamique
+  const getActiveQuestions = (currentAnswers) =>
+    QUESTIONS.filter(q => {
+      if (prefilledIds.includes(q.id)) return false
+      if (q.showIf && !q.showIf(currentAnswers)) return false
+      return true
+    })
 
   const [step, setStep]       = useState(0)
   const [answers, setAnswers] = useState(
@@ -179,6 +196,7 @@ export default function QuizProfil({
   )
   const [animDir, setAnimDir] = useState('in')
 
+  const questionsToAsk = getActiveQuestions(answers)
   const q = questionsToAsk[step]
   const total = questionsToAsk.length
   const selected = q ? answers[q.id] : null
@@ -210,8 +228,10 @@ export default function QuizProfil({
   const handleSelect = (value) => {
     const updated = { ...answers, [q.id]: value }
     setAnswers(updated)
-    /* Auto-avance sur mobile (sauf dernière question) */
-    if (!isLast) {
+    const newQuestions = getActiveQuestions(updated)
+    const newTotal = newQuestions.length
+    const newIsLast = step === newTotal - 1
+    if (!newIsLast) {
       setTimeout(() => {
         setAnimDir('out')
         setTimeout(() => { setStep(s => s + 1); setAnimDir('in') }, 150)

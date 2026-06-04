@@ -90,7 +90,7 @@ export default function Contact() {
           color: 'var(--foret)', padding: 0, marginBottom: 8,
           display: 'flex', alignItems: 'center', gap: 6,
         }}>← <span style={{ fontSize: 14, fontFamily: 'var(--font-corps)' }}>Explorer</span></button>
-        <PageHeading label="une question ?" title="Contact" accentColor={VERT} traitColor={VERT} />
+        <PageHeading title="Contact" accentColor={VERT} traitColor={VERT} />
         <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 16 }}>
           Une question ? On vous répond sous 48h.
         </p>

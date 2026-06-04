@@ -202,7 +202,7 @@ export default function Actualites() {
         >
           ← <span>Explorer</span>
         </button>
-        <PageHeading label="les dernières" title="Actualités" accentColor={TERRA} traitColor={TERRA} />
+        <PageHeading title="Actualités" accentColor={TERRA} traitColor={TERRA} />
         <p style={{ fontSize: 14, color: 'var(--texte-sec)' }}>
           Infos locales, nouveautés et alertes importantes
         </p>

@@ -273,13 +273,6 @@ export default function Boutiques() {
           ← Explorer
         </button>
 
-        <p style={{
-          fontFamily: 'var(--font-accent)',
-          fontSize: 18, color: TERRA,
-          lineHeight: 1, marginBottom: 4,
-        }}>
-          curatée pour vous
-        </p>
         <h1 style={{
           fontFamily: 'var(--font-display)', fontWeight: 900,
           fontSize: 36, color: FORET,

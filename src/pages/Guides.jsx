@@ -309,7 +309,7 @@ export default function Guides() {
   if (error) return (
     <div className="page">
       <div className="page-header">
-        <PageHeading label="ta boîte à outils" title="Guides" accentColor={VERT} traitColor={VERT} />
+        <PageHeading title="Guides" accentColor={VERT} traitColor={VERT} />
       </div>
       <NotionError message={error} />
     </div>
@@ -318,7 +318,7 @@ export default function Guides() {
   if (loading) return (
     <div className="page">
       <div className="page-header">
-        <PageHeading label="ta boîte à outils" title="Guides" accentColor={VERT} traitColor={VERT} />
+        <PageHeading title="Guides" accentColor={VERT} traitColor={VERT} />
       </div>
       {SearchBar}
       <div className="spinner">Chargement des guides…</div>
@@ -329,7 +329,7 @@ export default function Guides() {
   if (search.trim()) return (
     <div className="page">
       <div className="page-header">
-        <PageHeading label="ta boîte à outils" accent="Guides" color={VERT} accentSize={34} />
+        <PageHeading accent="Guides" color={VERT} accentSize={34} />
       </div>
       {SearchBar}
       <p style={{ fontSize: 14, color: 'var(--texte-sec)', marginBottom: 12 }}>
@@ -414,7 +414,7 @@ export default function Guides() {
   return (
     <div className="page">
       <div className="page-header">
-        <PageHeading label="ta boîte à outils" title="Guides" accentColor={VERT} traitColor={VERT} />
+        <PageHeading title="Guides" accentColor={VERT} traitColor={VERT} />
         {activeProfile && (
           <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 4 }}>
             <span style={{ fontSize: 14 }}>{activeProfile.emoji}</span>
