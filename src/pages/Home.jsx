@@ -385,7 +385,7 @@ export default function Home() {
           <div style={{ position: 'absolute', top: -20, right: -20, width: 100, height: 100, borderRadius: '50%', background: 'rgba(176,125,42,0.12)', pointerEvents: 'none' }} />
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
             <span style={{ fontSize: 22 }}>💎</span>
-            <span style={{ fontFamily: 'var(--font-corps)', fontSize: 11, fontWeight: 800, color: '#c9a84c', letterSpacing: '0.06em' }}>PREMIUM — 14,90€/MOIS</span>
+            <span style={{ fontFamily: 'var(--font-corps)', fontSize: 11, fontWeight: 800, color: '#c9a84c', letterSpacing: '0.06em' }}>PREMIUM — 9,90€/MOIS PENDANT 3 MOIS</span>
           </div>
           <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 20, color: '#F7F2EB', lineHeight: 1.2, marginBottom: 6 }}>
             Débloquez tous les guides<br />et le cockpit complet

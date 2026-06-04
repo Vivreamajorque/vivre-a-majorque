@@ -78,7 +78,7 @@ function OffreCard({ offre }) {
 export default function Premium() {
   useSEO({
     title: 'Premium — Vivre à Majorque',
-    description: 'Débloquez tous les guides, le cockpit complet et les simulateurs avancés. 14,90€/mois — résiliable à tout moment.',
+    description: 'Débloquez tous les guides, le cockpit complet et les simulateurs avancés. 9,90€/mois pendant 3 mois — puis 14,90€/mois.',
     url: 'https://vivre-a-majorque.vercel.app/app/premium',
   })
   const { isPremium } = usePremium()
@@ -146,10 +146,10 @@ export default function Premium() {
             <div style={{ position: 'absolute', top: -30, right: -30, width: 120, height: 120, borderRadius: '50%', background: 'rgba(90,173,165,0.08)' }} />
             <p style={{ fontSize: 13, color: 'rgba(90,173,165,0.8)', fontFamily: 'var(--font-corps)', marginBottom: 8 }}>Accès complet à tout le contenu</p>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 4, marginBottom: 4 }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 48, color: '#F7F2EB', lineHeight: 1 }}>14,90</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 48, color: '#F7F2EB', lineHeight: 1 }}>9,90</span>
               <span style={{ fontSize: 18, color: 'rgba(247,242,235,0.7)', fontFamily: 'var(--font-corps)' }}>€/mois</span>
             </div>
-            <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.45)', marginBottom: 20 }}>Résiliable à tout moment · Sans engagement</p>
+            <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.45)', marginBottom: 20 }}>pendant 3 mois · puis 14,90€/mois · résiliable à tout moment</p>
             <button onClick={handleSubscribe} style={{
               background: TERRA, color: '#fff', border: 'none',
               borderRadius: 30, padding: '14px 32px',
@@ -209,7 +209,7 @@ export default function Premium() {
             fontFamily: 'var(--font-corps)', fontWeight: 800, fontSize: 16,
             cursor: 'pointer', boxShadow: '0 4px 20px rgba(199,110,78,0.3)',
           }}>
-            Commencer pour 14,90€/mois →
+            Commencer pour 9,90€/mois →
           </button>
           <p style={{ fontSize: 11, color: 'var(--texte-sec)', textAlign: 'center', marginTop: 8 }}>
             Résiliable à tout moment · Aucun engagement
