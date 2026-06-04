@@ -286,25 +286,10 @@ export default function Home() {
   const actus = useMemo(() => actusData.map(parseActu).slice(0, 8), [actusData])
 
   return (
-    <div className="page" style={{ paddingTop: 0 }}>
+    <div className="page">
 
-      {/* ── Hero ────────────────────────────────────────── */}
-      <div style={{
-        background: '#0F3D35',
-        borderRadius: '0 0 28px 28px',
-        padding: '40px 20px 28px',
-        marginBottom: 24,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        position: 'relative',
-        overflow: 'hidden',
-      }}>
-        {/* Cercles déco */}
-        <div style={{ position: 'absolute', top: -40, right: -40, width: 160, height: 160, borderRadius: '50%', background: 'rgba(90,173,165,0.08)', pointerEvents: 'none' }} />
-        <div style={{ position: 'absolute', bottom: -30, left: -20, width: 120, height: 120, borderRadius: '50%', background: 'rgba(199,110,78,0.07)', pointerEvents: 'none' }} />
-
-        {/* Logo */}
+      {/* ── Logo + Header ───────────────────────────────── */}
+      <div style={{ paddingTop: 28, paddingBottom: 8, textAlign: 'center' }}>
         <style>{`
           @keyframes spinOnce {
             0%   { transform: rotateY(0deg); }
@@ -318,32 +303,24 @@ export default function Home() {
           src="/logo_vivre_a_majorque.png"
           alt="Vivre à Majorque"
           className="logo-spin"
-          style={{ width: 140, height: 'auto', marginBottom: 16, position: 'relative' }}
+          style={{ width: 150, height: 'auto', marginBottom: 12 }}
         />
 
-        {/* Titre selon profil */}
         {profile ? (
-          <div style={{ textAlign: 'center', position: 'relative' }}>
-            <p style={{ fontFamily: 'var(--font-accent)', fontSize: 13, color: 'rgba(90,173,165,0.85)', marginBottom: 4 }}>
-              {new Date().getHours() < 18 ? 'Bonjour' : 'Bonsoir'}{user?.prenom || prenom ? ` ${user?.prenom || prenom}` : ''} 👋
-            </p>
-            <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26, color: '#F7F2EB', fontWeight: 400, lineHeight: 1.2, marginBottom: 6 }}>
-              {profile.emoji} {profile.label}
-            </p>
-            <div style={{ width: 36, height: 2, background: TERRA, borderRadius: 2, margin: '0 auto' }} />
+          <div style={{ textAlign: 'left' }}>
+            <ContextLabel color={VERT} size={14}>bienvenue,</ContextLabel>
+            <DisplayTitle size={36}>{user?.prenom || prenom || 'Bonjour'}</DisplayTitle>
+            <AccentWord color={TERRA} size={20}>{profile.emoji} {profile.label}</AccentWord>
+            <Trait color={TERRA} width={40} />
           </div>
         ) : (
-          <div style={{ textAlign: 'center', position: 'relative' }}>
-            <p style={{ fontFamily: 'var(--font-accent)', fontSize: 13, color: 'rgba(90,173,165,0.8)', marginBottom: 6, letterSpacing: '0.04em' }}>
+          <div>
+            <p style={{ fontFamily: 'var(--font-accent)', fontSize: 13, color: VERT, marginBottom: 4, letterSpacing: '0.04em' }}>
               l'appli des francophones
             </p>
-            <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30, color: '#F7F2EB', fontWeight: 400, lineHeight: 1.15, marginBottom: 4 }}>
-              Vivre à Majorque
-            </p>
-            <p style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 14, color: 'rgba(247,242,235,0.55)', marginBottom: 10 }}>
+            <p style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 14, color: 'var(--texte-sec)', marginBottom: 16 }}>
               guides · simulateurs · accompagnement
             </p>
-            <div style={{ width: 36, height: 2, background: TERRA, borderRadius: 2, margin: '0 auto' }} />
           </div>
         )}
       </div>
