@@ -18,6 +18,7 @@ const PLACES_DISPO = {
   visio:      5,
   cap:        3,
   eclaireur:  2,
+  integrale:  1,
 }
 
 const OFFRES = [
@@ -92,6 +93,30 @@ const OFFRES = [
     sujet: 'Demande Audit Éclaireur — 290€',
     stripeUrl: null,
     prequalification: true, // ← formulaire à la place de Stripe
+  },
+  {
+    id: 'integrale',
+    label: 'Complet · Vie + Activité',
+    titre: 'Installation Intégrale',
+    prix: '449 €',
+    prixBarre: '539 €',
+    accroche: 'Votre installation complète — vie personnelle ET projet professionnel',
+    couleur: '#0F3D35',
+    border: 'rgba(15,61,53,0.25)',
+    textAccent: '#0F3D35',
+    highlight: false,
+    inclus: [
+      { ok: true, texte: 'Tout ce que comprend le Cap Majorque — vie personnelle, famille, logement, démarches' },
+      { ok: true, texte: 'Tout ce que comprend l\'Audit Éclaireur — statut pro, fiscalité, viabilité activité' },
+      { ok: true, texte: 'Disponible par WhatsApp pendant toute l\'installation — un message suffit' },
+      { ok: true, texte: 'Deux rencontres physiques possibles à Campos — voir l\'île, décider en connaissance de cause' },
+      { ok: true, texte: 'Relais de transition — courrier et colis reçus à notre adresse (Carrer de Santanyi 19, Campos)' },
+      { ok: true, texte: '79€ du Conseil déduits si réservé dans les 30 jours — vous ne payez que 370€' },
+    ],
+    pour: 'Entrepreneurs et indépendants qui s\'installent avec leur famille — vous avez besoin d\'un accompagnement complet vie et activité, sans tout gérer seul',
+    sujet: 'Demande Installation Intégrale — 449€',
+    stripeUrl: null,
+    prequalification: true,
   },
 
 ]

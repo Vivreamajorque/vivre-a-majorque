@@ -21,11 +21,11 @@ const TEMOIGNAGES = [
     couleur: TERRA,
   },
   {
-    prenom: 'Stéphane & Amélie',
+    prenom: 'Stéphanie & François',
     situation: 'Entrepreneurs, installés depuis 3 mois',
     texte: 'L\'Audit Éclaireur nous a évité de nombreuses erreurs sur notre statut. Amely a analysé notre situation en détail et on a eu des réponses concrètes en 5 jours. Indispensable avant de se lancer.',
     offre: 'Audit Éclaireur',
-    avatar: 'SA',
+    avatar: 'SF',
     couleur: VERT,
   },
 ]
