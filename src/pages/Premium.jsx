@@ -22,8 +22,8 @@ const AVANTAGES = [
 
 /* ── Témoignages ─────────────────────────────── */
 const TEMOIGNAGES = [
-  { prenom: 'Hervé', texte: 'J\'ai attendu 3 ans avant d\'appeler. Après la visio, je savais exactement dans quel sens aller. L\'app m\'a économisé des semaines de recherche.', profil: 'Retraité — installé à Alcúdia' },
-  { prenom: 'Stéphane & Amélie', texte: 'Le dossier Éclaireur nous a donné une vision claire de toute la complexité de notre projet. On a évité plusieurs erreurs coûteuses.', profil: 'Entrepreneurs — Palma' },
+  { prenom: 'Hervé', texte: 'J\'ai attendu 6 mois avant de me décider. Après la visio, je savais exactement dans quel sens aller. L\'app m\'a économisé des semaines de recherche.', profil: 'Retraité — installé à Alcúdia' },
+  { prenom: 'Cécile & Benjamin', texte: 'Le dossier Éclaireur nous a donné une vision claire de toute la complexité de notre projet. On a évité plusieurs erreurs coûteuses.', profil: 'Entrepreneurs — Palma' },
 ]
 
 /* ── Offres accompagnement ───────────────────── */
