@@ -303,6 +303,7 @@ export default function Home() {
           src="/logo_vivre_a_majorque.png"
           alt="Vivre à Majorque"
           className="logo-spin"
+          loading="lazy"
           style={{ width: 150, height: 'auto', marginBottom: 12 }}
         />
 
@@ -410,18 +411,14 @@ export default function Home() {
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
         {NAV_CARDS.slice(0, 4).map(card => (
           <Link key={card.to} to={card.to} style={{ textDecoration: 'none' }}>
-            <div style={{
+            <div className="card-tap" style={{
               background: '#fff',
               border: `1px solid ${card.color}28`,
               borderTop: `3px solid ${card.color}`,
               borderRadius: 14, padding: '16px 14px',
               boxShadow: '0 1px 6px rgba(28,20,16,0.05)',
-              transition: 'transform 0.15s',
               height: '100%',
-            }}
-            onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
-            onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
-            >
+            }}>
               <div style={{ fontSize: 22, marginBottom: 8 }}>{card.icon}</div>
               <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'var(--foret)', lineHeight: 1.2, marginBottom: 4 }}>{card.title}</p>
               <p style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>{card.context}</p>
@@ -431,7 +428,7 @@ export default function Home() {
       </div>
       {/* 5e carte pleine largeur */}
       <Link to={NAV_CARDS[4].to} style={{ textDecoration: 'none', display: 'block', marginBottom: 28 }}>
-        <div style={{
+        <div className="card-tap" style={{
           background: '#fff',
           border: `1px solid ${NAV_CARDS[4].color}28`,
           borderTop: `3px solid ${NAV_CARDS[4].color}`,

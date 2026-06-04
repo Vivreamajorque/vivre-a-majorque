@@ -7,7 +7,6 @@
   --foret:       #0F3D35;
   --gold:        #b07d2a;
 
-  /* Fond légèrement plus chaud — ressort mieux sous les cartes */
   --bg:          #F0EAE0;
   --bg-card:     #FFFFFF;
   --gris:        #E0D9CF;
@@ -19,11 +18,10 @@
   --vert-light:  rgba(90,173,165,0.12);
   --terra-light: rgba(199,110,78,0.10);
 
-  /* Bordures plus marquées */
   --border:      1.5px solid #D4CCC2;
   --border-soft: 1px solid #E0D9CF;
 
-  --radius:      18px;
+  --radius:      16px;
   --radius-sm:   12px;
   --radius-xs:   8px;
 
@@ -35,7 +33,6 @@
   --font-accent: 'Caveat', cursive;
   --font-corps:  'Inter', system-ui, sans-serif;
 
-  /* Échelle typographique */
   --fs-xs:   11px;
   --fs-sm:   13px;
   --fs-base: 14px;
@@ -45,10 +42,12 @@
   --fs-2xl:  24px;
   --fs-3xl:  32px;
 
-  /* Variables utilitaires complémentaires */
   --lin:        #F5F0E8;
   --ocre-light: rgba(196,122,90,0.10);
   --noir:       #1C1410;
+
+  /* Transition globale */
+  --transition: 0.18s ease;
 }
 
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -73,6 +72,16 @@ a { color: var(--vert); text-decoration: none; }
 a:hover { opacity: 0.82; }
 button { font-family: var(--font-corps); cursor: pointer; border: none; background: none; }
 input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
+
+/* ── TRANSITIONS GLOBALES ── */
+a, button, [role="button"] {
+  transition: opacity var(--transition), transform var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+a:active, button:active, [role="button"]:active {
+  opacity: 0.75;
+  transform: scale(0.98);
+}
 
 /* ── CARTES ── */
 .card {
@@ -107,9 +116,11 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
   border-radius: var(--radius-sm);
   font-size: 14px; font-weight: 700;
   letter-spacing: 0.01em;
-  transition: opacity 0.15s, transform 0.1s;
+  transition: opacity var(--transition), transform var(--transition);
+  -webkit-tap-highlight-color: transparent;
 }
-.btn:hover { opacity: 0.88; transform: translateY(-1px); }
+.btn:hover  { opacity: 0.88; transform: translateY(-1px); }
+.btn:active { opacity: 0.75; transform: scale(0.97); }
 .btn-vert    { background: var(--vert);  color: #fff; }
 .btn-terra   { background: var(--terra); color: #fff; box-shadow: 0 4px 14px rgba(199,110,78,0.28); }
 .btn-foret   { background: var(--foret); color: #fff; }
@@ -124,13 +135,13 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
 }
 
 .page-header {
-  padding: 52px 0 20px;
+  padding: 48px 0 18px;
   position: sticky; top: 0;
-  background: linear-gradient(to bottom, var(--bg) 82%, transparent);
+  background: linear-gradient(to bottom, var(--bg) 85%, transparent);
   z-index: 10;
 }
 
-/* ── TITRES DE SECTION — cœur du changement ── */
+/* ── TITRES DE SECTION ── */
 .section-head {
   display: flex;
   justify-content: space-between;
@@ -155,7 +166,9 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
   border: none;
   cursor: pointer;
   padding: 0;
+  transition: opacity var(--transition);
 }
+.section-cta:hover { opacity: 0.75; }
 
 /* ── DIVIDER ── */
 .divider { height: 1px; background: var(--gris); margin: 16px 0; }
@@ -170,7 +183,8 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
   border: var(--border);
   background: var(--bg-card);
   font-size: 14px; color: var(--texte);
-  outline: none; transition: border-color 0.15s;
+  outline: none;
+  transition: border-color var(--transition);
 }
 .search-input:focus { border-color: var(--vert); }
 
@@ -181,8 +195,11 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
   border-radius: 20px; font-size: 13px; font-weight: 500;
   border: 1.5px solid var(--gris-mid);
   color: var(--texte-sec); background: var(--bg-card);
-  cursor: pointer; transition: all 0.15s;
+  cursor: pointer;
+  transition: all var(--transition);
+  -webkit-tap-highlight-color: transparent;
 }
+.pill:active { transform: scale(0.96); }
 .pill.active { background: var(--vert); border-color: var(--vert); color: #fff; font-weight: 700; }
 
 .progress-bar { height: 5px; background: var(--gris); border-radius: 3px; overflow: hidden; }
@@ -191,3 +208,11 @@ input, select, textarea { font-family: var(--font-corps); font-size: 16px; }
   background: linear-gradient(90deg, var(--vert), #7EC8C0);
   border-radius: 3px; transition: width 0.4s ease;
 }
+
+/* ── CARTES INTERACTIVES ── */
+.card-tap {
+  transition: transform var(--transition), box-shadow var(--transition);
+  -webkit-tap-highlight-color: transparent;
+}
+.card-tap:hover  { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(28,20,16,0.10); }
+.card-tap:active { transform: scale(0.98); box-shadow: var(--shadow-sm); }

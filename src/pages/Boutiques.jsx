@@ -165,6 +165,7 @@ function CategoryCard({ cat, navigate }) {
   return (
     <div
       onClick={handleClick}
+      className={isComingSoon ? '' : 'card-tap'}
       style={{
         background: '#fff',
         borderRadius: 16,
@@ -172,11 +173,8 @@ function CategoryCard({ cat, navigate }) {
         overflow: 'hidden',
         cursor: isComingSoon ? 'default' : 'pointer',
         opacity: isComingSoon ? 0.72 : 1,
-        transition: 'transform 0.15s',
         display: 'flex', flexDirection: 'column',
       }}
-      onMouseEnter={e => { if (!isComingSoon) e.currentTarget.style.transform = 'translateY(-2px)' }}
-      onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(0)' }}
     >
       {/* Trait coloré haut */}
       <div style={{
