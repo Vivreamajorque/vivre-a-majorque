@@ -272,9 +272,12 @@ a:active, button:active, [role="button"]:active {
 /* Mobile — contenu pleine largeur, sidebar cachée */
 @media (max-width: 768px) {
   .desktop-content {
-    display: contents;
+    display: contents !important;
   }
   .desktop-sidebar {
-    display: none;
+    display: none !important;
+  }
+  aside {
+    display: none !important;
   }
 }

@@ -1,3 +1,4 @@
+import { PREMIUM_STRIPE_LINK } from '../config'
 import React, { useState } from 'react'
 
 export default function OnboardingModal({ onSubmit, onDismiss }) {
@@ -155,7 +156,7 @@ export default function OnboardingModal({ onSubmit, onDismiss }) {
 
         {/* CTA Premium */}
         <a
-          href="https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I"
+          href={PREMIUM_STRIPE_LINK}
           target="_blank"
           rel="noopener noreferrer"
           style={{

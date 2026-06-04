@@ -23,11 +23,12 @@ function load() {
 }
 
 export function deriveProfileId(answers) {
-  // Résidents confirmés : déjà là + retraite ou télétravailleurs installés depuis longtemps
-  // On les map sur 'confirme' si horizon=deja et pas de douleur admin critique
   if (answers?.horizon === 'deja') {
+    // Plus d'un an sur l'île → résident confirmé
+    if (answers?.situation === 'installe') return 'confirme'
+    // Retraité déjà installé → confirmé
     if (answers?.intention === 'retraite') return 'confirme'
-    // Sinon 1ère année → premiere
+    // Sinon : 1ère année
     return 'premiere'
   }
   if (answers?.horizon) return HORIZON_TO_PROFILE[answers.horizon] || 'reve'
@@ -130,7 +131,8 @@ export function getSuggestedTools(quiz) {
 
 export function getProfileLabelFromQuiz(quiz) {
   if (!quiz) return null
-  const { horizon, intention } = quiz
+  const { horizon, intention, situation } = quiz
+  if (horizon === 'deja' && situation === 'installe') return { label: 'Résident confirmé', emoji: '🌿' }
   if (horizon === 'deja' && intention === 'retraite') return { label: 'Résident confirmé', emoji: '🌿' }
   if (horizon === 'deja')       return { label: '1ère année à Majorque', emoji: '🏡' }
   if (horizon === 'moins6')     return { label: 'Installation imminente', emoji: '📦' }

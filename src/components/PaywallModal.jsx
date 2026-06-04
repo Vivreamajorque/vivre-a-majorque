@@ -1,9 +1,10 @@
+import { PREMIUM_STRIPE_LINK } from '../config'
 import React, { useState, useEffect } from 'react'
 import { usePremium } from '../context/PremiumContext'
 import { track } from '@vercel/analytics'
 
 // Stripe payment link avec allow_promotion_codes: true
-const STRIPE_LINK = 'https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I'
+const STRIPE_LINK = PREMIUM_STRIPE_LINK
 
 export function PaywallModal({ isOpen, onClose }) {
   const { activatePremium } = usePremium()
