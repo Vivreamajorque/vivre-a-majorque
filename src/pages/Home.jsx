@@ -286,45 +286,54 @@ export default function Home() {
   const actus = useMemo(() => actusData.map(parseActu).slice(0, 8), [actusData])
 
   return (
-    <div className="page">
+    <div className="page" style={{ paddingTop: 0 }}>
 
-      {/* ── Logo ────────────────────────────────────────── */}
+      {/* ── Hero ────────────────────────────────────────── */}
       <div style={{
-        display: 'flex', justifyContent: 'center', alignItems: 'center',
-        paddingTop: 16, paddingBottom: 4,
+        background: '#0F3D35',
+        borderRadius: '0 0 28px 28px',
+        padding: '40px 20px 28px',
+        marginBottom: 24,
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        position: 'relative',
+        overflow: 'hidden',
       }}>
+        {/* Cercles déco */}
+        <div style={{ position: 'absolute', top: -40, right: -40, width: 160, height: 160, borderRadius: '50%', background: 'rgba(90,173,165,0.08)', pointerEvents: 'none' }} />
+        <div style={{ position: 'absolute', bottom: -30, left: -20, width: 120, height: 120, borderRadius: '50%', background: 'rgba(199,110,78,0.07)', pointerEvents: 'none' }} />
+
+        {/* Logo */}
         <img
           src="/logo_vivre_a_majorque.png"
           alt="Vivre à Majorque"
-          style={{
-            width: 180, height: 'auto',
-          }}
+          style={{ width: 140, height: 'auto', marginBottom: 16, position: 'relative' }}
         />
-      </div>
 
-      {/* ── Header ─────────────────────────────────────── */}
-      <div className="page-header">
+        {/* Titre selon profil */}
         {profile ? (
-          <div>
-            <ContextLabel color={VERT} size={14}>bienvenue,</ContextLabel>
-            <DisplayTitle size={38}>{user?.prenom || prenom || 'Bonjour'}</DisplayTitle>
-            <AccentWord color={TERRA} size={22}>{profile.emoji} {profile.label}</AccentWord>
-            <Trait color={TERRA} width={40} />
+          <div style={{ textAlign: 'center', position: 'relative' }}>
+            <p style={{ fontFamily: 'var(--font-accent)', fontSize: 13, color: 'rgba(90,173,165,0.85)', marginBottom: 4 }}>
+              {new Date().getHours() < 18 ? 'Bonjour' : 'Bonsoir'}{user?.prenom || prenom ? ` ${user?.prenom || prenom}` : ''} 👋
+            </p>
+            <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26, color: '#F7F2EB', fontWeight: 400, lineHeight: 1.2, marginBottom: 6 }}>
+              {profile.emoji} {profile.label}
+            </p>
+            <div style={{ width: 36, height: 2, background: TERRA, borderRadius: 2, margin: '0 auto' }} />
           </div>
         ) : (
-          <div>
-            <span style={{
-              display: 'block',
-              fontFamily: 'var(--font-titre)',
-              fontStyle: 'italic', fontWeight: 400,
-              fontSize: 18, color: VERT,
-              lineHeight: 1.25, marginBottom: 2,
-            }}>
-              l'appli pour
-            </span>
-            <DisplayTitle size={38}>s'installer</DisplayTitle>
-            <AccentWord color={TERRA} size={38}>à Majorque</AccentWord>
-            <Trait color={TERRA} width={40} />
+          <div style={{ textAlign: 'center', position: 'relative' }}>
+            <p style={{ fontFamily: 'var(--font-accent)', fontSize: 13, color: 'rgba(90,173,165,0.8)', marginBottom: 6, letterSpacing: '0.04em' }}>
+              l'appli des francophones
+            </p>
+            <p style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30, color: '#F7F2EB', fontWeight: 400, lineHeight: 1.15, marginBottom: 4 }}>
+              Vivre à Majorque
+            </p>
+            <p style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 14, color: 'rgba(247,242,235,0.55)', marginBottom: 10 }}>
+              guides · simulateurs · accompagnement
+            </p>
+            <div style={{ width: 36, height: 2, background: TERRA, borderRadius: 2, margin: '0 auto' }} />
           </div>
         )}
       </div>
@@ -410,34 +419,47 @@ export default function Home() {
       />
 
       {/* ── Accès rapide ────────────────────────────────── */}
-      <SectionHead title="Accès rapide" style={{ marginBottom: 12, marginTop: 4 }} />
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 24 }}>
-        {NAV_CARDS.map(card => (
+      <SectionHead title="Accès rapide" style={{ marginBottom: 14, marginTop: 4 }} />
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 10, marginBottom: 10 }}>
+        {NAV_CARDS.slice(0, 4).map(card => (
           <Link key={card.to} to={card.to} style={{ textDecoration: 'none' }}>
             <div style={{
               background: '#fff',
               border: `1px solid ${card.color}28`,
-              borderRadius: 16, padding: '16px 14px',
+              borderTop: `3px solid ${card.color}`,
+              borderRadius: 14, padding: '16px 14px',
               boxShadow: '0 1px 6px rgba(28,20,16,0.05)',
               transition: 'transform 0.15s',
+              height: '100%',
             }}
             onMouseEnter={e => e.currentTarget.style.transform = 'translateY(-2px)'}
             onMouseLeave={e => e.currentTarget.style.transform = 'translateY(0)'}
             >
-              <div style={{ fontSize: 24, marginBottom: 10 }}>{card.icon}</div>
-              <DisplayTitle size={18}>{card.title}</DisplayTitle>
-              <Trait color={card.color} width={24} />
-              <span style={{
-                display: 'block', marginTop: 6,
-                fontFamily: 'var(--font-titre)', fontStyle: 'italic',
-                fontSize: 13, color: 'var(--texte-sec)',
-              }}>
-                {card.context}
-              </span>
+              <div style={{ fontSize: 22, marginBottom: 8 }}>{card.icon}</div>
+              <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'var(--foret)', lineHeight: 1.2, marginBottom: 4 }}>{card.title}</p>
+              <p style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 12, color: 'var(--texte-sec)', lineHeight: 1.4 }}>{card.context}</p>
             </div>
           </Link>
         ))}
       </div>
+      {/* 5e carte pleine largeur */}
+      <Link to={NAV_CARDS[4].to} style={{ textDecoration: 'none', display: 'block', marginBottom: 28 }}>
+        <div style={{
+          background: '#fff',
+          border: `1px solid ${NAV_CARDS[4].color}28`,
+          borderTop: `3px solid ${NAV_CARDS[4].color}`,
+          borderRadius: 14, padding: '14px 18px',
+          boxShadow: '0 1px 6px rgba(28,20,16,0.05)',
+          display: 'flex', alignItems: 'center', gap: 14,
+        }}>
+          <span style={{ fontSize: 24 }}>{NAV_CARDS[4].icon}</span>
+          <div style={{ flex: 1 }}>
+            <p style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 16, color: 'var(--foret)', marginBottom: 2 }}>{NAV_CARDS[4].title}</p>
+            <p style={{ fontFamily: 'var(--font-titre)', fontStyle: 'italic', fontSize: 12, color: 'var(--texte-sec)' }}>{NAV_CARDS[4].context}</p>
+          </div>
+          <span style={{ color: TERRA, fontSize: 20 }}>›</span>
+        </div>
+      </Link>
 
       {/* Quiz profil si déclenché */}
       {showQuiz && (
