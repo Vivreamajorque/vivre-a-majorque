@@ -35,6 +35,7 @@ import FamilleInstallation from './pages/FamilleInstallation'
 import RetraiteSimulator from './pages/RetraiteSimulator'
 import Premium from './pages/Premium'
 import Sidebar from './components/Sidebar'
+import AmelyIAFloat from './components/AmelyIAFloat'
 
 function AppShell() {
   return (
@@ -76,6 +77,8 @@ function AppShell() {
       </Routes>
       {/* Nav bottom — visible mobile uniquement via CSS */}
       <Nav />
+      {/* Assistant Amely — bouton flottant sur toutes les pages */}
+      <AmelyIAFloat />
       </div>
     </>
   )

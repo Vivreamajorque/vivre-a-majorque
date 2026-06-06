@@ -134,20 +134,21 @@ function parseResponse(text) {
 }
 
 async function saveSession(id, data) {
-  try { await window.storage.set(`session:${id}`, JSON.stringify(data)); } catch {}
+  try { localStorage.setItem(`vam_session:${id}`, JSON.stringify(data)); } catch {}
 }
 
 async function logMetric(type, data) {
-  try { await window.storage.set(`metric:${type}:${Date.now()}`, JSON.stringify({ ...data, ts: Date.now() })); } catch {}
+  try { localStorage.setItem(`vam_metric:${type}:${Date.now()}`, JSON.stringify({ ...data, ts: Date.now() })); } catch {}
 }
 
 async function logLacune(sujet) {
   try {
-    const ex = await window.storage.get("lacunes");
-    const list = ex ? JSON.parse(ex.value) : [];
-    if (!list.find(l => l.sujet === sujet)) list.push({ sujet, count: 1, firstSeen: Date.now() });
-    else list.find(l => l.sujet === sujet).count++;
-    await window.storage.set("lacunes", JSON.stringify(list));
+    const ex = localStorage.getItem("vam_lacunes");
+    const list = ex ? JSON.parse(ex) : [];
+    const found = list.find(l => l.sujet === sujet);
+    if (!found) list.push({ sujet, count: 1, firstSeen: Date.now() });
+    else found.count++;
+    localStorage.setItem("vam_lacunes", JSON.stringify(list));
   } catch {}
 }
 
