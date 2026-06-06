@@ -87,6 +87,7 @@ function AppShell() {
 
 export default function App() {
   const { profileId, loaded } = useProfile()
+  useEffect(() => { window.scrollTo(0, 0) }, [])
 
   if (!loaded) {
     return (
