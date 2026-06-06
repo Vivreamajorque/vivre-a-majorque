@@ -96,32 +96,33 @@ Merci !`);window.open(`mailto:${Uf}?subject=${encodeURIComponent(e.sujet)}&body=
 RÈGLES ABSOLUES :
 1. Réponses COURTES : 3-4 phrases maximum. Jamais de pavé.
 2. JAMAIS de Markdown : pas de **, pas de ##, pas de tirets. Écris en texte simple, comme un message WhatsApp.
-3. UNIQUEMENT des infos vérifiées issues de tes guides officiels (sources BOE/AEAT/IB-Salut/CAIB). Si tu ne sais pas, dis "Je n'ai pas cette info vérifiée, mais on en parle en visio."
+3. UNIQUEMENT des infos vérifiées issues des guides officiels (sources BOE/AEAT/seg-social.es/IB-Salut/CAIB). Si tu ne sais pas, dis "Je n'ai pas cette info vérifiée, mais on en parle en visio."
 4. N'invente JAMAIS de chiffre ni de procédure.
-5. Après 2-3 échanges, propose naturellement la visio conseil. Génère [VISIO].
-6. Termine toujours par UNE question courte pour relancer.
-7. Détecte le profil : génère [PROFIL:type-timing] en fin de message (invisible).
-8. Si tu ne sais pas : génère [LACUNE:sujet] (invisible) et dis-le honnêtement.
+5. RÈGLE CHIFFRES ABSOLUE : Pour tout montant (cotisations SS, impôts, loyers, tarifs gestor, mutuelles...), ne donne JAMAIS un chiffre comme certitude. Ces montants changent chaque année. Dis-le clairement et renvoie toujours vers le simulateur de l'app ou vers une visio pour un calcul précis selon la situation réelle.
+6. Après 2-3 échanges, propose naturellement la visio conseil. Génère [VISIO].
+7. Termine toujours par UNE question courte pour relancer.
+8. Détecte le profil : génère [PROFIL:type-timing] en fin de message (invisible).
+9. Si tu ne sais pas : génère [LACUNE:sujet] (invisible) et dis-le honnêtement.
 
-BASE DE CONNAISSANCE VÉRIFIÉE :
+BASE DE CONNAISSANCE VÉRIFIÉE (procédures — pas de montants figés) :
 
 NIE : document central obligatoire pour tout (banque, bail, autónoma, école). Depuis France : consulat espagnol Marseille/Paris/Lyon, RDV direct, 2-4 semaines. À Majorque : Policía Nacional, RDV obligatoire, 4-8 semaines. Docs : passeport + EX-15 + justificatif. Coût ~10€.
 
 Empadronamiento : inscription mairie, à faire en priorité dès l'arrivée. Obligatoire pour IB-Salut et scolarité. Docs : bail + passeport/NIE. Gratuit.
 
-Autónoma : freelance espagnol. Alta TGSS + AEAT. Tarifa plana ~96€/mois les 24 premiers mois. Gestor indispensable 50-150€/mois. Modelo 303 (IVA), 130 (IRPF) trimestriels.
+Autónoma : freelance espagnol. Alta TGSS + AEAT obligatoires. Tarifa plana (cuota reducida) pour les nouveaux autónomos : en 2026 c'est autour de 80€/mois la première année — mais ce montant évolue chaque année, et pour un calcul exact selon son profil, renvoyer vers le simulateur autónoma de l'app. Gestor indispensable : pour les tarifs actuels, renvoyer vers l'app. Modelos trimestriels : 303 (IVA) et 130 (IRPF).
 
-Simulateur charges : pour 2000€ CA → SS ~96€ + IVA ~350€ + IRPF ~300-400€ + gestor ~100€ = net ~1050€ environ. Simulateur précis dans l'app.
+Charges : pour tout calcul net/brut ou simulation de charges, renvoyer SYSTÉMATIQUEMENT vers le simulateur de l'app — les taux IVA/IRPF/SS varient selon le profil et l'année. Ne jamais donner un exemple chiffré comme référence.
 
-Logement : marché tendu Baléares. Budget 800-1500€/mois. Dépôt 1-2 mois. Trésorerie 4-6 mois recommandée.
+Logement : marché très tendu aux Baléares. Trésorerie à anticiper avant l'arrivée (dépôt + premiers mois). Pour les fourchettes de loyers actuelles selon la zone, renvoyer vers les guides de l'app.
 
-Scolarité : école publique gratuite sur empadronamiento (catalan). Lycée Français Palma payant, inscriptions mars.
+Scolarité : école publique gratuite sur empadronamiento (enseignement en catalan). Lycée Français de Palma payant, inscriptions en mars. Pour les tarifs : renvoyer vers les guides de l'app.
 
-Santé : IB-Salut via empadronamiento + cotisation SS. Mutuelles privées 1ers mois 50-150€/mois.
+Santé : IB-Salut via empadronamiento + cotisation SS. Mutuelles privées possibles les premiers mois. Pour les tarifs actuels : renvoyer vers le guide santé de l'app.
 
-Visa nomade : hors UE uniquement. Français pas besoin, déclaration résidence UE suffit.
+Visa nomade numérique : réservé aux ressortissants hors UE. Les Français n'en ont pas besoin — une déclaration de résidence UE suffit.
 
-OFFRE : Visio conseil 79€, 1h avec Amely, plan d'action personnalisé.
+OFFRE : Visio conseil 79€, 1h avec Amely, plan d'action personnalisé sur ta situation.
 
 FORMAT EXEMPLE de réponse idéale :
 "Le NIE c'est LE document sans lequel rien ne bouge à Majorque. Si tu es encore en France, passe par le consulat espagnol, c'est plus rapide (2-4 semaines). Tu as déjà commencé les démarches ou c'est encore au stade réflexion ?"`;function L1(e){const t=e.match(/\[PROFIL:([^\]]+)\]/),r=e.match(/\[LACUNE:([^\]]+)\]/),i=e.includes("[VISIO]");return{text:e.replace(/\[PROFIL:[^\]]+\]/g,"").replace(/\[LACUNE:[^\]]+\]/g,"").replace(/\[VISIO\]/g,"").replace(/[#*_~`]/g,"").trim(),profile:(t==null?void 0:t[1])||null,lacune:(r==null?void 0:r[1])||null,showVisio:i}}async function D1(e){var i,o;return((o=(i=(await(await fetch("/api/chat",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({system:M1,messages:e,max_tokens:400})})).json()).content)==null?void 0:i[0])==null?void 0:o.text)||""}async function _1(e,t,r){try{return await fetch("/api/subscribe",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({prenom:t,email:e,profil:r||"",segment:"freemium"})}),!0}catch{return!1}}`${Date.now()}${Math.random().toString(36).slice(2,6)}`;const W1=["Par où commencer ?","Comment obtenir le NIE ?","C'est quoi l'autónoma ?","On part en famille","Quel budget prévoir ?"];function lc({size:e=32}){return n.jsx("img",{src:I1,alt:"Amely",style:{width:e,height:e,borderRadius:"50%",objectFit:"cover",flexShrink:0,border:"2px solid rgba(255,255,255,0.25)"}})}function N1(){return n.jsxs("a",{href:P1,target:"_blank",rel:"noopener noreferrer",style:{display:"flex",alignItems:"center",gap:"10px",marginTop:"10px",padding:"12px 14px",background:"#B5603A",borderRadius:"12px",textDecoration:"none"},children:[n.jsxs("div",{style:{flex:1},children:[n.jsx("div",{style:{color:"white",fontWeight:"600",fontSize:"13px"},children:"Réserver ma visio conseil"}),n.jsx("div",{style:{color:"rgba(255,255,255,0.8)",fontSize:"11px",marginTop:"2px"},children:"1h avec Amely · Plan d'action sur-mesure"})]}),n.jsx("div",{style:{color:"white",fontWeight:"700",fontSize:"15px",whiteSpace:"nowrap"},children:"79€ →"})]})}function q1({onSubmit:e}){const[t,r]=h.useState(""),[i,o]=h.useState(""),[l,s]=h.useState(!1),a=t.includes("@")&&t.includes(".")&&i.trim();return n.jsxs("div",{style:{marginTop:"4px",marginBottom:"10px",padding:"14px",background:"#FDF0EA",border:"1.5px solid #B5603A",borderRadius:"12px"},children:[n.jsx("div",{style:{fontSize:"13px",color:"#1E100A",lineHeight:"1.5",marginBottom:"10px"},children:"Pour continuer la conversation et recevoir ton récap personnalisé, laisse-moi ton prénom et ton email 🌿"}),n.jsx("input",{value:i,onChange:c=>o(c.target.value),placeholder:"Ton prénom",style:{width:"100%",boxSizing:"border-box",padding:"9px 11px",marginBottom:"6px",border:"1px solid #E8D5B7",borderRadius:"8px",fontSize:"13px",fontFamily:"inherit",outline:"none"}}),n.jsx("input",{value:t,onChange:c=>r(c.target.value),type:"email",placeholder:"Ton email",style:{width:"100%",boxSizing:"border-box",padding:"9px 11px",marginBottom:"8px",border:"1px solid #E8D5B7",borderRadius:"8px",fontSize:"13px",fontFamily:"inherit",outline:"none"}}),n.jsx("button",{onClick:async()=>{!a||l||(s(!0),await e(t,i))},disabled:!a||l,style:{width:"100%",padding:"10px",background:a&&!l?"#B5603A":"#E8D5B7",color:"white",border:"none",borderRadius:"8px",fontSize:"13px",fontWeight:"600",cursor:a&&!l?"pointer":"default",fontFamily:"inherit"},children:l?"Un instant...":"Continuer la conversation"})]})}function O1({m:e}){const t=e.role==="user";return n.jsxs("div",{style:{display:"flex",justifyContent:t?"flex-end":"flex-start",marginBottom:"10px",gap:"6px",alignItems:"flex-start"},children:[!t&&n.jsx(lc,{size:26}),n.jsxs("div",{style:{maxWidth:"85%"},children:[n.jsx("div",{style:{padding:"9px 12px",background:t?"#B5603A":"white",color:t?"white":"#1E100A",borderRadius:t?"14px 14px 3px 14px":"3px 14px 14px 14px",fontSize:"13px",lineHeight:"1.55",border:t?"none":"1px solid #E8D5B7",whiteSpace:"pre-wrap"},children:e.text}),e.showVisio&&n.jsx(N1,{})]})]})}function H1(){return n.jsxs("div",{style:{display:"flex",gap:"6px",alignItems:"flex-start",marginBottom:"10px"},children:[n.jsx(lc,{size:26}),n.jsx("div",{style:{padding:"9px 12px",background:"white",border:"1px solid #E8D5B7",borderRadius:"3px 14px 14px 14px",display:"flex",gap:"4px",alignItems:"center"},children:[0,1,2].map(e=>n.jsx("div",{style:{width:"5px",height:"5px",borderRadius:"50%",background:"#B5603A",opacity:.4,animation:`p 1.2s ease-in-out ${e*.2}s infinite`}},e))})]})}function V1(){const[e,t]=h.useState(!1),[r,i]=h.useState([{role:"assistant",text:`Salut ! Je suis Amely 🌿 J'habite à Majorque depuis 1 an, j'ai traversé toutes les démarches de l'intérieur.
