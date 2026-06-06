@@ -116,10 +116,10 @@ FORMAT : Court, chaleureux, pas de pavés. Termine par une question ou CTA.
 [PROFIL:...] [LACUNE:...] [VISIO] sont invisibles pour l'utilisateur.`;
 
 async function callClaude(messages) {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
+  const res = await fetch("/api/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ model: "claude-sonnet-4-20250514", max_tokens: 1000, system: SYSTEM_PROMPT, messages }),
+    body: JSON.stringify({ system: SYSTEM_PROMPT, max_tokens: 1000, messages }),
   });
   const data = await res.json();
   return data.content?.[0]?.text || "";
