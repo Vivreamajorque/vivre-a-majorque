@@ -53,35 +53,7 @@ const TOPIC_MAP = [
   },
 ]
 
-// ─── Détection de questions personnelles → escalade visio ───
-const PERSONAL_PATTERNS = [
-  'ma situation', 'mon cas', 'pour moi', 'est-ce que je peux', 'est ce que je peux',
-  'combien je vais', 'combien je dois', 'quel statut pour moi', 'mon profil',
-  'je gagne', 'mes revenus', 'mon contrat', 'dans mon cas', 'quelle option pour moi',
-  'tu penses que je', 'tu me conseilles', 'conseilles-tu', 'ce que tu ferais',
-  'ma retraite', 'mon entreprise', 'ma famille', 'mon mari', 'ma femme', 'mes enfants'
-]
 
-function detectTopic(messages) {
-  const recentUserMsgs = messages
-    .filter(m => m.role === 'user')
-    .slice(-3)
-    .map(m => (m.content || m.text || '').toLowerCase())
-    .join(' ')
-
-  for (const entry of TOPIC_MAP) {
-    if (entry.terms.some(t => recentUserMsgs.includes(t))) return entry
-  }
-  return null
-}
-
-function isPersonalQuestion(messages) {
-  const lastUserMsg = messages
-    .filter(m => m.role === 'user')
-    .slice(-1)[0]
-  const text = (lastUserMsg?.content || lastUserMsg?.text || '').toLowerCase()
-  return PERSONAL_PATTERNS.some(p => text.includes(p))
-}
 
 // ─── Extraction texte depuis blocs Notion ───
 function extractTextFromBlock(block) {
@@ -150,7 +122,7 @@ async function fetchGuideContent(searchTerm, notionKey) {
 }
 
 // ─── Construction du system prompt dynamique ───
-function buildSystemPrompt(guideData, escalate, isPersonal) {
+function buildSystemPrompt(guideData, escalate) {
   const PERSONA = `Tu es le chatbot de l'application "Vivre à Majorque", créé par Amely — française installée à Campos (Majorque) depuis 1 an, experte en accompagnement d'installation pour les francophones.
 Ton ton : chaleureux, direct, comme une grande sœur qui rassure. Pas un expert froid. Pas une IA générique.`
 
@@ -165,13 +137,9 @@ RÈGLES ABSOLUES :
 6. Génère [PROFIL:type] en fin de message (invisible, analytics). Types : actif/famille/retraité/nomade/indécis.
 7. Si tu ne sais pas : génère [LACUNE:sujet] (invisible) et dis-le franchement.`
 
-  const ESCALADE_RULE = (escalate && !isPersonal) ? `
+  const ESCALADE_RULE = escalate ? `
 
 INSTRUCTION : Tu as répondu à plusieurs questions. Après ta réponse, propose naturellement la Visio Conseil 79€ avec Amely — une heure pour faire le point sur la situation spécifique de la personne et avoir un plan d'action concret. Génère [VISIO].` : ''
-
-  const PERSONAL_RULE = isPersonal ? `
-
-INSTRUCTION : Cette question touche à une situation personnelle spécifique. Réponds avec ce que le guide dit en général, puis explique que pour un conseil adapté à sa situation précise, la Visio Conseil 79€ existe exactement pour ça — 1h avec Amely, plan d'action sur-mesure. Génère [VISIO].` : ''
 
   const GUIDE_CONTEXT = guideData && guideData.content
     ? `
@@ -187,7 +155,7 @@ ${guideData.content}
 Aucun guide spécifique trouvé pour cette question dans la base Vivre à Majorque. Réponds avec des informations procédurales générales vérifiées (sans inventer de chiffres). Si la question est précise, indique que l'app contient des guides complets et propose la visio pour la situation personnelle.
 ---`
 
-  return PERSONA + RULES + ESCALADE_RULE + PERSONAL_RULE + GUIDE_CONTEXT
+  return PERSONA + RULES + ESCALADE_RULE + GUIDE_CONTEXT
 }
 
 export default async function handler(req, res) {
@@ -207,8 +175,7 @@ export default async function handler(req, res) {
 
   // 1. Analyse de la conversation
   const topic = detectTopic(messages)
-  const isPersonal = isPersonalQuestion(messages)
-  const escalate = questionCount >= 3 || isPersonal
+  const escalate = questionCount >= 3
 
   // 2. Fetch du guide Notion si topic détecté
   let guideData = null
@@ -217,7 +184,7 @@ export default async function handler(req, res) {
   }
 
   // 3. System prompt dynamique
-  const systemPrompt = buildSystemPrompt(guideData, escalate, isPersonal)
+  const systemPrompt = buildSystemPrompt(guideData, escalate)
 
   // 4. Appel Claude Haiku
   try {
