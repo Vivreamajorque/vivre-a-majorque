@@ -34,6 +34,7 @@ import MerciVisio from './pages/MerciVisio'
 import FamilleInstallation from './pages/FamilleInstallation'
 import RetraiteSimulator from './pages/RetraiteSimulator'
 import Premium from './pages/Premium'
+import AmelyIA from './components/AmelyIA'
 import Sidebar from './components/Sidebar'
 import AmelyIAFloat from './components/AmelyIAFloat'
 
@@ -96,9 +97,12 @@ export default function App() {
   }
 
   return (
-    <Routes>
+    <>
+      <Routes>
       <Route path="onboarding" element={profileId ? <Navigate to="/app" replace /> : <Onboarding />} />
       <Route path="*" element={profileId ? <AppShell /> : <Navigate to="/onboarding" replace />} />
     </Routes>
+      <AmelyIA />
+    </>
   )
 }
