@@ -166,8 +166,8 @@ export default async function handler(req, res) {
   if (req.method === 'OPTIONS') return res.status(200).end()
   if (req.method !== 'POST') return res.status(405).json({ error: 'Method Not Allowed' })
 
-  const anthropicKey = process.env.ANTHROPIC_API_KEY
-  const notionKey = process.env.NOTION_API_KEY
+  const anthropicKey = process.env.ANTHROPIC_API_KEY || process.env['CLÉ_API_ANTHROPIC']
+  const notionKey = process.env.NOTION_API_KEY || process.env['CLÉ_API_NOTION']
   if (!anthropicKey) return res.status(500).json({ error: 'ANTHROPIC_API_KEY not set' })
 
   const { messages, questionCount = 0, max_tokens = 400 } = req.body || {}
