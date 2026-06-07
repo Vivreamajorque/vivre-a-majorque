@@ -136,7 +136,7 @@ export default function Premium() {
       {tab === 'abonnement' && (() => {
         const [annual, setAnnual] = React.useState(false)
         const stripeMonthly = 'https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I'
-        const stripeAnnual  = 'https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I' // ← remplacer par lien annuel Stripe quand créé
+        const stripeAnnual  = 'https://buy.stripe.com/bJe3cu0yU9G13hecHX6AM0Z'
         return (
         <>
           {/* Toggle mensuel / annuel */}
