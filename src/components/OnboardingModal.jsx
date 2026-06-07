@@ -172,7 +172,7 @@ export default function OnboardingModal({ onSubmit, onDismiss }) {
             boxSizing: 'border-box',
           }}
         >
-          Accès Premium — 9,90€ le premier mois ✦
+          Accès Premium — 9,90€/mois ou 79€/an ✦
         </a>
 
         {/* Continuer sans compte — plus visible */}

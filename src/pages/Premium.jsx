@@ -133,8 +133,27 @@ export default function Premium() {
       </div>
 
       {/* ── TAB ABONNEMENT ── */}
-      {tab === 'abonnement' && (
+      {tab === 'abonnement' && (() => {
+        const [annual, setAnnual] = React.useState(false)
+        const stripeMonthly = 'https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I'
+        const stripeAnnual  = 'https://buy.stripe.com/eVqcN41CY8BX8By6jz6AM0I' // ← remplacer par lien annuel Stripe quand créé
+        return (
         <>
+          {/* Toggle mensuel / annuel */}
+          <div style={{ display: 'flex', justifyContent: 'center', gap: 0, marginBottom: 16, background: '#E8E3DA', borderRadius: 30, padding: 4 }}>
+            {[{ label: 'Mensuel', val: false }, { label: 'Annuel · 2 mois offerts', val: true }].map(opt => (
+              <button key={opt.label} onClick={() => setAnnual(opt.val)} style={{
+                flex: 1, padding: '8px 12px', borderRadius: 26, border: 'none',
+                background: annual === opt.val ? '#fff' : 'transparent',
+                fontFamily: 'var(--font-corps)', fontWeight: 700, fontSize: 13,
+                color: annual === opt.val ? FORET : 'var(--texte-sec)',
+                cursor: 'pointer',
+                boxShadow: annual === opt.val ? '0 1px 4px rgba(0,0,0,0.1)' : 'none',
+                transition: 'all 0.2s',
+              }}>{opt.label}</button>
+            ))}
+          </div>
+
           {/* Prix hero */}
           <div style={{
             background: FORET, borderRadius: 16, padding: '24px 20px',
@@ -143,18 +162,27 @@ export default function Premium() {
             <div style={{ position: 'absolute', top: -30, right: -30, width: 120, height: 120, borderRadius: '50%', background: 'rgba(90,173,165,0.08)' }} />
             <p style={{ fontSize: 13, color: 'rgba(90,173,165,0.8)', fontFamily: 'var(--font-corps)', marginBottom: 8 }}>Accès complet à tout le contenu</p>
             <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'center', gap: 4, marginBottom: 4 }}>
-              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 48, color: '#F7F2EB', lineHeight: 1 }}>9,90</span>
-              <span style={{ fontSize: 18, color: 'rgba(247,242,235,0.7)', fontFamily: 'var(--font-corps)' }}>€/mois</span>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 900, fontSize: 48, color: '#F7F2EB', lineHeight: 1 }}>
+                {annual ? '79' : '9,90'}
+              </span>
+              <span style={{ fontSize: 18, color: 'rgba(247,242,235,0.7)', fontFamily: 'var(--font-corps)' }}>
+                {annual ? '€/an' : '€/mois'}
+              </span>
             </div>
-            <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.45)', marginBottom: 20 }}>Résiliable à tout moment · Sans engagement</p>
-            <button onClick={handleSubscribe} style={{
+            {annual && (
+              <p style={{ fontSize: 12, color: 'rgba(90,173,165,0.8)', marginBottom: 4 }}>soit 6,58€/mois · 2 mois offerts</p>
+            )}
+            <p style={{ fontSize: 12, color: 'rgba(247,242,235,0.45)', marginBottom: 20 }}>
+              {annual ? 'Accès 12 mois · Renouvellement annuel' : 'Résiliable à tout moment · Sans engagement'}
+            </p>
+            <button onClick={() => { track('subscribe_clicked', { plan: annual ? 'annual' : 'monthly' }); window.open(annual ? stripeAnnual : stripeMonthly, '_blank', 'noopener,noreferrer') }} style={{
               background: TERRA, color: '#fff', border: 'none',
               borderRadius: 30, padding: '14px 32px',
               fontFamily: 'var(--font-corps)', fontWeight: 800, fontSize: 16,
               cursor: 'pointer', width: '100%',
               boxShadow: '0 4px 20px rgba(199,110,78,0.35)',
             }}>
-              Démarrer maintenant →
+              {annual ? 'Démarrer — 79€/an →' : 'Démarrer — 9,90€/mois →'}
             </button>
             <p style={{ fontSize: 13, color: 'rgba(247,242,235,0.35)', marginTop: 10 }}>Paiement sécurisé via Stripe</p>
           </div>
@@ -200,19 +228,20 @@ export default function Premium() {
           ))}
 
           {/* CTA final */}
-          <button onClick={handleSubscribe} style={{
+          <button onClick={() => { track('subscribe_clicked', { plan: annual ? 'annual' : 'monthly' }); window.open(annual ? stripeAnnual : stripeMonthly, '_blank', 'noopener,noreferrer') }} style={{
             width: '100%', padding: '16px', borderRadius: 14, marginTop: 8,
             background: TERRA, color: '#fff', border: 'none',
             fontFamily: 'var(--font-corps)', fontWeight: 800, fontSize: 16,
             cursor: 'pointer', boxShadow: '0 4px 20px rgba(199,110,78,0.3)',
           }}>
-            Commencer pour 9,90€/mois →
+            {annual ? 'Démarrer — 79€/an →' : 'Démarrer — 9,90€/mois →'}
           </button>
           <p style={{ fontSize: 13, color: 'var(--texte-sec)', textAlign: 'center', marginTop: 8 }}>
-            Résiliable à tout moment · Aucun engagement
+            {annual ? 'Accès 12 mois · Renouvellement annuel' : 'Résiliable à tout moment · Aucun engagement'}
           </p>
         </>
-      )}
+        )
+      })()}
 
       {/* ── TAB ACCOMPAGNEMENT ── */}
       {tab === 'accompagnement' && (

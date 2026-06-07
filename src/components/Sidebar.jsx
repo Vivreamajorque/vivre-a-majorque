@@ -99,7 +99,7 @@ export default function Sidebar() {
                 💎 Passer Premium
               </p>
               <p style={{ fontSize: 13, color: '#999', fontFamily: 'var(--font-corps)', lineHeight: 1.5 }}>
-                9,90€/mois · 100+ guides<br/>simulateurs · cockpit complet
+                9,90€/mois ou 79€/an · 100+ guides<br/>simulateurs · cockpit complet
               </p>
             </div>
           </NavLink>

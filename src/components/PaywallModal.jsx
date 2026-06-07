@@ -107,7 +107,7 @@ export function PaywallModal({ isOpen, onClose }) {
                 <span style={{ fontSize: 28, fontWeight: 800, color: 'var(--foret)' }}>9,90€</span>
                 <span style={{ color: 'var(--texte-sec)', fontSize: 14 }}>/mois les 3 premiers mois</span>
               </div>
-              <div style={{ color: 'var(--texte-sec)', fontSize: 13 }}>9,90€/mois · résiliable à tout moment</div>
+              <div style={{ color: 'var(--texte-sec)', fontSize: 13 }}>9,90€/mois · résiliable à tout moment · ou 79€/an</div>
 
               {/* Code promo */}
               <div style={{
