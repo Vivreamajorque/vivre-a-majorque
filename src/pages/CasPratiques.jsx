@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useSEO } from '../hooks/useSEO'
 
 const TERRA = '#C76E4E'
 const VERT  = '#5AADA5'
@@ -202,9 +203,11 @@ function CasCard({ cas }) {
 }
 
 export default function CasPratiques() {
-  useEffect(() => {
-    document.title = 'Cas pratiques — Vivre à Majorque'
-  }, [])
+  useSEO({
+    title: 'Cas pratiques — Installations réussies à Majorque',
+    description: 'Familles, entrepreneurs, retraités, nomades : découvrez comment des Français ont réussi leur installation à Majorque. Parcours détaillés et solutions concrètes.',
+    url: 'https://vivre-a-majorque.vercel.app/app/cas-pratiques',
+  })
 
   return (
     <div className="page" style={{ paddingBottom: 100 }}>

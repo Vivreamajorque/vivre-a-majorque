@@ -54,6 +54,18 @@ const TOPIC_MAP = [
 ]
 
 
+// ─── Détection du topic depuis les messages ───
+function detectTopic(messages) {
+  const allText = messages
+    .map(m => (m.content || m.text || '').toLowerCase())
+    .join(' ')
+  for (const topic of TOPIC_MAP) {
+    if (topic.terms.some(term => allText.includes(term))) {
+      return topic
+    }
+  }
+  return null
+}
 
 // ─── Extraction texte depuis blocs Notion ───
 function extractTextFromBlock(block) {
