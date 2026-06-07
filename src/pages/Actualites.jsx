@@ -148,17 +148,22 @@ export default function Actualites() {
   const { data, loading } = useNotionDB(NOTION_DB.actus)
   const [activeCat, setActiveCat] = useState('Toutes')
 
+  // Mois en cours (année + mois)
+  const now = new Date()
+  const currentMonth = now.getMonth()
+  const currentYear = now.getFullYear()
+
   const actus = useMemo(() => {
     return data
       .map(parseActu)
-      .filter(a => a.actif !== false)
-      .sort((a, b) => {
-        if (!a.date && !b.date) return 0
-        if (!a.date) return 1
-        if (!b.date) return -1
-        return new Date(b.date) - new Date(a.date)
+      .filter(a => {
+        if (a.actif === false) return false
+        if (!a.date) return false
+        const d = new Date(a.date)
+        return d.getMonth() === currentMonth && d.getFullYear() === currentYear
       })
-  }, [data])
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+  }, [data, currentMonth, currentYear])
 
   const categories = useMemo(() => {
     const seen = new Set()
@@ -171,20 +176,24 @@ export default function Actualites() {
     return actus.filter(a => a.categorie === activeCat)
   }, [actus, activeCat])
 
-  // Grouper par mois
+  // Grouper par semaine (lundi de la semaine)
   const grouped = useMemo(() => {
     const map = {}
     filtered.forEach(a => {
-      const key = a.date
-        ? new Date(a.date).toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' })
-        : 'Sans date'
-      if (!map[key]) map[key] = []
-      map[key].push(a)
+      const d = new Date(a.date)
+      const day = d.getDay()
+      const diffToMonday = day === 0 ? -6 : 1 - day
+      const monday = new Date(d)
+      monday.setDate(d.getDate() + diffToMonday)
+      const key = `Semaine du ${monday.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' })}`
+      if (!map[key]) map[key] = { monday, items: [] }
+      map[key].items.push(a)
     })
-    return map
+    // Trier par semaine décroissante
+    return Object.entries(map)
+      .sort((a, b) => b[1].monday - a[1].monday)
+      .map(([key, val]) => ({ key, items: val.items }))
   }, [filtered])
-
-  const groupKeys = Object.keys(grouped)
 
   return (
     <div className="page">
@@ -255,29 +264,29 @@ export default function Actualites() {
       {/* Vide */}
       {!loading && filtered.length === 0 && (
         <p style={{ textAlign: 'center', color: 'var(--texte-sec)', fontSize: 14, marginTop: 40 }}>
-          Aucune actualité pour le moment.
+          Les actus du mois arrivent chaque lundi 🌿
         </p>
       )}
 
-      {/* Actus groupées par mois */}
-      {!loading && groupKeys.map(monthKey => (
-        <div key={monthKey} style={{ marginBottom: 24 }}>
+      {/* Actus groupées par semaine */}
+      {!loading && grouped.map(({ key, items }) => (
+        <div key={key} style={{ marginBottom: 24 }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
             <span style={{
               fontSize: 13, fontWeight: 700, color: 'var(--foret)',
               textTransform: 'capitalize', letterSpacing: 0.3,
             }}>
-              {monthKey}
+              {key}
             </span>
             <div style={{ flex: 1, height: 1, background: 'var(--gris)' }} />
             <span style={{
               fontSize: 12, color: 'var(--texte-sec)',
               background: 'var(--gris)', padding: '2px 8px', borderRadius: 20,
             }}>
-              {grouped[monthKey].length}
+              {items.length}
             </span>
           </div>
-          {grouped[monthKey].map(actu => (
+          {items.map(actu => (
             <ActuCard key={actu.id} actu={actu} />
           ))}
         </div>

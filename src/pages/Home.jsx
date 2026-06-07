@@ -283,7 +283,21 @@ export default function Home() {
   const navigate = useNavigate()
 
   const { data: actusData, loading: actusLoading } = useNotionDB(NOTION_DB.actus)
-  const actus = useMemo(() => actusData.map(parseActu).slice(0, 8), [actusData])
+  const actus = useMemo(() => {
+    const now = new Date()
+    // Lundi de la semaine en cours (00:00)
+    const dayOfWeek = now.getDay() // 0=dim, 1=lun...
+    const diffToMonday = (dayOfWeek === 0 ? -6 : 1 - dayOfWeek)
+    const monday = new Date(now)
+    monday.setDate(now.getDate() + diffToMonday)
+    monday.setHours(0, 0, 0, 0)
+
+    return actusData
+      .map(parseActu)
+      .filter(a => a.actif !== false && a.date && new Date(a.date) >= monday)
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 5)
+  }, [actusData])
 
   return (
     <div className="page">
